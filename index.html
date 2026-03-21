@@ -670,7 +670,7 @@ body {
       <div class="save-dot"></div>
       <span id="lastSaved">Auto-saved</span>
     </div>
-    <button id="setupBtn" onclick="showSetup()" style="background:var(--primary);border:none;border-radius:8px;padding:7px 16px;cursor:pointer;font-size:13px;color:white;font-weight:600;letter-spacing:0.3px">☁ Sync</button>
+    <button id="setupBtn" onclick="showSetup()" style="background:var(--primary);border:none;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:13px;color:white;font-weight:600">☁ Enable Edit</button>
   </div>
 </div>
 
@@ -864,6 +864,7 @@ const PROD=[
 ];
 
 // ── STATE (Cloud-synced via GitHub API) ──
+// Public repo = anyone can READ without auth. Only WRITES need a token.
 const GH_REPO='aditgoel-ship-it/sd-build-tracker';
 const GH_FILE='state.json';
 const GH_API=`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
@@ -871,7 +872,8 @@ const SK='sd_tracker_v2_local';
 const TK='sd_tracker_gh_token';
 let saveTimer=null;
 let isSaving=false;
-let fileSha=null; // GitHub needs SHA for updates
+let fileSha=null;
+let isEditor=false;
 
 function getToken(){return localStorage.getItem(TK)||''}
 
@@ -879,19 +881,25 @@ function showSetup(){
   const m=document.getElementById('setupModal');
   m.style.display='flex';
   document.getElementById('tokenInput').value=getToken();
-  document.getElementById('tokenStatus').textContent=getToken()?'Token saved. Enter new one to change.':'';
+  document.getElementById('tokenStatus').textContent=getToken()?'✓ Token saved. You are in Editor mode.':'';
 }
 function closeSetup(){document.getElementById('setupModal').style.display='none'}
 function saveToken(){
   const t=document.getElementById('tokenInput').value.trim();
   if(!t){document.getElementById('tokenStatus').textContent='Please enter a token';return}
   localStorage.setItem(TK,t);
-  document.getElementById('tokenStatus').textContent='Testing...';
+  document.getElementById('tokenStatus').textContent='Testing write access...';
+  // Test by reading with token (verifies token is valid)
   fetch(GH_API,{headers:{'Authorization':`Bearer ${t}`,'Accept':'application/vnd.github+json'}})
     .then(r=>{
-      if(r.ok){document.getElementById('tokenStatus').textContent='✓ Connected! Syncing...';
-        closeSetup();loadFromCloud().then(()=>renderAll2());}
-      else{document.getElementById('tokenStatus').textContent='✗ Token invalid or no access to repo';}
+      if(r.ok){
+        isEditor=true;
+        document.getElementById('tokenStatus').textContent='✓ Connected! You can now edit.';
+        document.getElementById('setupBtn').textContent='✏ Editor';
+        document.getElementById('setupBtn').style.background='var(--green)';
+        setSyncStatus('synced');
+        setTimeout(closeSetup,1000);
+      } else{document.getElementById('tokenStatus').textContent='✗ Token invalid or no repo access';}
     }).catch(()=>{document.getElementById('tokenStatus').textContent='✗ Network error';});
 }
 
@@ -918,41 +926,39 @@ function mergeState(remote){
 
 let S=defaults();
 
+// READ: No auth needed for public repos — everyone can view
 async function loadFromCloud(){
-  const token=getToken();
-  if(!token){
-    // No token — try localStorage fallback
-    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e){}
-    setSyncStatus('no-token');
-    return;
-  }
   try{
     setSyncStatus('loading');
-    const r=await fetch(GH_API,{headers:{'Authorization':`Bearer ${token}`,'Accept':'application/vnd.github+json'}});
+    // Try with token first (avoids rate limits), fall back to no-auth
+    const headers={'Accept':'application/vnd.github+json'};
+    const token=getToken();
+    if(token)headers['Authorization']=`Bearer ${token}`;
+    const r=await fetch(GH_API,{headers});
     if(r.ok){
       const data=await r.json();
       fileSha=data.sha;
       const content=JSON.parse(atob(data.content.replace(/\n/g,'')));
       S=mergeState(content);
       setSyncStatus('synced');
-    } else if(r.status===401||r.status===403){
-      setSyncStatus('bad-token');
     } else {
       throw new Error('fetch fail');
     }
   }catch(e){
+    // Fallback to localStorage
     try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e2){}
     setSyncStatus('offline');
   }
 }
 
+// WRITE: Needs a token — only editors can save
 async function saveToCloud(){
   const token=getToken();
   isSaving=true;
   if(!token){
+    // No token = viewer mode. Save locally only.
     localStorage.setItem(SK,JSON.stringify(S));
     isSaving=false;
-    setSyncStatus('no-token');
     return;
   }
   try{
@@ -972,7 +978,6 @@ async function saveToCloud(){
       fileSha=data.content.sha;
       setSyncStatus('synced');
     } else if(r.status===409){
-      // Conflict — re-fetch and retry
       await loadFromCloud();
       renderAll2();
       setSyncStatus('conflict');
@@ -990,12 +995,10 @@ function setSyncStatus(status){
   const ts=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
   const map={
     'loading':['Loading...','var(--yellow)'],
-    'synced':[`Synced ✓ ${ts}`,'var(--green)'],
+    'synced':[`Live ✓ ${ts}`,'var(--green)'],
     'saving':['Saving...','var(--yellow)'],
-    'offline':['Offline (local)','var(--red)'],
-    'no-token':['Local only — click ⚙ to sync','var(--yellow)'],
-    'bad-token':['Token expired — click ⚙','var(--red)'],
-    'save-failed':['Save failed — retrying...','var(--red)'],
+    'offline':['Offline','var(--red)'],
+    'save-failed':['Save failed','var(--red)'],
     'conflict':['Conflict resolved','var(--yellow)'],
   };
   const[text,color]=map[status]||['Unknown','var(--text-dim)'];
@@ -1011,11 +1014,14 @@ function save(){
 
 function addLog(m){S.log.unshift({t:new Date().toISOString(),m});if(S.log.length>200)S.log.length=200;save();renderLog()}
 
-// Auto-refresh from cloud every 30 seconds
+// Auto-refresh every 30 seconds — works for EVERYONE (no auth needed for reads)
 setInterval(async()=>{
-  if(isSaving||!getToken())return;
+  if(isSaving)return;
   try{
-    const r=await fetch(GH_API,{headers:{'Authorization':`Bearer ${getToken()}`,'Accept':'application/vnd.github+json'}});
+    const headers={'Accept':'application/vnd.github+json'};
+    const token=getToken();
+    if(token)headers['Authorization']=`Bearer ${token}`;
+    const r=await fetch(GH_API,{headers});
     if(r.ok){
       const data=await r.json();
       if(data.sha!==fileSha){
