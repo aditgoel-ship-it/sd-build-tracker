@@ -657,6 +657,9 @@ body {
   .main { padding: 16px; }
 }
 </style>
+<!-- Firebase Realtime Database SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -670,24 +673,6 @@ body {
       <div class="save-dot"></div>
       <span id="lastSaved">Auto-saved</span>
     </div>
-    <button id="setupBtn" onclick="showSetup()" style="background:var(--primary);border:none;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:13px;color:white;font-weight:600">☁ Enable Edit</button>
-  </div>
-</div>
-
-<!-- Token setup modal -->
-<div id="setupModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.4);display:none;align-items:center;justify-content:center">
-  <div style="background:white;border-radius:12px;padding:32px;max-width:480px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.15)">
-    <h3 style="margin-bottom:8px;font-size:16px">Cloud Sync Setup</h3>
-    <p style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;line-height:1.5">
-      Enter a GitHub Personal Access Token to enable shared sync.<br>
-      <a href="https://github.com/settings/tokens/new?scopes=repo&description=SD+Build+Tracker" target="_blank" style="color:var(--primary)">Create token here</a> → select <b>repo</b> scope → Generate → paste below.
-    </p>
-    <input id="tokenInput" type="password" placeholder="ghp_xxxxxxxxxxxx" style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-family:monospace;font-size:13px;margin-bottom:12px">
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button onclick="closeSetup()" style="padding:8px 16px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;font-size:13px">Cancel</button>
-      <button onclick="saveToken()" style="padding:8px 16px;border:none;border-radius:6px;background:var(--primary);color:white;cursor:pointer;font-size:13px;font-weight:500">Connect</button>
-    </div>
-    <p id="tokenStatus" style="margin-top:10px;font-size:12px;color:var(--text-dim)"></p>
   </div>
 </div>
 
@@ -863,45 +848,23 @@ const PROD=[
   {id:38,name:'Onboarding Flow Spec',blocks:'ONB entirely'},
 ];
 
-// ── STATE (Cloud-synced via GitHub API) ──
-// Public repo = anyone can READ without auth. Only WRITES need a token.
-const GH_REPO='aditgoel-ship-it/sd-build-tracker';
-const GH_FILE='state.json';
-const GH_API=`https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+// ── STATE (Cloud-synced via Firebase Realtime Database) ──
+// ZERO setup for users — just open the URL and everything syncs.
+const FB_URL='FIREBASE_URL_PLACEHOLDER';
 const SK='sd_tracker_v2_local';
-const TK='sd_tracker_gh_token';
 let saveTimer=null;
 let isSaving=false;
-let fileSha=null;
-let isEditor=false;
+let db=null;
+let dbRef=null;
+let firebaseReady=false;
 
-function getToken(){return localStorage.getItem(TK)||''}
-
-function showSetup(){
-  const m=document.getElementById('setupModal');
-  m.style.display='flex';
-  document.getElementById('tokenInput').value=getToken();
-  document.getElementById('tokenStatus').textContent=getToken()?'✓ Token saved. You are in Editor mode.':'';
-}
-function closeSetup(){document.getElementById('setupModal').style.display='none'}
-function saveToken(){
-  const t=document.getElementById('tokenInput').value.trim();
-  if(!t){document.getElementById('tokenStatus').textContent='Please enter a token';return}
-  localStorage.setItem(TK,t);
-  document.getElementById('tokenStatus').textContent='Testing write access...';
-  // Test by reading with token (verifies token is valid)
-  fetch(GH_API,{headers:{'Authorization':`Bearer ${t}`,'Accept':'application/vnd.github+json'}})
-    .then(r=>{
-      if(r.ok){
-        isEditor=true;
-        document.getElementById('tokenStatus').textContent='✓ Connected! You can now edit.';
-        document.getElementById('setupBtn').textContent='✏ Editor';
-        document.getElementById('setupBtn').style.background='var(--green)';
-        setSyncStatus('synced');
-        setTimeout(closeSetup,1000);
-      } else{document.getElementById('tokenStatus').textContent='✗ Token invalid or no repo access';}
-    }).catch(()=>{document.getElementById('tokenStatus').textContent='✗ Network error';});
-}
+// Initialize Firebase
+try{
+  const app=firebase.initializeApp({databaseURL:FB_URL});
+  db=firebase.database();
+  dbRef=db.ref('tracker');
+  firebaseReady=FB_URL!=='FIREBASE_URL_PLACEHOLDER';
+}catch(e){firebaseReady=false;}
 
 function defaults(){
   const s={};SVCS.forEach(v=>{s[v.id]={specStatus:v.id==='ONB'?'DEFERRED':'NOT_STARTED',crossAudit:'PENDING',codeStatus:'NOT_STARTED',cr:'PENDING',tests:'PENDING',qa1:'PENDING',qa2:'PENDING',qaM:'PENDING',integ:'PENDING'}});
@@ -926,69 +889,6 @@ function mergeState(remote){
 
 let S=defaults();
 
-// READ: No auth needed for public repos — everyone can view
-async function loadFromCloud(){
-  try{
-    setSyncStatus('loading');
-    // Try with token first (avoids rate limits), fall back to no-auth
-    const headers={'Accept':'application/vnd.github+json'};
-    const token=getToken();
-    if(token)headers['Authorization']=`Bearer ${token}`;
-    const r=await fetch(GH_API,{headers});
-    if(r.ok){
-      const data=await r.json();
-      fileSha=data.sha;
-      const content=JSON.parse(atob(data.content.replace(/\n/g,'')));
-      S=mergeState(content);
-      setSyncStatus('synced');
-    } else {
-      throw new Error('fetch fail');
-    }
-  }catch(e){
-    // Fallback to localStorage
-    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e2){}
-    setSyncStatus('offline');
-  }
-}
-
-// WRITE: Needs a token — only editors can save
-async function saveToCloud(){
-  const token=getToken();
-  isSaving=true;
-  if(!token){
-    // No token = viewer mode. Save locally only.
-    localStorage.setItem(SK,JSON.stringify(S));
-    isSaving=false;
-    return;
-  }
-  try{
-    setSyncStatus('saving');
-    const body={
-      message:'Update tracker state',
-      content:btoa(unescape(encodeURIComponent(JSON.stringify(S,null,2)))),
-      sha:fileSha
-    };
-    const r=await fetch(GH_API,{
-      method:'PUT',
-      headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json','Accept':'application/vnd.github+json'},
-      body:JSON.stringify(body)
-    });
-    if(r.ok){
-      const data=await r.json();
-      fileSha=data.content.sha;
-      setSyncStatus('synced');
-    } else if(r.status===409){
-      await loadFromCloud();
-      renderAll2();
-      setSyncStatus('conflict');
-    } else {
-      setSyncStatus('save-failed');
-    }
-  }catch(e){setSyncStatus('offline');}
-  localStorage.setItem(SK,JSON.stringify(S));
-  isSaving=false;
-}
-
 function setSyncStatus(status){
   const el=document.getElementById('lastSaved');
   const dot=document.querySelector('.save-dot');
@@ -997,43 +897,52 @@ function setSyncStatus(status){
     'loading':['Loading...','var(--yellow)'],
     'synced':[`Live ✓ ${ts}`,'var(--green)'],
     'saving':['Saving...','var(--yellow)'],
-    'offline':['Offline','var(--red)'],
-    'save-failed':['Save failed','var(--red)'],
-    'conflict':['Conflict resolved','var(--yellow)'],
+    'offline':['Offline (local)','var(--red)'],
+    'setup':['Setup needed','var(--yellow)'],
   };
   const[text,color]=map[status]||['Unknown','var(--text-dim)'];
   el.textContent=text;
   if(dot)dot.style.background=color;
 }
 
+async function loadFromCloud(){
+  if(!firebaseReady){
+    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e){}
+    setSyncStatus('setup');
+    return;
+  }
+  setSyncStatus('loading');
+  try{
+    const snap=await dbRef.once('value');
+    const data=snap.val();
+    if(data)S=mergeState(data);
+    setSyncStatus('synced');
+  }catch(e){
+    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e2){}
+    setSyncStatus('offline');
+  }
+}
+
 function save(){
   localStorage.setItem(SK,JSON.stringify(S));
+  if(!firebaseReady)return;
   if(saveTimer)clearTimeout(saveTimer);
-  saveTimer=setTimeout(saveToCloud,1500);
+  saveTimer=setTimeout(()=>{
+    setSyncStatus('saving');
+    dbRef.set(S).then(()=>setSyncStatus('synced')).catch(()=>setSyncStatus('offline'));
+  },500);
 }
 
 function addLog(m){S.log.unshift({t:new Date().toISOString(),m});if(S.log.length>200)S.log.length=200;save();renderLog()}
 
-// Auto-refresh every 30 seconds — works for EVERYONE (no auth needed for reads)
-setInterval(async()=>{
-  if(isSaving)return;
-  try{
-    const headers={'Accept':'application/vnd.github+json'};
-    const token=getToken();
-    if(token)headers['Authorization']=`Bearer ${token}`;
-    const r=await fetch(GH_API,{headers});
-    if(r.ok){
-      const data=await r.json();
-      if(data.sha!==fileSha){
-        fileSha=data.sha;
-        const content=JSON.parse(atob(data.content.replace(/\n/g,'')));
-        S=mergeState(content);
-        renderAll2();
-        setSyncStatus('synced');
-      }
-    }
-  }catch(e){}
-},30000);
+// Real-time listener — Firebase pushes changes instantly to all connected clients
+if(firebaseReady){
+  dbRef.on('value',(snap)=>{
+    if(isSaving)return;
+    const data=snap.val();
+    if(data){S=mergeState(data);renderAll2();setSyncStatus('synced');}
+  });
+}
 
 function renderAll2(){renderSummary();renderSvcs();renderGates();renderChains();renderLog()}
 
