@@ -850,7 +850,7 @@ const PROD=[
 
 // ── STATE (Cloud-synced via Firebase Realtime Database) ──
 // ZERO setup for users — just open the URL and everything syncs.
-const FB_URL='FIREBASE_URL_PLACEHOLDER';
+const FB_URL='https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
 const SK='sd_tracker_v2_local';
 let saveTimer=null;
 let isSaving=false;
@@ -863,7 +863,7 @@ try{
   const app=firebase.initializeApp({databaseURL:FB_URL});
   db=firebase.database();
   dbRef=db.ref('tracker');
-  firebaseReady=FB_URL!=='FIREBASE_URL_PLACEHOLDER';
+  firebaseReady=FB_URL!=='https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
 }catch(e){firebaseReady=false;}
 
 function defaults(){
