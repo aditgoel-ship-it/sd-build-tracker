@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SD Build Tracker — WIOM</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #d92b90;
+  --primary-light: #f0d0e4;
+  --primary-bg: rgba(217, 43, 144, 0.06);
+  --primary-border: rgba(217, 43, 144, 0.18);
+  --bg: #f8f7f4;
+  --bg-white: #ffffff;
+  --bg-hover: #f3f1ed;
+  --bg-input: #f0eee9;
+  --border: #e5e2dc;
+  --border-strong: #d4d0c8;
+  --text: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-dim: #9a9a9a;
+  --green: #16a34a;
+  --green-bg: rgba(22, 163, 74, 0.08);
+  --green-border: rgba(22, 163, 74, 0.2);
+  --yellow: #ca8a04;
+  --yellow-bg: rgba(202, 138, 4, 0.08);
+  --yellow-border: rgba(202, 138, 4, 0.2);
+  --red: #dc2626;
+  --red-bg: rgba(220, 38, 38, 0.06);
+  --red-border: rgba(220, 38, 38, 0.18);
+  --blue: #2563eb;
+  --blue-bg: rgba(37, 99, 235, 0.06);
+  --purple: #7c3aed;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+  --radius: 10px;
+  --radius-sm: 6px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ TOP BAR ═══ */
+.top-bar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+}
+
+.top-bar-left { display: flex; align-items: center; gap: 12px; }
+
+.logo-mark {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 14px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.top-bar h1 {
+  font-size: 16px; font-weight: 700; color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.top-bar h1 span { color: var(--text-dim); font-weight: 400; }
+
+.top-bar-right {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 12px; color: var(--text-dim);
+}
+
+.save-indicator {
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 20px;
+  background: var(--green-bg); color: var(--green);
+  font-size: 11px; font-weight: 500;
+}
+
+.save-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--green);
+}
+
+/* ═══ NAVIGATION ═══ */
+.nav-tabs {
+  display: flex; gap: 4px;
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+}
+
+.nav-tab {
+  padding: 12px 20px;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-dim);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.nav-tab:hover { color: var(--text-secondary); }
+.nav-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}
+
+/* ═══ MAIN ═══ */
+.main { padding: 24px 32px; max-width: 1500px; margin: 0 auto; }
+.view { display: none; }
+.view.active { display: block; animation: fadeUp 0.25s ease; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ SUMMARY ═══ */
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+
+.section-title {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.phase-list { display: flex; flex-direction: column; gap: 6px; }
+
+.phase-row {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: grid;
+  grid-template-columns: 40px 1fr 120px 50px;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.phase-row:hover {
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.phase-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-bg);
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--primary-border);
+}
+
+.phase-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 2px; color: var(--text); }
+.phase-info p { font-size: 12px; color: var(--text-dim); }
+
+.progress-track {
+  height: 6px;
+  background: var(--bg-input);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.progress-fill.green { background: var(--green); }
+.progress-fill.yellow { background: var(--yellow); }
+.progress-fill.pink { background: var(--primary); }
+.progress-fill.gray { background: var(--text-dim); }
+
+.phase-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; font-weight: 600;
+  text-align: right;
+  color: var(--text-secondary);
+}
+
+/* ═══ SIDE PANEL ═══ */
+.side-panel { display: flex; flex-direction: column; gap: 14px; }
+
+.card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card h4 {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.stat-row {
+  display: flex; justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--bg-input);
+}
+
+.stat-row:last-child { border-bottom: none; }
+.stat-label { font-size: 13px; color: var(--text-secondary); }
+
+.stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px; font-weight: 600;
+}
+
+.stat-value.green { color: var(--green); }
+.stat-value.yellow { color: var(--yellow); }
+.stat-value.red { color: var(--red); }
+.stat-value.pink { color: var(--primary); }
+
+.product-item {
+  padding: 10px 12px;
+  background: var(--red-bg);
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px;
+  border-left: 3px solid var(--red);
+}
+
+.product-item.done {
+  background: var(--green-bg);
+  border-left-color: var(--green);
+}
+
+.product-blocks {
+  font-size: 10px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--red);
+}
+
+.product-item.done .product-blocks { color: var(--green); }
+
+/* ═══ SERVICES TABLE ═══ */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.svc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  min-width: 1350px;
+}
+
+.svc-table th {
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 12px 10px;
+  text-align: left;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0;
+  white-space: nowrap;
+}
+
+.svc-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--bg-input);
+  vertical-align: middle;
+}
+
+.svc-table tr:hover td { background: var(--bg-hover); }
+.svc-table tr:last-child td { border-bottom: none; }
+
+.svc-name {
+  font-weight: 600; font-size: 13px;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.svc-name:hover { text-decoration: underline; }
+
+.svc-full {
+  font-size: 10px; color: var(--text-dim);
+  display: block; margin-top: 1px;
+}
+
+.author { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+
+/* ═══ STATUS BADGES ═══ */
+.badge {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 5px;
+  font-size: 10px; font-weight: 600;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.badge:hover { transform: scale(1.04); box-shadow: var(--shadow-sm); }
+
+.badge.not-started { background: var(--bg-input); color: var(--text-dim); }
+.badge.in-progress { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+.badge.pass { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.badge.fail { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+.badge.pending { background: var(--blue-bg); color: var(--blue); }
+.badge.deferred { background: rgba(124,58,237,0.06); color: var(--purple); }
+.badge.blocked { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+/* ═══ GATES ═══ */
+.gate-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.gate-card h3 {
+  font-size: 14px; font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.gate-card h3 .gate-tag {
+  font-size: 10px; font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 2px 8px; border-radius: 4px;
+  background: var(--primary-bg); color: var(--primary);
+}
+
+.gate-check {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.1s;
+  margin-bottom: 2px;
+}
+
+.gate-check:hover { background: var(--bg-hover); }
+
+.checkbox {
+  width: 20px; height: 20px; flex-shrink: 0;
+  border: 2px solid var(--border-strong);
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  margin-top: 1px;
+}
+
+.gate-check.checked .checkbox {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.gate-check.checked .checkbox::after {
+  content: ''; width: 6px; height: 10px;
+  border: solid white; border-width: 0 2px 2px 0;
+  transform: rotate(45deg); margin-top: -2px;
+}
+
+.check-label { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+.gate-check.checked .check-label {
+  color: var(--text-dim);
+  text-decoration: line-through;
+}
+
+.signoff-bar {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: space-between;
+  border: 1px solid var(--border);
+}
+
+.signoff-label {
+  font-size: 12px; font-weight: 600;
+  color: var(--text-dim);
+}
+
+.signoff-btn {
+  padding: 7px 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--primary);
+  background: transparent;
+  color: var(--primary);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.signoff-btn:hover { background: var(--primary); color: white; }
+.signoff-btn.signed {
+  background: var(--primary); color: white;
+  cursor: default;
+}
+
+/* ═══ CHAINS ═══ */
+.chain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 10px;
+}
+
+.chain-card {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.15s;
+}
+
+.chain-card:hover { border-color: var(--primary-border); box-shadow: var(--shadow-md); }
+
+.chain-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.chain-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.chain-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--primary); font-weight: 600;
+}
+
+.chain-desc { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+
+.chain-select {
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 11px; font-weight: 500;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.chain-tests {
+  font-size: 11px; color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.cc-section {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cc-section h3 {
+  font-size: 13px; font-weight: 600;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.cc-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.cc-item {
+  padding: 10px;
+  background: var(--bg);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.cc-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.cc-desc { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
+
+/* ═══ SERVICE MODAL ═══ */
+.overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 200;
+  display: none; align-items: center; justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.overlay.active { display: flex; }
+
+.modal {
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 640px; max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  animation: modalSlide 0.2s ease;
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-head h2 { font-size: 18px; font-weight: 700; color: var(--primary); }
+
+.modal-x {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; cursor: pointer;
+  color: var(--text-dim); font-size: 20px;
+  border: 1px solid var(--border);
+  transition: all 0.1s;
+}
+
+.modal-x:hover { background: var(--bg-hover); color: var(--text); }
+
+.pipe-step {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+}
+
+.pipe-dot {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0; font-weight: 600;
+}
+
+.pipe-dot.done { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.pipe-dot.active { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
+.pipe-dot.pending-icon { background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border); }
+.pipe-dot.blocked-icon { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+.pipe-info { flex: 1; }
+.pipe-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 1px; }
+.pipe-info p { font-size: 11px; color: var(--text-dim); }
+
+/* ═══ ACTIVITY LOG ═══ */
+.activity-card {
+  margin-top: 24px;
+  background: var(--bg-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.activity-card h3 {
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+
+.activity-log {
+  max-height: 180px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.log-entry {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--bg-input);
+  display: flex; gap: 12px;
+}
+
+.log-entry:last-child { border-bottom: none; }
+
+.log-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; color: var(--text-dim);
+  white-space: nowrap; min-width: 120px;
+}
+
+.log-msg { color: var(--text-secondary); }
+
+/* ═══ DROPDOWN ═══ */
+.dropdown {
+  position: fixed;
+  background: var(--bg-white);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  z-index: 300;
+  min-width: 170px;
+  box-shadow: var(--shadow-lg);
+  display: none;
+}
+
+.dropdown.active { display: block; animation: fadeUp 0.12s ease; }
+
+.drop-opt {
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.08s;
+  color: var(--text);
+}
+
+.drop-opt:hover { background: var(--primary-bg); color: var(--primary); }
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 1100px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .cc-grid { grid-template-columns: repeat(3, 1fr); }
+  .main { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="logo-mark">W</div>
+    <h1>SD Build Tracker <span>/ wiom</span></h1>
+  </div>
+  <div class="top-bar-right">
+    <div class="save-indicator">
+      <div class="save-dot"></div>
+      <span id="lastSaved">Auto-saved</span>
+    </div>
+  </div>
+</div>
+
+<div class="nav-tabs">
+  <div class="nav-tab active" data-view="summary">Summary</div>
+  <div class="nav-tab" data-view="services">Services</div>
+  <div class="nav-tab" data-view="gates">Gates</div>
+  <div class="nav-tab" data-view="chains">Integration</div>
+</div>
+
+<div class="main">
+  <!-- SUMMARY -->
+  <div class="view active" id="view-summary">
+    <div class="summary-grid">
+      <div>
+        <div class="section-title">Phases</div>
+        <div class="phase-list" id="phaseList"></div>
+      </div>
+      <div class="side-panel">
+        <div class="card">
+          <h4>Service Progress</h4>
+          <div id="serviceStats"></div>
+        </div>
+        <div class="card">
+          <h4>Product Pending</h4>
+          <div id="productPending"></div>
+        </div>
+        <div class="card">
+          <h4>Team</h4>
+          <div class="stat-row"><span class="stat-label">Mukul (SD1)</span><span class="stat-value pink">7 specs</span></div>
+          <div class="stat-row"><span class="stat-label">Adit (SD)</span><span class="stat-value pink">7 specs</span></div>
+          <div class="stat-row"><span class="stat-label">Devender</span><span class="stat-value">Code gen</span></div>
+          <div class="stat-row"><span class="stat-label">Satyam</span><span class="stat-value">Sign-off</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="view" id="view-services">
+    <div class="table-wrap">
+      <table class="svc-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Author</th>
+            <th>Spec Status</th>
+            <th>Reviewer</th>
+            <th>Cross-Audit</th>
+            <th>Code By</th>
+            <th>Code Status</th>
+            <th>CR</th>
+            <th>Tests</th>
+            <th>QA Mukul</th>
+            <th>QA Adit</th>
+            <th>QA Final</th>
+            <th>Integration</th>
+            <th>Blocker</th>
+          </tr>
+        </thead>
+        <tbody id="svcBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- GATES -->
+  <div class="view" id="view-gates">
+    <div id="gatesList"></div>
+  </div>
+
+  <!-- CHAINS -->
+  <div class="view" id="view-chains">
+    <div class="cc-section">
+      <h3>Cross-Cutting Tests</h3>
+      <div class="cc-grid" id="ccGrid"></div>
+    </div>
+    <div class="section-title" style="margin-top:8px">Chain Integration Tests</div>
+    <div class="chain-grid" id="chainGrid"></div>
+  </div>
+
+  <div class="activity-card">
+    <h3>Activity Log</h3>
+    <div class="activity-log" id="activityLog"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="overlay" id="svcModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="modalName">—</h2>
+      <div class="modal-x" onclick="closeModal()">×</div>
+    </div>
+    <div id="modalPipe"></div>
+  </div>
+</div>
+
+<!-- Dropdown -->
+<div class="dropdown" id="dd"></div>
+
+<script>
+// ── DATA ──
+const SVCS = [
+  {id:'CLS',name:'Connection Lifecycle Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'P2',block:'None'},
+  {id:'RV',name:'Recharge Validator',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B1',block:'None',p4:'Mukul'},
+  {id:'DAS',name:'Demand & Allocation Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B1',block:'None'},
+  {id:'QS',name:'Quality Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B2',block:'EX-05'},
+  {id:'ES',name:'Enforcement Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B2',block:'None'},
+  {id:'CS',name:'Compensation Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B2',block:'None'},
+  {id:'PS',name:'Payment Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B2',block:'None',p4:'Adit'},
+  {id:'XS',name:'Exit Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B3',block:'None'},
+  {id:'ACS',name:'Asset Custody Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B3',block:'None'},
+  {id:'CIS',name:'Capability Intervention Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B2',block:'None'},
+  {id:'SRS',name:'Support & Resolution Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B3',block:'None'},
+  {id:'CCS',name:'Capacity & Coverage Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B1',block:'None'},
+  {id:'CAES',name:'Customer Access Entitlement',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B3',block:'EX-06',p4:'Adit'},
+  {id:'ONB',name:'Onboarding Service',author:'—',reviewer:'—',coder:'—',batch:'—',block:'ONB spec'},
+  {id:'CRV',name:'Customer Recharge Validator',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B3',block:'None',p4:'Mukul'},
+];
+
+const OPTS = {
+  specStatus:['NOT_STARTED','DRAFTING','CROSS_AUDIT','FIXES','CONSULTANT_REVIEW','FROZEN'],
+  crossAudit:['PENDING','PASS','FAIL_WITH_FIXES','FIXES_APPLIED'],
+  codeStatus:['NOT_STARTED','GENERATING','AUTO_TESTS_PASS','QA_IN_PROGRESS','QA_PASS','MERGED'],
+  cr:['PENDING','PASS','FAIL'],
+  tests:['PENDING','PASS','FAIL'],
+  qa1:['PENDING','PASS','FAIL'],
+  qa2:['PENDING','PASS','FAIL'],
+  qaM:['PENDING','ALL_PASS','FIXES_NEEDED','FIXES_APPLIED'],
+  integ:['PENDING','PASS','FAIL'],
+};
+
+const PHASES=[
+  {id:0,name:'Freeze Docs',desc:'35 docs version-locked in /locked',steps:'0.1–0.4'},
+  {id:1,name:'Build Specs',desc:'14 build specs written + cross-audited',steps:'1.1–1.5'},
+  {id:2,name:'CLS Pipeline',desc:'First service code gen + QA pattern lock',steps:'2.1–2.6'},
+  {id:3,name:'Code Generation',desc:'13 services in 3 batches',steps:'3.1–3.4'},
+  {id:4,name:'Lighter Services',desc:'4 services — Mukul + Adit generate',steps:'4.1–4.3'},
+  {id:5,name:'Integration Tests',desc:'12 chains, 87 test cases',steps:'5.1–5.5'},
+  {id:6,name:'Handoff Assembly',desc:'Package + readiness checklist',steps:'6.1–6.2'},
+];
+
+const GATES={
+  0:['All 35 locked documents in repo with correct versions','All 4 Product-pending items tracked with service-level impact','All registries version-aligned (RA v2.8, ESR v2.8, SPR v1.11, Scaffold v2.7)','All 13 OS docs have correct "Depends On" versions','Routing registry has 118 entries matching ESR canonical events','No document in /locked has unresolved "TBD" except SPR defaults'],
+  1:['All 14 build specs complete (ONB deferred)','Every spec passes 14 template gate conditions','Cross-audit complete — all FAIL items resolved','Consultant approved pattern (first 2 specs)','No spec has §12 blocking issues'],
+  2:['CLS code: all CR checks pass','CLS code: all §11 tests pass','CLS code: independent QA — all issues resolved','QA process validated — pattern works','No spec-code deviations remain'],
+  3:['All 14 services: CR checks pass','All 14 services: §11 tests pass','All 14 services: dual QA — zero unresolved','All 3 quality checkpoints passed (QC-1/2/3)','All 3 mini-integration sanity checks passed','All PRs with conformance + tests + spec reference'],
+  5:['All cross-cutting tests pass (CC-01–05 × 14)','All 12 chains pass (87 test cases)','Additional edge case + negative tests pass','Zero unresolved integration failures','Integration suite deterministic — 10/10 passes'],
+  6:['All 14 services compile + unit tests','All 14 pass conformance (CR-00–08)','All 14 pass domain tests (§11.1–6)','All 12 chains pass integration','All cross-cutting tests pass','Zero unresolved QA findings','Spec drift check — zero deviations','Routing registry matches ESR (118)','Deployment guide tested','Calibration sheet extracted','Build Blocker Log — zero items','All quality checkpoints passed'],
+};
+
+const CHAINS=[
+  {id:1,name:'CSP Recharge',desc:'CLS → RV → DAS',tests:8},
+  {id:2,name:'Customer Access',desc:'CAES → CRV → CLS',tests:10},
+  {id:3,name:'Allocation',desc:'CLS → DAS → CCS',tests:9},
+  {id:4,name:'Economic Spine',desc:'QS → ES → CS → PS',tests:8},
+  {id:5,name:'Complaints',desc:'SRS → QS → ES',tests:7},
+  {id:6,name:'Enforcement + CI',desc:'ES → CIS → recovery/exit',tests:8},
+  {id:7,name:'FPV / Integrity',desc:'Fraud → immediate action',tests:6},
+  {id:8,name:'Exit + Devices',desc:'XS → ACS → PS',tests:7},
+  {id:9,name:'Re-Entry',desc:'Exclusion → re-onboarding',tests:5},
+  {id:10,name:'Exit Secondary',desc:'Device return → write-off',tests:6},
+  {id:11,name:'Emergency Override',desc:'DAS override → auto-expiry',tests:7},
+  {id:12,name:'Change Comms',desc:'Config → notify → ack',tests:6},
+];
+
+const CC=['CC-01 Idempotency','CC-02 Auth/Permit','CC-03 Schema','CC-04 Replay','CC-05 Timer Guard'];
+
+const PROD=[
+  {id:35,name:'EX-05: Customer Rating UX',blocks:'QS Domain 4'},
+  {id:36,name:'EX-06A: Captive Portal UX',blocks:'CAES portal'},
+  {id:37,name:'EX-06B: Portal Enforcement',blocks:'CAES device'},
+  {id:38,name:'Onboarding Flow Spec',blocks:'ONB entirely'},
+];
+
+// ── STATE ──
+const SK='sd_tracker_v2';
+function defaults(){
+  const s={};SVCS.forEach(v=>{s[v.id]={specStatus:v.id==='ONB'?'DEFERRED':'NOT_STARTED',crossAudit:'PENDING',codeStatus:'NOT_STARTED',cr:'PENDING',tests:'PENDING',qa1:'PENDING',qa2:'PENDING',qaM:'PENDING',integ:'PENDING'}});
+  const g={};Object.keys(GATES).forEach(k=>{g[k]={checks:GATES[k].map(()=>false),signed:false}});
+  const c={};CHAINS.forEach(v=>{c[v.id]='NOT_STARTED'});
+  const cc={};CC.forEach(t=>{cc[t]='PENDING'});
+  const pp={};PROD.forEach(p=>{pp[p.id]={received:false,verified:false,integrated:false}});
+  return{services:s,gates:g,chains:c,cc,pp,log:[]};
+}
+
+let S;
+try{const raw=localStorage.getItem(SK);S=raw?JSON.parse(raw):defaults();
+  const d=defaults();
+  Object.keys(d.services).forEach(k=>{if(!S.services[k])S.services[k]=d.services[k]});
+  if(!S.gates)S.gates=d.gates;if(!S.chains)S.chains=d.chains;if(!S.cc)S.cc=d.cc;if(!S.pp)S.pp=d.pp;if(!S.log)S.log=[];
+}catch(e){S=defaults()}
+
+function save(){localStorage.setItem(SK,JSON.stringify(S));document.getElementById('lastSaved').textContent='Saved '+new Date().toLocaleTimeString()}
+function addLog(m){S.log.unshift({t:new Date().toISOString(),m});if(S.log.length>200)S.log.length=200;save();renderLog()}
+
+// ── HELPERS ──
+function cls(v){
+  if(!v||v==='NOT_STARTED')return'not-started';if(v==='DEFERRED')return'deferred';
+  if(['PASS','FROZEN','ALL_PASS','MERGED','COMPLETE'].includes(v))return'pass';
+  if(['FAIL','FAIL_WITH_FIXES','FIXES_NEEDED','BLOCKED'].includes(v))return'fail';
+  if(v==='PENDING')return'pending';return'in-progress';
+}
+function disp(v){return(v||'—').replace(/_/g,' ')}
+
+// ── RENDER SUMMARY ──
+function phasePct(pid){const g=S.gates[pid];if(!g)return 0;if(g.signed)return 100;const d=g.checks.filter(Boolean).length;return Math.round(d/g.checks.length*100)}
+
+function renderSummary(){
+  document.getElementById('phaseList').innerHTML=PHASES.map(p=>{
+    const pct=phasePct(p.id);const c=pct===100?'green':pct>0?'pink':'gray';
+    return`<div class="phase-row" onclick="showGate(${p.id})">
+      <div class="phase-num">P${p.id}</div>
+      <div class="phase-info"><h3>${p.name}</h3><p>${p.desc}</p></div>
+      <div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div>
+      <div class="phase-pct">${pct}%</div>
+    </div>`}).join('');
+
+  const sv=Object.values(S.services);
+  const fr=sv.filter(s=>s.specStatus==='FROZEN').length;
+  const cd=sv.filter(s=>['QA_PASS','MERGED'].includes(s.codeStatus)).length;
+  const ip=sv.filter(s=>s.integ==='PASS').length;
+  const bl=SVCS.filter(s=>s.block!=='None').length;
+  document.getElementById('serviceStats').innerHTML=`
+    <div class="stat-row"><span class="stat-label">Specs frozen</span><span class="stat-value ${fr?'green':''}">${fr}/15</span></div>
+    <div class="stat-row"><span class="stat-label">Code QA pass</span><span class="stat-value ${cd?'green':''}">${cd}/15</span></div>
+    <div class="stat-row"><span class="stat-label">Integration pass</span><span class="stat-value ${ip?'green':''}">${ip}/15</span></div>
+    <div class="stat-row"><span class="stat-label">Blocked</span><span class="stat-value red">${bl}</span></div>`;
+
+  document.getElementById('productPending').innerHTML=PROD.map(p=>{
+    const pp=S.pp[p.id]||{};const done=pp.integrated;
+    const txt=done?'INTEGRATED':pp.verified?'VERIFIED':pp.received?'RECEIVED':'NOT RECEIVED';
+    return`<div class="product-item ${done?'done':''}"><span>#${p.id} ${p.name}</span><span class="product-blocks">${done?'✓ '+txt:txt+' → '+p.blocks}</span></div>`}).join('');
+}
+
+// ── RENDER SERVICES ──
+function renderSvcs(){
+  document.getElementById('svcBody').innerHTML=SVCS.map(s=>{
+    const st=S.services[s.id];
+    const b=(f,v)=>`<span class="badge ${cls(v)}" onclick="openDD(event,'${s.id}','${f}')">${disp(v)}</span>`;
+    return`<tr>
+      <td><span class="svc-name" onclick="openModal('${s.id}')">${s.id}</span><span class="svc-full">${s.name}</span></td>
+      <td><span class="author">${s.author}</span></td>
+      <td>${b('specStatus',st.specStatus)}</td>
+      <td><span class="author">${s.reviewer}</span></td>
+      <td>${b('crossAudit',st.crossAudit)}</td>
+      <td><span class="author">${s.coder}</span></td>
+      <td>${b('codeStatus',st.codeStatus)}</td>
+      <td>${b('cr',st.cr)}</td>
+      <td>${b('tests',st.tests)}</td>
+      <td>${b('qa1',st.qa1)}</td>
+      <td>${b('qa2',st.qa2)}</td>
+      <td>${b('qaM',st.qaM)}</td>
+      <td>${b('integ',st.integ)}</td>
+      <td><span class="badge ${s.block==='None'?'pass':'blocked'}">${s.block}</span></td>
+    </tr>`}).join('');
+}
+
+// ── DROPDOWN ──
+function openDD(e,sid,field){
+  e.stopPropagation();const opts=OPTS[field];if(!opts)return;
+  const dd=document.getElementById('dd');const r=e.target.getBoundingClientRect();
+  dd.style.top=(r.bottom+4)+'px';dd.style.left=r.left+'px';
+  dd.innerHTML=opts.map(o=>`<div class="drop-opt" onclick="setVal('${sid}','${field}','${o}')">${disp(o)}</div>`).join('');
+  dd.classList.add('active');
+}
+function setVal(sid,field,val){
+  const old=S.services[sid][field];S.services[sid][field]=val;closeDD();
+  addLog(`${sid} → ${field}: ${disp(old)} → ${disp(val)}`);renderAll();
+}
+function closeDD(){document.getElementById('dd').classList.remove('active')}
+document.addEventListener('click',closeDD);
+
+// ── GATES ──
+function renderGates(){
+  const pids=Object.keys(GATES).map(Number);
+  document.getElementById('gatesList').innerHTML=pids.map(pid=>{
+    const ph=PHASES.find(p=>p.id===pid);const g=S.gates[pid];const checks=GATES[pid];
+    const done=g.checks.filter(Boolean).length;
+    return`<div class="gate-card">
+      <h3><span class="gate-tag">P${pid}</span> ${ph.name} Gate <span style="color:var(--text-dim);font-weight:400;font-size:13px">(${done}/${checks.length})</span></h3>
+      ${checks.map((l,i)=>`<div class="gate-check ${g.checks[i]?'checked':''}" onclick="toggleCheck(${pid},${i})">
+        <div class="checkbox"></div><div class="check-label">${l}</div>
+      </div>`).join('')}
+      <div class="signoff-bar">
+        <span class="signoff-label">Satyam Sign-off</span>
+        <button class="signoff-btn ${g.signed?'signed':''}" onclick="toggleSign(${pid})">${g.signed?'✓ Signed Off':'Sign Off'}</button>
+      </div>
+    </div>`}).join('');
+}
+
+function toggleCheck(pid,i){S.gates[pid].checks[i]=!S.gates[pid].checks[i];addLog(`P${pid} gate #${i+1}: ${S.gates[pid].checks[i]?'checked':'unchecked'}`);renderAll()}
+function toggleSign(pid){S.gates[pid].signed=!S.gates[pid].signed;addLog(`P${pid}: Satyam sign-off ${S.gates[pid].signed?'GRANTED':'REVOKED'}`);renderAll()}
+function showGate(pid){switchView('gates');setTimeout(()=>{const cards=document.querySelectorAll('.gate-card');const pids=Object.keys(GATES).map(Number);const i=pids.indexOf(pid);if(i>=0&&cards[i])cards[i].scrollIntoView({behavior:'smooth',block:'start'})},80)}
+
+// ── CHAINS ──
+function renderChains(){
+  document.getElementById('ccGrid').innerHTML=CC.map(t=>{
+    const v=S.cc[t]||'PENDING';
+    return`<div class="cc-item"><div class="cc-name">${t.split(' ')[0]}</div>
+      <select class="chain-select" onchange="setCC('${t}',this.value)">${['PENDING','PASS','FAIL'].map(o=>`<option value="${o}" ${v===o?'selected':''}>${o}</option>`).join('')}</select>
+      <div class="cc-desc">${t.split(' ').slice(1).join(' ')}</div></div>`}).join('');
+
+  document.getElementById('chainGrid').innerHTML=CHAINS.map(c=>{
+    const v=S.chains[c.id]||'NOT_STARTED';
+    return`<div class="chain-card">
+      <div class="chain-header">
+        <div><span class="chain-num">#${c.id}</span> <span class="chain-label">${c.name}</span></div>
+        <select class="chain-select" onchange="setChain(${c.id},this.value)">${['NOT_STARTED','IN_PROGRESS','PASS','FAIL'].map(o=>`<option value="${o}" ${v===o?'selected':''}>${disp(o)}</option>`).join('')}</select>
+      </div>
+      <div class="chain-desc">${c.desc}</div>
+      <div class="chain-tests">${c.tests} tests</div>
+    </div>`}).join('');
+}
+
+function setChain(id,v){S.chains[id]=v;addLog(`Chain ${id}: ${disp(v)}`);save();renderChains()}
+function setCC(t,v){S.cc[t]=v;addLog(`${t}: ${v}`);save();renderChains()}
+
+// ── MODAL ──
+function openModal(sid){
+  const svc=SVCS.find(s=>s.id===sid);const st=S.services[sid];if(!svc||!st)return;
+  document.getElementById('modalName').textContent=`${svc.id} — ${svc.name}`;
+  const steps=[
+    {l:'Build Spec',d:`Author: ${svc.author}`,v:st.specStatus,f:'specStatus'},
+    {l:'Cross-Audit',d:`Reviewer: ${svc.reviewer}`,v:st.crossAudit,f:'crossAudit'},
+    {l:'Code Generation',d:`By: ${svc.coder}`,v:st.codeStatus,f:'codeStatus'},
+    {l:'CR Conformance',d:'CR-00 through CR-08',v:st.cr,f:'cr'},
+    {l:'Domain Tests',d:'§11.1–§11.6',v:st.tests,f:'tests'},
+    {l:'QA (Mukul)',d:'Independent report',v:st.qa1,f:'qa1'},
+    {l:'QA (Adit)',d:'Independent report',v:st.qa2,f:'qa2'},
+    {l:'QA Merged',d:'Reports reconciled',v:st.qaM,f:'qaM'},
+    {l:'Integration',d:'Chain tests',v:st.integ,f:'integ'},
+  ];
+  const icon=v=>{const c=cls(v);const ic={pass:'✓','in-progress':'⟳',fail:'✗',pending:'○','not-started':'—',blocked:'!',deferred:'◇'};
+    const dc={pass:'done','in-progress':'active',fail:'blocked-icon','not-started':'pending-icon',pending:'pending-icon',blocked:'blocked-icon',deferred:'pending-icon'};
+    return`<div class="pipe-dot ${dc[c]||'pending-icon'}">${ic[c]||'—'}</div>`};
+  document.getElementById('modalPipe').innerHTML=steps.map(s=>`
+    <div class="pipe-step">${icon(s.v)}
+      <div class="pipe-info"><h4>${s.l}</h4><p>${s.d}</p></div>
+      <span class="badge ${cls(s.v)}" onclick="openDD(event,'${sid}','${s.f}')">${disp(s.v)}</span>
+    </div>`).join('')+(svc.block!=='None'?`
+    <div class="pipe-step" style="border-color:var(--red-border)">
+      <div class="pipe-dot blocked-icon">!</div>
+      <div class="pipe-info"><h4>Blocker</h4><p>${svc.block}</p></div>
+      <span class="badge blocked">BLOCKED</span>
+    </div>`:'');
+  document.getElementById('svcModal').classList.add('active');
+}
+
+function closeModal(){document.getElementById('svcModal').classList.remove('active')}
+document.getElementById('svcModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+
+// ── LOG ──
+function renderLog(){
+  const el=document.getElementById('activityLog');
+  el.innerHTML=(S.log||[]).slice(0,50).map(e=>{
+    const d=new Date(e.t);const ts=d.toLocaleDateString('en-IN',{month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    return`<div class="log-entry"><span class="log-time">${ts}</span><span class="log-msg">${e.m}</span></div>`}).join('')||'<div class="log-entry"><span class="log-msg" style="color:var(--text-dim)">No activity yet</span></div>';
+}
+
+// ── NAV ──
+function switchView(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  document.querySelector(`.nav-tab[data-view="${v}"]`).classList.add('active');
+}
+document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>switchView(t.dataset.view)));
+
+// ── RENDER ALL ──
+function renderAll(){save();renderSummary();renderSvcs();renderGates();renderChains();renderLog()}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDD()}});
+renderAll();
+</script>
+</body>
+</html>
