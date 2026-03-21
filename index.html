@@ -845,8 +845,13 @@ const PROD=[
   {id:38,name:'Onboarding Flow Spec',blocks:'ONB entirely'},
 ];
 
-// ── STATE ──
-const SK='sd_tracker_v2';
+// ── STATE (Cloud-synced via JSONBlob) ──
+const BLOB_ID='019d0f24-1adc-7ac0-b0ff-1f1564fb07fb';
+const BLOB_URL=`https://jsonblob.com/api/jsonBlob/${BLOB_ID}`;
+const SK='sd_tracker_v2_local';
+let saveTimer=null;
+let isSaving=false;
+
 function defaults(){
   const s={};SVCS.forEach(v=>{s[v.id]={specStatus:v.id==='ONB'?'DEFERRED':'NOT_STARTED',crossAudit:'PENDING',codeStatus:'NOT_STARTED',cr:'PENDING',tests:'PENDING',qa1:'PENDING',qa2:'PENDING',qaM:'PENDING',integ:'PENDING'}});
   const g={};Object.keys(GATES).forEach(k=>{g[k]={checks:GATES[k].map(()=>false),signed:false}});
@@ -856,15 +861,64 @@ function defaults(){
   return{services:s,gates:g,chains:c,cc,pp,log:[]};
 }
 
-let S;
-try{const raw=localStorage.getItem(SK);S=raw?JSON.parse(raw):defaults();
+function mergeState(remote){
   const d=defaults();
-  Object.keys(d.services).forEach(k=>{if(!S.services[k])S.services[k]=d.services[k]});
-  if(!S.gates)S.gates=d.gates;if(!S.chains)S.chains=d.chains;if(!S.cc)S.cc=d.cc;if(!S.pp)S.pp=d.pp;if(!S.log)S.log=[];
-}catch(e){S=defaults()}
+  if(!remote||!remote.services)return d;
+  Object.keys(d.services).forEach(k=>{if(!remote.services[k])remote.services[k]=d.services[k]});
+  if(!remote.gates)remote.gates=d.gates;
+  if(!remote.chains)remote.chains=d.chains;
+  if(!remote.cc)remote.cc=d.cc;
+  if(!remote.pp)remote.pp=d.pp;
+  if(!remote.log)remote.log=[];
+  return remote;
+}
 
-function save(){localStorage.setItem(SK,JSON.stringify(S));document.getElementById('lastSaved').textContent='Saved '+new Date().toLocaleTimeString()}
+let S=defaults();
+
+async function loadFromCloud(){
+  try{
+    document.getElementById('lastSaved').textContent='Loading...';
+    const r=await fetch(BLOB_URL);
+    if(r.ok){const data=await r.json();S=mergeState(data);renderAll2();
+      document.getElementById('lastSaved').textContent='Synced ✓';}
+    else throw new Error('fetch fail');
+  }catch(e){
+    // fallback to localStorage
+    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e2){}
+    document.getElementById('lastSaved').textContent='Offline (local)';
+  }
+}
+
+async function saveToCloud(){
+  isSaving=true;
+  try{
+    document.getElementById('lastSaved').textContent='Saving...';
+    const r=await fetch(BLOB_URL,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(S)});
+    if(r.ok){document.getElementById('lastSaved').textContent='Synced ✓ '+new Date().toLocaleTimeString();}
+    else{document.getElementById('lastSaved').textContent='Save failed — retrying...';}
+  }catch(e){document.getElementById('lastSaved').textContent='Offline — saved locally';}
+  // always save locally as backup
+  localStorage.setItem(SK,JSON.stringify(S));
+  isSaving=false;
+}
+
+function save(){
+  // debounce cloud saves to avoid hammering API
+  localStorage.setItem(SK,JSON.stringify(S));
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer=setTimeout(saveToCloud,800);
+}
+
 function addLog(m){S.log.unshift({t:new Date().toISOString(),m});if(S.log.length>200)S.log.length=200;save();renderLog()}
+
+// Auto-refresh from cloud every 30 seconds to pick up others' changes
+setInterval(async()=>{
+  if(isSaving)return;
+  try{const r=await fetch(BLOB_URL);if(r.ok){const data=await r.json();S=mergeState(data);renderAll2();
+    document.getElementById('lastSaved').textContent='Synced ✓ '+new Date().toLocaleTimeString();}}catch(e){}
+},30000);
+
+function renderAll2(){renderSummary();renderSvcs();renderGates();renderChains();renderLog()}
 
 // ── HELPERS ──
 function cls(v){
@@ -1042,7 +1096,12 @@ document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>
 // ── RENDER ALL ──
 function renderAll(){save();renderSummary();renderSvcs();renderGates();renderChains();renderLog()}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDD()}});
-renderAll();
+
+// ── INIT: Load from cloud first, fall back to defaults ──
+(async()=>{
+  await loadFromCloud();
+  renderAll2();
+})();
 </script>
 </body>
 </html>
