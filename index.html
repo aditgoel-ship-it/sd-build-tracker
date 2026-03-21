@@ -863,7 +863,7 @@ try{
   const app=firebase.initializeApp({databaseURL:FB_URL});
   db=firebase.database();
   dbRef=db.ref('tracker');
-  firebaseReady=FB_URL!=='https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
+  firebaseReady=true;
 }catch(e){firebaseReady=false;}
 
 function defaults(){
