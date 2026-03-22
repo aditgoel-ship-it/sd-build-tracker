@@ -923,35 +923,31 @@ async function loadFromCloud(){
   }
 }
 
-// Firebase drops arrays of false, converts numeric keys to sparse arrays. Prefix gate keys with 'P'.
+// Firebase drops arrays of all-falsy values and coerces numeric keys to sparse arrays.
+// Solution: convert everything to string-keyed objects with 1/0 integers.
 function encodeForFirebase(state){
   const s=JSON.parse(JSON.stringify(state));
-  // Convert gate numeric keys to string keys prefixed with 'P' to prevent Firebase array coercion
   if(s.gates){const g={};Object.keys(s.gates).forEach(k=>{
-    const gk='P'+k;
-    g[gk]={checks:(s.gates[k].checks||[]).map(v=>v?1:0),signed:s.gates[k].signed?1:0};
+    const checks={};(s.gates[k].checks||[]).forEach((v,i)=>{checks['c'+i]=v?1:0;});
+    g['G'+k]={checks,signed:s.gates[k].signed?1:0};
   });s.gates=g;}
-  // Convert pp numeric keys similarly
   if(s.pp){const p={};Object.keys(s.pp).forEach(k=>{
-    const pk='PP'+k;
-    p[pk]={received:s.pp[k].received?1:0,verified:s.pp[k].verified?1:0,integrated:s.pp[k].integrated?1:0};
+    p['PP'+k]={received:s.pp[k].received?1:0,verified:s.pp[k].verified?1:0,integrated:s.pp[k].integrated?1:0};
   });s.pp=p;}
   return s;
 }
 function decodeFromFirebase(state){
   if(!state)return null;
-  // Decode prefixed gate keys back to numeric
   if(state.gates){const g={};Object.keys(state.gates).forEach(k=>{
-    const nk=k.replace(/^P/,'');
-    const item=state.gates[k];
-    if(!item)return;
-    g[nk]={checks:item.checks?(Array.isArray(item.checks)?item.checks:[]).map(v=>!!v):GATES[nk]?GATES[nk].map(()=>false):[],signed:!!item.signed};
+    const nk=k.replace(/^G/,'');
+    const item=state.gates[k];if(!item)return;
+    const numChecks=GATES[nk]?GATES[nk].length:0;
+    const checks=[];for(let i=0;i<numChecks;i++){checks.push(!!(item.checks&&item.checks['c'+i]));}
+    g[nk]={checks,signed:!!item.signed};
   });state.gates=g;}
-  // Decode prefixed pp keys
   if(state.pp){const p={};Object.keys(state.pp).forEach(k=>{
     const nk=k.replace(/^PP/,'');
-    const item=state.pp[k];
-    if(!item)return;
+    const item=state.pp[k];if(!item)return;
     p[nk]={received:!!item.received,verified:!!item.verified,integrated:!!item.integrated};
   });state.pp=p;}
   return state;
