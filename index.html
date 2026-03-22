@@ -914,7 +914,7 @@ async function loadFromCloud(){
   setSyncStatus('loading');
   try{
     const snap=await dbRef.once('value');
-    const data=snap.val();
+    const data=decodeFromFirebase(snap.val());
     if(data)S=mergeState(data);
     setSyncStatus('synced');
   }catch(e){
@@ -923,13 +923,43 @@ async function loadFromCloud(){
   }
 }
 
+// Firebase drops arrays of false and empty objects. Encode booleans as 1/0 strings.
+function encodeForFirebase(state){
+  const s=JSON.parse(JSON.stringify(state));
+  if(s.gates){Object.keys(s.gates).forEach(k=>{
+    if(s.gates[k].checks)s.gates[k].checks=s.gates[k].checks.map(v=>v?1:0);
+    s.gates[k].signed=s.gates[k].signed?1:0;
+  });}
+  if(s.pp){Object.keys(s.pp).forEach(k=>{
+    s.pp[k].received=s.pp[k].received?1:0;
+    s.pp[k].verified=s.pp[k].verified?1:0;
+    s.pp[k].integrated=s.pp[k].integrated?1:0;
+  });}
+  return s;
+}
+function decodeFromFirebase(state){
+  if(!state)return null;
+  if(state.gates){Object.keys(state.gates).forEach(k=>{
+    if(state.gates[k].checks)state.gates[k].checks=state.gates[k].checks.map(v=>!!v);
+    else state.gates[k].checks=GATES[k]?GATES[k].map(()=>false):[];
+    state.gates[k].signed=!!state.gates[k].signed;
+  });}
+  if(state.pp){Object.keys(state.pp).forEach(k=>{
+    state.pp[k].received=!!state.pp[k].received;
+    state.pp[k].verified=!!state.pp[k].verified;
+    state.pp[k].integrated=!!state.pp[k].integrated;
+  });}
+  return state;
+}
+
 function save(){
   localStorage.setItem(SK,JSON.stringify(S));
   if(!firebaseReady)return;
   if(saveTimer)clearTimeout(saveTimer);
   saveTimer=setTimeout(()=>{
+    isSaving=true;
     setSyncStatus('saving');
-    dbRef.set(S).then(()=>setSyncStatus('synced')).catch(()=>setSyncStatus('offline'));
+    dbRef.set(encodeForFirebase(S)).then(()=>{isSaving=false;setSyncStatus('synced');}).catch(()=>{isSaving=false;setSyncStatus('offline');});
   },500);
 }
 
@@ -939,7 +969,7 @@ function addLog(m){S.log.unshift({t:new Date().toISOString(),m});if(S.log.length
 if(firebaseReady){
   dbRef.on('value',(snap)=>{
     if(isSaving)return;
-    const data=snap.val();
+    const data=decodeFromFirebase(snap.val());
     if(data){S=mergeState(data);renderAll2();setSyncStatus('synced');}
   });
 }
