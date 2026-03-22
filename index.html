@@ -906,6 +906,7 @@ function setSyncStatus(status){
 }
 
 async function loadFromCloud(){
+  console.log('loadFromCloud: firebaseReady=',firebaseReady,'dbRef=',!!dbRef);
   if(!firebaseReady){
     try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e){}
     setSyncStatus('setup');
@@ -914,10 +915,13 @@ async function loadFromCloud(){
   setSyncStatus('loading');
   try{
     const snap=await dbRef.once('value');
-    const data=decodeFromFirebase(snap.val());
+    const raw=snap.val();
+    console.log('Firebase loaded:',raw?'has data':'empty');
+    const data=decodeFromFirebase(raw);
     if(data)S=mergeState(data);
     setSyncStatus('synced');
   }catch(e){
+    console.error('loadFromCloud failed:',e);
     try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e2){}
     setSyncStatus('offline');
   }
@@ -962,8 +966,9 @@ function save(){
     setSyncStatus('saving');
     try{
       const encoded=encodeForFirebase(S);
-      dbRef.set(encoded).then(()=>{isSaving=false;setSyncStatus('synced');}).catch((e)=>{console.error('FB save err:',e);isSaving=false;setSyncStatus('offline');});
-    }catch(e){console.error('Encode err:',e);isSaving=false;setSyncStatus('offline');}
+      console.log('Saving to Firebase...',Object.keys(encoded));
+      dbRef.set(encoded).then(()=>{console.log('Save OK');isSaving=false;setSyncStatus('synced');}).catch((e)=>{console.error('FB set() rejected:',e.code,e.message);isSaving=false;setSyncStatus('offline');});
+    }catch(e){console.error('Encode crashed:',e);isSaving=false;setSyncStatus('offline');}
   },500);
 }
 
