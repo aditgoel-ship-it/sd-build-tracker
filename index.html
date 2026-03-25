@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SD Build Tracker — WIOM</title>
+<title>WIOM CSP App — Go-Live Tracker</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
   --primary: #d92b90;
   --primary-light: #f0d0e4;
-  --primary-bg: rgba(217, 43, 144, 0.06);
-  --primary-border: rgba(217, 43, 144, 0.18);
+  --primary-bg: rgba(217,43,144,0.06);
+  --primary-border: rgba(217,43,144,0.18);
   --bg: #f8f7f4;
   --bg-white: #ffffff;
   --bg-hover: #f3f1ed;
@@ -22,1150 +22,922 @@
   --text-secondary: #6b6b6b;
   --text-dim: #9a9a9a;
   --green: #16a34a;
-  --green-bg: rgba(22, 163, 74, 0.08);
-  --green-border: rgba(22, 163, 74, 0.2);
+  --green-bg: rgba(22,163,74,0.08);
+  --green-border: rgba(22,163,74,0.2);
   --yellow: #ca8a04;
-  --yellow-bg: rgba(202, 138, 4, 0.08);
-  --yellow-border: rgba(202, 138, 4, 0.2);
+  --yellow-bg: rgba(202,138,4,0.08);
+  --yellow-border: rgba(202,138,4,0.2);
   --red: #dc2626;
-  --red-bg: rgba(220, 38, 38, 0.06);
-  --red-border: rgba(220, 38, 38, 0.18);
-  --blue: #2563eb;
-  --blue-bg: rgba(37, 99, 235, 0.06);
-  --purple: #7c3aed;
+  --red-bg: rgba(220,38,38,0.06);
+  --red-border: rgba(220,38,38,0.18);
   --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
   --radius: 10px;
   --radius-sm: 6px;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-system,sans-serif; min-height:100vh; -webkit-font-smoothing:antialiased; }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', -apple-system, sans-serif;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ═══ TOP BAR ═══ */
+/* ── TOP BAR ── */
 .top-bar {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--bg-white);
-  border-bottom: 1px solid var(--border);
-  padding: 14px 32px;
-  display: flex; align-items: center; justify-content: space-between;
-  box-shadow: var(--shadow-sm);
+  position:sticky; top:0; z-index:200;
+  background:var(--bg-white);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  height:52px;
+  display:flex; align-items:center; justify-content:space-between;
+  box-shadow:var(--shadow-sm);
 }
-
-.top-bar-left { display: flex; align-items: center; gap: 12px; }
-
+.top-bar-left { display:flex; align-items:center; gap:12px; }
+.hamburger {
+  display:flex; flex-direction:column; gap:4px;
+  cursor:pointer; padding:6px; border-radius:6px;
+  transition:background 0.15s;
+}
+.hamburger:hover { background:var(--bg-hover); }
+.hamburger span { display:block; width:18px; height:2px; background:var(--text-secondary); border-radius:2px; transition:all 0.2s; }
 .logo-mark {
-  width: 32px; height: 32px; border-radius: 8px;
-  background: var(--primary);
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-weight: 700; font-size: 14px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.top-bar h1 {
-  font-size: 16px; font-weight: 700; color: var(--text);
-  letter-spacing: -0.3px;
-}
-
-.top-bar h1 span { color: var(--text-dim); font-weight: 400; }
-
-.top-bar-right {
-  display: flex; align-items: center; gap: 14px;
-  font-size: 12px; color: var(--text-dim);
-}
-
-.save-indicator {
-  display: flex; align-items: center; gap: 6px;
-  padding: 4px 10px; border-radius: 20px;
-  background: var(--green-bg); color: var(--green);
-  font-size: 11px; font-weight: 500;
-}
-
-.save-dot {
-  width: 5px; height: 5px; border-radius: 50%;
-  background: var(--green);
-}
-
-/* ═══ NAVIGATION ═══ */
-.nav-tabs {
-  display: flex; gap: 4px;
-  background: var(--bg-white);
-  border-bottom: 1px solid var(--border);
-  padding: 0 32px;
-}
-
-.nav-tab {
-  padding: 12px 20px;
-  font-size: 13px; font-weight: 500;
-  color: var(--text-dim);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.15s;
-}
-
-.nav-tab:hover { color: var(--text-secondary); }
-.nav-tab.active {
-  color: var(--primary);
-  border-bottom-color: var(--primary);
-  font-weight: 600;
-}
-
-/* ═══ MAIN ═══ */
-.main { padding: 24px 32px; max-width: 1500px; margin: 0 auto; }
-.view { display: none; }
-.view.active { display: block; animation: fadeUp 0.25s ease; }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ═══ SUMMARY ═══ */
-.summary-grid {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 20px;
-}
-
-.section-title {
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-}
-
-.phase-list { display: flex; flex-direction: column; gap: 6px; }
-
-.phase-row {
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 18px;
-  cursor: pointer;
-  transition: all 0.15s;
-  display: grid;
-  grid-template-columns: 40px 1fr 120px 50px;
-  align-items: center;
-  gap: 14px;
-  box-shadow: var(--shadow-sm);
-}
-
-.phase-row:hover {
-  border-color: var(--primary-border);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
-}
-
-.phase-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 600;
-  color: var(--primary);
-  background: var(--primary-bg);
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 8px;
-  border: 1px solid var(--primary-border);
-}
-
-.phase-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 2px; color: var(--text); }
-.phase-info p { font-size: 12px; color: var(--text-dim); }
-
-.progress-track {
-  height: 6px;
-  background: var(--bg-input);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.4s ease;
-}
-
-.progress-fill.green { background: var(--green); }
-.progress-fill.yellow { background: var(--yellow); }
-.progress-fill.pink { background: var(--primary); }
-.progress-fill.gray { background: var(--text-dim); }
-
-.phase-pct {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px; font-weight: 600;
-  text-align: right;
-  color: var(--text-secondary);
-}
-
-/* ═══ SIDE PANEL ═══ */
-.side-panel { display: flex; flex-direction: column; gap: 14px; }
-
-.card {
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow-sm);
-}
-
-.card h4 {
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 12px;
-}
-
-.stat-row {
-  display: flex; justify-content: space-between;
-  align-items: center;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--bg-input);
-}
-
-.stat-row:last-child { border-bottom: none; }
-.stat-label { font-size: 13px; color: var(--text-secondary); }
-
-.stat-value {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px; font-weight: 600;
-}
-
-.stat-value.green { color: var(--green); }
-.stat-value.yellow { color: var(--yellow); }
-.stat-value.red { color: var(--red); }
-.stat-value.pink { color: var(--primary); }
-
-.product-item {
-  padding: 10px 12px;
-  background: var(--red-bg);
-  border-radius: var(--radius-sm);
-  margin-bottom: 6px;
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 12px;
-  border-left: 3px solid var(--red);
-}
-
-.product-item.done {
-  background: var(--green-bg);
-  border-left-color: var(--green);
-}
-
-.product-blocks {
-  font-size: 10px; font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
-  color: var(--red);
-}
-
-.product-item.done .product-blocks { color: var(--green); }
-
-/* ═══ SERVICES TABLE ═══ */
-.table-wrap {
-  overflow-x: auto;
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-}
-
-.svc-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-  min-width: 1350px;
-}
-
-.svc-table th {
-  font-size: 10px; font-weight: 600;
-  letter-spacing: 0.5px; text-transform: uppercase;
-  color: var(--text-dim);
-  padding: 12px 10px;
-  text-align: left;
-  background: var(--bg);
-  border-bottom: 1px solid var(--border);
-  position: sticky; top: 0;
-  white-space: nowrap;
-}
-
-.svc-table td {
-  padding: 10px;
-  border-bottom: 1px solid var(--bg-input);
-  vertical-align: middle;
-}
-
-.svc-table tr:hover td { background: var(--bg-hover); }
-.svc-table tr:last-child td { border-bottom: none; }
-
-.svc-name {
-  font-weight: 600; font-size: 13px;
-  color: var(--primary);
-  cursor: pointer;
-}
-
-.svc-name:hover { text-decoration: underline; }
-
-.svc-full {
-  font-size: 10px; color: var(--text-dim);
-  display: block; margin-top: 1px;
-}
-
-.author { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
-
-/* ═══ STATUS BADGES ═══ */
-.badge {
-  display: inline-block;
-  padding: 3px 9px;
-  border-radius: 5px;
-  font-size: 10px; font-weight: 600;
-  letter-spacing: 0.2px;
-  cursor: pointer;
-  transition: all 0.12s;
-  white-space: nowrap;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.badge:hover { transform: scale(1.04); box-shadow: var(--shadow-sm); }
-
-.badge.not-started { background: var(--bg-input); color: var(--text-dim); }
-.badge.in-progress { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
-.badge.pass { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-.badge.fail { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
-.badge.pending { background: var(--blue-bg); color: var(--blue); }
-.badge.deferred { background: rgba(124,58,237,0.06); color: var(--purple); }
-.badge.blocked { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
-
-/* ═══ GATES ═══ */
-.gate-card {
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  margin-bottom: 14px;
-  box-shadow: var(--shadow-sm);
-}
-
-.gate-card h3 {
-  font-size: 14px; font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-
-.gate-card h3 .gate-tag {
-  font-size: 10px; font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
-  padding: 2px 8px; border-radius: 4px;
-  background: var(--primary-bg); color: var(--primary);
-}
-
-.gate-check {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 11px 12px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.1s;
-  margin-bottom: 2px;
-}
-
-.gate-check:hover { background: var(--bg-hover); }
-
-.checkbox {
-  width: 20px; height: 20px; flex-shrink: 0;
-  border: 2px solid var(--border-strong);
-  border-radius: 5px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-  margin-top: 1px;
-}
-
-.gate-check.checked .checkbox {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-
-.gate-check.checked .checkbox::after {
-  content: ''; width: 6px; height: 10px;
-  border: solid white; border-width: 0 2px 2px 0;
-  transform: rotate(45deg); margin-top: -2px;
-}
-
-.check-label { font-size: 13px; color: var(--text); line-height: 1.5; }
-
-.gate-check.checked .check-label {
-  color: var(--text-dim);
-  text-decoration: line-through;
-}
-
-.signoff-bar {
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  display: flex; align-items: center; justify-content: space-between;
-  border: 1px solid var(--border);
-}
-
-.signoff-label {
-  font-size: 12px; font-weight: 600;
-  color: var(--text-dim);
-}
-
-.signoff-btn {
-  padding: 7px 18px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--primary);
-  background: transparent;
-  color: var(--primary);
-  font-size: 12px; font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.signoff-btn:hover { background: var(--primary); color: white; }
-.signoff-btn.signed {
-  background: var(--primary); color: white;
-  cursor: default;
-}
-
-/* ═══ CHAINS ═══ */
-.chain-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 10px;
-}
-
-.chain-card {
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.15s;
-}
-
-.chain-card:hover { border-color: var(--primary-border); box-shadow: var(--shadow-md); }
-
-.chain-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.chain-label { font-size: 13px; font-weight: 600; color: var(--text); }
-.chain-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--primary); font-weight: 600;
-}
-
-.chain-desc { font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
-
-.chain-select {
-  padding: 4px 8px;
-  border-radius: 5px;
-  font-size: 11px; font-weight: 500;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-}
-
-.chain-tests {
-  font-size: 11px; color: var(--text-dim);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.cc-section {
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
-}
-
-.cc-section h3 {
-  font-size: 13px; font-weight: 600;
-  color: var(--text);
-  margin-bottom: 12px;
-}
-
-.cc-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-}
-
-.cc-item {
-  padding: 10px;
-  background: var(--bg);
-  border-radius: var(--radius-sm);
-  text-align: center;
-  border: 1px solid var(--border);
-}
-
-.cc-name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.cc-desc { font-size: 10px; color: var(--text-dim); margin-top: 4px; }
-
-/* ═══ SERVICE MODAL ═══ */
-.overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.3);
-  z-index: 200;
-  display: none; align-items: center; justify-content: center;
-  backdrop-filter: blur(3px);
-}
-
-.overlay.active { display: flex; }
-
-.modal {
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  width: 640px; max-height: 85vh;
-  overflow-y: auto;
-  padding: 28px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  animation: modalSlide 0.2s ease;
-}
-
-@keyframes modalSlide {
-  from { opacity: 0; transform: translateY(12px) scale(0.98); }
-}
-
-.modal-head {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 24px;
-}
-
-.modal-head h2 { font-size: 18px; font-weight: 700; color: var(--primary); }
-
-.modal-x {
-  width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 8px; cursor: pointer;
-  color: var(--text-dim); font-size: 20px;
-  border: 1px solid var(--border);
-  transition: all 0.1s;
-}
-
-.modal-x:hover { background: var(--bg-hover); color: var(--text); }
-
-.pipe-step {
-  display: flex; align-items: center; gap: 14px;
-  padding: 12px 14px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  margin-bottom: 6px;
-}
-
-.pipe-dot {
-  width: 32px; height: 32px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; flex-shrink: 0; font-weight: 600;
-}
-
-.pipe-dot.done { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-.pipe-dot.active { background: var(--yellow-bg); color: var(--yellow); border: 1px solid var(--yellow-border); }
-.pipe-dot.pending-icon { background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border); }
-.pipe-dot.blocked-icon { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
-
-.pipe-info { flex: 1; }
-.pipe-info h4 { font-size: 13px; font-weight: 600; margin-bottom: 1px; }
-.pipe-info p { font-size: 11px; color: var(--text-dim); }
-
-/* ═══ ACTIVITY LOG ═══ */
-.activity-card {
-  margin-top: 24px;
-  background: var(--bg-white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-  box-shadow: var(--shadow-sm);
-}
-
-.activity-card h3 {
-  font-size: 11px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 10px;
-}
-
-.activity-log {
-  max-height: 180px;
-  overflow-y: auto;
-  font-size: 12px;
-}
-
-.log-entry {
-  padding: 6px 0;
-  border-bottom: 1px solid var(--bg-input);
-  display: flex; gap: 12px;
-}
-
-.log-entry:last-child { border-bottom: none; }
-
-.log-time {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: var(--text-dim);
-  white-space: nowrap; min-width: 120px;
-}
-
-.log-msg { color: var(--text-secondary); }
-
-/* ═══ DROPDOWN ═══ */
-.dropdown {
-  position: fixed;
-  background: var(--bg-white);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 4px;
-  z-index: 300;
-  min-width: 170px;
-  box-shadow: var(--shadow-lg);
-  display: none;
-}
-
-.dropdown.active { display: block; animation: fadeUp 0.12s ease; }
-
-.drop-opt {
-  padding: 8px 12px;
-  font-size: 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background 0.08s;
-  color: var(--text);
-}
-
-.drop-opt:hover { background: var(--primary-bg); color: var(--primary); }
-
-/* ═══ RESPONSIVE ═══ */
-@media (max-width: 1100px) {
-  .summary-grid { grid-template-columns: 1fr; }
-  .cc-grid { grid-template-columns: repeat(3, 1fr); }
-  .main { padding: 16px; }
-}
+  width:30px; height:30px; border-radius:7px;
+  background:var(--primary);
+  display:flex; align-items:center; justify-content:center;
+  color:white; font-weight:700; font-size:12px;
+  font-family:'JetBrains Mono',monospace;
+}
+.top-bar-title { font-size:15px; font-weight:700; letter-spacing:-0.3px; }
+.top-bar-title span { color:var(--text-dim); font-weight:400; }
+.top-bar-right { display:flex; align-items:center; gap:10px; }
+.sync-badge {
+  display:flex; align-items:center; gap:5px;
+  padding:3px 9px; border-radius:20px;
+  font-size:11px; font-weight:500;
+  background:var(--green-bg); color:var(--green);
+  border:1px solid var(--green-border);
+}
+.sync-dot { width:5px; height:5px; border-radius:50%; background:var(--green); }
+.sync-badge.saving { background:var(--yellow-bg); color:var(--yellow); border-color:var(--yellow-border); }
+.sync-badge.saving .sync-dot { background:var(--yellow); }
+.sync-badge.offline { background:var(--red-bg); color:var(--red); border-color:var(--red-border); }
+.sync-badge.offline .sync-dot { background:var(--red); }
+
+/* ── SIDEBAR ── */
+.sidebar-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:300;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+.sidebar-overlay.open { opacity:1; pointer-events:all; }
+.sidebar {
+  position:fixed; top:0; left:0; height:100vh; width:260px;
+  background:var(--bg-white); border-right:1px solid var(--border);
+  z-index:400; transform:translateX(-100%);
+  transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);
+  display:flex; flex-direction:column;
+  box-shadow:var(--shadow-lg);
+}
+.sidebar.open { transform:translateX(0); }
+.sidebar-head {
+  padding:16px 20px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.sidebar-head h3 { font-size:13px; font-weight:600; color:var(--text-secondary); letter-spacing:0.5px; text-transform:uppercase; }
+.sidebar-close { cursor:pointer; font-size:18px; color:var(--text-dim); width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:6px; }
+.sidebar-close:hover { background:var(--bg-hover); }
+.sidebar-nav { flex:1; padding:12px 0; overflow-y:auto; }
+.sidebar-item {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 20px; cursor:pointer;
+  font-size:14px; font-weight:500; color:var(--text-secondary);
+  transition:all 0.15s; border-left:3px solid transparent;
+}
+.sidebar-item:hover { background:var(--bg-hover); color:var(--text); }
+.sidebar-item.active { background:var(--primary-bg); color:var(--primary); border-left-color:var(--primary); font-weight:600; }
+.sidebar-item-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.sidebar-divider { height:1px; background:var(--border); margin:8px 20px; }
+.sidebar-overview {
+  padding:10px 20px; cursor:pointer;
+  font-size:13px; font-weight:600; color:var(--text-dim);
+  letter-spacing:0.5px; text-transform:uppercase;
+  transition:color 0.15s;
+}
+.sidebar-overview:hover { color:var(--text); }
+.sidebar-overview.active { color:var(--primary); }
+
+/* ── MAIN ── */
+.main { padding:28px 28px; max-width:1400px; margin:0 auto; }
+
+/* ── SUMMARY GRID ── */
+.grid-wrap {
+  background:var(--bg-white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  margin-bottom:28px;
+}
+.grid-table { width:100%; border-collapse:collapse; }
+.grid-table th, .grid-table td { padding:0; }
+
+/* Header row */
+.grid-table thead tr { border-bottom:2px solid var(--border); }
+.grid-th-module {
+  width:180px; min-width:160px;
+  padding:14px 20px;
+  font-size:11px; font-weight:600; letter-spacing:0.8px;
+  text-transform:uppercase; color:var(--text-dim);
+  text-align:left; border-right:1px solid var(--border);
+  background:var(--bg);
+}
+.grid-th-phase {
+  padding:10px 8px; text-align:center;
+  border-right:1px solid var(--border);
+  cursor:pointer; transition:background 0.15s;
+  min-width:100px;
+}
+.grid-th-phase:hover { background:var(--primary-bg); }
+.grid-th-phase:last-child { border-right:none; }
+.phase-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; font-weight:600;
+  color:var(--primary);
+  display:block; margin-bottom:3px;
+}
+.phase-label { font-size:11px; font-weight:500; color:var(--text-secondary); }
+
+/* Module rows */
+.grid-table tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
+.grid-table tbody tr:last-child { border-bottom:none; }
+.grid-table tbody tr:hover { background:rgba(0,0,0,0.01); }
+.grid-td-module {
+  padding:16px 20px;
+  border-right:1px solid var(--border);
+  vertical-align:middle;
+}
+.module-name {
+  font-size:14px; font-weight:600; color:var(--text);
+  cursor:pointer; transition:color 0.15s;
+  display:flex; align-items:center; gap:6px;
+}
+.module-name:hover { color:var(--primary); }
+.module-name svg { opacity:0; transition:opacity 0.15s; }
+.module-name:hover svg { opacity:1; }
+.grid-td-phase {
+  padding:12px 8px; text-align:center;
+  border-right:1px solid var(--border); vertical-align:middle;
+}
+.grid-td-phase:last-child { border-right:none; }
+
+/* Status chips */
+.chip {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 10px; border-radius:20px;
+  font-size:11px; font-weight:600; letter-spacing:0.3px;
+  white-space:nowrap;
+}
+.chip.done { background:var(--green-bg); color:var(--green); border:1px solid var(--green-border); }
+.chip.in-progress { background:var(--yellow-bg); color:var(--yellow); border:1px solid var(--yellow-border); }
+.chip.blocked { background:var(--red-bg); color:var(--red); border:1px solid var(--red-border); }
+.chip.not-started { background:var(--bg-input); color:var(--text-dim); border:1px solid var(--border); }
+.chip-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.chip.done .chip-dot { background:var(--green); }
+.chip.in-progress .chip-dot { background:var(--yellow); }
+.chip.blocked .chip-dot { background:var(--red); }
+.chip.not-started .chip-dot { background:var(--text-dim); }
+
+/* ── PHASE LEGEND ── */
+.legend-title {
+  font-size:11px; font-weight:600; letter-spacing:0.8px;
+  text-transform:uppercase; color:var(--text-dim);
+  margin-bottom:14px;
+}
+.legend-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px;
+  margin-bottom:32px;
+}
+.legend-card {
+  background:var(--bg-white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  box-shadow:var(--shadow-sm);
+}
+.legend-card-head { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.legend-phase-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; font-weight:700;
+  color:var(--primary);
+  background:var(--primary-bg);
+  border:1px solid var(--primary-border);
+  padding:2px 8px; border-radius:5px;
+  white-space:nowrap;
+}
+.legend-phase-name { font-size:13px; font-weight:600; color:var(--text); }
+.legend-phase-desc { font-size:12px; color:var(--text-secondary); line-height:1.5; }
+.legend-docs { margin-top:8px; display:flex; flex-wrap:wrap; gap:4px; }
+.legend-doc-tag {
+  font-size:10px; font-weight:500;
+  background:var(--bg-input); color:var(--text-secondary);
+  border:1px solid var(--border);
+  padding:2px 7px; border-radius:4px;
+}
+
+/* ── DRILLDOWN VIEW ── */
+.drilldown-header {
+  display:flex; align-items:center; gap:14px; margin-bottom:24px;
+}
+.back-btn {
+  display:flex; align-items:center; gap:6px;
+  padding:7px 12px; border-radius:7px;
+  background:var(--bg-white); border:1px solid var(--border);
+  font-size:13px; font-weight:500; color:var(--text-secondary);
+  cursor:pointer; transition:all 0.15s;
+}
+.back-btn:hover { border-color:var(--border-strong); color:var(--text); }
+.drilldown-module-name { font-size:22px; font-weight:700; letter-spacing:-0.5px; }
+.drilldown-phases { display:flex; flex-direction:column; gap:16px; }
+.drilldown-phase {
+  background:var(--bg-white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+}
+.drilldown-phase-head {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+  background:var(--bg);
+  cursor:pointer;
+}
+.drilldown-phase-head-left { display:flex; align-items:center; gap:12px; }
+.drilldown-phase-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px; font-weight:700;
+  color:var(--primary);
+  background:var(--primary-bg);
+  border:1px solid var(--primary-border);
+  padding:3px 9px; border-radius:6px;
+}
+.drilldown-phase-name { font-size:14px; font-weight:600; color:var(--text); }
+.drilldown-phase-body { padding:20px; }
+
+/* Docs checklist */
+.docs-list { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.doc-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 12px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:13px;
+}
+.doc-item.done { border-color:var(--green-border); background:var(--green-bg); }
+.doc-item.pending { border-color:var(--yellow-border); background:var(--yellow-bg); }
+.doc-icon { font-size:14px; flex-shrink:0; }
+.doc-name { font-weight:500; color:var(--text); flex:1; }
+.doc-version { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); }
+.doc-status-tag {
+  font-size:10px; font-weight:600; letter-spacing:0.3px;
+  padding:2px 7px; border-radius:4px;
+}
+.doc-status-tag.locked { background:var(--green-bg); color:var(--green); }
+.doc-status-tag.approved { background:var(--green-bg); color:var(--green); }
+.doc-status-tag.pending { background:var(--yellow-bg); color:var(--yellow); }
+
+/* Test results */
+.test-summary-bar {
+  display:flex; align-items:center; gap:16px;
+  padding:12px 16px;
+  background:var(--green-bg);
+  border:1px solid var(--green-border);
+  border-radius:var(--radius-sm);
+  margin-bottom:16px;
+}
+.test-summary-bar.partial { background:var(--yellow-bg); border-color:var(--yellow-border); }
+.test-count { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; color:var(--green); }
+.test-count.partial { color:var(--yellow); }
+.test-label { font-size:12px; color:var(--text-secondary); }
+.test-label strong { color:var(--text); }
+
+/* Issues */
+.issues-title { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; margin-top:16px; }
+.issue-card {
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  margin-bottom:8px;
+  overflow:hidden;
+}
+.issue-head {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 14px;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+}
+.issue-test-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
+  padding:2px 7px; border-radius:4px;
+}
+.issue-what { font-size:13px; font-weight:500; color:var(--text); flex:1; }
+.issue-badge {
+  font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;
+}
+.issue-badge.fixed { background:var(--green-bg); color:var(--green); }
+.issue-badge.deferred { background:var(--yellow-bg); color:var(--yellow); }
+.issue-body { padding:10px 14px; display:flex; flex-direction:column; gap:6px; }
+.issue-row { display:flex; gap:8px; font-size:12px; }
+.issue-row-label { font-weight:600; color:var(--text-secondary); min-width:90px; flex-shrink:0; }
+.issue-row-val { color:var(--text); line-height:1.5; }
+
+/* Notes box */
+.notes-box {
+  margin-top:16px; padding:12px 14px;
+  background:var(--bg-input); border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:12px; color:var(--text-secondary);
+  line-height:1.6;
+}
+.notes-box.empty { color:var(--text-dim); font-style:italic; }
+
+/* Rollout stages */
+.stage-list { display:flex; flex-direction:column; gap:8px; }
+.stage-item {
+  display:flex; align-items:center; gap:12px;
+  padding:10px 14px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+}
+.stage-num {
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
+  width:26px; height:26px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.stage-info { flex:1; }
+.stage-name { font-size:13px; font-weight:600; color:var(--text); }
+.stage-desc { font-size:11px; color:var(--text-secondary); margin-top:2px; }
+
+/* Phase modal */
+.phase-modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:500;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+.phase-modal-overlay.open { opacity:1; pointer-events:all; }
+.phase-modal {
+  background:var(--bg-white); border-radius:var(--radius);
+  padding:28px; max-width:540px; width:90%;
+  box-shadow:var(--shadow-lg);
+  transform:scale(0.96); transition:transform 0.2s;
+}
+.phase-modal-overlay.open .phase-modal { transform:scale(1); }
+.phase-modal-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.phase-modal-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
+  border:1px solid var(--primary-border);
+  padding:4px 12px; border-radius:7px;
+}
+.phase-modal-name { font-size:18px; font-weight:700; }
+.phase-modal-desc { font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px; }
+.phase-modal-artifacts { }
+.phase-modal-artifacts h4 { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+.artifact-list { display:flex; flex-wrap:wrap; gap:6px; }
+.artifact-tag {
+  font-size:12px; font-weight:500;
+  background:var(--bg-input); color:var(--text-secondary);
+  border:1px solid var(--border); padding:4px 10px; border-radius:6px;
+}
+.phase-modal-close {
+  margin-top:20px; width:100%;
+  padding:9px; border-radius:7px;
+  background:var(--bg-input); border:1px solid var(--border);
+  font-size:13px; font-weight:500; color:var(--text-secondary);
+  cursor:pointer; transition:all 0.15s;
+}
+.phase-modal-close:hover { background:var(--bg-hover); }
+
+/* ── VIEWS ── */
+.view { display:none; }
+.view.active { display:block; animation:fadeUp 0.2s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── EMPTY PHASE ── */
+.empty-phase { padding:20px; text-align:center; color:var(--text-dim); font-size:13px; }
 </style>
-<!-- Firebase Realtime Database SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
+<!-- TOP BAR -->
 <div class="top-bar">
   <div class="top-bar-left">
+    <div class="hamburger" onclick="toggleSidebar()">
+      <span></span><span></span><span></span>
+    </div>
     <div class="logo-mark">W</div>
-    <h1>SD Build Tracker <span>/ wiom</span></h1>
+    <div class="top-bar-title">WIOM CSP App <span>— Go-Live Tracker</span></div>
   </div>
   <div class="top-bar-right">
-    <div class="save-indicator">
-      <div class="save-dot"></div>
-      <span id="lastSaved">Auto-saved</span>
+    <div class="sync-badge" id="syncBadge">
+      <div class="sync-dot"></div>
+      <span id="syncLabel">Synced</span>
     </div>
   </div>
 </div>
 
-<div class="nav-tabs">
-  <div class="nav-tab active" data-view="summary">Summary</div>
-  <div class="nav-tab" data-view="services">Services</div>
-  <div class="nav-tab" data-view="gates">Gates</div>
-  <div class="nav-tab" data-view="chains">Integration</div>
+<!-- SIDEBAR -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-head">
+    <h3>Modules</h3>
+    <div class="sidebar-close" onclick="closeSidebar()">×</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="sidebar-overview active" id="sidebar-overview" onclick="showOverview()">Overview</div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-item" id="sidebar-wallet" onclick="showModule('wallet')">
+      <div class="sidebar-item-dot" style="background:var(--green)"></div>
+      Wallet
+    </div>
+    <div class="sidebar-item" id="sidebar-netbox" onclick="showModule('netbox')">
+      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
+      NetBox
+    </div>
+    <div class="sidebar-item" id="sidebar-assurance" onclick="showModule('assurance')">
+      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
+      Assurance Strip
+    </div>
+    <div class="sidebar-item" id="sidebar-taskfeed" onclick="showModule('taskfeed')">
+      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
+      Task Feed
+    </div>
+    <div class="sidebar-item" id="sidebar-drilldown" onclick="showModule('drilldown')">
+      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
+      Task Drilldown
+    </div>
+    <div class="sidebar-item" id="sidebar-navigation" onclick="showModule('navigation')">
+      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
+      Navigation + Menu
+    </div>
+  </div>
 </div>
 
+<!-- MAIN -->
 <div class="main">
-  <!-- SUMMARY -->
-  <div class="view active" id="view-summary">
-    <div class="summary-grid">
-      <div>
-        <div class="section-title">Phases</div>
-        <div class="phase-list" id="phaseList"></div>
-      </div>
-      <div class="side-panel">
-        <div class="card">
-          <h4>Service Progress</h4>
-          <div id="serviceStats"></div>
-        </div>
-        <div class="card">
-          <h4>Product Pending</h4>
-          <div id="productPending"></div>
-        </div>
-        <div class="card">
-          <h4>Team</h4>
-          <div class="stat-row"><span class="stat-label">Mukul (SD1)</span><span class="stat-value pink">7 specs</span></div>
-          <div class="stat-row"><span class="stat-label">Adit (SD)</span><span class="stat-value pink">7 specs</span></div>
-          <div class="stat-row"><span class="stat-label">Devender</span><span class="stat-value">Code gen</span></div>
-          <div class="stat-row"><span class="stat-label">Satyam</span><span class="stat-value">Sign-off</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- SERVICES -->
-  <div class="view" id="view-services">
-    <div class="table-wrap">
-      <table class="svc-table">
+  <!-- OVERVIEW VIEW -->
+  <div class="view active" id="view-overview">
+
+    <!-- Summary Grid -->
+    <div class="grid-wrap">
+      <table class="grid-table">
         <thead>
           <tr>
-            <th>Service</th>
-            <th>Author</th>
-            <th>Spec Status</th>
-            <th>Reviewer</th>
-            <th>Cross-Audit</th>
-            <th>Code By</th>
-            <th>Code Status</th>
-            <th>CR</th>
-            <th>Tests</th>
-            <th>QA Mukul</th>
-            <th>QA Adit</th>
-            <th>QA Final</th>
-            <th>Integration</th>
-            <th>Blocker</th>
+            <th class="grid-th-module">Module</th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p01')">
+              <span class="phase-tag">P0+P1</span>
+              <span class="phase-label">Freeze &amp; Artifacts</span>
+            </th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p2')">
+              <span class="phase-tag">P2</span>
+              <span class="phase-label">Backend</span>
+            </th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p3')">
+              <span class="phase-tag">P3</span>
+              <span class="phase-label">Gateway</span>
+            </th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p4')">
+              <span class="phase-tag">P4</span>
+              <span class="phase-label">App Integration</span>
+            </th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p5')">
+              <span class="phase-tag">P5</span>
+              <span class="phase-label">Frontend QA</span>
+            </th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p6')">
+              <span class="phase-tag">P6</span>
+              <span class="phase-label">Pre-Production</span>
+            </th>
+            <th class="grid-th-phase" onclick="showPhaseModal('p7')">
+              <span class="phase-tag">P7</span>
+              <span class="phase-label">Go Live</span>
+            </th>
           </tr>
         </thead>
-        <tbody id="svcBody"></tbody>
+        <tbody id="summaryGrid"></tbody>
       </table>
     </div>
+
+    <!-- Phase Legend -->
+    <div class="legend-title">Phase Definitions</div>
+    <div class="legend-grid" id="legendGrid"></div>
+
   </div>
 
-  <!-- GATES -->
-  <div class="view" id="view-gates">
-    <div id="gatesList"></div>
-  </div>
-
-  <!-- CHAINS -->
-  <div class="view" id="view-chains">
-    <div class="cc-section">
-      <h3>Cross-Cutting Tests</h3>
-      <div class="cc-grid" id="ccGrid"></div>
+  <!-- MODULE DRILLDOWN VIEW -->
+  <div class="view" id="view-module">
+    <div class="drilldown-header">
+      <div class="back-btn" onclick="showOverview()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Overview
+      </div>
+      <div class="drilldown-module-name" id="drilldownTitle">—</div>
     </div>
-    <div class="section-title" style="margin-top:8px">Chain Integration Tests</div>
-    <div class="chain-grid" id="chainGrid"></div>
+    <div class="drilldown-phases" id="drilldownContent"></div>
   </div>
 
-  <div class="activity-card">
-    <h3>Activity Log</h3>
-    <div class="activity-log" id="activityLog"></div>
+</div>
+
+<!-- PHASE MODAL -->
+<div class="phase-modal-overlay" id="phaseModalOverlay" onclick="closePhaseModal(event)">
+  <div class="phase-modal">
+    <div class="phase-modal-head">
+      <div class="phase-modal-tag" id="phaseModalTag">—</div>
+      <div class="phase-modal-name" id="phaseModalName">—</div>
+    </div>
+    <div class="phase-modal-desc" id="phaseModalDesc">—</div>
+    <div class="phase-modal-artifacts">
+      <h4>What this includes</h4>
+      <div class="artifact-list" id="phaseModalArtifacts"></div>
+    </div>
+    <button class="phase-modal-close" onclick="document.getElementById('phaseModalOverlay').classList.remove('open')">Close</button>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="overlay" id="svcModal">
-  <div class="modal">
-    <div class="modal-head">
-      <h2 id="modalName">—</h2>
-      <div class="modal-x" onclick="closeModal()">×</div>
-    </div>
-    <div id="modalPipe"></div>
-  </div>
-</div>
-
-<!-- Dropdown -->
-<div class="dropdown" id="dd"></div>
-
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <script>
-// ── DATA ──
-const SVCS = [
-  {id:'CLS',name:'Connection Lifecycle Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'P2',block:'None'},
-  {id:'RV',name:'Recharge Validator',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B1',block:'None',p4:'Mukul'},
-  {id:'DAS',name:'Demand & Allocation Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B1',block:'None'},
-  {id:'QS',name:'Quality Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B2',block:'EX-05'},
-  {id:'ES',name:'Enforcement Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B2',block:'None'},
-  {id:'CS',name:'Compensation Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B2',block:'None'},
-  {id:'PS',name:'Payment Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B2',block:'None',p4:'Adit'},
-  {id:'XS',name:'Exit Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B3',block:'None'},
-  {id:'ACS',name:'Asset Custody Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B3',block:'None'},
-  {id:'CIS',name:'Capability Intervention Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B2',block:'None'},
-  {id:'SRS',name:'Support & Resolution Service',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B3',block:'None'},
-  {id:'CCS',name:'Capacity & Coverage Service',author:'Mukul',reviewer:'Adit',coder:'Devender',batch:'B1',block:'None'},
-  {id:'CAES',name:'Customer Access Entitlement',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B3',block:'EX-06',p4:'Adit'},
-  {id:'ONB',name:'Onboarding Service',author:'—',reviewer:'—',coder:'—',batch:'—',block:'ONB spec'},
-  {id:'CRV',name:'Customer Recharge Validator',author:'Adit',reviewer:'Mukul',coder:'Devender',batch:'B3',block:'None',p4:'Mukul'},
-];
+// ── FIREBASE ──
+const FB_URL = 'https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
+let db = null, dbRef = null, firebaseReady = false, saveTimer = null, isSaving = false;
 
-const OPTS = {
-  specStatus:['NOT_STARTED','DRAFTING','CROSS_AUDIT','FIXES','CONSULTANT_REVIEW','FROZEN'],
-  crossAudit:['PENDING','PASS','FAIL_WITH_FIXES','FIXES_APPLIED'],
-  codeStatus:['NOT_STARTED','GENERATING','AUTO_TESTS_PASS','QA_IN_PROGRESS','QA_PASS','MERGED'],
-  cr:['PENDING','PASS','FAIL'],
-  tests:['PENDING','PASS','FAIL'],
-  qa1:['PENDING','PASS','FAIL'],
-  qa2:['PENDING','PASS','FAIL'],
-  qaM:['PENDING','ALL_PASS','FIXES_NEEDED','FIXES_APPLIED'],
-  integ:['PENDING','PASS','FAIL'],
+try {
+  firebase.initializeApp({ databaseURL: FB_URL });
+  db = firebase.database();
+  dbRef = db.ref('golive');
+  firebaseReady = true;
+} catch(e) { console.warn('Firebase init failed', e); }
+
+function setSyncStatus(s) {
+  const b = document.getElementById('syncBadge');
+  const l = document.getElementById('syncLabel');
+  b.className = 'sync-badge ' + s;
+  l.textContent = s === 'synced' ? 'Synced' : s === 'saving' ? 'Saving…' : 'Offline';
+}
+
+// ── PHASE DEFINITIONS ──
+const PHASES = {
+  p01: {
+    tag: 'P0+P1',
+    name: 'Freeze & Artifacts',
+    desc: 'Module objective written. Module order confirmed. All input documents produced and frozen before any build starts.',
+    artifacts: ['OS (locked)', 'Build Spec (approved)', 'Build Spec ↔ OS Review', 'Code Gen — Service', 'Code Gen ↔ Build Spec Review', 'Gateway Code', 'Gateway ↔ API Contract Review', 'API Contract (locked)', 'Visual Spec (locked)', 'Hindi Copy Keys', 'Integration Test Suite']
+  },
+  p2: {
+    tag: 'P2',
+    name: 'Backend',
+    desc: 'All backend tests pass against the service directly. No app, no gateway involved.',
+    artifacts: ['Unit tests pass', 'DB migration clean (fresh + dirty)', 'Event chain tests pass', 'Idempotency tests pass', 'Invariants verified']
+  },
+  p3: {
+    tag: 'P3',
+    name: 'Gateway',
+    desc: 'All integration tests pass against the gateway. Gateway endpoints return correct shapes, role suppression works, error mapping correct.',
+    artifacts: ['All integration tests pass', 'Role suppression verified', 'Error mapping correct', 'CSP isolation verified', 'Idempotency passthrough verified']
+  },
+  p4: {
+    tag: 'P4',
+    name: 'App Integration',
+    desc: 'Real gateway calls replace mock data in the app. All screens render correctly on real data.',
+    artifacts: ['Mock data replaced with gateway calls', 'All screens render on real data', '5 smoke tests on device pass']
+  },
+  p5: {
+    tag: 'P5',
+    name: 'Frontend QA',
+    desc: 'Full stack tested through the app on a real device. All scenarios pass — Hindi copy, role suppression, offline queue, edge cases.',
+    artifacts: ['All QA scenarios pass on device', 'Hindi copy — no English fallbacks', 'Role suppression in UI verified', 'Offline queue replay works', 'Missing data renders as —', '280dp width — no truncation']
+  },
+  p6: {
+    tag: 'P6',
+    name: 'Pre-Production',
+    desc: 'Environment ready for real traffic. Staging personas seeded, dashboards live, rollback plan written, war game completed.',
+    artifacts: ['Staging personas seeded', 'Observability dashboards live', 'Rollback plan written', 'War game completed (all scenarios)']
+  },
+  p7: {
+    tag: 'P7',
+    name: 'Go Live',
+    desc: 'Staged rollout: Internal → controlled CSP cohort → broader rollout. Gate metrics must be clean before moving between stages.',
+    artifacts: ['Stage 1: Internal/staff', 'Stage 2: Controlled CSP cohort', 'Stage 3: Broader rollout']
+  }
 };
 
-const PHASES=[
-  {id:0,name:'Freeze Docs',desc:'35 docs version-locked in /locked',steps:'0.1–0.4'},
-  {id:1,name:'Build Specs',desc:'14 build specs written + cross-audited',steps:'1.1–1.5'},
-  {id:2,name:'CLS Pipeline',desc:'First service code gen + QA pattern lock',steps:'2.1–2.6'},
-  {id:3,name:'Code Generation',desc:'13 services in 3 batches',steps:'3.1–3.4'},
-  {id:4,name:'Lighter Services',desc:'4 services — Mukul + Adit generate',steps:'4.1–4.3'},
-  {id:5,name:'Integration Tests',desc:'12 chains, 87 test cases',steps:'5.1–5.5'},
-  {id:6,name:'Handoff Assembly',desc:'Package + readiness checklist',steps:'6.1–6.2'},
+// ── MODULES ──
+const MODULES = [
+  { id: 'wallet',     name: 'Wallet' },
+  { id: 'netbox',     name: 'NetBox' },
+  { id: 'assurance',  name: 'Assurance Strip' },
+  { id: 'taskfeed',   name: 'Task Feed' },
+  { id: 'drilldown',  name: 'Task Drilldown' },
+  { id: 'navigation', name: 'Navigation + Menu' },
 ];
 
-const GATES={
-  0:['All 32 locked documents in repo with correct versions','All 4 Product-pending items tracked with service-level impact','All registries version-aligned (RA v2.8, ESR v2.8, SPR v1.13, Scaffold v2.7)','All 13 OS docs have correct "Depends On" versions','Routing registry has 121 entries matching ESR canonical events (exact match)','No document in /locked has unresolved "TBD" except SPR defaults'],
-  1:['All 15 build specs complete (14 services + CRV surface + RV surface)','Every spec passes 14 template gate conditions','Cross-audit complete — all FAIL items resolved','Consultant approved pattern (first 2 specs)','No spec has §12 blocking issues'],
-  2:['CLS code: all CR checks pass','CLS code: all §11 tests pass','CLS code: independent QA — all issues resolved','QA process validated — pattern works','No spec-code deviations remain'],
-  3:['All 14 services: CR checks pass','All 14 services: §11 tests pass','All 14 services: dual QA — zero unresolved','All 3 quality checkpoints passed (QC-1/2/3)','All 3 mini-integration sanity checks passed','All PRs with conformance + tests + spec reference'],
-  5:['All cross-cutting tests pass (CC-01–05 × 14)','All 12 chains pass (87 test cases)','Additional edge case + negative tests pass','Zero unresolved integration failures','Integration suite deterministic — 10/10 passes'],
-  6:['All 14 services compile + unit tests','All 14 pass conformance (CR-00–08)','All 14 pass domain tests (§11.1–6)','All 12 chains pass integration','All cross-cutting tests pass','Zero unresolved QA findings','Spec drift check — zero deviations','Routing registry matches ESR (121)','Deployment guide tested','Calibration sheet extracted','Build Blocker Log — zero items','All quality checkpoints passed'],
+const PHASE_KEYS = ['p01','p2','p3','p4','p5','p6','p7'];
+
+// ── DEFAULT STATE ──
+const DEFAULT_STATE = {
+  modules: {
+    wallet: {
+      phases: { p01:'done', p2:'done', p3:'done', p4:'in-progress', p5:'not-started', p6:'not-started', p7:'not-started' },
+      drilldown: {
+        p01: {
+          docs: [
+            { name:'Payment OS', version:'v1.8', status:'locked' },
+            { name:'PS Build Spec', version:'v1.4', status:'approved' },
+            { name:'Build Spec ↔ OS Review', version:'—', status:'done' },
+            { name:'CS Build Spec', version:'v1.3', status:'approved' },
+            { name:'Gateway Code', version:'—', status:'done' },
+            { name:'Gateway ↔ API Contract Review', version:'—', status:'done' },
+            { name:'Gateway API Contract', version:'v1.2', status:'locked' },
+            { name:'Wallet Visual Spec', version:'v1.3', status:'locked' },
+            { name:'Hindi Copy Keys', version:'v1.2 (73 keys)', status:'done' },
+            { name:'Integration Test Suite', version:'v1.0 (55 tests)', status:'done' },
+          ],
+          notes: 'PS v1.4 includes addendum (bank accounts, cross-ledger transfer). PS spec needs v1.5 bump for cross-ledger idempotency fix found during P2 testing.'
+        },
+        p2: {
+          total: 55, passed: 54,
+          issues: [
+            { test:'T-14', what:'Earnings missing withdrawal data', severity:'bug', rootCause:'getEarnings() queried only settlement_records. withdrawal_executions not included.', fix:'Added withdrawals array to getEarnings(). Deployed.', status:'fixed' },
+            { test:'T-40', what:'Deposit idempotency missing', severity:'spec-gap', rootCause:'CROSS_LEDGER_TRANSFER had no idempotency_token in PS spec (§2C, §3.3) or code. Every repeat call created a new deposit entry.', fix:'Added V12 migration (idempotency_token column + unique index). Dedup logic added to CrossLedgerTransferController. PS spec to be bumped v1.4 → v1.5 with §2C + §3.3 + §4.6 + migration updates.', status:'fixed' },
+            { test:'T-19', what:'Unknown entry_type graceful handling', severity:'deferred', rootCause:'Cannot inject unknown entry_type without bypassing INV-PAY-05 (no manual ledger entries). Deferred.', fix:'Deferred to P5 — app-side test. Backend response behaviour is correct.', status:'deferred' },
+          ],
+          notes: 'Tests run on 2026-03-25 over 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays for T-24/T-14/T-40 — must be removed before production deploy.'
+        },
+        p3: {
+          total: 55, passed: 54,
+          issues: [],
+          notes: 'P2 and P3 proven in the same test run — all 55 integration tests run against the gateway directly. Gateway built by Devender. Base URL: https://csp-gateway-qa.i2e1agents.in'
+        },
+        p4: { notes: 'In progress. App screens already built with mock data (system-led-design repo). Next: replace mocks with real gateway calls.' },
+        p5: { notes: '' },
+        p6: { notes: '' },
+        p7: { notes: '' },
+      }
+    },
+    netbox: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    assurance: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    taskfeed: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    drilldown: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    navigation: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+  }
 };
 
-const CHAINS=[
-  {id:1,name:'CSP Recharge',desc:'CLS → RV → DAS',tests:8},
-  {id:2,name:'Customer Access',desc:'CAES → CRV → CLS',tests:10},
-  {id:3,name:'Allocation',desc:'CLS → DAS → CCS',tests:9},
-  {id:4,name:'Economic Spine',desc:'QS → ES → CS → PS',tests:8},
-  {id:5,name:'Complaints',desc:'SRS → QS → ES',tests:7},
-  {id:6,name:'Enforcement + CI',desc:'ES → CIS → recovery/exit',tests:8},
-  {id:7,name:'FPV / Integrity',desc:'Fraud → immediate action',tests:6},
-  {id:8,name:'Exit + Devices',desc:'XS → ACS → PS',tests:7},
-  {id:9,name:'Re-Entry',desc:'Exclusion → re-onboarding',tests:5},
-  {id:10,name:'Exit Secondary',desc:'Device return → write-off',tests:6},
-  {id:11,name:'Emergency Override',desc:'DAS override → auto-expiry',tests:7},
-  {id:12,name:'Change Comms',desc:'Config → notify → ack',tests:6},
-];
+let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
 
-const CC=['CC-01 Idempotency','CC-02 Auth-Permit','CC-03 Schema','CC-04 Replay','CC-05 Timer Guard'];
-
-const PROD=[
-  {id:35,name:'EX-05: Customer Rating UX',blocks:'QS Domain 4'},
-  {id:36,name:'EX-06A: Captive Portal UX',blocks:'CAES portal'},
-  {id:37,name:'EX-06B: Portal Enforcement',blocks:'CAES device'},
-  {id:38,name:'Onboarding Flow Spec',blocks:'ONB entirely'},
-];
-
-// ── STATE (Cloud-synced via Firebase Realtime Database) ──
-// ZERO setup for users — just open the URL and everything syncs.
-const FB_URL='https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
-const SK='sd_tracker_v2_local';
-let saveTimer=null;
-let isSaving=false;
-let db=null;
-let dbRef=null;
-let firebaseReady=false;
-
-// Initialize Firebase
-try{
-  const app=firebase.initializeApp({databaseURL:FB_URL});
-  db=firebase.database();
-  dbRef=db.ref('tracker');
-  firebaseReady=true;
-}catch(e){firebaseReady=false;}
-
-function defaults(){
-  const s={};SVCS.forEach(v=>{s[v.id]={specStatus:v.id==='ONB'?'DEFERRED':'NOT_STARTED',crossAudit:'PENDING',codeStatus:'NOT_STARTED',cr:'PENDING',tests:'PENDING',qa1:'PENDING',qa2:'PENDING',qaM:'PENDING',integ:'PENDING'}});
-  const g={};Object.keys(GATES).forEach(k=>{g[k]={checks:GATES[k].map(()=>false),signed:false}});
-  const c={};CHAINS.forEach(v=>{c[v.id]='NOT_STARTED'});
-  const cc={};CC.forEach(t=>{cc[t]='PENDING'});
-  const pp={};PROD.forEach(p=>{pp[p.id]={received:false,verified:false,integrated:false}});
-  return{services:s,gates:g,chains:c,cc,pp,log:[]};
-}
-
-function mergeState(remote){
-  const d=defaults();
-  if(!remote||!remote.services)return d;
-  Object.keys(d.services).forEach(k=>{if(!remote.services[k])remote.services[k]=d.services[k]});
-  if(!remote.gates)remote.gates=d.gates;
-  if(!remote.chains)remote.chains=d.chains;
-  if(!remote.cc)remote.cc=d.cc;
-  if(!remote.pp)remote.pp=d.pp;
-  if(!remote.log)remote.log=[];
-  return remote;
-}
-
-let S=defaults();
-
-function setSyncStatus(status){
-  const el=document.getElementById('lastSaved');
-  const dot=document.querySelector('.save-dot');
-  const ts=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-  const map={
-    'loading':['Loading...','var(--yellow)'],
-    'synced':[`Live ✓ ${ts}`,'var(--green)'],
-    'saving':['Saving...','var(--yellow)'],
-    'offline':['Offline (local)','var(--red)'],
-    'setup':['Setup needed','var(--yellow)'],
-  };
-  const[text,color]=map[status]||['Unknown','var(--text-dim)'];
-  el.textContent=text;
-  if(dot)dot.style.background=color;
-}
-
-async function loadFromCloud(){
-  console.log('loadFromCloud: firebaseReady=',firebaseReady,'dbRef=',!!dbRef);
-  if(!firebaseReady){
-    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e){}
-    setSyncStatus('setup');
-    return;
-  }
-  setSyncStatus('loading');
-  try{
-    const snap=await dbRef.once('value');
-    const raw=snap.val();
-    console.log('Firebase loaded:',raw?'has data':'empty');
-    const data=decodeFromFirebase(raw);
-    if(data)S=mergeState(data);
-    setSyncStatus('synced');
-  }catch(e){
-    console.error('loadFromCloud failed:',e);
-    try{const raw=localStorage.getItem(SK);if(raw)S=mergeState(JSON.parse(raw));}catch(e2){}
-    setSyncStatus('offline');
-  }
-}
-
-// Firebase drops arrays of all-falsy values and coerces numeric keys to sparse arrays.
-// Solution: convert everything to string-keyed objects with 1/0 integers.
-function encodeForFirebase(state){
-  const s=JSON.parse(JSON.stringify(state));
-  if(s.gates){const g={};Object.keys(s.gates).forEach(k=>{
-    const checks={};(s.gates[k].checks||[]).forEach((v,i)=>{checks['c'+i]=v?1:0;});
-    g['G'+k]={checks,signed:s.gates[k].signed?1:0};
-  });s.gates=g;}
-  if(s.pp){const p={};Object.keys(s.pp).forEach(k=>{
-    p['PP'+k]={received:s.pp[k].received?1:0,verified:s.pp[k].verified?1:0,integrated:s.pp[k].integrated?1:0};
-  });s.pp=p;}
-  return s;
-}
-function decodeFromFirebase(state){
-  if(!state)return null;
-  if(state.gates){const g={};Object.keys(state.gates).forEach(k=>{
-    const nk=k.replace(/^G/,'');
-    const item=state.gates[k];if(!item)return;
-    const numChecks=GATES[nk]?GATES[nk].length:0;
-    const checks=[];for(let i=0;i<numChecks;i++){checks.push(!!(item.checks&&item.checks['c'+i]));}
-    g[nk]={checks,signed:!!item.signed};
-  });state.gates=g;}
-  if(state.pp){const p={};Object.keys(state.pp).forEach(k=>{
-    const nk=k.replace(/^PP/,'');
-    const item=state.pp[k];if(!item)return;
-    p[nk]={received:!!item.received,verified:!!item.verified,integrated:!!item.integrated};
-  });state.pp=p;}
-  return state;
-}
-
-function save(){
-  localStorage.setItem(SK,JSON.stringify(S));
-  if(!firebaseReady)return;
-  if(saveTimer)clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-    isSaving=true;
+// ── FIREBASE SYNC ──
+function save() {
+  if (!firebaseReady) return;
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    isSaving = true;
     setSyncStatus('saving');
-    try{
-      const encoded=encodeForFirebase(S);
-      console.log('Saving to Firebase...',Object.keys(encoded));
-      dbRef.set(encoded).then(()=>{console.log('Save OK');isSaving=false;setSyncStatus('synced');}).catch((e)=>{console.error('FB set() rejected:',e.code,e.message);isSaving=false;setSyncStatus('offline');});
-    }catch(e){console.error('Encode crashed:',e);isSaving=false;setSyncStatus('offline');}
-  },500);
+    dbRef.set(S)
+      .then(() => { isSaving = false; setSyncStatus('synced'); })
+      .catch(() => { isSaving = false; setSyncStatus('offline'); });
+  }, 600);
 }
 
-function addLog(m){S.log.unshift({t:new Date().toISOString(),m});if(S.log.length>200)S.log.length=200;save();renderLog()}
+async function loadFromCloud() {
+  if (!firebaseReady) return;
+  try {
+    const snap = await dbRef.once('value');
+    const data = snap.val();
+    if (data && data.modules) { S = data; setSyncStatus('synced'); }
+    else { save(); }
+  } catch(e) { setSyncStatus('offline'); }
+}
 
-// Real-time listener — Firebase pushes changes instantly to all connected clients
-if(firebaseReady){
-  dbRef.on('value',(snap)=>{
-    if(isSaving)return;
-    const data=decodeFromFirebase(snap.val());
-    if(data){S=mergeState(data);renderAll2();setSyncStatus('synced');}
+if (firebaseReady) {
+  dbRef.on('value', snap => {
+    if (isSaving) return;
+    const data = snap.val();
+    if (data && data.modules) { S = data; renderAll(); }
   });
 }
 
-function renderAll2(){renderSummary();renderSvcs();renderGates();renderChains();renderLog()}
-
-// ── HELPERS ──
-function cls(v){
-  if(!v||v==='NOT_STARTED')return'not-started';if(v==='DEFERRED')return'deferred';
-  if(['PASS','FROZEN','ALL_PASS','MERGED','COMPLETE'].includes(v))return'pass';
-  if(['FAIL','FAIL_WITH_FIXES','FIXES_NEEDED','BLOCKED'].includes(v))return'fail';
-  if(v==='PENDING')return'pending';return'in-progress';
-}
-function disp(v){return(v||'—').replace(/_/g,' ')}
-
-// ── RENDER SUMMARY ──
-function phasePct(pid){const g=S.gates[pid];if(!g)return 0;if(g.signed)return 100;const d=g.checks.filter(Boolean).length;return Math.round(d/g.checks.length*100)}
-
-function renderSummary(){
-  document.getElementById('phaseList').innerHTML=PHASES.map(p=>{
-    const pct=phasePct(p.id);const c=pct===100?'green':pct>0?'pink':'gray';
-    return`<div class="phase-row" onclick="showGate(${p.id})">
-      <div class="phase-num">P${p.id}</div>
-      <div class="phase-info"><h3>${p.name}</h3><p>${p.desc}</p></div>
-      <div class="progress-track"><div class="progress-fill ${c}" style="width:${pct}%"></div></div>
-      <div class="phase-pct">${pct}%</div>
-    </div>`}).join('');
-
-  const sv=Object.values(S.services);
-  const fr=sv.filter(s=>s.specStatus==='FROZEN').length;
-  const cd=sv.filter(s=>['QA_PASS','MERGED'].includes(s.codeStatus)).length;
-  const ip=sv.filter(s=>s.integ==='PASS').length;
-  const bl=SVCS.filter(s=>s.block!=='None').length;
-  document.getElementById('serviceStats').innerHTML=`
-    <div class="stat-row"><span class="stat-label">Specs frozen</span><span class="stat-value ${fr?'green':''}">${fr}/15</span></div>
-    <div class="stat-row"><span class="stat-label">Code QA pass</span><span class="stat-value ${cd?'green':''}">${cd}/15</span></div>
-    <div class="stat-row"><span class="stat-label">Integration pass</span><span class="stat-value ${ip?'green':''}">${ip}/15</span></div>
-    <div class="stat-row"><span class="stat-label">Blocked</span><span class="stat-value red">${bl}</span></div>`;
-
-  document.getElementById('productPending').innerHTML=PROD.map(p=>{
-    const pp=S.pp[p.id]||{};const done=pp.integrated;
-    const txt=done?'INTEGRATED':pp.verified?'VERIFIED':pp.received?'RECEIVED':'NOT RECEIVED';
-    return`<div class="product-item ${done?'done':''}"><span>#${p.id} ${p.name}</span><span class="product-blocks">${done?'✓ '+txt:txt+' → '+p.blocks}</span></div>`}).join('');
+// ── RENDER ──
+function chipHTML(status) {
+  const map = {
+    'done': ['done', '✓ Done'],
+    'in-progress': ['in-progress', '● In Progress'],
+    'blocked': ['blocked', '✕ Blocked'],
+    'not-started': ['not-started', '—'],
+  };
+  const [cls, label] = map[status] || map['not-started'];
+  return `<span class="chip ${cls}"><span class="chip-dot"></span>${label}</span>`;
 }
 
-// ── RENDER SERVICES ──
-function renderSvcs(){
-  document.getElementById('svcBody').innerHTML=SVCS.map(s=>{
-    const st=S.services[s.id];
-    const b=(f,v)=>`<span class="badge ${cls(v)}" onclick="openDD(event,'${s.id}','${f}')">${disp(v)}</span>`;
-    return`<tr>
-      <td><span class="svc-name" onclick="openModal('${s.id}')">${s.id}</span><span class="svc-full">${s.name}</span></td>
-      <td><span class="author">${s.author}</span></td>
-      <td>${b('specStatus',st.specStatus)}</td>
-      <td><span class="author">${s.reviewer}</span></td>
-      <td>${b('crossAudit',st.crossAudit)}</td>
-      <td><span class="author">${s.coder}</span></td>
-      <td>${b('codeStatus',st.codeStatus)}</td>
-      <td>${b('cr',st.cr)}</td>
-      <td>${b('tests',st.tests)}</td>
-      <td>${b('qa1',st.qa1)}</td>
-      <td>${b('qa2',st.qa2)}</td>
-      <td>${b('qaM',st.qaM)}</td>
-      <td>${b('integ',st.integ)}</td>
-      <td><span class="badge ${s.block==='None'?'pass':'blocked'}">${s.block}</span></td>
-    </tr>`}).join('');
+function renderSummaryGrid() {
+  const tbody = document.getElementById('summaryGrid');
+  tbody.innerHTML = MODULES.map(m => {
+    const mod = S.modules[m.id] || { phases: {} };
+    const cells = PHASE_KEYS.map(pk =>
+      `<td class="grid-td-phase">${chipHTML(mod.phases[pk] || 'not-started')}</td>`
+    ).join('');
+    return `<tr>
+      <td class="grid-td-module">
+        <div class="module-name" onclick="showModule('${m.id}')">
+          ${m.name}
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2L9 6L4 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </td>
+      ${cells}
+    </tr>`;
+  }).join('');
 }
 
-// ── DROPDOWN ──
-function openDD(e,sid,field){
-  e.stopPropagation();const opts=OPTS[field];if(!opts)return;
-  const dd=document.getElementById('dd');const r=e.target.getBoundingClientRect();
-  dd.style.top=(r.bottom+4)+'px';dd.style.left=r.left+'px';
-  dd.innerHTML=opts.map(o=>`<div class="drop-opt" onclick="setVal('${sid}','${field}','${o}')">${disp(o)}</div>`).join('');
-  dd.classList.add('active');
-}
-function setVal(sid,field,val){
-  const old=S.services[sid][field];S.services[sid][field]=val;closeDD();
-  addLog(`${sid} → ${field}: ${disp(old)} → ${disp(val)}`);renderAll();
-}
-function closeDD(){document.getElementById('dd').classList.remove('active')}
-document.addEventListener('click',closeDD);
-
-// ── GATES ──
-function renderGates(){
-  const pids=Object.keys(GATES).map(Number);
-  document.getElementById('gatesList').innerHTML=pids.map(pid=>{
-    const ph=PHASES.find(p=>p.id===pid);const g=S.gates[pid];const checks=GATES[pid];
-    const done=g.checks.filter(Boolean).length;
-    return`<div class="gate-card">
-      <h3><span class="gate-tag">P${pid}</span> ${ph.name} Gate <span style="color:var(--text-dim);font-weight:400;font-size:13px">(${done}/${checks.length})</span></h3>
-      ${checks.map((l,i)=>`<div class="gate-check ${g.checks[i]?'checked':''}" onclick="toggleCheck(${pid},${i})">
-        <div class="checkbox"></div><div class="check-label">${l}</div>
-      </div>`).join('')}
-      <div class="signoff-bar">
-        <span class="signoff-label">Satyam Sign-off</span>
-        <button class="signoff-btn ${g.signed?'signed':''}" onclick="toggleSign(${pid})">${g.signed?'✓ Signed Off':'Sign Off'}</button>
+function renderLegend() {
+  document.getElementById('legendGrid').innerHTML = PHASE_KEYS.map(pk => {
+    const p = PHASES[pk];
+    const tags = p.artifacts.map(a => `<span class="legend-doc-tag">${a}</span>`).join('');
+    return `<div class="legend-card">
+      <div class="legend-card-head">
+        <span class="legend-phase-tag">${p.tag}</span>
+        <span class="legend-phase-name">${p.name}</span>
       </div>
-    </div>`}).join('');
+      <div class="legend-phase-desc">${p.desc}</div>
+      <div class="legend-docs">${tags}</div>
+    </div>`;
+  }).join('');
 }
 
-function toggleCheck(pid,i){S.gates[pid].checks[i]=!S.gates[pid].checks[i];addLog(`P${pid} gate #${i+1}: ${S.gates[pid].checks[i]?'checked':'unchecked'}`);renderAll()}
-function toggleSign(pid){S.gates[pid].signed=!S.gates[pid].signed;addLog(`P${pid}: Satyam sign-off ${S.gates[pid].signed?'GRANTED':'REVOKED'}`);renderAll()}
-function showGate(pid){switchView('gates');setTimeout(()=>{const cards=document.querySelectorAll('.gate-card');const pids=Object.keys(GATES).map(Number);const i=pids.indexOf(pid);if(i>=0&&cards[i])cards[i].scrollIntoView({behavior:'smooth',block:'start'})},80)}
+function renderDrilldown(moduleId) {
+  const mod = MODULES.find(m => m.id === moduleId);
+  const data = S.modules[moduleId] || { phases: {}, drilldown: {} };
+  document.getElementById('drilldownTitle').textContent = mod.name;
 
-// ── CHAINS ──
-function renderChains(){
-  document.getElementById('ccGrid').innerHTML=CC.map(t=>{
-    const v=S.cc[t]||'PENDING';
-    return`<div class="cc-item"><div class="cc-name">${t.split(' ')[0]}</div>
-      <select class="chain-select" onchange="setCC('${t}',this.value)">${['PENDING','PASS','FAIL'].map(o=>`<option value="${o}" ${v===o?'selected':''}>${o}</option>`).join('')}</select>
-      <div class="cc-desc">${t.split(' ').slice(1).join(' ')}</div></div>`}).join('');
-
-  document.getElementById('chainGrid').innerHTML=CHAINS.map(c=>{
-    const v=S.chains[c.id]||'NOT_STARTED';
-    return`<div class="chain-card">
-      <div class="chain-header">
-        <div><span class="chain-num">#${c.id}</span> <span class="chain-label">${c.name}</span></div>
-        <select class="chain-select" onchange="setChain(${c.id},this.value)">${['NOT_STARTED','IN_PROGRESS','PASS','FAIL'].map(o=>`<option value="${o}" ${v===o?'selected':''}>${disp(o)}</option>`).join('')}</select>
+  document.getElementById('drilldownContent').innerHTML = PHASE_KEYS.map(pk => {
+    const p = PHASES[pk];
+    const status = data.phases[pk] || 'not-started';
+    const dd = data.drilldown[pk] || {};
+    const body = buildPhaseBody(pk, status, dd, moduleId);
+    return `<div class="drilldown-phase">
+      <div class="drilldown-phase-head">
+        <div class="drilldown-phase-head-left">
+          <span class="drilldown-phase-tag">${p.tag}</span>
+          <span class="drilldown-phase-name">${p.name}</span>
+        </div>
+        ${chipHTML(status)}
       </div>
-      <div class="chain-desc">${c.desc}</div>
-      <div class="chain-tests">${c.tests} tests</div>
-    </div>`}).join('');
+      <div class="drilldown-phase-body">${body}</div>
+    </div>`;
+  }).join('');
 }
 
-function setChain(id,v){S.chains[id]=v;addLog(`Chain ${id}: ${disp(v)}`);save();renderChains()}
-function setCC(t,v){S.cc[t]=v;addLog(`${t}: ${v}`);save();renderChains()}
+function buildPhaseBody(pk, status, dd, moduleId) {
+  if (status === 'not-started') {
+    return `<div class="empty-phase">Not started yet.</div>`;
+  }
 
-// ── MODAL ──
-function openModal(sid){
-  const svc=SVCS.find(s=>s.id===sid);const st=S.services[sid];if(!svc||!st)return;
-  document.getElementById('modalName').textContent=`${svc.id} — ${svc.name}`;
-  const steps=[
-    {l:'Build Spec',d:`Author: ${svc.author}`,v:st.specStatus,f:'specStatus'},
-    {l:'Cross-Audit',d:`Reviewer: ${svc.reviewer}`,v:st.crossAudit,f:'crossAudit'},
-    {l:'Code Generation',d:`By: ${svc.coder}`,v:st.codeStatus,f:'codeStatus'},
-    {l:'CR Conformance',d:'CR-00 through CR-08',v:st.cr,f:'cr'},
-    {l:'Domain Tests',d:'§11.1–§11.6',v:st.tests,f:'tests'},
-    {l:'QA (Mukul)',d:'Independent report',v:st.qa1,f:'qa1'},
-    {l:'QA (Adit)',d:'Independent report',v:st.qa2,f:'qa2'},
-    {l:'QA Merged',d:'Reports reconciled',v:st.qaM,f:'qaM'},
-    {l:'Integration',d:'Chain tests',v:st.integ,f:'integ'},
-  ];
-  const icon=v=>{const c=cls(v);const ic={pass:'✓','in-progress':'⟳',fail:'✗',pending:'○','not-started':'—',blocked:'!',deferred:'◇'};
-    const dc={pass:'done','in-progress':'active',fail:'blocked-icon','not-started':'pending-icon',pending:'pending-icon',blocked:'blocked-icon',deferred:'pending-icon'};
-    return`<div class="pipe-dot ${dc[c]||'pending-icon'}">${ic[c]||'—'}</div>`};
-  document.getElementById('modalPipe').innerHTML=steps.map(s=>`
-    <div class="pipe-step">${icon(s.v)}
-      <div class="pipe-info"><h4>${s.l}</h4><p>${s.d}</p></div>
-      <span class="badge ${cls(s.v)}" onclick="openDD(event,'${sid}','${s.f}')">${disp(s.v)}</span>
-    </div>`).join('')+(svc.block!=='None'?`
-    <div class="pipe-step" style="border-color:var(--red-border)">
-      <div class="pipe-dot blocked-icon">!</div>
-      <div class="pipe-info"><h4>Blocker</h4><p>${svc.block}</p></div>
-      <span class="badge blocked">BLOCKED</span>
-    </div>`:'');
-  document.getElementById('svcModal').classList.add('active');
+  let html = '';
+
+  // P0+P1 — docs checklist
+  if (pk === 'p01' && dd.docs && dd.docs.length) {
+    html += `<div class="docs-list">`;
+    dd.docs.forEach(doc => {
+      const isDone = doc.status === 'locked' || doc.status === 'approved' || doc.status === 'done';
+      html += `<div class="doc-item ${isDone ? 'done' : 'pending'}">
+        <span class="doc-icon">${isDone ? '✓' : '◌'}</span>
+        <span class="doc-name">${doc.name}</span>
+        <span class="doc-version">${doc.version}</span>
+        <span class="doc-status-tag ${doc.status}">${doc.status.toUpperCase()}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // P2/P3 — test results + issues
+  if ((pk === 'p2' || pk === 'p3') && dd.total) {
+    const allPass = dd.passed === dd.total;
+    html += `<div class="test-summary-bar ${allPass ? '' : 'partial'}">
+      <div class="test-count ${allPass ? '' : 'partial'}">${dd.passed}/${dd.total}</div>
+      <div class="test-label"><strong>Tests passed</strong> — Integration Test Suite v1.0</div>
+    </div>`;
+
+    if (dd.issues && dd.issues.length) {
+      html += `<div class="issues-title">Issues Found</div>`;
+      dd.issues.forEach(issue => {
+        html += `<div class="issue-card">
+          <div class="issue-head">
+            <span class="issue-test-tag">${issue.test}</span>
+            <span class="issue-what">${issue.what}</span>
+            <span class="issue-badge ${issue.status}">${issue.status.toUpperCase()}</span>
+          </div>
+          <div class="issue-body">
+            <div class="issue-row"><span class="issue-row-label">Root cause</span><span class="issue-row-val">${issue.rootCause}</span></div>
+            <div class="issue-row"><span class="issue-row-label">Fix</span><span class="issue-row-val">${issue.fix}</span></div>
+          </div>
+        </div>`;
+      });
+    }
+  }
+
+  // P7 — rollout stages
+  if (pk === 'p7') {
+    html += `<div class="stage-list">
+      <div class="stage-item"><div class="stage-num">1</div><div class="stage-info"><div class="stage-name">Internal / Staff</div><div class="stage-desc">Wiom staff only. Confirm accuracy, role suppression, no crashes.</div></div></div>
+      <div class="stage-item"><div class="stage-num">2</div><div class="stage-info"><div class="stage-name">Controlled CSP Cohort</div><div class="stage-desc">20-50 selected CSPs with verified bank accounts. Daily QA sweep.</div></div></div>
+      <div class="stage-item"><div class="stage-num">3</div><div class="stage-info"><div class="stage-name">Broader Rollout</div><div class="stage-desc">All CSPs. Only if Stage 2 metrics clean for 7+ consecutive days.</div></div></div>
+    </div>`;
+  }
+
+  // Notes
+  if (dd.notes) {
+    html += `<div class="notes-box">${dd.notes}</div>`;
+  } else if (status !== 'not-started') {
+    html += `<div class="notes-box empty">No notes yet.</div>`;
+  }
+
+  if (!html) html = `<div class="empty-phase">In progress.</div>`;
+  return html;
 }
 
-function closeModal(){document.getElementById('svcModal').classList.remove('active')}
-document.getElementById('svcModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+// ── NAVIGATION ──
+let currentView = 'overview';
 
-// ── LOG ──
-function renderLog(){
-  const el=document.getElementById('activityLog');
-  el.innerHTML=(S.log||[]).slice(0,50).map(e=>{
-    const d=new Date(e.t);const ts=d.toLocaleDateString('en-IN',{month:'short',day:'numeric'})+' '+d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
-    return`<div class="log-entry"><span class="log-time">${ts}</span><span class="log-msg">${e.m}</span></div>`}).join('')||'<div class="log-entry"><span class="log-msg" style="color:var(--text-dim)">No activity yet</span></div>';
+function showOverview() {
+  document.getElementById('view-overview').classList.add('active');
+  document.getElementById('view-module').classList.remove('active');
+  document.getElementById('sidebar-overview').classList.add('active');
+  MODULES.forEach(m => document.getElementById('sidebar-' + m.id).classList.remove('active'));
+  currentView = 'overview';
+  closeSidebar();
 }
 
-// ── NAV ──
-function switchView(v){
-  document.querySelectorAll('.view').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
-  document.getElementById('view-'+v).classList.add('active');
-  document.querySelector(`.nav-tab[data-view="${v}"]`).classList.add('active');
+function showModule(id) {
+  document.getElementById('view-overview').classList.remove('active');
+  document.getElementById('view-module').classList.add('active');
+  document.getElementById('sidebar-overview').classList.remove('active');
+  MODULES.forEach(m => {
+    const el = document.getElementById('sidebar-' + m.id);
+    if (el) el.classList.toggle('active', m.id === id);
+  });
+  renderDrilldown(id);
+  currentView = id;
+  closeSidebar();
 }
-document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>switchView(t.dataset.view)));
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+// ── PHASE MODAL ──
+function showPhaseModal(pk) {
+  const p = PHASES[pk];
+  document.getElementById('phaseModalTag').textContent = p.tag;
+  document.getElementById('phaseModalName').textContent = p.name;
+  document.getElementById('phaseModalDesc').textContent = p.desc;
+  document.getElementById('phaseModalArtifacts').innerHTML = p.artifacts.map(a =>
+    `<span class="artifact-tag">${a}</span>`).join('');
+  document.getElementById('phaseModalOverlay').classList.add('open');
+}
+
+function closePhaseModal(e) {
+  if (e.target.id === 'phaseModalOverlay') {
+    document.getElementById('phaseModalOverlay').classList.remove('open');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('phaseModalOverlay').classList.remove('open');
+    closeSidebar();
+  }
+});
 
 // ── RENDER ALL ──
-function renderAll(){save();renderSummary();renderSvcs();renderGates();renderChains();renderLog()}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDD()}});
+function renderAll() {
+  renderSummaryGrid();
+  renderLegend();
+}
 
-// ── INIT: Load from cloud first, fall back to defaults ──
-(async()=>{
+// ── INIT ──
+(async () => {
   await loadFromCloud();
-  renderAll2();
+  renderAll();
 })();
 </script>
 </body>
