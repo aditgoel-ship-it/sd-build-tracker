@@ -491,6 +491,64 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 /* Empty phase */
 .empty-phase { padding:20px; text-align:center; color:var(--text-dim); font-size:13px; }
 
+/* ── ARCHIVED SECTION ── */
+.archived-section {
+  border:1px solid var(--border); border-radius:var(--radius-sm);
+  margin-bottom:20px; overflow:hidden;
+}
+.archived-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; background:var(--bg-input);
+  cursor:pointer; user-select:none;
+  border-bottom:1px solid var(--border);
+}
+.archived-header-left { display:flex; align-items:center; gap:8px; }
+.archived-label {
+  font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase;
+  color:var(--text-dim); background:var(--bg); border:1px solid var(--border);
+  padding:2px 7px; border-radius:4px;
+}
+.archived-title { font-size:13px; font-weight:600; color:var(--text-secondary); }
+.archived-toggle { font-size:18px; color:var(--text-dim); transition:transform 0.2s; }
+.archived-toggle.open { transform:rotate(180deg); }
+.archived-body { display:none; padding:16px; }
+.archived-body.open { display:block; }
+
+/* ── NEW PROCESS CHECKLIST ── */
+.process-section { }
+.process-section-title {
+  font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--text-dim); margin-bottom:10px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+}
+.process-steps { display:flex; flex-direction:column; gap:8px; }
+.process-step {
+  display:grid; grid-template-columns:32px 1fr auto;
+  gap:12px; align-items:start;
+  padding:12px 14px;
+  background:var(--bg); border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+}
+.process-step-id {
+  font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
+  border:1px solid var(--primary-border);
+  width:28px; height:28px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:1px;
+}
+.process-step-info { }
+.process-step-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
+.process-step-owner { font-size:11px; color:var(--text-dim); margin-bottom:4px; }
+.process-step-note { font-size:12px; color:var(--text-secondary); line-height:1.5; }
+.process-step-status {
+  font-size:10px; font-weight:700; padding:3px 9px; border-radius:4px;
+  white-space:nowrap; align-self:start; margin-top:2px;
+}
+.process-step-status.pending { background:var(--bg-input); color:var(--text-dim); border:1px solid var(--border); }
+.process-step-status.done { background:var(--green); color:#fff; }
+.process-step-status.in-progress { background:var(--yellow); color:#fff; }
+
 /* Views */
 .view { display:none; }
 .view.active { display:block; animation:fadeUp 0.2s ease; }
@@ -649,7 +707,7 @@ let db = null, dbRef = null, firebaseReady = false, saveTimer = null, isSaving =
 try {
   firebase.initializeApp({ databaseURL: FB_URL });
   db = firebase.database();
-  dbRef = db.ref('golive_v2');
+  dbRef = db.ref('golive_v3');
   firebaseReady = true;
 } catch(e) { console.warn('Firebase init failed', e); }
 
@@ -665,12 +723,12 @@ const PHASES = {
   p01: {
     tag: 'P0+P1', name: 'Freeze & Artifacts',
     desc: 'Module objective written and locked. All input documents produced, reviewed, and frozen before any build starts. No build may begin until all artifacts are signed off.',
-    artifacts: ['OS (locked)', 'Build Spec (approved)', 'Build Spec ↔ OS Review', 'Code Gen — Service', 'Code Gen ↔ Build Spec Review', 'Gateway Code', 'Gateway ↔ API Contract Review', 'API Contract (locked)', 'Visual Spec (locked)', 'Hindi Copy Keys', 'Integration Test Suite']
+    artifacts: ['OS (locked)', 'Build Spec (approved)', 'Build Spec ↔ OS Review', 'Code Gen — Service', 'Code Gen ↔ Build Spec Review', 'Gateway Code', 'Gateway ↔ API Contract Review', 'API Contract (locked)', 'Visual Spec (locked)', 'Hindi Copy Keys', 'Integration Test Suite', 'Test Plan (Testing Template §0–§10)']
   },
   p2: {
     tag: 'P2', name: 'Backend',
-    desc: 'All integration tests pass against the service directly (no app, no gateway). DB migrations clean on fresh and dirty state. Event chains verified. Idempotency verified.',
-    artifacts: ['Integration tests pass (direct)', 'DB migration clean', 'Event chain tests pass', 'Idempotency tests pass', 'Invariants verified']
+    desc: 'Six-step process: (A) Test plan written before codegen. (B) Code generated with CLAUDE.md + agent self-check. (C) Adit conformance check against spec. (D) QA run — automated CI checks first, then full test plan including concurrency. (E) Fix loop. (F) Exit criteria sign-off.',
+    artifacts: ['A: Test plan written (Mukul)', 'B: Code gen with CLAUDE.md (Devender)', 'C: Adit conformance check (10 points)', 'D: 3 automated CI checks pass', 'D: Full QA per test plan §2–§8', 'D: Concurrency tests pass', 'E: Fix loop complete', 'F: Exit criteria signed off']
   },
   p3: {
     tag: 'P3', name: 'Gateway',
@@ -715,7 +773,7 @@ const CHIP_CYCLE = ['not-started','in-progress','done'];
 const DEFAULT_STATE = {
   modules: {
     wallet: {
-      phases: { p01:'done', p2:'done', p3:'done', p4:'in-progress', p5:'not-started', p6:'not-started', p7:'not-started' },
+      phases: { p01:'done', p2:'in-progress', p3:'done', p4:'in-progress', p5:'not-started', p6:'not-started', p7:'not-started' },
       drilldown: {
         p01: {
           docs: [
@@ -729,38 +787,50 @@ const DEFAULT_STATE = {
             { name:'Wallet Visual Spec', version:'v1.3', status:'locked' },
             { name:'Hindi Copy Keys', version:'v1.2 · 73 keys', status:'done' },
             { name:'Integration Test Suite', version:'v1.0 · 55 tests', status:'done' },
+            { name:'Test Plan (Testing Template §0–§10)', version:'—', status:'pending' },
           ],
           notes: 'PS v1.4 includes addendum covering bank accounts and cross-ledger transfer. PS spec needs v1.5 bump to formally document the cross-ledger idempotency fix found during P2 testing.'
         },
         p2: {
-          total: 55, passed: 54,
-          issues: [
-            {
-              test: 'T-14',
-              what: 'Earnings ledger missing withdrawal entries',
-              status: 'fixed',
-              rca: 'During code gen, the earnings read endpoint was built to pull only from settlement records. Withdrawal entries sit in a separate table — that source wasn\'t included.',
-              fix: 'Earnings endpoint updated to pull from both tables. Settlement entries and withdrawal entries now both appear in the earnings view.',
-              process: 'During build spec, the earnings read model should have explicitly listed all data sources that feed the earnings view — not just settlement records. That would have caught this during spec review, before code gen started.'
-            },
-            {
-              test: 'T-40',
-              what: 'Deposit idempotency not working — duplicate entries on repeat calls',
-              status: 'fixed',
-              rca: 'During build spec, idempotency was not defined for the deposit operation — no token field in the input schema, no column in the DB table. Without it in the spec, it wasn\'t built during code gen.',
-              fix: 'DB schema updated to store the idempotency token per deposit entry. Logic added so a repeat request with the same key returns the original result without creating a new entry. PS build spec needs a v1.5 bump to formally document this.',
-              process: 'Every financial write operation must have idempotency defined in the build spec before code gen — input field, DB column, and dedup behaviour. This was missing for the deposit operation. PS spec v1.5 is the correction.'
-            },
-            {
-              test: 'T-19',
-              what: 'Unknown entry_type graceful handling — not tested',
-              status: 'deferred',
-              rca: 'N/A — not a bug.',
-              fix: 'An invariant prevents manual entries into the ledger, so this can\'t be tested at the backend level. Backend behaviour is correct — unknown types pass through without crashing.',
-              process: 'Moved to P5. Will verify that the app renders unknown entry types without crashing.'
-            },
-          ],
-          notes: 'Tests run 2026-03-25 across 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays in QA for T-24/T-14/T-40 — must be removed before production.'
+          preStandardRun: {
+            date: '2026-03-25',
+            total: 55, passed: 54,
+            issues: [
+              {
+                test: 'T-14',
+                what: 'Earnings ledger missing withdrawal entries',
+                status: 'fixed',
+                rca: 'During code gen, the earnings read endpoint was built to pull only from settlement records. Withdrawal entries sit in a separate table — that source wasn\'t included.',
+                fix: 'Earnings endpoint updated to pull from both tables. Settlement entries and withdrawal entries now both appear in the earnings view.',
+                process: 'During build spec, the earnings read model should have explicitly listed all data sources that feed the earnings view — not just settlement records. That would have caught this during spec review, before code gen started.'
+              },
+              {
+                test: 'T-40',
+                what: 'Deposit idempotency not working — duplicate entries on repeat calls',
+                status: 'fixed',
+                rca: 'During build spec, idempotency was not defined for the deposit operation — no token field in the input schema, no column in the DB table. Without it in the spec, it wasn\'t built during code gen.',
+                fix: 'DB schema updated to store the idempotency token per deposit entry. Logic added so a repeat request with the same key returns the original result without creating a new entry. PS build spec needs a v1.5 bump to formally document this.',
+                process: 'Every financial write operation must have idempotency defined in the build spec before code gen — input field, DB column, and dedup behaviour. This was missing for the deposit operation. PS spec v1.5 is the correction.'
+              },
+              {
+                test: 'T-19',
+                what: 'Unknown entry_type graceful handling — not tested',
+                status: 'deferred',
+                rca: 'N/A — not a bug.',
+                fix: 'An invariant prevents manual entries into the ledger, so this can\'t be tested at the backend level. Backend behaviour is correct — unknown types pass through without crashing.',
+                process: 'Moved to P5. Will verify that the app renders unknown entry types without crashing.'
+              },
+            ],
+            notes: 'Tests run 2026-03-25 across 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays in QA for T-24/T-14/T-40 — must be removed before production. This run was done before the Testing Standard was published.'
+          },
+          newProcess: [
+            { id:'A', name:'Test Plan Written', owner:'Mukul', status:'pending', note:'Mukul writes PS test plan per Testing Template §0–§10 before codegen starts. Adit reviews and approves.' },
+            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'Agent re-run with CLAUDE.md + build spec + test plan loaded. Agent self-check (8 items) must pass before commit.' },
+            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point spec-to-code check: handlers, guards, §6B fields, idempotency, auth, audit log, envelope. Must pass before QA starts.' },
+            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'3 automated CI checks first (snake_case, §6B fields, DomainEvent envelope). Then full test plan §2–§8 — including concurrency tests (C-01–C-05) and OverridableClock replacing the Wednesday config hack.' },
+            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures from D fixed against spec. Spec is truth — not the test. Adit re-reviews specific fixes only.' },
+            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'10-point exit criteria checklist. All must be true. Mukul signs, Adit cross-reviews, Satyam gates.' },
+          ]
         },
         p3: {
           total: 55, passed: 54,
@@ -913,8 +983,72 @@ function buildPhaseBody(pk, status, dd) {
     html += `</div>`;
   }
 
-  // P2/P3 test results
-  if ((pk === 'p2' || pk === 'p3') && dd.total) {
+  // P2 — new two-section layout
+  if (pk === 'p2' && dd.newProcess) {
+    // Section 1: Current Process Checklist
+    html += `<div class="process-section">
+      <div class="process-section-title">Current Process (Testing Standard v1.0)</div>
+      <div class="process-steps">`;
+    dd.newProcess.forEach(step => {
+      html += `<div class="process-step">
+        <div class="process-step-id">${step.id}</div>
+        <div class="process-step-info">
+          <div class="process-step-name">${step.name}</div>
+          <div class="process-step-owner">${step.owner}</div>
+          <div class="process-step-note">${step.note}</div>
+        </div>
+        <div class="process-step-status ${step.status}">${step.status === 'done' ? 'DONE' : step.status === 'in-progress' ? 'IN PROGRESS' : 'PENDING'}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+
+    // Section 2: Pre-Standard Run (archived, collapsed)
+    if (dd.preStandardRun) {
+      const r = dd.preStandardRun;
+      const uid = 'archived-p2';
+      const allPass = r.passed === r.total;
+      html += `<div class="archived-section" style="margin-top:20px">
+        <div class="archived-header" onclick="toggleArchived('${uid}')">
+          <div class="archived-header-left">
+            <span class="archived-label">Archived</span>
+            <span class="archived-title">Pre-Standard Run — ${r.date} — ${r.passed}/${r.total} tests passed</span>
+          </div>
+          <span class="archived-toggle" id="${uid}-toggle">⌄</span>
+        </div>
+        <div class="archived-body" id="${uid}-body">
+          <div class="test-summary-bar ${allPass ? '' : 'partial'}" style="margin-bottom:16px">
+            <div class="test-count ${allPass ? '' : 'partial'}">${r.passed}/${r.total}</div>
+            <div class="test-label-group">
+              <div class="test-label-main">Integration Test Suite v1.0</div>
+              <div class="test-label-sub">${allPass ? 'All tests passed' : `${r.total - r.passed} did not pass`}</div>
+            </div>
+          </div>`;
+      if (r.issues && r.issues.length) {
+        html += `<div class="issues-section"><div class="issues-section-title">Issues &amp; Findings (${r.issues.length})</div>`;
+        r.issues.forEach(issue => {
+          html += `<div class="issue-card ${issue.status}">
+            <div class="issue-head">
+              <span class="issue-test-tag">${issue.test}</span>
+              <span class="issue-what">${issue.what}</span>
+              <span class="issue-badge ${issue.status}">${issue.status === 'fixed' ? 'FIXED' : issue.status === 'deferred' ? 'DEFERRED' : 'FAILED'}</span>
+            </div>
+            <div class="issue-body">
+              <div class="issue-row"><span class="issue-row-label">RCA</span><span class="issue-row-val">${issue.rca}</span></div>
+              <div class="issue-row"><span class="issue-row-label">Fix</span><span class="issue-row-val">${issue.fix}</span></div>
+              <div class="issue-row"><span class="issue-row-label">Should have</span><span class="issue-row-val">${issue.process}</span></div>
+            </div>
+          </div>`;
+        });
+        html += `</div>`;
+      }
+      if (r.notes) html += `<div class="notes-box">${r.notes}</div>`;
+      html += `</div></div>`;
+    }
+    return html;
+  }
+
+  // P3 test results (unchanged)
+  if (pk === 'p3' && dd.total) {
     const allPass = dd.passed === dd.total;
     const notPassedCount = dd.total - dd.passed;
     html += `<div class="test-summary-bar ${allPass ? '' : 'partial'}">
@@ -924,7 +1058,6 @@ function buildPhaseBody(pk, status, dd) {
         <div class="test-label-sub">${allPass ? 'All tests passed' : `${notPassedCount} did not pass — see below`}</div>
       </div>
     </div>`;
-
     if (dd.issues && dd.issues.length) {
       html += `<div class="issues-section"><div class="issues-section-title">Issues &amp; Findings (${dd.issues.length})</div>`;
       dd.issues.forEach(issue => {
@@ -935,18 +1068,9 @@ function buildPhaseBody(pk, status, dd) {
             <span class="issue-badge ${issue.status}">${issue.status === 'fixed' ? 'FIXED' : issue.status === 'deferred' ? 'DEFERRED' : 'FAILED'}</span>
           </div>
           <div class="issue-body">
-            <div class="issue-row">
-              <span class="issue-row-label">RCA</span>
-              <span class="issue-row-val">${issue.rca}</span>
-            </div>
-            <div class="issue-row">
-              <span class="issue-row-label">Fix</span>
-              <span class="issue-row-val">${issue.fix}</span>
-            </div>
-            <div class="issue-row">
-              <span class="issue-row-label">Should have</span>
-              <span class="issue-row-val">${issue.process}</span>
-            </div>
+            <div class="issue-row"><span class="issue-row-label">RCA</span><span class="issue-row-val">${issue.rca}</span></div>
+            <div class="issue-row"><span class="issue-row-label">Fix</span><span class="issue-row-val">${issue.fix}</span></div>
+            <div class="issue-row"><span class="issue-row-label">Should have</span><span class="issue-row-val">${issue.process}</span></div>
           </div>
         </div>`;
       });
@@ -971,6 +1095,15 @@ function buildPhaseBody(pk, status, dd) {
   }
 
   return html || `<div class="empty-phase">In progress.</div>`;
+}
+
+// ── ARCHIVED TOGGLE ──
+function toggleArchived(uid) {
+  const body = document.getElementById(uid + '-body');
+  const toggle = document.getElementById(uid + '-toggle');
+  if (!body) return;
+  const isOpen = body.classList.toggle('open');
+  toggle.classList.toggle('open', isOpen);
 }
 
 // ── NAVIGATION ──
