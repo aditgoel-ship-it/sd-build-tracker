@@ -401,16 +401,23 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 }
 .issue-card {
   border:1px solid var(--border);
+  border-left:4px solid var(--border);
   border-radius:var(--radius-sm);
   margin-bottom:8px;
   overflow:hidden;
 }
+.issue-card.fixed { border-left-color:var(--green); }
+.issue-card.deferred { border-left-color:var(--yellow); }
+.issue-card.failed { border-left-color:var(--red); }
 .issue-head {
   display:flex; align-items:center; gap:10px;
   padding:10px 14px;
   background:var(--bg);
   border-bottom:1px solid var(--border);
 }
+.issue-card.fixed .issue-head { background:var(--green-bg); }
+.issue-card.deferred .issue-head { background:var(--yellow-bg); }
+.issue-card.failed .issue-head { background:var(--red-bg); }
 .issue-test-tag {
   font-family:'JetBrains Mono',monospace;
   font-size:11px; font-weight:700;
@@ -420,11 +427,11 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 }
 .issue-what { font-size:13px; font-weight:600; color:var(--text); flex:1; }
 .issue-badge {
-  font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; white-space:nowrap;
+  font-size:10px; font-weight:700; padding:3px 10px; border-radius:4px; white-space:nowrap; letter-spacing:0.3px;
 }
-.issue-badge.fixed { background:var(--green-bg); color:var(--green); }
-.issue-badge.deferred { background:var(--yellow-bg); color:var(--yellow); }
-.issue-badge.failed { background:var(--red-bg); color:var(--red); }
+.issue-badge.fixed { background:var(--green); color:#fff; }
+.issue-badge.deferred { background:var(--yellow); color:#fff; }
+.issue-badge.failed { background:var(--red); color:#fff; }
 
 .issue-body { padding:12px 14px; display:flex; flex-direction:column; gap:0; }
 .issue-row {
@@ -921,7 +928,7 @@ function buildPhaseBody(pk, status, dd) {
     if (dd.issues && dd.issues.length) {
       html += `<div class="issues-section"><div class="issues-section-title">Issues &amp; Findings (${dd.issues.length})</div>`;
       dd.issues.forEach(issue => {
-        html += `<div class="issue-card">
+        html += `<div class="issue-card ${issue.status}">
           <div class="issue-head">
             <span class="issue-test-tag">${issue.test}</span>
             <span class="issue-what">${issue.what}</span>
