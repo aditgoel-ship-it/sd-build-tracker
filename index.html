@@ -1140,7 +1140,7 @@ function renderDrilldown(moduleId) {
 }
 
 function buildPhaseBody(pk, status, dd) {
-  if (status === 'not-started' && !dd.notes && !dd.docs && !dd.total) {
+  if (status === 'not-started' && !dd.notes && !dd.docs && !dd.total && !dd.newProcess) {
     return `<div class="empty-phase">Not started yet.</div>`;
   }
   let html = '';
