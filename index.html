@@ -642,7 +642,7 @@ let db = null, dbRef = null, firebaseReady = false, saveTimer = null, isSaving =
 try {
   firebase.initializeApp({ databaseURL: FB_URL });
   db = firebase.database();
-  dbRef = db.ref('golive');
+  dbRef = db.ref('golive_v2');
   firebaseReady = true;
 } catch(e) { console.warn('Firebase init failed', e); }
 
