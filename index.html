@@ -707,7 +707,7 @@ let db = null, dbRef = null, firebaseReady = false, saveTimer = null, isSaving =
 try {
   firebase.initializeApp({ databaseURL: FB_URL });
   db = firebase.database();
-  dbRef = db.ref('golive_v3');
+  dbRef = db.ref('golive_v4');
   firebaseReady = true;
 } catch(e) { console.warn('Firebase init failed', e); }
 
@@ -838,14 +838,191 @@ const DEFAULT_STATE = {
           notes: 'P2 and P3 proven in the same test run — all 55 integration tests run against the gateway directly. Gateway base URL: https://csp-gateway-qa.i2e1agents.in'
         },
         p4: { notes: 'In progress. App screens already built with mock data (system-led-design repo). Next step: replace mock data with real gateway calls against https://csp-gateway-qa.i2e1agents.in' },
-        p5: { notes: '' }, p6: { notes: '' }, p7: { notes: '' }
+        p5: { notes: 'Frontend QA — all wallet scenarios on a real device: withdrawal request → batch → completion, balance + available_balance display correct, deposit ledger entries render, Hindi copy zero English fallbacks, 280dp width no truncation, offline queue replay, T-19 unknown entry_type renders gracefully without crash.' },
+        p6: { notes: 'Pre-production: staging CSP personas seeded with representative wallet data (balance, bank account, deposit entries). Observability dashboards live for PS and CS read paths. Rollback plan written and tested. War game completed across all wallet failure scenarios.' },
+        p7: { notes: '' }
       }
     },
-    netbox:     { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    assurance:  { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    taskfeed:   { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    drilldown:  { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    navigation: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    netbox: {
+      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
+      drilldown: {
+        p01: {
+          docs: [
+            { name:'Custody OS', version:'TBD', status:'pending' },
+            { name:'ACS Build Spec', version:'v1.1', status:'approved' },
+            { name:'Build Spec ↔ OS Review (ACS)', version:'—', status:'pending' },
+            { name:'Payment OS', version:'v1.8', status:'locked' },
+            { name:'PS Build Spec', version:'v1.4', status:'approved' },
+            { name:'Build Spec ↔ OS Review (PS)', version:'—', status:'pending' },
+            { name:'Gateway Code', version:'—', status:'pending' },
+            { name:'Gateway ↔ API Contract Review', version:'—', status:'pending' },
+            { name:'API Contract', version:'TBD', status:'pending' },
+            { name:'Visual Spec', version:'TBD', status:'pending' },
+            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
+            { name:'Integration Test Suite', version:'TBD', status:'pending' },
+            { name:'Test Plan — ACS (Testing Template §0–§10)', version:'—', status:'pending' },
+            { name:'Test Plan — PS deposit reads (Testing Template §0–§10)', version:'—', status:'pending' },
+          ],
+          notes: 'NetBox screen shows: (1) device state from ACS — serial number, custody status, assignment date. (2) Security deposit balance from PS — deposit pool balance, ledger entries per device, cash status. PS build spec v1.4 already approved; PS test plan v1.0 already drafted.'
+        },
+        p2: {
+          newProcess: [
+            { id:'A', name:'Test Plans Written', owner:'Mukul', status:'pending', note:'2 test plans: ACS test plan (new) + PS deposit reads (PS test plan v1.0 already drafted — verify §3 coverage for deposit endpoints). Adit reviews both before codegen starts.' },
+            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'Agent run for ACS. PS already being built under Wallet P2. CLAUDE.md + build spec + test plan loaded for ACS. Agent self-check (8 items) must pass.' },
+            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point spec-to-code check for ACS. PS conformance already covered under Wallet P2. Must pass before QA starts.' },
+            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'3 automated CI checks first. Full test plan for ACS. For PS: verify deposit endpoints specifically (§6B deposits, deposit_ledger reads). CSP isolation — CSP A cannot read CSP B device or deposit data.' },
+            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec. Spec is truth — not the test.' },
+            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'10-point exit criteria for ACS complete. PS deposit endpoints verified.' },
+          ]
+        },
+        p3: { notes: 'ACS + PS integration tests run against gateway. Device state (ACS) and security deposit ledger (PS) returned correctly. CSP isolation verified — CSP A cannot access CSP B\'s device or deposit data. All §6B field conformance tests pass via gateway.' },
+        p4: { notes: 'TBD — NetBox screen wired to real gateway. Device serial number, custody state, assignment date, deposit pool balance, and deposit ledger entries all render with live data. Confirmed on real device.' },
+        p5: { notes: 'TBD — Frontend QA: device state displays for all custody states. Deposit entries render with correct cash_status labels. Hindi copy verified. Missing data shows as —. 280dp no truncation.' },
+        p6: { notes: 'Pre-production: staging personas with seeded device assignments and deposit balances. Observability dashboards live for ACS + PS deposit read paths. Rollback plan written.' },
+      }
+    },
+    assurance: {
+      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
+      drilldown: {
+        p01: {
+          docs: [
+            { name:'CL OS', version:'v1.3', status:'locked' },
+            { name:'CLS Build Spec', version:'v1.5', status:'approved' },
+            { name:'Build Spec ↔ OS Review (CLS)', version:'—', status:'pending' },
+            { name:'Payment OS', version:'v1.8', status:'locked' },
+            { name:'CS Build Spec', version:'v1.3', status:'approved' },
+            { name:'Build Spec ↔ OS Review (CS)', version:'—', status:'pending' },
+            { name:'Quality OS', version:'v1.10', status:'locked' },
+            { name:'QS Build Spec', version:'v1.3', status:'approved' },
+            { name:'Build Spec ↔ OS Review (QS)', version:'—', status:'pending' },
+            { name:'DAS Build Spec', version:'v1.4', status:'approved' },
+            { name:'Build Spec ↔ OS Review (DAS)', version:'—', status:'pending' },
+            { name:'Gateway Code', version:'—', status:'pending' },
+            { name:'Gateway ↔ API Contract Review', version:'—', status:'pending' },
+            { name:'API Contract', version:'TBD', status:'pending' },
+            { name:'Visual Spec', version:'TBD', status:'pending' },
+            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
+            { name:'Integration Test Suite', version:'TBD', status:'pending' },
+            { name:'Test Plan — CLS (Testing Template §0–§10)', version:'—', status:'pending' },
+            { name:'Test Plan — CS (Testing Template §0–§10)', version:'—', status:'pending' },
+            { name:'Test Plan — QS (Testing Template §0–§10)', version:'—', status:'pending' },
+            { name:'Test Plan — DAS (Testing Template §0–§10)', version:'—', status:'pending' },
+          ],
+          notes: '4 chips on the CSP home screen — each backed by a separate service: Connections (CLS) · Earnings (CS) · SLA (QS) · Exposure (DAS). All 4 build specs are approved. 4 separate test plans required before any codegen starts.'
+        },
+        p2: {
+          newProcess: [
+            { id:'A', name:'Test Plans Written (4 services)', owner:'Mukul', status:'pending', note:'4 test plans needed: CLS, CS, QS, DAS. Each follows Testing Template §0–§10. Adit reviews all 4 before any codegen starts on this module.' },
+            { id:'B', name:'Code Gen with CLAUDE.md (4 services)', owner:'Devender', status:'pending', note:'Agent run for CLS, CS, QS, DAS — each separately. CLAUDE.md + build spec + test plan loaded per service. Agent self-check (8 items) per service before commit.' },
+            { id:'C', name:'Adit Conformance Check (4 services)', owner:'Adit', status:'pending', note:'10-point spec-to-code check for each of CLS, CS, QS, DAS. All 4 must pass before QA starts.' },
+            { id:'D', name:'QA Run (4 services)', owner:'Mukul', status:'pending', note:'3 automated CI checks first per service. Full test plan §2–§8 for all 4. Each service\'s read endpoint verified: connection count, earnings summary, SLA state, exposure band.' },
+            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec. Spec is truth — not the test. Adit re-reviews specific fixes only.' },
+            { id:'F', name:'Exit Criteria Sign-Off (4 services)', owner:'Mukul → Adit → Satyam', status:'pending', note:'10-point checklist × 4 services. All 4 complete before Assurance Strip moves to P3.' },
+          ]
+        },
+        p3: { notes: '4 read endpoints tested via gateway: CLS connection summary · CS earnings summary · QS SLA state · DAS exposure band. Each chip value verified end-to-end. CSP isolation verified on all 4 — CSP A cannot see CSP B\'s strip data.' },
+        p4: { notes: 'TBD — Assurance strip wired to real gateway. All 4 chips render live data on the home screen. State transitions visible (e.g. AT_RISK vs COMPLIANT for SLA chip). Confirmed on real device.' },
+        p5: { notes: 'TBD — Frontend QA: all 4 chips display correctly for all states. Loading/empty states handled. Hindi copy on all chip labels and state labels. 280dp no truncation.' },
+        p6: { notes: 'Pre-production: staging personas seeded with representative data for all 4 chips. Observability dashboards for CLS, CS, QS, DAS read paths. Rollback plan written.' },
+      }
+    },
+    taskfeed: {
+      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
+      drilldown: {
+        p01: {
+          docs: [
+            { name:'TAS Build Spec (Task Aggregation Service)', version:'NOT WRITTEN — BLOCKER', status:'pending' },
+            { name:'CLS Build Spec', version:'v1.5', status:'approved' },
+            { name:'QS Build Spec', version:'v1.3', status:'approved' },
+            { name:'ES Build Spec', version:'v1.1', status:'approved' },
+            { name:'CIS Build Spec', version:'v1.2', status:'approved' },
+            { name:'ACS Build Spec', version:'v1.1', status:'approved' },
+            { name:'SRS Build Spec', version:'v1.6', status:'approved' },
+            { name:'CAES Build Spec', version:'v1.3', status:'approved' },
+            { name:'CCS Build Spec', version:'v1.4', status:'approved' },
+            { name:'Gateway Code', version:'—', status:'pending' },
+            { name:'API Contract', version:'TBD', status:'pending' },
+            { name:'Visual Spec', version:'TBD', status:'pending' },
+            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
+            { name:'Integration Test Suite', version:'TBD', status:'pending' },
+            { name:'Test Plan — TAS (Testing Template §0–§10)', version:'—', status:'pending' },
+          ],
+          notes: 'BLOCKER: TAS (Task Aggregation Service) architecture has not been designed. TAS composes task streams from 8 services (CLS, QS, ES, CIS, ACS, SRS, CAES, CCS) into a server-ordered priority feed (levels L0–L6). Without TAS spec approved, no P2 work can begin. All 8 feeder service specs are approved and ready.'
+        },
+        p2: {
+          newProcess: [
+            { id:'A', name:'Test Plans Written', owner:'Mukul', status:'pending', note:'BLOCKED: TAS spec must be approved first. Once ready, test plans needed for TAS + verify all 8 feeder services are covered (most will be done in earlier modules).' },
+            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'TAS first (aggregation + ordering layer). Feeder services (CLS, QS, ES, CIS, ACS, SRS, CAES, CCS) should already be built under earlier modules. Agent self-check (8 items) for TAS.' },
+            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point check for TAS. Feeder service checks done as part of their respective module P2s.' },
+            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'TAS QA: verify task ordering by priority (L0–L6), task types from all 8 sources visible, server ordering correct. Full test plan §2–§8 for TAS.' },
+            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec. Spec is truth — not the test.' },
+            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'TAS exit criteria complete. All task types verifiable in the feed.' },
+          ]
+        },
+        p3: { notes: 'TAS + all 8 feeder services tested via gateway. Task feed endpoint returns tasks in correct priority order. All task types from all 8 sources present. CSP isolation — CSP A sees only their own tasks.' },
+        p4: { notes: 'TBD — Task feed screen wired to real gateway. All task types render. Pull-to-refresh works. Empty state (no tasks) handled correctly.' },
+        p5: { notes: 'TBD — Frontend QA: all task type cards render correctly. Task ordering verified visually. Hindi copy on all task labels and action text. Offline state handled.' },
+        p6: { notes: 'Pre-production: staging personas seeded with representative task queues covering all task types. TAS ordering verified in staging. Rollback plan written.' },
+      }
+    },
+    drilldown: {
+      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
+      drilldown: {
+        p01: {
+          docs: [
+            { name:'TAS Build Spec (drilldown detail model)', version:'NOT WRITTEN — BLOCKER', status:'pending' },
+            { name:'Drilldown Visual Spec', version:'TBD — pending UX delivery', status:'pending' },
+            { name:'CLS Build Spec', version:'v1.5', status:'approved' },
+            { name:'QS Build Spec', version:'v1.3', status:'approved' },
+            { name:'ES Build Spec', version:'v1.1', status:'approved' },
+            { name:'CIS Build Spec', version:'v1.2', status:'approved' },
+            { name:'ACS Build Spec', version:'v1.1', status:'approved' },
+            { name:'SRS Build Spec', version:'v1.6', status:'approved' },
+            { name:'CAES Build Spec', version:'v1.3', status:'approved' },
+            { name:'CCS Build Spec', version:'v1.4', status:'approved' },
+            { name:'API Contract', version:'TBD', status:'pending' },
+            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
+            { name:'Integration Test Suite', version:'TBD', status:'pending' },
+            { name:'Test Plan — TAS drilldown (Testing Template §0–§10)', version:'—', status:'pending' },
+          ],
+          notes: '2 blockers: (1) TAS spec not written — drilldown detail model is part of TAS. (2) Drilldown visual spec pending UX agent delivery (Yash Gupta). Each task type has its own detail model and actions. Depends on Task Feed module completing P2 first.'
+        },
+        p2: {
+          newProcess: [
+            { id:'A', name:'Test Plans Written', owner:'Mukul', status:'pending', note:'BLOCKED: TAS spec + drilldown visual spec must exist first. Drilldown test plan covers per-task-type detail models, action buttons, and state transitions triggered from the drilldown.' },
+            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'TAS drilldown endpoints generated after Task Feed P2 is complete. Per-service detail reads verified for all task types.' },
+            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point check for TAS drilldown endpoints. Per-task-type detail endpoint conformance against TAS spec.' },
+            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'Verify correct detail model for every task type. Actions from drilldown (where applicable) work end-to-end.' },
+            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec.' },
+            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'All task types have verified drilldown detail and actions.' },
+          ]
+        },
+        p3: { notes: 'TAS drilldown endpoints tested via gateway. Per-task-type detail returned correctly for all task types. Actions (where applicable) verified end-to-end via gateway.' },
+        p4: { notes: 'TBD — Task drilldown screen wired to real gateway. Each task type shows correct detail. Action buttons wired and functional. Back navigation correct.' },
+        p5: { notes: 'TBD — Frontend QA: all task type drilldowns render. Hindi copy on all labels and action buttons. Loading states handled. Deep links into specific task drilldowns work.' },
+        p6: { notes: 'Pre-production: drilldown tested against staging task queue covering all task types. Per-service detail verified. Action flows tested. Rollback plan written.' },
+      }
+    },
+    navigation: {
+      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
+      drilldown: {
+        p01: {
+          docs: [
+            { name:'Navigation Flow Spec', version:'TBD', status:'pending' },
+            { name:'Visual Spec', version:'TBD', status:'pending' },
+            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
+          ],
+          notes: 'Navigation + Menu is a frontend-only module — no new backend services required. Covers: bottom navigation bar, module entry points, menu structure, back navigation, deep link handling, role-based screen suppression. Depends on all prior modules being P4-complete so navigation between them is functional.'
+        },
+        p2: {
+          notes: 'No backend services — P2 is not applicable for Navigation + Menu. This module is purely frontend. No build specs, no code gen, no QA run. Moves from P0+P1 directly to P4 (app integration).'
+        },
+        p3: { notes: 'Navigation gateway smoke test: each bottom nav item confirmed to route to the correct screen backed by live data from the appropriate service. Deep links verified. Role-based screen suppression verified at gateway level.' },
+        p4: { notes: 'TBD — All navigation wired to real screens with live gateway data. Bottom nav, back navigation, deep links all functional end-to-end on a real device.' },
+        p5: { notes: 'TBD — Frontend QA: navigation flows across all modules. Hindi labels in nav bar. Role suppression verified in UI. Back navigation from drilldown. No dead ends or broken routes. 280dp no nav item truncation.' },
+        p6: { notes: 'Pre-production: full navigation smoke test in staging. All entry points work. Deep links work. Role suppression correct for all CSP roles. Rollback plan written.' },
+      }
+    },
   }
 };
 
