@@ -9,32 +9,32 @@
 
 :root {
   --primary: #d92b90;
-  --primary-light: #f0d0e4;
-  --primary-bg: rgba(217,43,144,0.06);
-  --primary-border: rgba(217,43,144,0.18);
-  --bg: #f8f7f4;
+  --primary-light: #f5d6ec;
+  --primary-bg: rgba(217,43,144,0.07);
+  --primary-border: rgba(217,43,144,0.2);
+  --bg: #f5f4f1;
   --bg-white: #ffffff;
-  --bg-hover: #f3f1ed;
-  --bg-input: #f0eee9;
-  --border: #e5e2dc;
-  --border-strong: #d4d0c8;
+  --bg-hover: #f0eee9;
+  --bg-input: #eeece7;
+  --border: #e3e0d9;
+  --border-strong: #ccc9c0;
   --text: #1a1a1a;
-  --text-secondary: #6b6b6b;
-  --text-dim: #9a9a9a;
+  --text-secondary: #5a5a5a;
+  --text-dim: #999;
   --green: #16a34a;
   --green-bg: rgba(22,163,74,0.08);
-  --green-border: rgba(22,163,74,0.2);
-  --yellow: #ca8a04;
-  --yellow-bg: rgba(202,138,4,0.08);
-  --yellow-border: rgba(202,138,4,0.2);
+  --green-border: rgba(22,163,74,0.22);
+  --yellow: #b45309;
+  --yellow-bg: rgba(180,83,9,0.08);
+  --yellow-border: rgba(180,83,9,0.22);
   --red: #dc2626;
-  --red-bg: rgba(220,38,38,0.06);
-  --red-border: rgba(220,38,38,0.18);
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
-  --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
-  --radius: 10px;
-  --radius-sm: 6px;
+  --red-bg: rgba(220,38,38,0.07);
+  --red-border: rgba(220,38,38,0.2);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 2px 10px rgba(0,0,0,0.07);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -45,21 +45,21 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
   position:sticky; top:0; z-index:200;
   background:var(--bg-white);
   border-bottom:1px solid var(--border);
-  padding:0 24px;
-  height:52px;
+  padding:0 28px;
+  height:54px;
   display:flex; align-items:center; justify-content:space-between;
-  box-shadow:var(--shadow-sm);
+  box-shadow: 0 1px 0 var(--border);
 }
-.top-bar-left { display:flex; align-items:center; gap:12px; }
+.top-bar-left { display:flex; align-items:center; gap:14px; }
 .hamburger {
-  display:flex; flex-direction:column; gap:4px;
-  cursor:pointer; padding:6px; border-radius:6px;
+  display:flex; flex-direction:column; gap:4.5px;
+  cursor:pointer; padding:7px; border-radius:7px;
   transition:background 0.15s;
 }
-.hamburger:hover { background:var(--bg-hover); }
-.hamburger span { display:block; width:18px; height:2px; background:var(--text-secondary); border-radius:2px; transition:all 0.2s; }
+.hamburger:hover { background:var(--bg-input); }
+.hamburger span { display:block; width:18px; height:1.8px; background:var(--text-secondary); border-radius:2px; }
 .logo-mark {
-  width:30px; height:30px; border-radius:7px;
+  width:32px; height:32px; border-radius:8px;
   background:var(--primary);
   display:flex; align-items:center; justify-content:center;
   color:white; font-weight:700; font-size:12px;
@@ -70,25 +70,23 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 .top-bar-right { display:flex; align-items:center; gap:10px; }
 .sync-badge {
   display:flex; align-items:center; gap:5px;
-  padding:3px 9px; border-radius:20px;
+  padding:3px 10px; border-radius:20px;
   font-size:11px; font-weight:500;
   background:var(--green-bg); color:var(--green);
   border:1px solid var(--green-border);
 }
-.sync-dot { width:5px; height:5px; border-radius:50%; background:var(--green); }
+.sync-dot { width:5px; height:5px; border-radius:50%; background:currentColor; }
 .sync-badge.saving { background:var(--yellow-bg); color:var(--yellow); border-color:var(--yellow-border); }
-.sync-badge.saving .sync-dot { background:var(--yellow); }
 .sync-badge.offline { background:var(--red-bg); color:var(--red); border-color:var(--red-border); }
-.sync-badge.offline .sync-dot { background:var(--red); }
 
 /* ── SIDEBAR ── */
 .sidebar-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:300;
+  position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:300;
   opacity:0; pointer-events:none; transition:opacity 0.2s;
 }
 .sidebar-overlay.open { opacity:1; pointer-events:all; }
 .sidebar {
-  position:fixed; top:0; left:0; height:100vh; width:260px;
+  position:fixed; top:0; left:0; height:100vh; width:268px;
   background:var(--bg-white); border-right:1px solid var(--border);
   z-index:400; transform:translateX(-100%);
   transition:transform 0.25s cubic-bezier(0.4,0,0.2,1);
@@ -97,166 +95,239 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 }
 .sidebar.open { transform:translateX(0); }
 .sidebar-head {
-  padding:16px 20px; border-bottom:1px solid var(--border);
+  padding:14px 20px; border-bottom:1px solid var(--border);
   display:flex; align-items:center; justify-content:space-between;
 }
-.sidebar-head h3 { font-size:13px; font-weight:600; color:var(--text-secondary); letter-spacing:0.5px; text-transform:uppercase; }
-.sidebar-close { cursor:pointer; font-size:18px; color:var(--text-dim); width:28px; height:28px; display:flex; align-items:center; justify-content:center; border-radius:6px; }
-.sidebar-close:hover { background:var(--bg-hover); }
-.sidebar-nav { flex:1; padding:12px 0; overflow-y:auto; }
+.sidebar-head-title { font-size:11px; font-weight:700; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+.sidebar-close {
+  cursor:pointer; font-size:18px; color:var(--text-dim);
+  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
+  border-radius:6px; transition:background 0.15s;
+}
+.sidebar-close:hover { background:var(--bg-input); }
+.sidebar-nav { flex:1; padding:10px 0; overflow-y:auto; }
+.sidebar-section-label {
+  padding:10px 20px 6px;
+  font-size:10px; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; color:var(--text-dim);
+}
 .sidebar-item {
   display:flex; align-items:center; gap:10px;
-  padding:10px 20px; cursor:pointer;
-  font-size:14px; font-weight:500; color:var(--text-secondary);
+  padding:9px 20px; cursor:pointer;
+  font-size:13.5px; font-weight:500; color:var(--text-secondary);
   transition:all 0.15s; border-left:3px solid transparent;
 }
 .sidebar-item:hover { background:var(--bg-hover); color:var(--text); }
 .sidebar-item.active { background:var(--primary-bg); color:var(--primary); border-left-color:var(--primary); font-weight:600; }
-.sidebar-item-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+.sidebar-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .sidebar-divider { height:1px; background:var(--border); margin:8px 20px; }
 .sidebar-overview {
+  display:flex; align-items:center; gap:10px;
   padding:10px 20px; cursor:pointer;
-  font-size:13px; font-weight:600; color:var(--text-dim);
-  letter-spacing:0.5px; text-transform:uppercase;
-  transition:color 0.15s;
+  font-size:13.5px; font-weight:600; color:var(--text-secondary);
+  transition:all 0.15s; border-left:3px solid transparent;
 }
-.sidebar-overview:hover { color:var(--text); }
-.sidebar-overview.active { color:var(--primary); }
+.sidebar-overview:hover { background:var(--bg-hover); color:var(--text); }
+.sidebar-overview.active { background:var(--primary-bg); color:var(--primary); border-left-color:var(--primary); }
 
 /* ── MAIN ── */
-.main { padding:28px 28px; max-width:1400px; margin:0 auto; }
+.main { padding:28px 28px 60px; max-width:1360px; margin:0 auto; }
+
+/* ── PAGE HEADER ── */
+.page-header { margin-bottom:24px; }
+.page-header h1 { font-size:22px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
+.page-header p { font-size:13px; color:var(--text-secondary); }
 
 /* ── SUMMARY GRID ── */
+.section-label {
+  font-size:11px; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; color:var(--text-dim);
+  margin-bottom:12px;
+}
 .grid-wrap {
   background:var(--bg-white);
   border:1px solid var(--border);
   border-radius:var(--radius);
   overflow:hidden;
-  box-shadow:var(--shadow-sm);
-  margin-bottom:28px;
+  box-shadow:var(--shadow-md);
+  margin-bottom:32px;
 }
 .grid-table { width:100%; border-collapse:collapse; }
 .grid-table th, .grid-table td { padding:0; }
+.grid-table thead tr { border-bottom:2px solid var(--border); background:var(--bg); }
 
-/* Header row */
-.grid-table thead tr { border-bottom:2px solid var(--border); }
 .grid-th-module {
-  width:180px; min-width:160px;
-  padding:14px 20px;
-  font-size:11px; font-weight:600; letter-spacing:0.8px;
+  width:190px; min-width:160px;
+  padding:13px 20px;
+  font-size:10px; font-weight:700; letter-spacing:1px;
   text-transform:uppercase; color:var(--text-dim);
-  text-align:left; border-right:1px solid var(--border);
-  background:var(--bg);
+  text-align:left; border-right:2px solid var(--border);
 }
 .grid-th-phase {
-  padding:10px 8px; text-align:center;
+  padding:10px 6px; text-align:center;
   border-right:1px solid var(--border);
   cursor:pointer; transition:background 0.15s;
-  min-width:100px;
+  min-width:105px;
 }
 .grid-th-phase:hover { background:var(--primary-bg); }
 .grid-th-phase:last-child { border-right:none; }
 .phase-tag {
   font-family:'JetBrains Mono',monospace;
-  font-size:11px; font-weight:600;
+  font-size:11px; font-weight:700;
   color:var(--primary);
-  display:block; margin-bottom:3px;
+  display:block; margin-bottom:2px;
 }
-.phase-label { font-size:11px; font-weight:500; color:var(--text-secondary); }
+.phase-label { font-size:10.5px; font-weight:500; color:var(--text-dim); }
 
 /* Module rows */
-.grid-table tbody tr { border-bottom:1px solid var(--border); transition:background 0.15s; }
+.grid-table tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; }
 .grid-table tbody tr:last-child { border-bottom:none; }
-.grid-table tbody tr:hover { background:rgba(0,0,0,0.01); }
 .grid-td-module {
-  padding:16px 20px;
-  border-right:1px solid var(--border);
+  padding:14px 20px;
+  border-right:2px solid var(--border);
   vertical-align:middle;
+  background:var(--bg);
 }
+.module-cell-inner {
+  display:flex; align-items:center; gap:0;
+  cursor:pointer; transition:all 0.15s;
+  text-decoration:none;
+}
+.module-cell-inner:hover .module-name { color:var(--primary); }
+.module-cell-inner:hover .module-arrow { opacity:1; transform:translateX(1px); }
 .module-name {
-  font-size:14px; font-weight:600; color:var(--text);
-  cursor:pointer; transition:color 0.15s;
-  display:flex; align-items:center; gap:6px;
+  font-size:13.5px; font-weight:600; color:var(--text);
+  transition:color 0.15s;
 }
-.module-name:hover { color:var(--primary); }
-.module-name svg { opacity:0; transition:opacity 0.15s; }
-.module-name:hover svg { opacity:1; }
+.module-arrow {
+  margin-left:6px; opacity:0.35; transition:all 0.15s;
+  color:var(--primary); font-size:14px; line-height:1;
+}
+.module-hint {
+  font-size:10px; color:var(--text-dim); margin-top:2px;
+  font-weight:400;
+}
 .grid-td-phase {
-  padding:12px 8px; text-align:center;
+  padding:10px 6px; text-align:center;
   border-right:1px solid var(--border); vertical-align:middle;
 }
 .grid-td-phase:last-child { border-right:none; }
 
-/* Status chips */
+/* Clickable chips */
 .chip {
   display:inline-flex; align-items:center; gap:5px;
-  padding:4px 10px; border-radius:20px;
-  font-size:11px; font-weight:600; letter-spacing:0.3px;
-  white-space:nowrap;
+  padding:6px 12px; border-radius:20px;
+  font-size:11px; font-weight:600; letter-spacing:0.2px;
+  white-space:nowrap; cursor:pointer;
+  transition:all 0.15s; user-select:none;
+  border:1.5px solid transparent;
 }
-.chip.done { background:var(--green-bg); color:var(--green); border:1px solid var(--green-border); }
-.chip.in-progress { background:var(--yellow-bg); color:var(--yellow); border:1px solid var(--yellow-border); }
-.chip.blocked { background:var(--red-bg); color:var(--red); border:1px solid var(--red-border); }
-.chip.not-started { background:var(--bg-input); color:var(--text-dim); border:1px solid var(--border); }
-.chip-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
-.chip.done .chip-dot { background:var(--green); }
-.chip.in-progress .chip-dot { background:var(--yellow); }
-.chip.blocked .chip-dot { background:var(--red); }
-.chip.not-started .chip-dot { background:var(--text-dim); }
+.chip:hover { filter:brightness(0.96); transform:scale(0.98); }
+.chip:active { transform:scale(0.95); }
+.chip.done { background:var(--green-bg); color:var(--green); border-color:var(--green-border); }
+.chip.in-progress { background:var(--yellow-bg); color:var(--yellow); border-color:var(--yellow-border); }
+.chip.blocked { background:var(--red-bg); color:var(--red); border-color:var(--red-border); }
+.chip.not-started { background:var(--bg-input); color:var(--text-dim); border-color:var(--border); }
+.chip-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
 
 /* ── PHASE LEGEND ── */
-.legend-title {
-  font-size:11px; font-weight:600; letter-spacing:0.8px;
-  text-transform:uppercase; color:var(--text-dim);
-  margin-bottom:14px;
-}
-.legend-grid {
+.legend-section { margin-bottom:36px; }
+.legend-pipeline {
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:12px;
-  margin-bottom:32px;
-}
-.legend-card {
+  grid-template-columns:repeat(7,1fr);
+  gap:0;
   background:var(--bg-white);
   border:1px solid var(--border);
   border-radius:var(--radius);
-  padding:14px 16px;
+  overflow:hidden;
   box-shadow:var(--shadow-sm);
 }
-.legend-card-head { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
-.legend-phase-tag {
+.legend-step {
+  padding:16px 14px;
+  border-right:1px solid var(--border);
+  cursor:pointer; transition:background 0.15s;
+  position:relative;
+}
+.legend-step:last-child { border-right:none; }
+.legend-step:hover { background:var(--primary-bg); }
+.legend-step-num {
   font-family:'JetBrains Mono',monospace;
-  font-size:11px; font-weight:700;
-  color:var(--primary);
-  background:var(--primary-bg);
+  font-size:10px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
   border:1px solid var(--primary-border);
-  padding:2px 8px; border-radius:5px;
-  white-space:nowrap;
-}
-.legend-phase-name { font-size:13px; font-weight:600; color:var(--text); }
-.legend-phase-desc { font-size:12px; color:var(--text-secondary); line-height:1.5; }
-.legend-docs { margin-top:8px; display:flex; flex-wrap:wrap; gap:4px; }
-.legend-doc-tag {
-  font-size:10px; font-weight:500;
-  background:var(--bg-input); color:var(--text-secondary);
-  border:1px solid var(--border);
   padding:2px 7px; border-radius:4px;
+  display:inline-block; margin-bottom:8px;
 }
+.legend-step-name {
+  font-size:12px; font-weight:700; color:var(--text);
+  margin-bottom:5px; line-height:1.3;
+}
+.legend-step-desc {
+  font-size:11px; color:var(--text-secondary);
+  line-height:1.5;
+}
+.legend-step-hint {
+  margin-top:10px;
+  font-size:10px; color:var(--primary);
+  font-weight:500;
+}
+
+/* ── PHASE MODAL ── */
+.phase-modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:500;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity 0.2s;
+}
+.phase-modal-overlay.open { opacity:1; pointer-events:all; }
+.phase-modal {
+  background:var(--bg-white); border-radius:var(--radius);
+  padding:28px; max-width:520px; width:92%;
+  box-shadow:var(--shadow-lg);
+  transform:scale(0.97); transition:transform 0.2s;
+}
+.phase-modal-overlay.open .phase-modal { transform:scale(1); }
+.phase-modal-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+.phase-modal-tag {
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
+  border:1px solid var(--primary-border);
+  padding:4px 12px; border-radius:7px;
+}
+.phase-modal-name { font-size:18px; font-weight:700; }
+.phase-modal-desc { font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:18px; }
+.phase-modal-artifacts h4 { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
+.artifact-list { display:flex; flex-wrap:wrap; gap:6px; }
+.artifact-tag {
+  font-size:12px; font-weight:500;
+  background:var(--bg-input); color:var(--text-secondary);
+  border:1px solid var(--border); padding:4px 10px; border-radius:6px;
+}
+.phase-modal-close {
+  margin-top:20px; width:100%;
+  padding:10px; border-radius:8px;
+  background:var(--bg-input); border:1px solid var(--border);
+  font-size:13px; font-weight:500; color:var(--text-secondary);
+  cursor:pointer; transition:all 0.15s;
+}
+.phase-modal-close:hover { background:var(--bg-hover); color:var(--text); }
 
 /* ── DRILLDOWN VIEW ── */
 .drilldown-header {
   display:flex; align-items:center; gap:14px; margin-bottom:24px;
+  flex-wrap:wrap;
 }
 .back-btn {
   display:flex; align-items:center; gap:6px;
-  padding:7px 12px; border-radius:7px;
+  padding:7px 13px; border-radius:8px;
   background:var(--bg-white); border:1px solid var(--border);
   font-size:13px; font-weight:500; color:var(--text-secondary);
   cursor:pointer; transition:all 0.15s;
 }
 .back-btn:hover { border-color:var(--border-strong); color:var(--text); }
-.drilldown-module-name { font-size:22px; font-weight:700; letter-spacing:-0.5px; }
-.drilldown-phases { display:flex; flex-direction:column; gap:16px; }
+.drilldown-module-name { font-size:22px; font-weight:700; letter-spacing:-0.4px; }
+.drilldown-phases { display:flex; flex-direction:column; gap:14px; max-width:900px; }
+
 .drilldown-phase {
   background:var(--bg-white);
   border:1px solid var(--border);
@@ -269,60 +340,65 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
   padding:14px 20px;
   border-bottom:1px solid var(--border);
   background:var(--bg);
-  cursor:pointer;
 }
 .drilldown-phase-head-left { display:flex; align-items:center; gap:12px; }
 .drilldown-phase-tag {
   font-family:'JetBrains Mono',monospace;
-  font-size:12px; font-weight:700;
-  color:var(--primary);
-  background:var(--primary-bg);
+  font-size:11px; font-weight:700;
+  color:var(--primary); background:var(--primary-bg);
   border:1px solid var(--primary-border);
   padding:3px 9px; border-radius:6px;
 }
 .drilldown-phase-name { font-size:14px; font-weight:600; color:var(--text); }
-.drilldown-phase-body { padding:20px; }
+.drilldown-phase-body { padding:20px 24px; }
 
 /* Docs checklist */
-.docs-list { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
+.docs-list { display:flex; flex-direction:column; gap:6px; }
 .doc-item {
   display:flex; align-items:center; gap:10px;
-  padding:9px 12px;
-  background:var(--bg);
+  padding:9px 14px;
   border:1px solid var(--border);
   border-radius:var(--radius-sm);
   font-size:13px;
+  background:var(--bg);
 }
 .doc-item.done { border-color:var(--green-border); background:var(--green-bg); }
 .doc-item.pending { border-color:var(--yellow-border); background:var(--yellow-bg); }
-.doc-icon { font-size:14px; flex-shrink:0; }
-.doc-name { font-weight:500; color:var(--text); flex:1; }
-.doc-version { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--text-dim); }
+.doc-icon { font-size:13px; flex-shrink:0; }
+.doc-name { font-weight:500; color:var(--text); flex:1; min-width:0; }
+.doc-version { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--text-dim); margin-right:6px; white-space:nowrap; }
 .doc-status-tag {
-  font-size:10px; font-weight:600; letter-spacing:0.3px;
-  padding:2px 7px; border-radius:4px;
+  font-size:10px; font-weight:700; letter-spacing:0.3px;
+  padding:2px 8px; border-radius:4px; white-space:nowrap;
 }
 .doc-status-tag.locked { background:var(--green-bg); color:var(--green); }
 .doc-status-tag.approved { background:var(--green-bg); color:var(--green); }
+.doc-status-tag.done { background:var(--green-bg); color:var(--green); }
 .doc-status-tag.pending { background:var(--yellow-bg); color:var(--yellow); }
 
 /* Test results */
 .test-summary-bar {
-  display:flex; align-items:center; gap:16px;
-  padding:12px 16px;
+  display:flex; align-items:center; gap:20px;
+  padding:14px 18px;
   background:var(--green-bg);
   border:1px solid var(--green-border);
   border-radius:var(--radius-sm);
   margin-bottom:16px;
 }
 .test-summary-bar.partial { background:var(--yellow-bg); border-color:var(--yellow-border); }
-.test-count { font-family:'JetBrains Mono',monospace; font-size:20px; font-weight:700; color:var(--green); }
+.test-count { font-family:'JetBrains Mono',monospace; font-size:26px; font-weight:700; color:var(--green); line-height:1; }
 .test-count.partial { color:var(--yellow); }
-.test-label { font-size:12px; color:var(--text-secondary); }
-.test-label strong { color:var(--text); }
+.test-label-group { display:flex; flex-direction:column; gap:2px; }
+.test-label-main { font-size:13px; font-weight:600; color:var(--text); }
+.test-label-sub { font-size:11.5px; color:var(--text-secondary); }
 
 /* Issues */
-.issues-title { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; margin-top:16px; }
+.issues-section { margin-top:16px; }
+.issues-section-title {
+  font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--text-dim); margin-bottom:10px;
+  padding-bottom:8px; border-bottom:1px solid var(--border);
+}
 .issue-card {
   border:1px solid var(--border);
   border-radius:var(--radius-sm);
@@ -331,7 +407,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 }
 .issue-head {
   display:flex; align-items:center; gap:10px;
-  padding:9px 14px;
+  padding:10px 14px;
   background:var(--bg);
   border-bottom:1px solid var(--border);
 }
@@ -339,25 +415,48 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
   font-family:'JetBrains Mono',monospace;
   font-size:11px; font-weight:700;
   color:var(--primary); background:var(--primary-bg);
-  padding:2px 7px; border-radius:4px;
+  padding:2px 8px; border-radius:4px;
+  white-space:nowrap;
 }
-.issue-what { font-size:13px; font-weight:500; color:var(--text); flex:1; }
+.issue-what { font-size:13px; font-weight:600; color:var(--text); flex:1; }
 .issue-badge {
-  font-size:10px; font-weight:600; padding:2px 7px; border-radius:4px;
+  font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px; white-space:nowrap;
 }
 .issue-badge.fixed { background:var(--green-bg); color:var(--green); }
 .issue-badge.deferred { background:var(--yellow-bg); color:var(--yellow); }
-.issue-body { padding:10px 14px; display:flex; flex-direction:column; gap:6px; }
-.issue-row { display:flex; gap:8px; font-size:12px; }
-.issue-row-label { font-weight:600; color:var(--text-secondary); min-width:90px; flex-shrink:0; }
-.issue-row-val { color:var(--text); line-height:1.5; }
+.issue-badge.failed { background:var(--red-bg); color:var(--red); }
+
+.issue-body { padding:12px 14px; display:flex; flex-direction:column; gap:0; }
+.issue-row {
+  display:grid; grid-template-columns:110px 1fr;
+  gap:10px; font-size:12.5px;
+  padding:8px 0; border-bottom:1px solid var(--bg-input);
+}
+.issue-row:last-child { border-bottom:none; }
+.issue-row-label { font-weight:700; color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; padding-top:1px; }
+.issue-row-val { color:var(--text); line-height:1.55; }
+.issue-row-val .tag {
+  display:inline-block; font-size:10px; font-weight:600;
+  background:var(--yellow-bg); color:var(--yellow);
+  border:1px solid var(--yellow-border);
+  padding:1px 6px; border-radius:4px; margin-right:6px; vertical-align:middle;
+}
+.issue-row-val .process-note {
+  display:block; margin-top:6px;
+  font-size:11.5px; color:var(--text-secondary);
+  background:var(--bg-input); border-left:2px solid var(--border-strong);
+  padding:6px 10px; border-radius:0 4px 4px 0;
+  line-height:1.5;
+}
+.issue-row-val .process-note strong { color:var(--text); }
 
 /* Notes box */
 .notes-box {
-  margin-top:16px; padding:12px 14px;
+  margin-top:16px; padding:12px 16px;
   background:var(--bg-input); border:1px solid var(--border);
+  border-left:3px solid var(--border-strong);
   border-radius:var(--radius-sm);
-  font-size:12px; color:var(--text-secondary);
+  font-size:12.5px; color:var(--text-secondary);
   line-height:1.6;
 }
 .notes-box.empty { color:var(--text-dim); font-style:italic; }
@@ -365,8 +464,8 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 /* Rollout stages */
 .stage-list { display:flex; flex-direction:column; gap:8px; }
 .stage-item {
-  display:flex; align-items:center; gap:12px;
-  padding:10px 14px;
+  display:flex; align-items:flex-start; gap:14px;
+  padding:12px 16px;
   background:var(--bg);
   border:1px solid var(--border);
   border-radius:var(--radius-sm);
@@ -375,62 +474,20 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
   font-family:'JetBrains Mono',monospace;
   font-size:12px; font-weight:700;
   color:var(--primary); background:var(--primary-bg);
-  width:26px; height:26px; border-radius:6px;
+  width:28px; height:28px; border-radius:7px;
   display:flex; align-items:center; justify-content:center;
-  flex-shrink:0;
+  flex-shrink:0; margin-top:1px;
 }
-.stage-info { flex:1; }
-.stage-name { font-size:13px; font-weight:600; color:var(--text); }
-.stage-desc { font-size:11px; color:var(--text-secondary); margin-top:2px; }
+.stage-name { font-size:13.5px; font-weight:600; color:var(--text); margin-bottom:3px; }
+.stage-desc { font-size:12px; color:var(--text-secondary); }
 
-/* Phase modal */
-.phase-modal-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:500;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; pointer-events:none; transition:opacity 0.2s;
-}
-.phase-modal-overlay.open { opacity:1; pointer-events:all; }
-.phase-modal {
-  background:var(--bg-white); border-radius:var(--radius);
-  padding:28px; max-width:540px; width:90%;
-  box-shadow:var(--shadow-lg);
-  transform:scale(0.96); transition:transform 0.2s;
-}
-.phase-modal-overlay.open .phase-modal { transform:scale(1); }
-.phase-modal-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-.phase-modal-tag {
-  font-family:'JetBrains Mono',monospace;
-  font-size:14px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  border:1px solid var(--primary-border);
-  padding:4px 12px; border-radius:7px;
-}
-.phase-modal-name { font-size:18px; font-weight:700; }
-.phase-modal-desc { font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:16px; }
-.phase-modal-artifacts { }
-.phase-modal-artifacts h4 { font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
-.artifact-list { display:flex; flex-wrap:wrap; gap:6px; }
-.artifact-tag {
-  font-size:12px; font-weight:500;
-  background:var(--bg-input); color:var(--text-secondary);
-  border:1px solid var(--border); padding:4px 10px; border-radius:6px;
-}
-.phase-modal-close {
-  margin-top:20px; width:100%;
-  padding:9px; border-radius:7px;
-  background:var(--bg-input); border:1px solid var(--border);
-  font-size:13px; font-weight:500; color:var(--text-secondary);
-  cursor:pointer; transition:all 0.15s;
-}
-.phase-modal-close:hover { background:var(--bg-hover); }
+/* Empty phase */
+.empty-phase { padding:20px; text-align:center; color:var(--text-dim); font-size:13px; }
 
-/* ── VIEWS ── */
+/* Views */
 .view { display:none; }
 .view.active { display:block; animation:fadeUp 0.2s ease; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
-
-/* ── EMPTY PHASE ── */
-.empty-phase { padding:20px; text-align:center; color:var(--text-dim); font-size:13px; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
 </style>
 </head>
 <body>
@@ -456,35 +513,32 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <div class="sidebar" id="sidebar">
   <div class="sidebar-head">
-    <h3>Modules</h3>
+    <span class="sidebar-head-title">Navigate</span>
     <div class="sidebar-close" onclick="closeSidebar()">×</div>
   </div>
   <div class="sidebar-nav">
-    <div class="sidebar-overview active" id="sidebar-overview" onclick="showOverview()">Overview</div>
+    <div class="sidebar-overview active" id="sidebar-overview" onclick="showOverview();closeSidebar()">
+      <span style="font-size:13px;margin-right:4px">⊞</span> Overview
+    </div>
     <div class="sidebar-divider"></div>
-    <div class="sidebar-item" id="sidebar-wallet" onclick="showModule('wallet')">
-      <div class="sidebar-item-dot" style="background:var(--green)"></div>
-      Wallet
+    <div class="sidebar-section-label">Modules</div>
+    <div class="sidebar-item" id="sidebar-wallet" onclick="showModule('wallet');closeSidebar()">
+      <div class="sidebar-dot" style="background:var(--green)"></div>Wallet
     </div>
-    <div class="sidebar-item" id="sidebar-netbox" onclick="showModule('netbox')">
-      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
-      NetBox
+    <div class="sidebar-item" id="sidebar-netbox" onclick="showModule('netbox');closeSidebar()">
+      <div class="sidebar-dot" style="background:var(--text-dim)"></div>NetBox
     </div>
-    <div class="sidebar-item" id="sidebar-assurance" onclick="showModule('assurance')">
-      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
-      Assurance Strip
+    <div class="sidebar-item" id="sidebar-assurance" onclick="showModule('assurance');closeSidebar()">
+      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Assurance Strip
     </div>
-    <div class="sidebar-item" id="sidebar-taskfeed" onclick="showModule('taskfeed')">
-      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
-      Task Feed
+    <div class="sidebar-item" id="sidebar-taskfeed" onclick="showModule('taskfeed');closeSidebar()">
+      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Task Feed
     </div>
-    <div class="sidebar-item" id="sidebar-drilldown" onclick="showModule('drilldown')">
-      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
-      Task Drilldown
+    <div class="sidebar-item" id="sidebar-drilldown" onclick="showModule('drilldown');closeSidebar()">
+      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Task Drilldown
     </div>
-    <div class="sidebar-item" id="sidebar-navigation" onclick="showModule('navigation')">
-      <div class="sidebar-item-dot" style="background:var(--text-dim)"></div>
-      Navigation + Menu
+    <div class="sidebar-item" id="sidebar-navigation" onclick="showModule('navigation');closeSidebar()">
+      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Navigation + Menu
     </div>
   </div>
 </div>
@@ -492,10 +546,16 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 <!-- MAIN -->
 <div class="main">
 
-  <!-- OVERVIEW VIEW -->
+  <!-- OVERVIEW -->
   <div class="view active" id="view-overview">
 
+    <div class="page-header">
+      <h1>Go-Live Tracker</h1>
+      <p>6 modules · 7 phases · Click any status chip to update · Click a module name for details</p>
+    </div>
+
     <!-- Summary Grid -->
+    <div class="section-label">Module Status</div>
     <div class="grid-wrap">
       <table class="grid-table">
         <thead>
@@ -536,16 +596,18 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
     </div>
 
     <!-- Phase Legend -->
-    <div class="legend-title">Phase Definitions</div>
-    <div class="legend-grid" id="legendGrid"></div>
+    <div class="legend-section">
+      <div class="section-label">What each phase means — click any for details</div>
+      <div class="legend-pipeline" id="legendGrid"></div>
+    </div>
 
   </div>
 
-  <!-- MODULE DRILLDOWN VIEW -->
+  <!-- MODULE DRILLDOWN -->
   <div class="view" id="view-module">
     <div class="drilldown-header">
       <div class="back-btn" onclick="showOverview()">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8.5 2L3.5 6.5L8.5 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Overview
       </div>
       <div class="drilldown-module-name" id="drilldownTitle">—</div>
@@ -577,7 +639,6 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
 // ── FIREBASE ──
 const FB_URL = 'https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
 let db = null, dbRef = null, firebaseReady = false, saveTimer = null, isSaving = false;
-
 try {
   firebase.initializeApp({ databaseURL: FB_URL });
   db = firebase.database();
@@ -595,46 +656,39 @@ function setSyncStatus(s) {
 // ── PHASE DEFINITIONS ──
 const PHASES = {
   p01: {
-    tag: 'P0+P1',
-    name: 'Freeze & Artifacts',
-    desc: 'Module objective written. Module order confirmed. All input documents produced and frozen before any build starts.',
+    tag: 'P0+P1', name: 'Freeze & Artifacts',
+    desc: 'Module objective written and locked. All input documents produced, reviewed, and frozen before any build starts. No build may begin until all artifacts are signed off.',
     artifacts: ['OS (locked)', 'Build Spec (approved)', 'Build Spec ↔ OS Review', 'Code Gen — Service', 'Code Gen ↔ Build Spec Review', 'Gateway Code', 'Gateway ↔ API Contract Review', 'API Contract (locked)', 'Visual Spec (locked)', 'Hindi Copy Keys', 'Integration Test Suite']
   },
   p2: {
-    tag: 'P2',
-    name: 'Backend',
-    desc: 'All backend tests pass against the service directly. No app, no gateway involved.',
-    artifacts: ['Unit tests pass', 'DB migration clean (fresh + dirty)', 'Event chain tests pass', 'Idempotency tests pass', 'Invariants verified']
+    tag: 'P2', name: 'Backend',
+    desc: 'All integration tests pass against the service directly (no app, no gateway). DB migrations clean on fresh and dirty state. Event chains verified. Idempotency verified.',
+    artifacts: ['Integration tests pass (direct)', 'DB migration clean', 'Event chain tests pass', 'Idempotency tests pass', 'Invariants verified']
   },
   p3: {
-    tag: 'P3',
-    name: 'Gateway',
-    desc: 'All integration tests pass against the gateway. Gateway endpoints return correct shapes, role suppression works, error mapping correct.',
-    artifacts: ['All integration tests pass', 'Role suppression verified', 'Error mapping correct', 'CSP isolation verified', 'Idempotency passthrough verified']
+    tag: 'P3', name: 'Gateway',
+    desc: 'Same integration test suite run against the gateway. Gateway endpoints return correct shapes, role suppression works, error mapping correct, CSP isolation holds. P2+P3 proven in the same run.',
+    artifacts: ['All integration tests pass (gateway)', 'Role suppression verified', 'Error mapping correct', 'CSP isolation verified', 'Idempotency passthrough verified']
   },
   p4: {
-    tag: 'P4',
-    name: 'App Integration',
-    desc: 'Real gateway calls replace mock data in the app. All screens render correctly on real data.',
+    tag: 'P4', name: 'App Integration',
+    desc: 'Real gateway calls replace mock data in the app. All screens render correctly against live QA data. 5 smoke scenarios verified end-to-end on a real device.',
     artifacts: ['Mock data replaced with gateway calls', 'All screens render on real data', '5 smoke tests on device pass']
   },
   p5: {
-    tag: 'P5',
-    name: 'Frontend QA',
-    desc: 'Full stack tested through the app on a real device. All scenarios pass — Hindi copy, role suppression, offline queue, edge cases.',
-    artifacts: ['All QA scenarios pass on device', 'Hindi copy — no English fallbacks', 'Role suppression in UI verified', 'Offline queue replay works', 'Missing data renders as —', '280dp width — no truncation']
+    tag: 'P5', name: 'Frontend QA',
+    desc: 'Full-stack tested through the app on a real device. All QA scenarios pass — Hindi copy, role suppression, offline, edge states, T-19 (unknown entry_type render).',
+    artifacts: ['All scenarios pass on device', 'Hindi copy — zero English fallbacks', 'Role suppression in UI verified', 'Offline queue replay works', 'Missing data renders as —', '280dp width — no truncation', 'T-19 unknown entry_type graceful render']
   },
   p6: {
-    tag: 'P6',
-    name: 'Pre-Production',
-    desc: 'Environment ready for real traffic. Staging personas seeded, dashboards live, rollback plan written, war game completed.',
-    artifacts: ['Staging personas seeded', 'Observability dashboards live', 'Rollback plan written', 'War game completed (all scenarios)']
+    tag: 'P6', name: 'Pre-Production',
+    desc: 'Environment ready for real traffic. Staging personas seeded, observability dashboards live, rollback plan written, war game completed across all failure scenarios.',
+    artifacts: ['Staging personas seeded', 'Observability dashboards live', 'Rollback plan written', 'War game completed']
   },
   p7: {
-    tag: 'P7',
-    name: 'Go Live',
-    desc: 'Staged rollout: Internal → controlled CSP cohort → broader rollout. Gate metrics must be clean before moving between stages.',
-    artifacts: ['Stage 1: Internal/staff', 'Stage 2: Controlled CSP cohort', 'Stage 3: Broader rollout']
+    tag: 'P7', name: 'Go Live',
+    desc: 'Staged rollout: internal staff first, then controlled CSP cohort, then broader rollout. Gate metrics must be clean before advancing between stages.',
+    artifacts: ['Stage 1: Internal/staff', 'Stage 2: Controlled CSP cohort (20-50)', 'Stage 3: Broader rollout']
   }
 };
 
@@ -647,8 +701,8 @@ const MODULES = [
   { id: 'drilldown',  name: 'Task Drilldown' },
   { id: 'navigation', name: 'Navigation + Menu' },
 ];
-
 const PHASE_KEYS = ['p01','p2','p3','p4','p5','p6','p7'];
+const CHIP_CYCLE = ['not-started','in-progress','done'];
 
 // ── DEFAULT STATE ──
 const DEFAULT_STATE = {
@@ -666,35 +720,54 @@ const DEFAULT_STATE = {
             { name:'Gateway ↔ API Contract Review', version:'—', status:'done' },
             { name:'Gateway API Contract', version:'v1.2', status:'locked' },
             { name:'Wallet Visual Spec', version:'v1.3', status:'locked' },
-            { name:'Hindi Copy Keys', version:'v1.2 (73 keys)', status:'done' },
-            { name:'Integration Test Suite', version:'v1.0 (55 tests)', status:'done' },
+            { name:'Hindi Copy Keys', version:'v1.2 · 73 keys', status:'done' },
+            { name:'Integration Test Suite', version:'v1.0 · 55 tests', status:'done' },
           ],
-          notes: 'PS v1.4 includes addendum (bank accounts, cross-ledger transfer). PS spec needs v1.5 bump for cross-ledger idempotency fix found during P2 testing.'
+          notes: 'PS v1.4 includes addendum covering bank accounts and cross-ledger transfer. PS spec needs v1.5 bump to formally document the cross-ledger idempotency fix found during P2 testing.'
         },
         p2: {
           total: 55, passed: 54,
           issues: [
-            { test:'T-14', what:'Earnings missing withdrawal data', severity:'bug', rootCause:'getEarnings() queried only settlement_records. withdrawal_executions not included.', fix:'Added withdrawals array to getEarnings(). Deployed.', status:'fixed' },
-            { test:'T-40', what:'Deposit idempotency missing', severity:'spec-gap', rootCause:'CROSS_LEDGER_TRANSFER had no idempotency_token in PS spec (§2C, §3.3) or code. Every repeat call created a new deposit entry.', fix:'Added V12 migration (idempotency_token column + unique index). Dedup logic added to CrossLedgerTransferController. PS spec to be bumped v1.4 → v1.5 with §2C + §3.3 + §4.6 + migration updates.', status:'fixed' },
-            { test:'T-19', what:'Unknown entry_type graceful handling', severity:'deferred', rootCause:'Cannot inject unknown entry_type without bypassing INV-PAY-05 (no manual ledger entries). Deferred.', fix:'Deferred to P5 — app-side test. Backend response behaviour is correct.', status:'deferred' },
+            {
+              test: 'T-14',
+              what: 'Earnings ledger missing withdrawal entries',
+              status: 'fixed',
+              rca: 'Pending',
+              whatWasDone: 'getEarnings() was updated to also query withdrawal_executions and merge them into the earnings response. Fix deployed to QA.',
+              processFinding: 'This was a code completeness gap — the earnings read model did not cover all entry types. The build spec described the earnings ledger but did not explicitly enumerate all sources. No spec amendment required.'
+            },
+            {
+              test: 'T-40',
+              what: 'Deposit idempotency not working — duplicate entries on repeat calls',
+              status: 'fixed',
+              rca: 'Pending',
+              whatWasDone: 'V12 Flyway migration added idempotency_token column + unique partial index to deposit_ledger. Dedup logic added to CrossLedgerTransferController. Fix deployed to QA.',
+              processFinding: 'Build spec gap: CROSS_LEDGER_TRANSFER (§2C) had no idempotency_token in the input schema, and the deposit_ledger table (§3.3) had no corresponding column. By process, idempotency for every write operation should be specified in the build spec before codegen. PS spec to be bumped v1.4 → v1.5 with §2C + §3.3 + §4.6 + migration entry.'
+            },
+            {
+              test: 'T-19',
+              what: 'Unknown entry_type graceful handling — not tested',
+              status: 'deferred',
+              rca: 'Pending',
+              whatWasDone: 'Test deferred. Cannot inject an unknown entry_type into the ledger without bypassing invariant INV-PAY-05 (no manual ledger entries allowed). Backend response behavior is correct — unknown types pass through without a 500.',
+              processFinding: 'Deferred to P5 (Frontend QA). The test needs to be run through the app to verify that unknown entry types render gracefully without crashing the UI.'
+            },
           ],
-          notes: 'Tests run on 2026-03-25 over 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays for T-24/T-14/T-40 — must be removed before production deploy.'
+          notes: 'Tests run 2026-03-25 across 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays in QA for T-24/T-14/T-40 — must be removed before production.'
         },
         p3: {
           total: 55, passed: 54,
           issues: [],
-          notes: 'P2 and P3 proven in the same test run — all 55 integration tests run against the gateway directly. Gateway built by Devender. Base URL: https://csp-gateway-qa.i2e1agents.in'
+          notes: 'P2 and P3 proven in the same test run — all 55 integration tests run against the gateway directly. Gateway base URL: https://csp-gateway-qa.i2e1agents.in'
         },
-        p4: { notes: 'In progress. App screens already built with mock data (system-led-design repo). Next: replace mocks with real gateway calls.' },
-        p5: { notes: '' },
-        p6: { notes: '' },
-        p7: { notes: '' },
+        p4: { notes: 'In progress. App screens already built with mock data (system-led-design repo). Next step: replace mock data with real gateway calls against https://csp-gateway-qa.i2e1agents.in' },
+        p5: { notes: '' }, p6: { notes: '' }, p7: { notes: '' }
       }
     },
-    netbox: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    assurance: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    taskfeed: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
-    drilldown: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    netbox:     { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    assurance:  { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    taskfeed:   { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
+    drilldown:  { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
     navigation: { phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' }, drilldown: {} },
   }
 };
@@ -706,56 +779,70 @@ function save() {
   if (!firebaseReady) return;
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
-    isSaving = true;
-    setSyncStatus('saving');
+    isSaving = true; setSyncStatus('saving');
     dbRef.set(S)
       .then(() => { isSaving = false; setSyncStatus('synced'); })
       .catch(() => { isSaving = false; setSyncStatus('offline'); });
-  }, 600);
-}
-
-async function loadFromCloud() {
-  if (!firebaseReady) return;
-  try {
-    const snap = await dbRef.once('value');
-    const data = snap.val();
-    if (data && data.modules) { S = data; setSyncStatus('synced'); }
-    else { save(); }
-  } catch(e) { setSyncStatus('offline'); }
+  }, 500);
 }
 
 if (firebaseReady) {
+  dbRef.once('value').then(snap => {
+    const data = snap.val();
+    if (data && data.modules) { S = data; setSyncStatus('synced'); }
+    else { save(); }
+    renderAll();
+  }).catch(() => { setSyncStatus('offline'); renderAll(); });
+
   dbRef.on('value', snap => {
     if (isSaving) return;
     const data = snap.val();
     if (data && data.modules) { S = data; renderAll(); }
   });
+} else {
+  renderAll();
 }
 
-// ── RENDER ──
-function chipHTML(status) {
+// ── CHIP CYCLE ──
+function cycleChip(moduleId, phaseKey) {
+  if (!S.modules[moduleId]) return;
+  const current = S.modules[moduleId].phases[phaseKey] || 'not-started';
+  const idx = CHIP_CYCLE.indexOf(current);
+  S.modules[moduleId].phases[phaseKey] = CHIP_CYCLE[(idx + 1) % CHIP_CYCLE.length];
+  save();
+  renderSummaryGrid();
+  if (currentView !== 'overview') renderDrilldown(currentView);
+}
+
+// ── CHIP HTML ──
+function chipHTML(status, moduleId, phaseKey) {
   const map = {
-    'done': ['done', '✓ Done'],
-    'in-progress': ['in-progress', '● In Progress'],
-    'blocked': ['blocked', '✕ Blocked'],
-    'not-started': ['not-started', '—'],
+    'done':        ['done',        '✓', 'Done'],
+    'in-progress': ['in-progress', '●', 'In Progress'],
+    'blocked':     ['blocked',     '✕', 'Blocked'],
+    'not-started': ['not-started', '—', 'Not Started'],
   };
-  const [cls, label] = map[status] || map['not-started'];
-  return `<span class="chip ${cls}"><span class="chip-dot"></span>${label}</span>`;
+  const [cls, icon, label] = map[status] || map['not-started'];
+  const clickAttr = (moduleId && phaseKey)
+    ? `onclick="cycleChip('${moduleId}','${phaseKey}')" title="Click to update status"`
+    : '';
+  return `<span class="chip ${cls}" ${clickAttr}><span class="chip-dot"></span>${label}</span>`;
 }
 
+// ── RENDER SUMMARY GRID ──
 function renderSummaryGrid() {
-  const tbody = document.getElementById('summaryGrid');
-  tbody.innerHTML = MODULES.map(m => {
+  document.getElementById('summaryGrid').innerHTML = MODULES.map(m => {
     const mod = S.modules[m.id] || { phases: {} };
     const cells = PHASE_KEYS.map(pk =>
-      `<td class="grid-td-phase">${chipHTML(mod.phases[pk] || 'not-started')}</td>`
+      `<td class="grid-td-phase">${chipHTML(mod.phases[pk] || 'not-started', m.id, pk)}</td>`
     ).join('');
     return `<tr>
       <td class="grid-td-module">
-        <div class="module-name" onclick="showModule('${m.id}')">
-          ${m.name}
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4 2L9 6L4 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="module-cell-inner" onclick="showModule('${m.id}')">
+          <div>
+            <div class="module-name">${m.name}<span class="module-arrow">›</span></div>
+            <div class="module-hint">view details</div>
+          </div>
         </div>
       </td>
       ${cells}
@@ -763,56 +850,52 @@ function renderSummaryGrid() {
   }).join('');
 }
 
+// ── RENDER LEGEND ──
 function renderLegend() {
   document.getElementById('legendGrid').innerHTML = PHASE_KEYS.map(pk => {
     const p = PHASES[pk];
-    const tags = p.artifacts.map(a => `<span class="legend-doc-tag">${a}</span>`).join('');
-    return `<div class="legend-card">
-      <div class="legend-card-head">
-        <span class="legend-phase-tag">${p.tag}</span>
-        <span class="legend-phase-name">${p.name}</span>
-      </div>
-      <div class="legend-phase-desc">${p.desc}</div>
-      <div class="legend-docs">${tags}</div>
+    return `<div class="legend-step" onclick="showPhaseModal('${pk}')">
+      <div class="legend-step-num">${p.tag}</div>
+      <div class="legend-step-name">${p.name}</div>
+      <div class="legend-step-desc">${p.desc.split('.')[0]}.</div>
+      <div class="legend-step-hint">↗ See full details</div>
     </div>`;
   }).join('');
 }
 
+// ── RENDER DRILLDOWN ──
 function renderDrilldown(moduleId) {
   const mod = MODULES.find(m => m.id === moduleId);
   const data = S.modules[moduleId] || { phases: {}, drilldown: {} };
   document.getElementById('drilldownTitle').textContent = mod.name;
-
   document.getElementById('drilldownContent').innerHTML = PHASE_KEYS.map(pk => {
     const p = PHASES[pk];
     const status = data.phases[pk] || 'not-started';
-    const dd = data.drilldown[pk] || {};
-    const body = buildPhaseBody(pk, status, dd, moduleId);
+    const dd = (data.drilldown || {})[pk] || {};
     return `<div class="drilldown-phase">
       <div class="drilldown-phase-head">
         <div class="drilldown-phase-head-left">
           <span class="drilldown-phase-tag">${p.tag}</span>
           <span class="drilldown-phase-name">${p.name}</span>
         </div>
-        ${chipHTML(status)}
+        ${chipHTML(status, moduleId, pk)}
       </div>
-      <div class="drilldown-phase-body">${body}</div>
+      <div class="drilldown-phase-body">${buildPhaseBody(pk, status, dd)}</div>
     </div>`;
   }).join('');
 }
 
-function buildPhaseBody(pk, status, dd, moduleId) {
-  if (status === 'not-started') {
+function buildPhaseBody(pk, status, dd) {
+  if (status === 'not-started' && !dd.notes && !dd.docs && !dd.total) {
     return `<div class="empty-phase">Not started yet.</div>`;
   }
-
   let html = '';
 
-  // P0+P1 — docs checklist
+  // P0+P1 docs checklist
   if (pk === 'p01' && dd.docs && dd.docs.length) {
     html += `<div class="docs-list">`;
     dd.docs.forEach(doc => {
-      const isDone = doc.status === 'locked' || doc.status === 'approved' || doc.status === 'done';
+      const isDone = ['locked','approved','done'].includes(doc.status);
       html += `<div class="doc-item ${isDone ? 'done' : 'pending'}">
         <span class="doc-icon">${isDone ? '✓' : '◌'}</span>
         <span class="doc-name">${doc.name}</span>
@@ -823,50 +906,60 @@ function buildPhaseBody(pk, status, dd, moduleId) {
     html += `</div>`;
   }
 
-  // P2/P3 — test results + issues
+  // P2/P3 test results
   if ((pk === 'p2' || pk === 'p3') && dd.total) {
     const allPass = dd.passed === dd.total;
+    const notPassedCount = dd.total - dd.passed;
     html += `<div class="test-summary-bar ${allPass ? '' : 'partial'}">
       <div class="test-count ${allPass ? '' : 'partial'}">${dd.passed}/${dd.total}</div>
-      <div class="test-label"><strong>Tests passed</strong> — Integration Test Suite v1.0</div>
+      <div class="test-label-group">
+        <div class="test-label-main">Integration Test Suite v1.0</div>
+        <div class="test-label-sub">${allPass ? 'All tests passed' : `${notPassedCount} did not pass — see below`}</div>
+      </div>
     </div>`;
 
     if (dd.issues && dd.issues.length) {
-      html += `<div class="issues-title">Issues Found</div>`;
+      html += `<div class="issues-section"><div class="issues-section-title">Issues &amp; Findings (${dd.issues.length})</div>`;
       dd.issues.forEach(issue => {
         html += `<div class="issue-card">
           <div class="issue-head">
             <span class="issue-test-tag">${issue.test}</span>
             <span class="issue-what">${issue.what}</span>
-            <span class="issue-badge ${issue.status}">${issue.status.toUpperCase()}</span>
+            <span class="issue-badge ${issue.status}">${issue.status === 'fixed' ? 'FIXED' : issue.status === 'deferred' ? 'DEFERRED' : 'FAILED'}</span>
           </div>
           <div class="issue-body">
-            <div class="issue-row"><span class="issue-row-label">Root cause</span><span class="issue-row-val">${issue.rootCause}</span></div>
-            <div class="issue-row"><span class="issue-row-label">Fix</span><span class="issue-row-val">${issue.fix}</span></div>
+            <div class="issue-row">
+              <span class="issue-row-label">RCA</span>
+              <span class="issue-row-val"><span class="tag">PENDING</span>${issue.rca === 'Pending' ? 'Formal root cause analysis not yet completed.' : issue.rca}</span>
+            </div>
+            <div class="issue-row">
+              <span class="issue-row-label">Fix Applied</span>
+              <span class="issue-row-val">${issue.whatWasDone}<span class="process-note"><strong>By process:</strong> ${issue.processFinding}</span></span>
+            </div>
           </div>
         </div>`;
       });
+      html += `</div>`;
     }
   }
 
-  // P7 — rollout stages
+  // P7 rollout stages
   if (pk === 'p7') {
     html += `<div class="stage-list">
-      <div class="stage-item"><div class="stage-num">1</div><div class="stage-info"><div class="stage-name">Internal / Staff</div><div class="stage-desc">Wiom staff only. Confirm accuracy, role suppression, no crashes.</div></div></div>
-      <div class="stage-item"><div class="stage-num">2</div><div class="stage-info"><div class="stage-name">Controlled CSP Cohort</div><div class="stage-desc">20-50 selected CSPs with verified bank accounts. Daily QA sweep.</div></div></div>
-      <div class="stage-item"><div class="stage-num">3</div><div class="stage-info"><div class="stage-name">Broader Rollout</div><div class="stage-desc">All CSPs. Only if Stage 2 metrics clean for 7+ consecutive days.</div></div></div>
+      <div class="stage-item"><div class="stage-num">1</div><div><div class="stage-name">Internal / Staff</div><div class="stage-desc">Wiom staff only. Confirm accuracy, role suppression, no crashes.</div></div></div>
+      <div class="stage-item"><div class="stage-num">2</div><div><div class="stage-name">Controlled CSP Cohort</div><div class="stage-desc">20–50 selected CSPs with verified bank accounts. Daily QA sweep.</div></div></div>
+      <div class="stage-item"><div class="stage-num">3</div><div><div class="stage-name">Broader Rollout</div><div class="stage-desc">All CSPs. Only if Stage 2 metrics clean for 7+ consecutive days.</div></div></div>
     </div>`;
   }
 
   // Notes
   if (dd.notes) {
     html += `<div class="notes-box">${dd.notes}</div>`;
-  } else if (status !== 'not-started') {
+  } else if (status !== 'not-started' && pk !== 'p7') {
     html += `<div class="notes-box empty">No notes yet.</div>`;
   }
 
-  if (!html) html = `<div class="empty-phase">In progress.</div>`;
-  return html;
+  return html || `<div class="empty-phase">In progress.</div>`;
 }
 
 // ── NAVIGATION ──
@@ -876,29 +969,23 @@ function showOverview() {
   document.getElementById('view-overview').classList.add('active');
   document.getElementById('view-module').classList.remove('active');
   document.getElementById('sidebar-overview').classList.add('active');
-  MODULES.forEach(m => document.getElementById('sidebar-' + m.id).classList.remove('active'));
+  MODULES.forEach(m => { const el = document.getElementById('sidebar-' + m.id); if(el) el.classList.remove('active'); });
   currentView = 'overview';
-  closeSidebar();
 }
 
 function showModule(id) {
   document.getElementById('view-overview').classList.remove('active');
   document.getElementById('view-module').classList.add('active');
   document.getElementById('sidebar-overview').classList.remove('active');
-  MODULES.forEach(m => {
-    const el = document.getElementById('sidebar-' + m.id);
-    if (el) el.classList.toggle('active', m.id === id);
-  });
+  MODULES.forEach(m => { const el = document.getElementById('sidebar-' + m.id); if(el) el.classList.toggle('active', m.id === id); });
   renderDrilldown(id);
   currentView = id;
-  closeSidebar();
 }
 
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('open');
 }
-
 function closeSidebar() {
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sidebarOverlay').classList.remove('open');
@@ -906,39 +993,20 @@ function closeSidebar() {
 
 // ── PHASE MODAL ──
 function showPhaseModal(pk) {
-  const p = PHASES[pk];
+  const p = PHASES[pk]; if (!p) return;
   document.getElementById('phaseModalTag').textContent = p.tag;
   document.getElementById('phaseModalName').textContent = p.name;
   document.getElementById('phaseModalDesc').textContent = p.desc;
-  document.getElementById('phaseModalArtifacts').innerHTML = p.artifacts.map(a =>
-    `<span class="artifact-tag">${a}</span>`).join('');
+  document.getElementById('phaseModalArtifacts').innerHTML = p.artifacts.map(a => `<span class="artifact-tag">${a}</span>`).join('');
   document.getElementById('phaseModalOverlay').classList.add('open');
 }
-
 function closePhaseModal(e) {
-  if (e.target.id === 'phaseModalOverlay') {
+  if (e.target === document.getElementById('phaseModalOverlay'))
     document.getElementById('phaseModalOverlay').classList.remove('open');
-  }
 }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.getElementById('phaseModalOverlay').classList.remove('open');
-    closeSidebar();
-  }
-});
-
-// ── RENDER ALL ──
-function renderAll() {
-  renderSummaryGrid();
-  renderLegend();
-}
-
-// ── INIT ──
-(async () => {
-  await loadFromCloud();
-  renderAll();
-})();
+function renderAll() { renderSummaryGrid(); renderLegend(); if (currentView !== 'overview') renderDrilldown(currentView); }
+renderAll();
 </script>
 </body>
 </html>
