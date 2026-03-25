@@ -732,25 +732,25 @@ const DEFAULT_STATE = {
               test: 'T-14',
               what: 'Earnings ledger missing withdrawal entries',
               status: 'fixed',
-              rca: 'Pending',
-              whatWasDone: 'getEarnings() was updated to also query withdrawal_executions and merge them into the earnings response. Fix deployed to QA.',
-              processFinding: 'This was a code completeness gap — the earnings read model did not cover all entry types. The build spec described the earnings ledger but did not explicitly enumerate all sources. No spec amendment required.'
+              rca: 'During code gen, the earnings read endpoint was built to pull only from settlement records. Withdrawal entries sit in a separate table — that source wasn\'t included.',
+              fix: 'Earnings endpoint updated to pull from both tables. Settlement entries and withdrawal entries now both appear in the earnings view.',
+              process: 'During build spec, the earnings read model should have explicitly listed all data sources that feed the earnings view — not just settlement records. That would have caught this during spec review, before code gen started.'
             },
             {
               test: 'T-40',
               what: 'Deposit idempotency not working — duplicate entries on repeat calls',
               status: 'fixed',
-              rca: 'Pending',
-              whatWasDone: 'V12 Flyway migration added idempotency_token column + unique partial index to deposit_ledger. Dedup logic added to CrossLedgerTransferController. Fix deployed to QA.',
-              processFinding: 'Build spec gap: CROSS_LEDGER_TRANSFER (§2C) had no idempotency_token in the input schema, and the deposit_ledger table (§3.3) had no corresponding column. By process, idempotency for every write operation should be specified in the build spec before codegen. PS spec to be bumped v1.4 → v1.5 with §2C + §3.3 + §4.6 + migration entry.'
+              rca: 'During build spec, idempotency was not defined for the deposit operation — no token field in the input schema, no column in the DB table. Without it in the spec, it wasn\'t built during code gen.',
+              fix: 'DB schema updated to store the idempotency token per deposit entry. Logic added so a repeat request with the same key returns the original result without creating a new entry. PS build spec needs a v1.5 bump to formally document this.',
+              process: 'Every financial write operation must have idempotency defined in the build spec before code gen — input field, DB column, and dedup behaviour. This was missing for the deposit operation. PS spec v1.5 is the correction.'
             },
             {
               test: 'T-19',
               what: 'Unknown entry_type graceful handling — not tested',
               status: 'deferred',
-              rca: 'Pending',
-              whatWasDone: 'Test deferred. Cannot inject an unknown entry_type into the ledger without bypassing invariant INV-PAY-05 (no manual ledger entries allowed). Backend response behavior is correct — unknown types pass through without a 500.',
-              processFinding: 'Deferred to P5 (Frontend QA). The test needs to be run through the app to verify that unknown entry types render gracefully without crashing the UI.'
+              rca: 'N/A — not a bug.',
+              fix: 'An invariant prevents manual entries into the ledger, so this can\'t be tested at the backend level. Backend behaviour is correct — unknown types pass through without crashing.',
+              process: 'Moved to P5. Will verify that the app renders unknown entry types without crashing.'
             },
           ],
           notes: 'Tests run 2026-03-25 across 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays in QA for T-24/T-14/T-40 — must be removed before production.'
@@ -930,11 +930,15 @@ function buildPhaseBody(pk, status, dd) {
           <div class="issue-body">
             <div class="issue-row">
               <span class="issue-row-label">RCA</span>
-              <span class="issue-row-val"><span class="tag">PENDING</span>${issue.rca === 'Pending' ? 'Formal root cause analysis not yet completed.' : issue.rca}</span>
+              <span class="issue-row-val">${issue.rca}</span>
             </div>
             <div class="issue-row">
-              <span class="issue-row-label">Fix Applied</span>
-              <span class="issue-row-val">${issue.whatWasDone}<span class="process-note"><strong>By process:</strong> ${issue.processFinding}</span></span>
+              <span class="issue-row-label">Fix</span>
+              <span class="issue-row-val">${issue.fix}</span>
+            </div>
+            <div class="issue-row">
+              <span class="issue-row-label">Should have</span>
+              <span class="issue-row-val">${issue.process}</span>
             </div>
           </div>
         </div>`;
