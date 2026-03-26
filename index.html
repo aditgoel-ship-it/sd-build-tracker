@@ -989,14 +989,14 @@ body {
                 <span class="track-title">Backend</span>
               </div>
               <div class="fc-phases">
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">A</div><div class="phase-content"><strong>Phase A:</strong> Write Test Plan (Mukul — BEFORE code)</div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">B</div><div class="phase-content"><strong>Phase B:</strong> Code Generation (Devender)</div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">C</div><div class="phase-content"><strong>Phase C:</strong> Adit 10-point review (spec-to-code check)</div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">D</div><div class="phase-content"><strong>Phase D:</strong> QA Run (Mukul)</div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">E</div><div class="phase-content"><strong>Phase E:</strong> Fix loop</div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">F</div><div class="phase-content"><strong>Phase F:</strong> Sign-off</div></div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">A</div><div class="phase-content"><strong>Phase A: L1+L2 test cases</strong> (Mukul — BEFORE code)<br><span style="font-size:10px;color:var(--text-dim);">L1 = does service return correct values per spec? L2 = does it follow architecture rules? Backend in isolation only — no user scenarios here.</span></div></div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">B</div><div class="phase-content"><strong>Phase B: Code Generation</strong> (Devender)<br><span style="font-size:10px;color:var(--text-dim);">Devender generates service code. Phase A must exist first.</span></div></div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">C</div><div class="phase-content"><strong>Phase C: Spec-to-code review</strong> (Adit 10-point)<br><span style="font-size:10px;color:var(--text-dim);">Code review against Build Spec — field names, types, state machine, FM-rules. Not a test run.</span></div></div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">D</div><div class="phase-content"><strong>Phase D: L1+L2 test execution</strong> (Mukul runs Phase A cases)<br><span style="font-size:10px;color:var(--text-dim);">Runs the L1+L2 cases written in Phase A against the service. Backend only — no frontend, no user flows. L3+L4 run later in Step 5.</span></div></div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">E</div><div class="phase-content"><strong>Phase E: Fix loop</strong></div></div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">F</div><div class="phase-content"><strong>Phase F: Sign-off</strong> — backend service complete</div></div>
               </div>
-              <div class="fc-blocker" style="background:rgba(3,105,161,0.07);border-color:rgba(3,105,161,0.25);color:#0369a1">BLOCKER: Track A frontend BUILD cannot start until API Contract is finalized</div>
+              <div class="fc-blocker" style="background:rgba(3,105,161,0.07);border-color:rgba(3,105,161,0.25);color:#0369a1">Track B output = API Contract. Track A phases D–F (build onward) cannot start until contract exists.</div>
             </div>
           </div>
         </div>
@@ -1030,12 +1030,14 @@ body {
           <div class="fc-box">
             <div class="fc-box-header">
               <span class="step-badge">STEP 4</span>
-              <span class="fc-box-title">TEST PLAN</span>
+              <span class="fc-box-title">MODULE TEST STRATEGY — L3 + L4 + Canonical Fixtures</span>
             </div>
             <div class="fc-box-meta">
-              <strong>Output:</strong> Module Test Strategy
-              &nbsp;·&nbsp; L1 truth 15–30 cases &nbsp;·&nbsp; L2 arch 8–12 &nbsp;·&nbsp; L3 integration 15–25 &nbsp;·&nbsp; L4 user 5–10<br>
-              <strong>Owner:</strong> Mukul writes, Adit reviews
+              <strong>Why this is separate from Track B Phase A:</strong> L1+L2 test cases (backend service behavior) can be written before code exists. L3+L4 require the API Contract to exist first — you can't write integration or user scenarios without knowing the contract shape.<br><br>
+              <strong>L3 — Integration cases (15–25):</strong> Frontend + backend together. Contract honoured end-to-end. Run at E2.<br>
+              <strong>L4 — User scenarios (5–10):</strong> Real user flows on the full module. Run at E3 on a real device.<br>
+              <strong>Canonical fixture set:</strong> Derived from API Contract. Product creates these. Frontend QA cannot run without them.<br><br>
+              <strong>Owner:</strong> Mukul writes (L3+L4), Product creates fixtures — Adit reviews &nbsp;·&nbsp; <strong>Blocker:</strong> E2 and E3 cannot start until this exists
             </div>
           </div>
         </div>
@@ -1053,25 +1055,25 @@ body {
               <div class="fc-stage">
                 <div class="stage-label">E1</div>
                 <div class="stage-title">Developer self-check</div>
-                <div class="stage-desc">Before merge — dev validates locally</div>
+                <div class="stage-desc">Before merge. Dev validates own code against spec checklist.</div>
               </div>
               <div class="stage-arrow">→</div>
               <div class="fc-stage">
                 <div class="stage-label">E2</div>
-                <div class="stage-title">Integration after merge</div>
-                <div class="stage-desc">100% required before E3 can start</div>
+                <div class="stage-title">Integration — runs L3 cases</div>
+                <div class="stage-desc">After merge. Runs L3 integration cases from Step 4. 100% pass required before E3. Step 4 must exist first.</div>
               </div>
               <div class="stage-arrow">→</div>
               <div class="fc-stage">
                 <div class="stage-label">E3</div>
-                <div class="stage-title">Manual QA</div>
-                <div class="stage-desc">Real device, real Android — Product team</div>
+                <div class="stage-title">Manual QA — runs L4 cases</div>
+                <div class="stage-desc">Real device, real Android. Product runs L4 user scenarios from Step 4 against canonical fixtures. Both must exist before E3 starts.</div>
               </div>
               <div class="stage-arrow">→</div>
               <div class="fc-stage">
                 <div class="stage-label">E4</div>
-                <div class="stage-title">Field test</div>
-                <div class="stage-desc">Real CSPs — before any module ships</div>
+                <div class="stage-title">Field test — real CSPs</div>
+                <div class="stage-desc">Real CSPs on real network. Blocks ship. No defined test cases — observational.</div>
               </div>
             </div>
           </div>
@@ -1122,11 +1124,12 @@ body {
             <tr><th>If you skip…</th><th>What breaks</th></tr>
           </thead>
           <tbody>
-            <tr><td class="skip-skip">Step 2 Track A fixture creation</td><td class="skip-result">Frontend builds without truth reference → paise bugs, badge bugs</td></tr>
-            <tr><td class="skip-skip">Test Plan before Execute</td><td class="skip-result">No testability surfaces → bugs not caught at E2/E3</td></tr>
-            <tr><td class="skip-skip">E2 (Integration)</td><td class="skip-result">Integration bugs reach E3 → expensive rework</td></tr>
-            <tr><td class="skip-skip">E4 (Field test)</td><td class="skip-result">Real CSP issues discovered in production — too late</td></tr>
-            <tr><td class="skip-skip">Regression Pack</td><td class="skip-result">Future releases break existing behavior — no safety net</td></tr>
+            <tr><td class="skip-skip">Track B Phase A (L1+L2 cases before code)</td><td class="skip-result">No defined expected behavior → code written freely → bugs only found in Phase D or later</td></tr>
+            <tr><td class="skip-skip">Step 4 (L3+L4 + fixtures) before Execute</td><td class="skip-result">E2 has no L3 cases to run. E3 has no L4 scenarios or canonical fixtures. QA becomes improvised — bugs fall through (happened in Wallet: FE-01, FE-08)</td></tr>
+            <tr><td class="skip-skip">Canonical fixtures before E3</td><td class="skip-result">Frontend QA has no truth reference → paise 100× bugs, wrong badges, underpayment edge cases missed</td></tr>
+            <tr><td class="skip-skip">E2 reaching 100% before E3</td><td class="skip-result">Integration bugs reach manual QA → expensive rework on real device</td></tr>
+            <tr><td class="skip-skip">E4 (Field test)</td><td class="skip-result">Real CSP issues only discovered in production — too late to fix cleanly</td></tr>
+            <tr><td class="skip-skip">Regression Pack at ship</td><td class="skip-result">Future module releases break existing behavior — no safety net, each ship is a gamble</td></tr>
           </tbody>
         </table>
       </div>
