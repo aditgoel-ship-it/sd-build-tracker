@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WIOM CSP App — Go-Live Tracker</title>
+<title>WIOM CSP App — Build Tracker</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
@@ -74,6 +74,7 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
   font-size:11px; font-weight:500;
   background:var(--green-bg); color:var(--green);
   border:1px solid var(--green-border);
+  transition:all 0.2s;
 }
 .sync-dot { width:5px; height:5px; border-radius:50%; background:currentColor; }
 .sync-badge.saving { background:var(--yellow-bg); color:var(--yellow); border-color:var(--yellow-border); }
@@ -98,1236 +99,1370 @@ body { background:var(--bg); color:var(--text); font-family:'Inter',-apple-syste
   padding:14px 20px; border-bottom:1px solid var(--border);
   display:flex; align-items:center; justify-content:space-between;
 }
-.sidebar-head-title { font-size:11px; font-weight:700; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+.sidebar-head-title { font-size:13px; font-weight:700; color:var(--text); }
 .sidebar-close {
-  cursor:pointer; font-size:18px; color:var(--text-dim);
-  width:28px; height:28px; display:flex; align-items:center; justify-content:center;
-  border-radius:6px; transition:background 0.15s;
+  width:26px; height:26px; border-radius:6px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-input); color:var(--text-secondary);
+  font-size:14px; border:none;
+  transition:background 0.15s;
 }
-.sidebar-close:hover { background:var(--bg-input); }
-.sidebar-nav { flex:1; padding:10px 0; overflow-y:auto; }
+.sidebar-close:hover { background:var(--border); }
+.sidebar-body { padding:14px 12px; flex:1; overflow-y:auto; }
+.sidebar-section { margin-bottom:6px; }
 .sidebar-section-label {
-  padding:10px 20px 6px;
-  font-size:10px; font-weight:700; letter-spacing:1px;
+  font-size:9.5px; font-weight:700; letter-spacing:1.2px;
   text-transform:uppercase; color:var(--text-dim);
+  padding:4px 8px 6px; margin-bottom:2px;
 }
 .sidebar-item {
-  display:flex; align-items:center; gap:10px;
-  padding:9px 20px; cursor:pointer;
-  font-size:13.5px; font-weight:500; color:var(--text-secondary);
-  transition:all 0.15s; border-left:3px solid transparent;
+  display:flex; align-items:center; gap:9px;
+  padding:7px 10px; border-radius:7px; cursor:pointer;
+  font-size:13px; font-weight:500; color:var(--text-secondary);
+  transition:all 0.15s; border:none; background:none; width:100%; text-align:left;
 }
 .sidebar-item:hover { background:var(--bg-hover); color:var(--text); }
-.sidebar-item.active { background:var(--primary-bg); color:var(--primary); border-left-color:var(--primary); font-weight:600; }
-.sidebar-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-.sidebar-divider { height:1px; background:var(--border); margin:8px 20px; }
-.sidebar-overview {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 20px; cursor:pointer;
-  font-size:13.5px; font-weight:600; color:var(--text-secondary);
-  transition:all 0.15s; border-left:3px solid transparent;
-}
-.sidebar-overview:hover { background:var(--bg-hover); color:var(--text); }
-.sidebar-overview.active { background:var(--primary-bg); color:var(--primary); border-left-color:var(--primary); }
+.sidebar-item.active { background:var(--primary-bg); color:var(--primary); }
+.sidebar-item-dot { width:6px; height:6px; border-radius:50%; background:var(--border-strong); flex-shrink:0; }
+.sidebar-item.active .sidebar-item-dot { background:var(--primary); }
+.sidebar-divider { height:1px; background:var(--border); margin:8px 4px; }
 
-/* ── MAIN ── */
-.main { padding:28px 28px 60px; max-width:1360px; margin:0 auto; }
+/* ── MAIN CONTENT ── */
+.main { padding:32px 40px; max-width:1400px; margin:0 auto; }
+.view { display:none; }
+.view.active { display:block; }
 
 /* ── PAGE HEADER ── */
-.page-header { margin-bottom:24px; }
-.page-header h1 { font-size:22px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
-.page-header p { font-size:13px; color:var(--text-secondary); }
+.page-header { margin-bottom:28px; }
+.page-header h1 { font-size:22px; font-weight:700; letter-spacing:-0.4px; margin-bottom:5px; }
+.page-header p { font-size:14px; color:var(--text-secondary); }
 
-/* ── SUMMARY GRID ── */
-.section-label {
-  font-size:11px; font-weight:700; letter-spacing:1px;
-  text-transform:uppercase; color:var(--text-dim);
-  margin-bottom:12px;
-}
-.grid-wrap {
-  background:var(--bg-white);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow-md);
-  margin-bottom:32px;
-}
-.grid-table { width:100%; border-collapse:collapse; }
-.grid-table th, .grid-table td { padding:0; }
-.grid-table thead tr { border-bottom:2px solid var(--border); background:var(--bg); }
+/* ── PROCESS PAGE ── */
+.process-page { max-width:860px; }
+.section-heading { font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.8px; color:var(--text-dim); margin-bottom:14px; margin-top:32px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+.why-box { border-left:4px solid var(--primary); padding:16px 20px; background:var(--primary-bg); border-radius:0 var(--radius-sm) var(--radius-sm) 0; margin-bottom:32px; font-size:14px; line-height:1.7; color:var(--text-secondary); }
+.step-card { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:18px 20px; margin-bottom:12px; box-shadow:var(--shadow-sm); }
+.step-num { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--primary); background:var(--primary-bg); border:1px solid var(--primary-border); padding:2px 9px; border-radius:4px; display:inline-block; margin-bottom:8px; }
+.step-name { font-size:15px; font-weight:700; color:var(--text); margin-bottom:6px; }
+.step-desc { font-size:13px; color:var(--text-secondary); line-height:1.6; margin-bottom:8px; }
+.step-skip { font-size:12px; color:var(--red); background:var(--red-bg); border:1px solid var(--red-border); padding:5px 10px; border-radius:4px; }
+.step-skip strong { font-weight:600; }
 
-.grid-th-module {
-  width:190px; min-width:160px;
-  padding:13px 20px;
-  font-size:10px; font-weight:700; letter-spacing:1px;
-  text-transform:uppercase; color:var(--text-dim);
-  text-align:left; border-right:2px solid var(--border);
-}
-.grid-th-phase {
-  padding:10px 6px; text-align:center;
-  border-right:1px solid var(--border);
-  cursor:pointer; transition:background 0.15s;
-  min-width:105px;
-}
-.grid-th-phase:hover { background:var(--primary-bg); }
-.grid-th-phase:last-child { border-right:none; }
-.phase-tag {
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px; font-weight:700;
-  color:var(--primary);
-  display:block; margin-bottom:2px;
-}
-.phase-label { font-size:10.5px; font-weight:500; color:var(--text-dim); }
+/* Decision tree */
+.decision-tree { display:flex; flex-direction:column; gap:0; max-width:680px; margin-bottom:20px; }
+.dt-question { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:4px; box-shadow:var(--shadow-sm); }
+.dt-q-text { font-size:13.5px; font-weight:600; color:var(--text); margin-bottom:10px; }
+.dt-answers { display:flex; flex-direction:column; gap:6px; }
+.dt-answer { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text-secondary); line-height:1.5; }
+.dt-yes { color:var(--green); font-weight:700; flex-shrink:0; }
+.dt-no { color:var(--red); font-weight:700; flex-shrink:0; }
+.dt-result { display:inline-block; font-weight:700; color:var(--primary); background:var(--primary-bg); border:1px solid var(--primary-border); padding:2px 8px; border-radius:4px; font-family:'JetBrains Mono',monospace; font-size:11px; margin-right:6px; }
+.dt-rule { font-size:12.5px; color:var(--text-secondary); background:var(--bg-input); border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); margin-top:12px; line-height:1.6; }
 
-/* Module rows */
-.grid-table tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; }
-.grid-table tbody tr:last-child { border-bottom:none; }
-.grid-td-module {
-  padding:14px 20px;
-  border-right:2px solid var(--border);
-  vertical-align:middle;
-  background:var(--bg);
-}
-.module-cell-inner {
-  display:flex; align-items:center; gap:0;
-  cursor:pointer; transition:all 0.15s;
-  text-decoration:none;
-}
-.module-cell-inner:hover .module-name { color:var(--primary); }
-.module-cell-inner:hover .module-arrow { opacity:1; transform:translateX(1px); }
-.module-name {
-  font-size:13.5px; font-weight:600; color:var(--text);
-  transition:color 0.15s;
-}
-.module-arrow {
-  margin-left:6px; opacity:0.35; transition:all 0.15s;
-  color:var(--primary); font-size:14px; line-height:1;
-}
-.module-hint {
-  font-size:10px; color:var(--text-dim); margin-top:2px;
-  font-weight:400;
-}
-.grid-td-phase {
-  padding:10px 6px; text-align:center;
-  border-right:1px solid var(--border); vertical-align:middle;
-}
-.grid-td-phase:last-child { border-right:none; }
+/* Tracks diagram */
+.tracks-diagram { display:grid; grid-template-columns:1fr 130px 1fr; gap:0; margin:20px 0; }
+.track-col { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px; }
+.track-col.track-a { border-right:none; border-radius:var(--radius-sm) 0 0 var(--radius-sm); border-right-color:transparent; }
+.track-col.track-b { border-left:none; border-radius:0 var(--radius-sm) var(--radius-sm) 0; border-left-color:transparent; }
+.track-header { font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+.track-header.a { color:#2563eb; }
+.track-header.b { color:var(--primary); }
+.track-step { font-size:12px; color:var(--text-secondary); padding:5px 0; border-bottom:1px solid var(--bg-input); line-height:1.4; }
+.track-step:last-child { border-bottom:none; }
+.track-step.wait-step { color:var(--yellow); font-weight:600; background:var(--yellow-bg); border:1px solid var(--yellow-border); padding:5px 8px; border-radius:4px; margin:6px 0; }
+.track-center { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.contract-box { background:var(--primary-bg); border:2px solid var(--primary-border); border-radius:var(--radius-sm); padding:10px 8px; text-align:center; font-size:11px; font-weight:700; color:var(--primary); font-family:'JetBrains Mono',monospace; line-height:1.4; }
+.contract-arrow { font-size:18px; color:var(--primary); margin:4px 0; }
+.tracks-note { font-size:12px; color:var(--text-secondary); background:var(--bg-input); border:1px solid var(--border); padding:10px 14px; border-radius:var(--radius-sm); margin-top:0; line-height:1.6; }
 
-/* Clickable chips */
-.chip {
-  display:inline-flex; align-items:center; gap:5px;
-  padding:6px 12px; border-radius:20px;
-  font-size:11px; font-weight:600; letter-spacing:0.2px;
-  white-space:nowrap; cursor:pointer;
-  transition:all 0.15s; user-select:none;
-  border:1.5px solid transparent;
-}
-.chip:hover { filter:brightness(0.96); transform:scale(0.98); }
-.chip:active { transform:scale(0.95); }
-.chip.done { background:var(--green-bg); color:var(--green); border-color:var(--green-border); }
-.chip.in-progress { background:var(--yellow-bg); color:var(--yellow); border-color:var(--yellow-border); }
-.chip.blocked { background:var(--red-bg); color:var(--red); border-color:var(--red-border); }
-.chip.not-started { background:var(--bg-input); color:var(--text-dim); border-color:var(--border); }
-.chip-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
+/* Rules list */
+.rules-box { background:var(--bg-white); border:1px solid var(--border-strong); border-radius:var(--radius-sm); padding:20px 24px; }
+.rules-box ol { list-style:none; counter-reset:rules; }
+.rules-box ol li { counter-increment:rules; display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; color:var(--text-secondary); line-height:1.5; }
+.rules-box ol li:last-child { border-bottom:none; }
+.rules-box ol li::before { content:counter(rules); font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--primary); background:var(--primary-bg); border:1px solid var(--primary-border); padding:1px 7px; border-radius:4px; flex-shrink:0; height:fit-content; margin-top:1px; }
 
-/* ── PHASE LEGEND ── */
-.legend-section { margin-bottom:36px; }
-.legend-pipeline {
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:0;
-  background:var(--bg-white);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow-sm);
-}
-.legend-step {
-  padding:16px 14px;
-  border-right:1px solid var(--border);
-  cursor:pointer; transition:background 0.15s;
-  position:relative;
-}
-.legend-step:last-child { border-right:none; }
-.legend-step:hover { background:var(--primary-bg); }
-.legend-step-num {
-  font-family:'JetBrains Mono',monospace;
-  font-size:10px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  border:1px solid var(--primary-border);
-  padding:2px 7px; border-radius:4px;
-  display:inline-block; margin-bottom:8px;
-}
-.legend-step-name {
-  font-size:12px; font-weight:700; color:var(--text);
-  margin-bottom:5px; line-height:1.3;
-}
-.legend-step-desc {
-  font-size:11px; color:var(--text-secondary);
-  line-height:1.5;
-}
-.legend-step-hint {
-  margin-top:10px;
-  font-size:10px; color:var(--primary);
-  font-weight:500;
-}
-
-/* ── PHASE MODAL ── */
-.phase-modal-overlay {
-  position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:500;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; pointer-events:none; transition:opacity 0.2s;
-}
-.phase-modal-overlay.open { opacity:1; pointer-events:all; }
-.phase-modal {
-  background:var(--bg-white); border-radius:var(--radius);
-  padding:28px; max-width:520px; width:92%;
-  box-shadow:var(--shadow-lg);
-  transform:scale(0.97); transition:transform 0.2s;
-}
-.phase-modal-overlay.open .phase-modal { transform:scale(1); }
-.phase-modal-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-.phase-modal-tag {
-  font-family:'JetBrains Mono',monospace;
-  font-size:13px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  border:1px solid var(--primary-border);
-  padding:4px 12px; border-radius:7px;
-}
-.phase-modal-name { font-size:18px; font-weight:700; }
-.phase-modal-desc { font-size:14px; color:var(--text-secondary); line-height:1.6; margin-bottom:18px; }
-.phase-modal-artifacts h4 { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); margin-bottom:10px; }
-.artifact-list { display:flex; flex-wrap:wrap; gap:6px; }
-.artifact-tag {
-  font-size:12px; font-weight:500;
-  background:var(--bg-input); color:var(--text-secondary);
-  border:1px solid var(--border); padding:4px 10px; border-radius:6px;
-}
-.phase-modal-close {
-  margin-top:20px; width:100%;
-  padding:10px; border-radius:8px;
-  background:var(--bg-input); border:1px solid var(--border);
-  font-size:13px; font-weight:500; color:var(--text-secondary);
-  cursor:pointer; transition:all 0.15s;
-}
-.phase-modal-close:hover { background:var(--bg-hover); color:var(--text); }
-
-/* ── DRILLDOWN VIEW ── */
-.drilldown-header {
-  display:flex; align-items:center; gap:14px; margin-bottom:24px;
-  flex-wrap:wrap;
-}
-.back-btn {
-  display:flex; align-items:center; gap:6px;
-  padding:7px 13px; border-radius:8px;
-  background:var(--bg-white); border:1px solid var(--border);
-  font-size:13px; font-weight:500; color:var(--text-secondary);
-  cursor:pointer; transition:all 0.15s;
-}
-.back-btn:hover { border-color:var(--border-strong); color:var(--text); }
-.drilldown-module-name { font-size:22px; font-weight:700; letter-spacing:-0.4px; }
-.drilldown-phases { display:flex; flex-direction:column; gap:14px; max-width:900px; }
-
-.drilldown-phase {
-  background:var(--bg-white);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-  box-shadow:var(--shadow-sm);
-}
-.drilldown-phase-head {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 20px;
-  border-bottom:1px solid var(--border);
-  background:var(--bg);
-}
-.drilldown-phase-head-left { display:flex; align-items:center; gap:12px; }
-.drilldown-phase-tag {
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  border:1px solid var(--primary-border);
-  padding:3px 9px; border-radius:6px;
-}
-.drilldown-phase-name { font-size:14px; font-weight:600; color:var(--text); }
-.drilldown-phase-body { padding:20px 24px; }
-
-/* Docs checklist */
-.docs-list { display:flex; flex-direction:column; gap:6px; }
-.doc-item {
-  display:flex; align-items:center; gap:10px;
-  padding:9px 14px;
-  border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-  font-size:13px;
-  background:var(--bg);
-}
-.doc-item.done { border-color:var(--green-border); background:var(--green-bg); }
-.doc-item.pending { border-color:var(--yellow-border); background:var(--yellow-bg); }
-.doc-icon { font-size:13px; flex-shrink:0; }
-.doc-name { font-weight:500; color:var(--text); flex:1; min-width:0; }
-.doc-version { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--text-dim); margin-right:6px; white-space:nowrap; }
-.doc-status-tag {
-  font-size:10px; font-weight:700; letter-spacing:0.3px;
-  padding:2px 8px; border-radius:4px; white-space:nowrap;
-}
-.doc-status-tag.locked { background:var(--green-bg); color:var(--green); }
-.doc-status-tag.approved { background:var(--green-bg); color:var(--green); }
-.doc-status-tag.done { background:var(--green-bg); color:var(--green); }
-.doc-status-tag.pending { background:var(--yellow-bg); color:var(--yellow); }
-
-/* Test results */
-.test-summary-bar {
-  display:flex; align-items:center; gap:20px;
-  padding:14px 18px;
-  background:var(--green-bg);
-  border:1px solid var(--green-border);
-  border-radius:var(--radius-sm);
-  margin-bottom:16px;
-}
-.test-summary-bar.partial { background:var(--yellow-bg); border-color:var(--yellow-border); }
-.test-count { font-family:'JetBrains Mono',monospace; font-size:26px; font-weight:700; color:var(--green); line-height:1; }
-.test-count.partial { color:var(--yellow); }
-.test-label-group { display:flex; flex-direction:column; gap:2px; }
-.test-label-main { font-size:13px; font-weight:600; color:var(--text); }
-.test-label-sub { font-size:11.5px; color:var(--text-secondary); }
-
-/* Issues */
-.issues-section { margin-top:16px; }
-.issues-section-title {
-  font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
-  color:var(--text-dim); margin-bottom:10px;
-  padding-bottom:8px; border-bottom:1px solid var(--border);
-}
-.issue-card {
-  border:1px solid var(--border);
-  border-left:4px solid var(--border);
-  border-radius:var(--radius-sm);
-  margin-bottom:8px;
-  overflow:hidden;
-}
-.issue-card.fixed { border-left-color:var(--green); }
-.issue-card.deferred { border-left-color:var(--yellow); }
-.issue-card.failed { border-left-color:var(--red); }
-.issue-head {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 14px;
-  background:var(--bg);
-  border-bottom:1px solid var(--border);
-}
-.issue-card.fixed .issue-head { background:var(--green-bg); }
-.issue-card.deferred .issue-head { background:var(--yellow-bg); }
-.issue-card.failed .issue-head { background:var(--red-bg); }
-.issue-test-tag {
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  padding:2px 8px; border-radius:4px;
+/* ── SUMMARY PAGE ── */
+.table-wrapper { overflow-x:auto; border-radius:var(--radius); box-shadow:var(--shadow-md); background:var(--bg-white); border:1px solid var(--border); }
+table { width:100%; border-collapse:collapse; min-width:980px; }
+thead th {
+  padding:11px 12px; text-align:center; font-size:11px; font-weight:700;
+  letter-spacing:0.5px; text-transform:uppercase; color:var(--text-secondary);
+  background:var(--bg); border-bottom:1px solid var(--border);
   white-space:nowrap;
 }
-.issue-what { font-size:13px; font-weight:600; color:var(--text); flex:1; }
-.issue-badge {
-  font-size:10px; font-weight:700; padding:3px 10px; border-radius:4px; white-space:nowrap; letter-spacing:0.3px;
-}
-.issue-badge.fixed { background:var(--green); color:#fff; }
-.issue-badge.deferred { background:var(--yellow); color:#fff; }
-.issue-badge.failed { background:var(--red); color:#fff; }
+thead th:first-child { text-align:left; padding-left:20px; min-width:140px; }
+thead th.clickable-header { cursor:pointer; }
+thead th.clickable-header:hover { background:var(--bg-hover); color:var(--primary); }
+thead th .th-inner { display:flex; align-items:center; justify-content:center; gap:4px; }
+thead th:first-child .th-inner { justify-content:flex-start; }
+.th-info { width:14px; height:14px; border-radius:50%; background:var(--border); color:var(--text-dim); font-size:9px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+tbody tr { border-bottom:1px solid var(--border); transition:background 0.12s; }
+tbody tr:last-child { border-bottom:none; }
+tbody tr:hover { background:var(--bg-hover); }
+tbody td { padding:10px 12px; text-align:center; vertical-align:middle; }
+tbody td:first-child { text-align:left; padding-left:20px; }
+.module-link { font-size:14px; font-weight:600; color:var(--text); cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:6px; }
+.module-link:hover { color:var(--primary); }
+.module-link-arrow { font-size:11px; color:var(--text-dim); transition:transform 0.15s, color 0.15s; }
+.module-link:hover .module-link-arrow { color:var(--primary); transform:translateX(2px); }
 
-.issue-body { padding:12px 14px; display:flex; flex-direction:column; gap:0; }
-.issue-row {
-  display:grid; grid-template-columns:110px 1fr;
-  gap:10px; font-size:12.5px;
-  padding:8px 0; border-bottom:1px solid var(--bg-input);
+/* ── STATUS CHIPS ── */
+.chip {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 9px; border-radius:20px;
+  font-size:11px; font-weight:600; white-space:nowrap;
+  cursor:pointer; transition:opacity 0.15s, transform 0.1s; user-select:none;
+  border:1px solid transparent;
 }
-.issue-row:last-child { border-bottom:none; }
-.issue-row-label { font-weight:700; color:var(--text-secondary); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; padding-top:1px; }
-.issue-row-val { color:var(--text); line-height:1.55; }
-.issue-row-val .tag {
-  display:inline-block; font-size:10px; font-weight:600;
-  background:var(--yellow-bg); color:var(--yellow);
-  border:1px solid var(--yellow-border);
-  padding:1px 6px; border-radius:4px; margin-right:6px; vertical-align:middle;
-}
-.issue-row-val .process-note {
-  display:block; margin-top:6px;
-  font-size:11.5px; color:var(--text-secondary);
-  background:var(--bg-input); border-left:2px solid var(--border-strong);
-  padding:6px 10px; border-radius:0 4px 4px 0;
-  line-height:1.5;
-}
-.issue-row-val .process-note strong { color:var(--text); }
+.chip:hover { opacity:0.85; }
+.chip:active { transform:scale(0.95); }
+.chip-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.chip.done { background:var(--green-bg); color:var(--green); border-color:var(--green-border); }
+.chip.done .chip-dot { background:var(--green); }
+.chip.in-progress { background:var(--yellow-bg); color:var(--yellow); border-color:var(--yellow-border); }
+.chip.in-progress .chip-dot { background:var(--yellow); }
+.chip.not-started { background:var(--bg-input); color:var(--text-dim); border-color:var(--border); }
+.chip.not-started .chip-dot { background:var(--border-strong); }
+.chip.blocked { background:var(--red-bg); color:var(--red); border-color:var(--red-border); }
+.chip.blocked .chip-dot { background:var(--red); }
 
-/* Notes box */
-.notes-box {
-  margin-top:16px; padding:12px 16px;
-  background:var(--bg-input); border:1px solid var(--border);
-  border-left:3px solid var(--border-strong);
-  border-radius:var(--radius-sm);
-  font-size:12.5px; color:var(--text-secondary);
-  line-height:1.6;
+/* ── MODAL ── */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.35); z-index:500;
+  display:none; align-items:center; justify-content:center; padding:24px;
 }
-.notes-box.empty { color:var(--text-dim); font-style:italic; }
-
-/* Rollout stages */
-.stage-list { display:flex; flex-direction:column; gap:8px; }
-.stage-item {
-  display:flex; align-items:flex-start; gap:14px;
-  padding:12px 16px;
-  background:var(--bg);
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:var(--bg-white); border-radius:var(--radius); padding:28px 32px;
+  max-width:500px; width:100%; box-shadow:var(--shadow-lg);
   border:1px solid var(--border);
-  border-radius:var(--radius-sm);
+  animation:modalIn 0.18s ease;
 }
-.stage-num {
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  width:28px; height:28px; border-radius:7px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; margin-top:1px;
-}
-.stage-name { font-size:13.5px; font-weight:600; color:var(--text); margin-bottom:3px; }
-.stage-desc { font-size:12px; color:var(--text-secondary); }
+@keyframes modalIn { from { opacity:0; transform:scale(0.96) translateY(8px); } to { opacity:1; transform:none; } }
+.modal-tag { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; color:var(--primary); background:var(--primary-bg); border:1px solid var(--primary-border); padding:2px 9px; border-radius:4px; display:inline-block; margin-bottom:10px; }
+.modal-title { font-size:16px; font-weight:700; margin-bottom:10px; }
+.modal-body { font-size:13.5px; color:var(--text-secondary); line-height:1.65; }
+.modal-close-btn { margin-top:20px; padding:8px 20px; background:var(--bg-input); border:1px solid var(--border); border-radius:var(--radius-sm); font-size:13px; font-weight:600; cursor:pointer; color:var(--text); transition:background 0.15s; }
+.modal-close-btn:hover { background:var(--border); }
 
-/* Empty phase */
-.empty-phase { padding:20px; text-align:center; color:var(--text-dim); font-size:13px; }
+/* ── DRILLDOWN PAGE ── */
+.drilldown-back {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:13px; font-weight:600; color:var(--text-secondary);
+  cursor:pointer; margin-bottom:20px; padding:6px 12px;
+  border-radius:var(--radius-sm); background:var(--bg-white);
+  border:1px solid var(--border); transition:all 0.15s;
+}
+.drilldown-back:hover { color:var(--primary); border-color:var(--primary-border); background:var(--primary-bg); }
+.drilldown-header { margin-bottom:28px; }
+.drilldown-header h1 { font-size:22px; font-weight:700; letter-spacing:-0.4px; margin-bottom:5px; }
+.drilldown-header p { font-size:13px; color:var(--text-secondary); font-family:'JetBrains Mono',monospace; }
 
-/* ── ARCHIVED SECTION ── */
-.archived-section {
-  border:1px solid var(--border); border-radius:var(--radius-sm);
-  margin-bottom:20px; overflow:hidden;
+.drilldown-section { background:var(--bg-white); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:14px; box-shadow:var(--shadow-sm); overflow:hidden; }
+.drilldown-section-head {
+  padding:14px 20px; display:flex; align-items:center; gap:12px;
+  cursor:pointer; user-select:none; transition:background 0.15s;
 }
-.archived-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:10px 14px; background:var(--bg-input);
-  cursor:pointer; user-select:none;
-  border-bottom:1px solid var(--border);
-}
-.archived-header-left { display:flex; align-items:center; gap:8px; }
-.archived-label {
-  font-size:10px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase;
-  color:var(--text-dim); background:var(--bg); border:1px solid var(--border);
-  padding:2px 7px; border-radius:4px;
-}
-.archived-title { font-size:13px; font-weight:600; color:var(--text-secondary); }
-.archived-toggle { font-size:18px; color:var(--text-dim); transition:transform 0.2s; }
-.archived-toggle.open { transform:rotate(180deg); }
-.archived-body { display:none; padding:16px; }
-.archived-body.open { display:block; }
+.drilldown-section-head:hover { background:var(--bg-hover); }
+.drilldown-section-head.expanded { border-bottom:1px solid var(--border); }
+.drilldown-step-tag { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; color:var(--primary); background:var(--primary-bg); border:1px solid var(--primary-border); padding:2px 8px; border-radius:4px; flex-shrink:0; }
+.drilldown-step-name { font-size:14px; font-weight:700; color:var(--text); flex:1; }
+.drilldown-chevron { color:var(--text-dim); font-size:12px; transition:transform 0.2s; }
+.drilldown-section-head.expanded .drilldown-chevron { transform:rotate(180deg); }
+.drilldown-section-body { padding:16px 20px; display:none; }
+.drilldown-section-body.open { display:block; }
 
-/* ── NEW PROCESS CHECKLIST ── */
-.process-section { }
-.process-section-title {
-  font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
-  color:var(--text-dim); margin-bottom:10px;
-  padding-bottom:8px; border-bottom:1px solid var(--border);
-}
-.process-steps { display:flex; flex-direction:column; gap:8px; }
-.process-step {
-  display:grid; grid-template-columns:32px 1fr auto;
-  gap:12px; align-items:start;
-  padding:12px 14px;
-  background:var(--bg); border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-}
-.process-step-id {
-  font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700;
-  color:var(--primary); background:var(--primary-bg);
-  border:1px solid var(--primary-border);
-  width:28px; height:28px; border-radius:6px;
-  display:flex; align-items:center; justify-content:center;
-  flex-shrink:0; margin-top:1px;
-}
-.process-step-info { }
-.process-step-name { font-size:13px; font-weight:600; color:var(--text); margin-bottom:3px; }
-.process-step-owner { font-size:11px; color:var(--text-dim); margin-bottom:4px; }
-.process-step-note { font-size:12px; color:var(--text-secondary); line-height:1.5; }
-.process-step-status {
-  font-size:10px; font-weight:700; padding:3px 9px; border-radius:4px;
-  white-space:nowrap; align-self:start; margin-top:2px;
-}
-.process-step-status.pending { background:var(--bg-input); color:var(--text-dim); border:1px solid var(--border); }
-.process-step-status.done { background:var(--green); color:#fff; }
-.process-step-status.in-progress { background:var(--yellow); color:#fff; }
+/* Phase groups */
+.phase-group { margin-bottom:20px; }
+.phase-group:last-child { margin-bottom:0; }
+.phase-group-label { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-dim); margin-bottom:8px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.phase-note { font-size:12px; color:var(--primary); font-weight:500; margin-bottom:10px; padding:6px 12px; background:var(--primary-bg); border:1px solid var(--primary-border); border-radius:var(--radius-sm); }
+.phase-blocker-note { font-size:12px; color:var(--red); font-weight:500; margin-bottom:10px; padding:6px 12px; background:var(--red-bg); border:1px solid var(--red-border); border-radius:var(--radius-sm); }
 
-/* Views */
-.view { display:none; }
-.view.active { display:block; animation:fadeUp 0.2s ease; }
-@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+/* Check items */
+.check-item { display:grid; grid-template-columns:22px 1fr auto; gap:10px; align-items:start; padding:10px 14px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:6px; background:var(--bg); font-size:13px; }
+.check-item.status-done { border-color:var(--green-border); background:var(--green-bg); }
+.check-item.status-progress { border-color:var(--yellow-border); background:var(--yellow-bg); }
+.check-item.status-blocked { border-color:var(--red-border); background:var(--red-bg); }
+.check-icon { font-size:13px; margin-top:2px; }
+.check-info { display:flex; flex-direction:column; gap:2px; }
+.check-name { font-weight:500; color:var(--text); line-height:1.4; }
+.check-owner { font-size:11px; color:var(--text-dim); margin-top:1px; }
+.check-note { font-size:11.5px; color:var(--text-secondary); font-style:italic; margin-top:3px; }
+.check-type { font-size:10px; font-weight:700; color:var(--yellow); background:var(--yellow-bg); border:1px solid var(--yellow-border); padding:2px 7px; border-radius:4px; white-space:nowrap; align-self:start; margin-top:2px; font-family:'JetBrains Mono',monospace; }
+.check-type.arch { color:#2563eb; background:rgba(37,99,235,0.07); border-color:rgba(37,99,235,0.2); }
+.check-type.specgap { color:var(--red); background:var(--red-bg); border-color:var(--red-border); }
+
+/* Misc */
+.empty-note { font-size:13px; color:var(--text-dim); padding:12px 0; }
 </style>
 </head>
 <body>
 
 <!-- TOP BAR -->
-<div class="top-bar">
+<header class="top-bar">
   <div class="top-bar-left">
-    <div class="hamburger" onclick="toggleSidebar()">
+    <div class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
       <span></span><span></span><span></span>
     </div>
     <div class="logo-mark">W</div>
-    <div class="top-bar-title">WIOM CSP App <span>— Go-Live Tracker</span></div>
+    <div class="top-bar-title">WIOM CSP App <span>— Build Tracker</span></div>
   </div>
   <div class="top-bar-right">
     <div class="sync-badge" id="syncBadge">
       <div class="sync-dot"></div>
-      <span id="syncLabel">Synced</span>
+      <span id="syncText">Synced</span>
     </div>
   </div>
-</div>
+</header>
 
 <!-- SIDEBAR -->
-<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-<div class="sidebar" id="sidebar">
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<nav class="sidebar" id="sidebar">
   <div class="sidebar-head">
-    <span class="sidebar-head-title">Navigate</span>
-    <div class="sidebar-close" onclick="closeSidebar()">×</div>
+    <div class="sidebar-head-title">Navigation</div>
+    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
   </div>
-  <div class="sidebar-nav">
-    <div class="sidebar-overview active" id="sidebar-overview" onclick="showOverview();closeSidebar()">
-      <span style="font-size:13px;margin-right:4px">⊞</span> Overview
+  <div class="sidebar-body">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Pages</div>
+      <button class="sidebar-item" id="nav-process" onclick="showView('process');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Process
+      </button>
+      <button class="sidebar-item active" id="nav-summary" onclick="showView('summary');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Summary
+      </button>
     </div>
     <div class="sidebar-divider"></div>
-    <div class="sidebar-section-label">Modules</div>
-    <div class="sidebar-item" id="sidebar-wallet" onclick="showModule('wallet');closeSidebar()">
-      <div class="sidebar-dot" style="background:var(--green)"></div>Wallet
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Modules</div>
+      <button class="sidebar-item" id="nav-wallet" onclick="showModule('wallet');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Wallet
+      </button>
+      <button class="sidebar-item" id="nav-netbox" onclick="showModule('netbox');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> NetBox
+      </button>
+      <button class="sidebar-item" id="nav-assurance" onclick="showModule('assurance');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Assurance Strip
+      </button>
+      <button class="sidebar-item" id="nav-taskfeed" onclick="showModule('taskfeed');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Task Feed
+      </button>
+      <button class="sidebar-item" id="nav-navmenu" onclick="showModule('navmenu');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Nav / Menu
+      </button>
+      <button class="sidebar-item" id="nav-prodhardening" onclick="showModule('prodhardening');toggleSidebar()">
+        <div class="sidebar-item-dot"></div> Prod Hardening
+      </button>
     </div>
-    <div class="sidebar-item" id="sidebar-netbox" onclick="showModule('netbox');closeSidebar()">
-      <div class="sidebar-dot" style="background:var(--text-dim)"></div>NetBox
-    </div>
-    <div class="sidebar-item" id="sidebar-assurance" onclick="showModule('assurance');closeSidebar()">
-      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Assurance Strip
-    </div>
-    <div class="sidebar-item" id="sidebar-taskfeed" onclick="showModule('taskfeed');closeSidebar()">
-      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Task Feed
-    </div>
-    <div class="sidebar-item" id="sidebar-drilldown" onclick="showModule('drilldown');closeSidebar()">
-      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Task Drilldown
-    </div>
-    <div class="sidebar-item" id="sidebar-navigation" onclick="showModule('navigation');closeSidebar()">
-      <div class="sidebar-dot" style="background:var(--text-dim)"></div>Navigation + Menu
-    </div>
+  </div>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-tag" id="modalTag"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body" id="modalBody"></div>
+    <button class="modal-close-btn" onclick="closeModalDirect()">Close</button>
   </div>
 </div>
 
 <!-- MAIN -->
-<div class="main">
+<main class="main">
 
-  <!-- OVERVIEW -->
-  <div class="view active" id="view-overview">
-
+  <!-- ══════════════ VIEW: PROCESS ══════════════ -->
+  <div class="view process-page" id="view-process">
     <div class="page-header">
-      <h1>Go-Live Tracker</h1>
-      <p>6 modules · 7 phases · Click any status chip to update · Click a module name for details</p>
+      <h1>The Build Process</h1>
+      <p>Why it exists and how it works</p>
     </div>
 
-    <!-- Summary Grid -->
-    <div class="section-label">Module Status</div>
-    <div class="grid-wrap">
-      <table class="grid-table">
+    <div class="section-heading">Why This Exists</div>
+    <div class="why-box">
+      <p>The first time Wallet was built, the code was written before the test plan existed. Fixtures were never created — the frontend invented its own mock shapes instead of deriving them from the API Contract. The result: every monetary value displayed 100× too high, the trust badge was always wrong, withdrawal history never appeared. These were not edge cases. They were visible on every screen, for every user. They were caught in QA — but only because the team ran a full test. Without the test, they would have reached real CSPs.</p>
+      <p style="margin-top:10px;">The process below exists to make these bugs structurally impossible, not just testable.</p>
+    </div>
+
+    <div class="section-heading">The 7 Steps</div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 1</div>
+      <div class="step-name">DEFINE</div>
+      <div class="step-desc">Fill Module Design Template v1.2. Lock the user reality, system truth, and state model before any build work begins.</div>
+      <div class="step-skip"><strong>Skipping causes:</strong> building features instead of state interfaces. Wrong module built entirely.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 2</div>
+      <div class="step-name">DESIGN — Two Parallel Tracks</div>
+      <div class="step-desc">
+        <strong>Track B (Backend):</strong> Build Spec → Devender builds service → API Contract finalized.<br>
+        <strong>Track A (Frontend):</strong> UX Agent → Visual Spec → Copy Agent → Hindi keys → Product creates fixtures + render checklist → Frontend builds.<br><br>
+        The two tracks run in parallel but frontend BUILD cannot start until the API Contract exists.
+      </div>
+      <div class="step-skip"><strong>Skipping Track A fixtures causes:</strong> frontend invents mock shapes. Real data doesn't match. 100× paise bug.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 3</div>
+      <div class="step-name">TEST PLAN</div>
+      <div class="step-desc">Fill Module Test Strategy Template v1.0. Define L1 truth cases, L2 architecture cases, L3 integration cases, L4 user scenarios. Canonical fixtures created here.</div>
+      <div class="step-skip"><strong>Skipping causes:</strong> tests not reproducible. Different results every run.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 4</div>
+      <div class="step-name">EXECUTE — Sequential Gates</div>
+      <div class="step-desc">
+        E1: Developer tests before merge.<br>
+        E2: Integration tests after merge (100% pass required).<br>
+        E3: Manual QA on real budget Android device, Hindi locale, 3G.<br>
+        E4: Field test — 3-5 real CSPs, task in Hindi, no training, just watch.<br><br>
+        Each blocks the next. Cannot skip to E3 without E2 passing.
+      </div>
+      <div class="step-skip"><strong>Skipping causes:</strong> bugs found by real CSPs that would have been caught in controlled QA.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 5</div>
+      <div class="step-name">GATES — All 5 Must Pass</div>
+      <div class="step-desc">
+        G1 Truth: all states correct, all actions valid, forbidden behaviors absent.<br>
+        G2 Architecture: no local logic, no derived actions, 15 L2 rules pass.<br>
+        G3 Integration: contract fields complete, idempotency works, cross-module effects visible.<br>
+        G4 User: CSP answers 2-second test, completes task, no surprise.<br>
+        G5 Performance: first paint &lt;2s on 3G, no blocking navigation, 60fps scroll.
+      </div>
+      <div class="step-skip"><strong>Skipping any gate causes:</strong> structural defects shipped to production.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 6</div>
+      <div class="step-name">SHIP — Staged</div>
+      <div class="step-desc">
+        Stage 1: Internal staff (5-10), 3-5 days, metrics clean.<br>
+        Stage 2: Controlled cohort (20-50 CSPs), 1-2 weeks, metrics clean.<br>
+        Stage 3: All CSPs, gradual.
+      </div>
+      <div class="step-skip"><strong>Skipping stages causes:</strong> undetected issues reaching full CSP base simultaneously.</div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">STEP 7</div>
+      <div class="step-name">REGRESSION</div>
+      <div class="step-desc">After every module ships: create 10-15 critical scenarios. These run before every future module release. Module 4 cannot ship if it breaks Module 3's regression pack.</div>
+      <div class="step-skip"><strong>Skipping causes:</strong> future builds silently break shipped modules.</div>
+    </div>
+
+    <div class="section-heading" style="margin-top:36px;">The Two Parallel Tracks — Visualized</div>
+
+    <div class="tracks-diagram">
+      <div class="track-col track-a">
+        <div class="track-header a">TRACK A — Frontend Side</div>
+        <div class="track-step">UX Agent</div>
+        <div class="track-step">Visual Spec</div>
+        <div class="track-step">Copy Agent</div>
+        <div class="track-step">Hindi Keys</div>
+        <div class="track-step wait-step">⏸ WAIT FOR CONTRACT</div>
+        <div class="track-step">Product creates fixtures + render checklist</div>
+        <div class="track-step">Adit approves</div>
+        <div class="track-step">Frontend builds</div>
+        <div class="track-step">Adit code review</div>
+        <div class="track-step">Product manual QA on device</div>
+        <div class="track-step">E4 field test</div>
+      </div>
+      <div class="track-center">
+        <div class="contract-arrow">↓</div>
+        <div class="contract-box">API<br>CONTRACT</div>
+        <div class="contract-arrow">↓</div>
+      </div>
+      <div class="track-col track-b">
+        <div class="track-header b">TRACK B — Backend Side</div>
+        <div class="track-step">Build Spec (exists)</div>
+        <div class="track-step">Phase A: Mukul writes test plan</div>
+        <div class="track-step">Adit approves test plan</div>
+        <div class="track-step">Phase B: Devender builds code</div>
+        <div class="track-step">Phase C: Adit spec-to-code review</div>
+        <div class="track-step wait-step">→ API Contract finalized</div>
+        <div class="track-step">Phase D: Mukul runs QA</div>
+        <div class="track-step">Phase E: fix loop</div>
+        <div class="track-step">Phase F: sign-off</div>
+      </div>
+    </div>
+    <div class="tracks-note">
+      Frontend BUILD cannot start until API Contract exists. UX/copy work can happen in parallel with Track B service build.
+    </div>
+
+    <div class="section-heading" style="margin-top:36px;">The Amendment Process</div>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">When something breaks or changes, this determines how it's fixed.</p>
+
+    <div class="decision-tree">
+      <div class="dt-question">
+        <div class="dt-q-text">Q1: Can you point to an exact spec section that defines the correct behavior?</div>
+        <div class="dt-answers">
+          <div class="dt-answer"><span class="dt-yes">YES</span> <span><span class="dt-result">CODE_BUG (Type 1)</span> Devender fixes code. Spec is already correct.</span></div>
+          <div class="dt-answer"><span class="dt-no">NO</span> <span>Go to Q2.</span></div>
+        </div>
+      </div>
+      <div class="dt-question">
+        <div class="dt-q-text">Q2: Does the OS define the behavior even if the spec missed it?</div>
+        <div class="dt-answers">
+          <div class="dt-answer"><span class="dt-yes">YES</span> <span><span class="dt-result">SPEC_GAP (Type 2)</span> Mukul fixes spec first. Then Devender fixes code.</span></div>
+          <div class="dt-answer"><span class="dt-no">NO</span> <span>Go to Q3.</span></div>
+        </div>
+      </div>
+      <div class="dt-question">
+        <div class="dt-q-text">Q3: Is this behavior defined nowhere?</div>
+        <div class="dt-answers">
+          <div class="dt-answer"><span class="dt-yes">YES</span> <span><span class="dt-result">DESIGN_GAP (Type 3)</span> STOP. Satyam decides. Full amendment chain runs.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="dt-rule">
+      <strong>Rule:</strong> The documents do the classifying, not the people. If the engineer cannot point to a spec clause, they cannot call it a code bug.
+    </div>
+
+    <div class="section-heading" style="margin-top:36px;">Non-Negotiable Rules</div>
+    <div class="rules-box">
+      <ol>
+        <li>Builder never verifies their own work. The person who builds is never the person who verifies.</li>
+        <li>Test plan must exist BEFORE Devender writes code. Phase A before Phase B.</li>
+        <li>Canonical fixtures must exist BEFORE frontend builds. Product Phase A before Engineer Phase B.</li>
+        <li>All 5 gates must pass. No partial shipping.</li>
+        <li>Spec is truth, not the test. If test expects something spec doesn't say, test is wrong.</li>
+        <li>Frontend never computes business logic. Server decides. App renders.</li>
+        <li>Contract-driven fixtures only. No free-form mocks.</li>
+        <li>Regression pack runs before every future module release.</li>
+        <li>Amendment process governs all changes. Upstream always wins a contradiction.</li>
+        <li>Builder never self-reviews. Adit cross-reviews all code and test plans (except PS test plan which Adit wrote — Mukul must review that one).</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- ══════════════ VIEW: SUMMARY ══════════════ -->
+  <div class="view active" id="view-summary">
+    <div class="page-header">
+      <h1>Module Status</h1>
+      <p>Click any module name to see drilldown &middot; Click any column header for what it means</p>
+    </div>
+    <div class="table-wrapper">
+      <table id="summaryTable">
         <thead>
           <tr>
-            <th class="grid-th-module">Module</th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p01')">
-              <span class="phase-tag">P0+P1</span>
-              <span class="phase-label">Freeze &amp; Artifacts</span>
-            </th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p2')">
-              <span class="phase-tag">P2</span>
-              <span class="phase-label">Backend</span>
-            </th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p3')">
-              <span class="phase-tag">P3</span>
-              <span class="phase-label">Gateway</span>
-            </th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p4')">
-              <span class="phase-tag">P4</span>
-              <span class="phase-label">App Integration</span>
-            </th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p5')">
-              <span class="phase-tag">P5</span>
-              <span class="phase-label">Frontend QA</span>
-            </th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p6')">
-              <span class="phase-tag">P6</span>
-              <span class="phase-label">Pre-Production</span>
-            </th>
-            <th class="grid-th-phase" onclick="showPhaseModal('p7')">
-              <span class="phase-tag">P7</span>
-              <span class="phase-label">Go Live</span>
-            </th>
+            <th><div class="th-inner">Module</div></th>
+            <th class="clickable-header" onclick="showColModal('define')"><div class="th-inner">Define <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('trackB')"><div class="th-inner">Track B <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('contract')"><div class="th-inner">Contract <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('trackA')"><div class="th-inner">Track A <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('testPlan')"><div class="th-inner">Test Plan <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('e1')"><div class="th-inner">E1 <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('e2')"><div class="th-inner">E2 <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('e3')"><div class="th-inner">E3 <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('e4')"><div class="th-inner">E4 <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('gates')"><div class="th-inner">Gates <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('ship')"><div class="th-inner">Ship <span class="th-info">?</span></div></th>
+            <th class="clickable-header" onclick="showColModal('regression')"><div class="th-inner">Regression <span class="th-info">?</span></div></th>
           </tr>
         </thead>
-        <tbody id="summaryGrid"></tbody>
+        <tbody id="summaryBody"></tbody>
       </table>
     </div>
-
-    <!-- Phase Legend -->
-    <div class="legend-section">
-      <div class="section-label">What each phase means — click any for details</div>
-      <div class="legend-pipeline" id="legendGrid"></div>
-    </div>
-
   </div>
 
-  <!-- MODULE DRILLDOWN -->
+  <!-- ══════════════ VIEW: MODULE DRILLDOWN ══════════════ -->
   <div class="view" id="view-module">
+    <button class="drilldown-back" onclick="showView('summary')">← Summary</button>
     <div class="drilldown-header">
-      <div class="back-btn" onclick="showOverview()">
-        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M8.5 2L3.5 6.5L8.5 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Overview
-      </div>
-      <div class="drilldown-module-name" id="drilldownTitle">—</div>
+      <h1 id="module-title"></h1>
+      <p id="module-subtitle"></p>
     </div>
-    <div class="drilldown-phases" id="drilldownContent"></div>
+    <div id="module-content"></div>
   </div>
 
-</div>
+</main>
 
-<!-- PHASE MODAL -->
-<div class="phase-modal-overlay" id="phaseModalOverlay" onclick="closePhaseModal(event)">
-  <div class="phase-modal">
-    <div class="phase-modal-head">
-      <div class="phase-modal-tag" id="phaseModalTag">—</div>
-      <div class="phase-modal-name" id="phaseModalName">—</div>
-    </div>
-    <div class="phase-modal-desc" id="phaseModalDesc">—</div>
-    <div class="phase-modal-artifacts">
-      <h4>What this includes</h4>
-      <div class="artifact-list" id="phaseModalArtifacts"></div>
-    </div>
-    <button class="phase-modal-close" onclick="document.getElementById('phaseModalOverlay').classList.remove('open')">Close</button>
-  </div>
-</div>
-
+<!-- Firebase SDK v8 -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
 <script>
-// ── FIREBASE ──
-const FB_URL = 'https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app';
-let db = null, dbRef = null, firebaseReady = false, saveTimer = null, isSaving = false;
-try {
-  firebase.initializeApp({ databaseURL: FB_URL });
-  db = firebase.database();
-  dbRef = db.ref('golive_v4');
-  firebaseReady = true;
-} catch(e) { console.warn('Firebase init failed', e); }
+// ── FIREBASE INIT ──
+const firebaseConfig = {
+  databaseURL: "https://sd-build-tracker-default-rtdb.asia-southeast1.firebasedatabase.app"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const REF = db.ref('golive_v5');
 
-function setSyncStatus(s) {
-  const b = document.getElementById('syncBadge');
-  const l = document.getElementById('syncLabel');
-  b.className = 'sync-badge ' + s;
-  l.textContent = s === 'synced' ? 'Synced' : s === 'saving' ? 'Saving…' : 'Offline';
-}
+// ── DATA ──
+const MODULES = ['wallet','netbox','assurance','taskfeed','navmenu','prodhardening'];
+const COLS = ['define','trackB','contract','trackA','testPlan','e1','e2','e3','e4','gates','ship','regression'];
 
-// ── PHASE DEFINITIONS ──
-const PHASES = {
-  p01: {
-    tag: 'P0+P1', name: 'Freeze & Artifacts',
-    desc: 'Module objective written and locked. All input documents produced, reviewed, and frozen before any build starts. No build may begin until all artifacts are signed off.',
-    artifacts: ['OS (locked)', 'Build Spec (approved)', 'Build Spec ↔ OS Review', 'Code Gen — Service', 'Code Gen ↔ Build Spec Review', 'Gateway Code', 'Gateway ↔ API Contract Review', 'API Contract (locked)', 'Visual Spec (locked)', 'Hindi Copy Keys', 'Integration Test Suite', 'Test Plan (Testing Template §0–§10)']
-  },
-  p2: {
-    tag: 'P2', name: 'Backend',
-    desc: 'Six-step process: (A) Test plan written before codegen. (B) Code generated with CLAUDE.md + agent self-check. (C) Adit conformance check against spec. (D) QA run — automated CI checks first, then full test plan including concurrency. (E) Fix loop. (F) Exit criteria sign-off.',
-    artifacts: ['A: Test plan written (Mukul)', 'B: Code gen with CLAUDE.md (Devender)', 'C: Adit conformance check (10 points)', 'D: 3 automated CI checks pass', 'D: Full QA per test plan §2–§8', 'D: Concurrency tests pass', 'E: Fix loop complete', 'F: Exit criteria signed off']
-  },
-  p3: {
-    tag: 'P3', name: 'Gateway',
-    desc: 'Same integration test suite run against the gateway. Gateway endpoints return correct shapes, role suppression works, error mapping correct, CSP isolation holds. P2+P3 proven in the same run.',
-    artifacts: ['All integration tests pass (gateway)', 'Role suppression verified', 'Error mapping correct', 'CSP isolation verified', 'Idempotency passthrough verified']
-  },
-  p4: {
-    tag: 'P4', name: 'App Integration',
-    desc: 'Real gateway calls replace mock data in the app. All screens render correctly against live QA data. 5 smoke scenarios verified end-to-end on a real device.',
-    artifacts: ['Mock data replaced with gateway calls', 'All screens render on real data', '5 smoke tests on device pass']
-  },
-  p5: {
-    tag: 'P5', name: 'Frontend QA',
-    desc: 'Full-stack tested through the app on a real device. All QA scenarios pass — Hindi copy, role suppression, offline, edge states, T-19 (unknown entry_type render).',
-    artifacts: ['All scenarios pass on device', 'Hindi copy — zero English fallbacks', 'Role suppression in UI verified', 'Offline queue replay works', 'Missing data renders as —', '280dp width — no truncation', 'T-19 unknown entry_type graceful render']
-  },
-  p6: {
-    tag: 'P6', name: 'Pre-Production',
-    desc: 'Environment ready for real traffic. Staging personas seeded, observability dashboards live, rollback plan written, war game completed across all failure scenarios.',
-    artifacts: ['Staging personas seeded', 'Observability dashboards live', 'Rollback plan written', 'War game completed']
-  },
-  p7: {
-    tag: 'P7', name: 'Go Live',
-    desc: 'Staged rollout: internal staff first, then controlled CSP cohort, then broader rollout. Gate metrics must be clean before advancing between stages.',
-    artifacts: ['Stage 1: Internal/staff', 'Stage 2: Controlled CSP cohort (20-50)', 'Stage 3: Broader rollout']
-  }
+const MODULE_NAMES = {
+  wallet: 'Wallet',
+  netbox: 'NetBox',
+  assurance: 'Assurance Strip',
+  taskfeed: 'Task Feed',
+  navmenu: 'Nav / Menu',
+  prodhardening: 'Prod Hardening'
 };
 
-// ── MODULES ──
-const MODULES = [
-  { id: 'wallet',     name: 'Wallet' },
-  { id: 'netbox',     name: 'NetBox' },
-  { id: 'assurance',  name: 'Assurance Strip' },
-  { id: 'taskfeed',   name: 'Task Feed' },
-  { id: 'drilldown',  name: 'Task Drilldown' },
-  { id: 'navigation', name: 'Navigation + Menu' },
-];
-const PHASE_KEYS = ['p01','p2','p3','p4','p5','p6','p7'];
-const CHIP_CYCLE = ['not-started','in-progress','done'];
+const MODULE_SUBTITLES = {
+  wallet: 'Payment OS · PS + CS services · Gateway API Contract v1.2',
+  netbox: 'Asset Custody OS · ACS service · Gateway API Contract v1.0',
+  assurance: '4 chips: Connections · Earnings · SLA · Exposure · CLS + CS + QS + DAS',
+  taskfeed: 'TAS service (design required first) · Events from 10 OSes',
+  navmenu: 'App shell · Bottom nav · Drawer · Routing · Low backend dependency',
+  prodhardening: 'Replace all stubs · Real PGS · Real push · 6 build specs needed'
+};
 
-// ── DEFAULT STATE ──
+const COL_LABELS = {
+  define: 'Define',
+  trackB: 'Track B',
+  contract: 'Contract',
+  trackA: 'Track A',
+  testPlan: 'Test Plan',
+  e1: 'E1',
+  e2: 'E2',
+  e3: 'E3',
+  e4: 'E4',
+  gates: 'Gates',
+  ship: 'Ship',
+  regression: 'Regression'
+};
+
+const COL_DESCRIPTIONS = {
+  define: { tag: 'STEP 1', title: 'Define', body: 'Module Design Template v1.2 filled and locked. User reality, system truth, and state model, action model all defined before anything else starts.' },
+  trackB: { tag: 'STEP 2B', title: 'Track B — Backend Build', body: 'Backend Phase A-F. Test plan written BEFORE code, code generated against spec, Adit spec-to-code review (10 points), Mukul QA against test plan, fix loop, sign-off.' },
+  contract: { tag: 'STEP 2', title: 'API Contract', body: 'Gateway API Contract locked. Defines exactly what the gateway returns — response shapes, error codes, role suppression rules. Both tracks converge here.' },
+  trackA: { tag: 'STEP 2A', title: 'Track A — Frontend Build', body: 'Frontend Phase A-F. Product creates canonical fixtures + render checklist from Contract, Adit approves, Frontend builds from spec+fixtures, Adit L2 review (15 rules), Product manual QA on real device, E4 field test.' },
+  testPlan: { tag: 'STEP 3', title: 'Module Test Strategy', body: 'Module Test Strategy Template v1.0 filled. L1 truth cases (15-30), L2 architecture cases (8-12), L3 integration cases (15-25), L4 user scenarios (5-10). Canonical fixture set versioned.' },
+  e1: { tag: 'STEP 4 — E1', title: 'Developer Tests Before Merge', body: 'Unit tests, contract shape tests, event emission tests. L2 checklist all 15 rules. All screens render in all states without crash.' },
+  e2: { tag: 'STEP 4 — E2', title: 'Integration Tests After Merge', body: 'Full L3 suite against live services. 100% pass required. Performance checks (no duplicate requests, payload sizes).' },
+  e3: { tag: 'STEP 4 — E3', title: 'Manual QA on Real Device', body: 'Manual QA on real budget Android device. Hindi locale. 3G network. Render checklist walkthrough. Offline flows. 2-second test. Not the builder.' },
+  e4: { tag: 'STEP 4 — E4', title: 'Field Test', body: '3-5 real CSPs. Task given in Hindi. No training. No help. Just watch and record.' },
+  gates: { tag: 'STEP 5', title: 'All 5 Gates', body: 'G1 Truth + G2 Architecture + G3 Integration + G4 User + G5 Performance. All 5 must pass. Any failure blocks ship.' },
+  ship: { tag: 'STEP 6', title: 'Staged Rollout', body: 'Stage 1: internal staff. Stage 2: 20-50 CSPs. Stage 3: all CSPs. Blocking metrics between stages.' },
+  regression: { tag: 'STEP 7', title: 'Regression Pack', body: '10-15 critical scenarios created after ship. Runs before every future module release. Protects this module from being broken by future builds.' }
+};
+
+const STATUS_CYCLE = ['not-started','in-progress','done','blocked'];
+const STATUS_LABELS = { 'done':'Done', 'in-progress':'In Progress', 'not-started':'Not Started', 'blocked':'Blocked' };
+
 const DEFAULT_STATE = {
-  modules: {
-    wallet: {
-      phases: { p01:'done', p2:'in-progress', p3:'done', p4:'in-progress', p5:'not-started', p6:'not-started', p7:'not-started' },
-      drilldown: {
-        p01: {
-          docs: [
-            { name:'Payment OS', version:'v1.8', status:'locked' },
-            { name:'PS Build Spec', version:'v1.4', status:'approved' },
-            { name:'Build Spec ↔ OS Review', version:'—', status:'done' },
-            { name:'CS Build Spec', version:'v1.3', status:'approved' },
-            { name:'Gateway Code', version:'—', status:'done' },
-            { name:'Gateway ↔ API Contract Review', version:'—', status:'done' },
-            { name:'Gateway API Contract', version:'v1.2', status:'locked' },
-            { name:'Wallet Visual Spec', version:'v1.3', status:'locked' },
-            { name:'Hindi Copy Keys', version:'v1.2 · 73 keys', status:'done' },
-            { name:'Integration Test Suite', version:'v1.0 · 55 tests', status:'done' },
-            { name:'Test Plan (Testing Template §0–§10)', version:'—', status:'pending' },
-          ],
-          notes: 'PS v1.4 includes addendum covering bank accounts and cross-ledger transfer. PS spec needs v1.5 bump to formally document the cross-ledger idempotency fix found during P2 testing.'
-        },
-        p2: {
-          preStandardRun: {
-            date: '2026-03-25',
-            total: 55, passed: 54,
-            issues: [
-              {
-                test: 'T-14',
-                what: 'Earnings ledger missing withdrawal entries',
-                status: 'fixed',
-                rca: 'During code gen, the earnings read endpoint was built to pull only from settlement records. Withdrawal entries sit in a separate table — that source wasn\'t included.',
-                fix: 'Earnings endpoint updated to pull from both tables. Settlement entries and withdrawal entries now both appear in the earnings view.',
-                process: 'During build spec, the earnings read model should have explicitly listed all data sources that feed the earnings view — not just settlement records. That would have caught this during spec review, before code gen started.'
-              },
-              {
-                test: 'T-40',
-                what: 'Deposit idempotency not working — duplicate entries on repeat calls',
-                status: 'fixed',
-                rca: 'During build spec, idempotency was not defined for the deposit operation — no token field in the input schema, no column in the DB table. Without it in the spec, it wasn\'t built during code gen.',
-                fix: 'DB schema updated to store the idempotency token per deposit entry. Logic added so a repeat request with the same key returns the original result without creating a new entry. PS build spec needs a v1.5 bump to formally document this.',
-                process: 'Every financial write operation must have idempotency defined in the build spec before code gen — input field, DB column, and dedup behaviour. This was missing for the deposit operation. PS spec v1.5 is the correction.'
-              },
-              {
-                test: 'T-19',
-                what: 'Unknown entry_type graceful handling — not tested',
-                status: 'deferred',
-                rca: 'N/A — not a bug.',
-                fix: 'An invariant prevents manual entries into the ledger, so this can\'t be tested at the backend level. Backend behaviour is correct — unknown types pass through without crashing.',
-                process: 'Moved to P5. Will verify that the app renders unknown entry types without crashing.'
-              },
-            ],
-            notes: 'Tests run 2026-03-25 across 3 sessions. T-26 (NOT_WITHDRAWAL_DAY) verified on a non-P175 day. WEDNESDAY temporarily added to PaymentConfig.withdrawalDays in QA for T-24/T-14/T-40 — must be removed before production. This run was done before the Testing Standard was published.'
-          },
-          newProcess: [
-            { id:'A', name:'Test Plan Written', owner:'Mukul', status:'pending', note:'Mukul writes PS test plan per Testing Template §0–§10 before codegen starts. Adit reviews and approves.' },
-            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'Agent re-run with CLAUDE.md + build spec + test plan loaded. Agent self-check (8 items) must pass before commit.' },
-            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point spec-to-code check: handlers, guards, §6B fields, idempotency, auth, audit log, envelope. Must pass before QA starts.' },
-            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'3 automated CI checks first (snake_case, §6B fields, DomainEvent envelope). Then full test plan §2–§8 — including concurrency tests (C-01–C-05) and OverridableClock replacing the Wednesday config hack.' },
-            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures from D fixed against spec. Spec is truth — not the test. Adit re-reviews specific fixes only.' },
-            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'10-point exit criteria checklist. All must be true. Mukul signs, Adit cross-reviews, Satyam gates.' },
-          ]
-        },
-        p3: {
-          total: 55, passed: 54,
-          issues: [],
-          notes: 'P2 and P3 proven in the same test run — all 55 integration tests run against the gateway directly. Gateway base URL: https://csp-gateway-qa.i2e1agents.in'
-        },
-        p4: { notes: 'In progress. App screens already built with mock data (system-led-design repo). Next step: replace mock data with real gateway calls against https://csp-gateway-qa.i2e1agents.in' },
-        p5: { notes: 'Frontend QA — all wallet scenarios on a real device: withdrawal request → batch → completion, balance + available_balance display correct, deposit ledger entries render, Hindi copy zero English fallbacks, 280dp width no truncation, offline queue replay, T-19 unknown entry_type renders gracefully without crash.' },
-        p6: { notes: 'Pre-production: staging CSP personas seeded with representative wallet data (balance, bank account, deposit entries). Observability dashboards live for PS and CS read paths. Rollback plan written and tested. War game completed across all wallet failure scenarios.' },
-        p7: { notes: '' }
-      }
-    },
-    netbox: {
-      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
-      drilldown: {
-        p01: {
-          docs: [
-            { name:'Custody OS', version:'TBD', status:'pending' },
-            { name:'ACS Build Spec', version:'v1.1', status:'approved' },
-            { name:'Build Spec ↔ OS Review (ACS)', version:'—', status:'pending' },
-            { name:'Payment OS', version:'v1.8', status:'locked' },
-            { name:'PS Build Spec', version:'v1.4', status:'approved' },
-            { name:'Build Spec ↔ OS Review (PS)', version:'—', status:'pending' },
-            { name:'Gateway Code', version:'—', status:'pending' },
-            { name:'Gateway ↔ API Contract Review', version:'—', status:'pending' },
-            { name:'API Contract', version:'TBD', status:'pending' },
-            { name:'Visual Spec', version:'TBD', status:'pending' },
-            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
-            { name:'Integration Test Suite', version:'TBD', status:'pending' },
-            { name:'Test Plan — ACS (Testing Template §0–§10)', version:'—', status:'pending' },
-            { name:'Test Plan — PS deposit reads (Testing Template §0–§10)', version:'—', status:'pending' },
-          ],
-          notes: 'NetBox screen shows: (1) device state from ACS — serial number, custody status, assignment date. (2) Security deposit balance from PS — deposit pool balance, ledger entries per device, cash status. PS build spec v1.4 already approved; PS test plan v1.0 already drafted.'
-        },
-        p2: {
-          newProcess: [
-            { id:'A', name:'Test Plans Written', owner:'Mukul', status:'pending', note:'2 test plans: ACS test plan (new) + PS deposit reads (PS test plan v1.0 already drafted — verify §3 coverage for deposit endpoints). Adit reviews both before codegen starts.' },
-            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'Agent run for ACS. PS already being built under Wallet P2. CLAUDE.md + build spec + test plan loaded for ACS. Agent self-check (8 items) must pass.' },
-            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point spec-to-code check for ACS. PS conformance already covered under Wallet P2. Must pass before QA starts.' },
-            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'3 automated CI checks first. Full test plan for ACS. For PS: verify deposit endpoints specifically (§6B deposits, deposit_ledger reads). CSP isolation — CSP A cannot read CSP B device or deposit data.' },
-            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec. Spec is truth — not the test.' },
-            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'10-point exit criteria for ACS complete. PS deposit endpoints verified.' },
-          ]
-        },
-        p3: { notes: 'ACS + PS integration tests run against gateway. Device state (ACS) and security deposit ledger (PS) returned correctly. CSP isolation verified — CSP A cannot access CSP B\'s device or deposit data. All §6B field conformance tests pass via gateway.' },
-        p4: { notes: 'TBD — NetBox screen wired to real gateway. Device serial number, custody state, assignment date, deposit pool balance, and deposit ledger entries all render with live data. Confirmed on real device.' },
-        p5: { notes: 'TBD — Frontend QA: device state displays for all custody states. Deposit entries render with correct cash_status labels. Hindi copy verified. Missing data shows as —. 280dp no truncation.' },
-        p6: { notes: 'Pre-production: staging personas with seeded device assignments and deposit balances. Observability dashboards live for ACS + PS deposit read paths. Rollback plan written.' },
-      }
-    },
-    assurance: {
-      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
-      drilldown: {
-        p01: {
-          docs: [
-            { name:'CL OS', version:'v1.3', status:'locked' },
-            { name:'CLS Build Spec', version:'v1.5', status:'approved' },
-            { name:'Build Spec ↔ OS Review (CLS)', version:'—', status:'pending' },
-            { name:'Payment OS', version:'v1.8', status:'locked' },
-            { name:'CS Build Spec', version:'v1.3', status:'approved' },
-            { name:'Build Spec ↔ OS Review (CS)', version:'—', status:'pending' },
-            { name:'Quality OS', version:'v1.10', status:'locked' },
-            { name:'QS Build Spec', version:'v1.3', status:'approved' },
-            { name:'Build Spec ↔ OS Review (QS)', version:'—', status:'pending' },
-            { name:'DAS Build Spec', version:'v1.4', status:'approved' },
-            { name:'Build Spec ↔ OS Review (DAS)', version:'—', status:'pending' },
-            { name:'Gateway Code', version:'—', status:'pending' },
-            { name:'Gateway ↔ API Contract Review', version:'—', status:'pending' },
-            { name:'API Contract', version:'TBD', status:'pending' },
-            { name:'Visual Spec', version:'TBD', status:'pending' },
-            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
-            { name:'Integration Test Suite', version:'TBD', status:'pending' },
-            { name:'Test Plan — CLS (Testing Template §0–§10)', version:'—', status:'pending' },
-            { name:'Test Plan — CS (Testing Template §0–§10)', version:'—', status:'pending' },
-            { name:'Test Plan — QS (Testing Template §0–§10)', version:'—', status:'pending' },
-            { name:'Test Plan — DAS (Testing Template §0–§10)', version:'—', status:'pending' },
-          ],
-          notes: '4 chips on the CSP home screen — each backed by a separate service: Connections (CLS) · Earnings (CS) · SLA (QS) · Exposure (DAS). All 4 build specs are approved. 4 separate test plans required before any codegen starts.'
-        },
-        p2: {
-          newProcess: [
-            { id:'A', name:'Test Plans Written (4 services)', owner:'Mukul', status:'pending', note:'4 test plans needed: CLS, CS, QS, DAS. Each follows Testing Template §0–§10. Adit reviews all 4 before any codegen starts on this module.' },
-            { id:'B', name:'Code Gen with CLAUDE.md (4 services)', owner:'Devender', status:'pending', note:'Agent run for CLS, CS, QS, DAS — each separately. CLAUDE.md + build spec + test plan loaded per service. Agent self-check (8 items) per service before commit.' },
-            { id:'C', name:'Adit Conformance Check (4 services)', owner:'Adit', status:'pending', note:'10-point spec-to-code check for each of CLS, CS, QS, DAS. All 4 must pass before QA starts.' },
-            { id:'D', name:'QA Run (4 services)', owner:'Mukul', status:'pending', note:'3 automated CI checks first per service. Full test plan §2–§8 for all 4. Each service\'s read endpoint verified: connection count, earnings summary, SLA state, exposure band.' },
-            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec. Spec is truth — not the test. Adit re-reviews specific fixes only.' },
-            { id:'F', name:'Exit Criteria Sign-Off (4 services)', owner:'Mukul → Adit → Satyam', status:'pending', note:'10-point checklist × 4 services. All 4 complete before Assurance Strip moves to P3.' },
-          ]
-        },
-        p3: { notes: '4 read endpoints tested via gateway: CLS connection summary · CS earnings summary · QS SLA state · DAS exposure band. Each chip value verified end-to-end. CSP isolation verified on all 4 — CSP A cannot see CSP B\'s strip data.' },
-        p4: { notes: 'TBD — Assurance strip wired to real gateway. All 4 chips render live data on the home screen. State transitions visible (e.g. AT_RISK vs COMPLIANT for SLA chip). Confirmed on real device.' },
-        p5: { notes: 'TBD — Frontend QA: all 4 chips display correctly for all states. Loading/empty states handled. Hindi copy on all chip labels and state labels. 280dp no truncation.' },
-        p6: { notes: 'Pre-production: staging personas seeded with representative data for all 4 chips. Observability dashboards for CLS, CS, QS, DAS read paths. Rollback plan written.' },
-      }
-    },
-    taskfeed: {
-      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
-      drilldown: {
-        p01: {
-          docs: [
-            { name:'TAS Build Spec (Task Aggregation Service)', version:'NOT WRITTEN — BLOCKER', status:'pending' },
-            { name:'CLS Build Spec', version:'v1.5', status:'approved' },
-            { name:'QS Build Spec', version:'v1.3', status:'approved' },
-            { name:'ES Build Spec', version:'v1.1', status:'approved' },
-            { name:'CIS Build Spec', version:'v1.2', status:'approved' },
-            { name:'ACS Build Spec', version:'v1.1', status:'approved' },
-            { name:'SRS Build Spec', version:'v1.6', status:'approved' },
-            { name:'CAES Build Spec', version:'v1.3', status:'approved' },
-            { name:'CCS Build Spec', version:'v1.4', status:'approved' },
-            { name:'Gateway Code', version:'—', status:'pending' },
-            { name:'API Contract', version:'TBD', status:'pending' },
-            { name:'Visual Spec', version:'TBD', status:'pending' },
-            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
-            { name:'Integration Test Suite', version:'TBD', status:'pending' },
-            { name:'Test Plan — TAS (Testing Template §0–§10)', version:'—', status:'pending' },
-          ],
-          notes: 'BLOCKER: TAS (Task Aggregation Service) architecture has not been designed. TAS composes task streams from 8 services (CLS, QS, ES, CIS, ACS, SRS, CAES, CCS) into a server-ordered priority feed (levels L0–L6). Without TAS spec approved, no P2 work can begin. All 8 feeder service specs are approved and ready.'
-        },
-        p2: {
-          newProcess: [
-            { id:'A', name:'Test Plans Written', owner:'Mukul', status:'pending', note:'BLOCKED: TAS spec must be approved first. Once ready, test plans needed for TAS + verify all 8 feeder services are covered (most will be done in earlier modules).' },
-            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'TAS first (aggregation + ordering layer). Feeder services (CLS, QS, ES, CIS, ACS, SRS, CAES, CCS) should already be built under earlier modules. Agent self-check (8 items) for TAS.' },
-            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point check for TAS. Feeder service checks done as part of their respective module P2s.' },
-            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'TAS QA: verify task ordering by priority (L0–L6), task types from all 8 sources visible, server ordering correct. Full test plan §2–§8 for TAS.' },
-            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec. Spec is truth — not the test.' },
-            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'TAS exit criteria complete. All task types verifiable in the feed.' },
-          ]
-        },
-        p3: { notes: 'TAS + all 8 feeder services tested via gateway. Task feed endpoint returns tasks in correct priority order. All task types from all 8 sources present. CSP isolation — CSP A sees only their own tasks.' },
-        p4: { notes: 'TBD — Task feed screen wired to real gateway. All task types render. Pull-to-refresh works. Empty state (no tasks) handled correctly.' },
-        p5: { notes: 'TBD — Frontend QA: all task type cards render correctly. Task ordering verified visually. Hindi copy on all task labels and action text. Offline state handled.' },
-        p6: { notes: 'Pre-production: staging personas seeded with representative task queues covering all task types. TAS ordering verified in staging. Rollback plan written.' },
-      }
-    },
-    drilldown: {
-      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
-      drilldown: {
-        p01: {
-          docs: [
-            { name:'TAS Build Spec (drilldown detail model)', version:'NOT WRITTEN — BLOCKER', status:'pending' },
-            { name:'Drilldown Visual Spec', version:'TBD — pending UX delivery', status:'pending' },
-            { name:'CLS Build Spec', version:'v1.5', status:'approved' },
-            { name:'QS Build Spec', version:'v1.3', status:'approved' },
-            { name:'ES Build Spec', version:'v1.1', status:'approved' },
-            { name:'CIS Build Spec', version:'v1.2', status:'approved' },
-            { name:'ACS Build Spec', version:'v1.1', status:'approved' },
-            { name:'SRS Build Spec', version:'v1.6', status:'approved' },
-            { name:'CAES Build Spec', version:'v1.3', status:'approved' },
-            { name:'CCS Build Spec', version:'v1.4', status:'approved' },
-            { name:'API Contract', version:'TBD', status:'pending' },
-            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
-            { name:'Integration Test Suite', version:'TBD', status:'pending' },
-            { name:'Test Plan — TAS drilldown (Testing Template §0–§10)', version:'—', status:'pending' },
-          ],
-          notes: '2 blockers: (1) TAS spec not written — drilldown detail model is part of TAS. (2) Drilldown visual spec pending UX agent delivery (Yash Gupta). Each task type has its own detail model and actions. Depends on Task Feed module completing P2 first.'
-        },
-        p2: {
-          newProcess: [
-            { id:'A', name:'Test Plans Written', owner:'Mukul', status:'pending', note:'BLOCKED: TAS spec + drilldown visual spec must exist first. Drilldown test plan covers per-task-type detail models, action buttons, and state transitions triggered from the drilldown.' },
-            { id:'B', name:'Code Gen with CLAUDE.md', owner:'Devender', status:'pending', note:'TAS drilldown endpoints generated after Task Feed P2 is complete. Per-service detail reads verified for all task types.' },
-            { id:'C', name:'Adit Conformance Check', owner:'Adit', status:'pending', note:'10-point check for TAS drilldown endpoints. Per-task-type detail endpoint conformance against TAS spec.' },
-            { id:'D', name:'QA Run', owner:'Mukul', status:'pending', note:'Verify correct detail model for every task type. Actions from drilldown (where applicable) work end-to-end.' },
-            { id:'E', name:'Fix Loop', owner:'Devender + Mukul', status:'pending', note:'Any failures fixed against spec.' },
-            { id:'F', name:'Exit Criteria Sign-Off', owner:'Mukul → Adit → Satyam', status:'pending', note:'All task types have verified drilldown detail and actions.' },
-          ]
-        },
-        p3: { notes: 'TAS drilldown endpoints tested via gateway. Per-task-type detail returned correctly for all task types. Actions (where applicable) verified end-to-end via gateway.' },
-        p4: { notes: 'TBD — Task drilldown screen wired to real gateway. Each task type shows correct detail. Action buttons wired and functional. Back navigation correct.' },
-        p5: { notes: 'TBD — Frontend QA: all task type drilldowns render. Hindi copy on all labels and action buttons. Loading states handled. Deep links into specific task drilldowns work.' },
-        p6: { notes: 'Pre-production: drilldown tested against staging task queue covering all task types. Per-service detail verified. Action flows tested. Rollback plan written.' },
-      }
-    },
-    navigation: {
-      phases: { p01:'not-started', p2:'not-started', p3:'not-started', p4:'not-started', p5:'not-started', p6:'not-started', p7:'not-started' },
-      drilldown: {
-        p01: {
-          docs: [
-            { name:'Navigation Flow Spec', version:'TBD', status:'pending' },
-            { name:'Visual Spec', version:'TBD', status:'pending' },
-            { name:'Hindi Copy Keys', version:'TBD', status:'pending' },
-          ],
-          notes: 'Navigation + Menu is a frontend-only module — no new backend services required. Covers: bottom navigation bar, module entry points, menu structure, back navigation, deep link handling, role-based screen suppression. Depends on all prior modules being P4-complete so navigation between them is functional.'
-        },
-        p2: {
-          notes: 'No backend services — P2 is not applicable for Navigation + Menu. This module is purely frontend. No build specs, no code gen, no QA run. Moves from P0+P1 directly to P4 (app integration).'
-        },
-        p3: { notes: 'Navigation gateway smoke test: each bottom nav item confirmed to route to the correct screen backed by live data from the appropriate service. Deep links verified. Role-based screen suppression verified at gateway level.' },
-        p4: { notes: 'TBD — All navigation wired to real screens with live gateway data. Bottom nav, back navigation, deep links all functional end-to-end on a real device.' },
-        p5: { notes: 'TBD — Frontend QA: navigation flows across all modules. Hindi labels in nav bar. Role suppression verified in UI. Back navigation from drilldown. No dead ends or broken routes. 280dp no nav item truncation.' },
-        p6: { notes: 'Pre-production: full navigation smoke test in staging. All entry points work. Deep links work. Role suppression correct for all CSP roles. Rollback plan written.' },
-      }
-    },
-  }
+  wallet: { define:'done', trackB:'in-progress', contract:'done', trackA:'in-progress', testPlan:'not-started', e1:'done', e2:'in-progress', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
+  netbox: { define:'done', trackB:'in-progress', contract:'done', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
+  assurance: { define:'in-progress', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
+  taskfeed: { define:'not-started', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
+  navmenu: { define:'not-started', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
+  prodhardening: { define:'not-started', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' }
 };
 
-let S = JSON.parse(JSON.stringify(DEFAULT_STATE));
+let STATE = JSON.parse(JSON.stringify(DEFAULT_STATE));
+let saveTimer = null;
 
-// ── FIREBASE SYNC ──
-function save() {
-  if (!firebaseReady) return;
-  if (saveTimer) clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => {
-    isSaving = true; setSyncStatus('saving');
-    dbRef.set(S)
-      .then(() => { isSaving = false; setSyncStatus('synced'); })
-      .catch(() => { isSaving = false; setSyncStatus('offline'); });
-  }, 500);
+// ── SYNC ──
+function setSyncState(s) {
+  const badge = document.getElementById('syncBadge');
+  const text = document.getElementById('syncText');
+  badge.className = 'sync-badge' + (s === 'saving' ? ' saving' : s === 'offline' ? ' offline' : '');
+  text.textContent = s === 'saving' ? 'Saving…' : s === 'offline' ? 'Offline' : 'Synced';
 }
 
-if (firebaseReady) {
-  dbRef.once('value').then(snap => {
-    const data = snap.val();
-    if (data && data.modules) { S = data; setSyncStatus('synced'); }
-    else { save(); }
-    renderAll();
-  }).catch(() => { setSyncStatus('offline'); renderAll(); });
-
-  dbRef.on('value', snap => {
-    if (isSaving) return;
-    const data = snap.val();
-    if (data && data.modules) { S = data; renderAll(); }
-  });
-} else {
-  renderAll();
+function saveToFirebase() {
+  setSyncState('saving');
+  REF.set(STATE)
+    .then(() => setSyncState('synced'))
+    .catch(() => setSyncState('offline'));
 }
 
-// ── CHIP CYCLE ──
-function cycleChip(moduleId, phaseKey) {
-  if (!S.modules[moduleId]) return;
-  const current = S.modules[moduleId].phases[phaseKey] || 'not-started';
-  const idx = CHIP_CYCLE.indexOf(current);
-  S.modules[moduleId].phases[phaseKey] = CHIP_CYCLE[(idx + 1) % CHIP_CYCLE.length];
-  save();
-  renderSummaryGrid();
-  if (currentView !== 'overview') renderDrilldown(currentView);
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToFirebase, 800);
 }
 
-// ── CHIP HTML ──
-function chipHTML(status, moduleId, phaseKey) {
-  const map = {
-    'done':        ['done',        '✓', 'Done'],
-    'in-progress': ['in-progress', '●', 'In Progress'],
-    'blocked':     ['blocked',     '✕', 'Blocked'],
-    'not-started': ['not-started', '—', 'Not Started'],
-  };
-  const [cls, icon, label] = map[status] || map['not-started'];
-  const clickAttr = (moduleId && phaseKey)
-    ? `onclick="cycleChip('${moduleId}','${phaseKey}')" title="Click to update status"`
-    : '';
-  return `<span class="chip ${cls}" ${clickAttr}><span class="chip-dot"></span>${label}</span>`;
+// ── FIREBASE LOAD ──
+REF.once('value').then(snap => {
+  const val = snap.val();
+  if (val) {
+    // Merge with defaults so new modules/cols don't break
+    MODULES.forEach(m => {
+      if (!val[m]) val[m] = JSON.parse(JSON.stringify(DEFAULT_STATE[m]));
+      COLS.forEach(c => { if (!val[m][c]) val[m][c] = 'not-started'; });
+    });
+    STATE = val;
+  } else {
+    REF.set(STATE);
+  }
+  renderSummary();
+  setSyncState('synced');
+}).catch(() => {
+  setSyncState('offline');
+  renderSummary();
+});
+
+// ── CHIP HELPERS ──
+function nextStatus(cur) {
+  const i = STATUS_CYCLE.indexOf(cur);
+  return STATUS_CYCLE[(i + 1) % STATUS_CYCLE.length];
 }
 
-// ── RENDER SUMMARY GRID ──
-function renderSummaryGrid() {
-  document.getElementById('summaryGrid').innerHTML = MODULES.map(m => {
-    const mod = S.modules[m.id] || { phases: {} };
-    const cells = PHASE_KEYS.map(pk =>
-      `<td class="grid-td-phase">${chipHTML(mod.phases[pk] || 'not-started', m.id, pk)}</td>`
-    ).join('');
+function chipHTML(status, moduleKey, colKey) {
+  const label = STATUS_LABELS[status] || 'Not Started';
+  const cls = status || 'not-started';
+  return `<span class="chip ${cls}" onclick="cycleStatus('${moduleKey}','${colKey}',this)"><span class="chip-dot"></span>${label}</span>`;
+}
+
+function cycleStatus(moduleKey, colKey, el) {
+  const cur = STATE[moduleKey][colKey];
+  const next = nextStatus(cur);
+  STATE[moduleKey][colKey] = next;
+  el.className = 'chip ' + next;
+  el.querySelector('.chip-dot').className = 'chip-dot';
+  el.lastChild.textContent = STATUS_LABELS[next];
+  el.onclick = function(){ cycleStatus(moduleKey, colKey, this); };
+  scheduleSave();
+}
+
+// ── RENDER SUMMARY ──
+function renderSummary() {
+  const tbody = document.getElementById('summaryBody');
+  tbody.innerHTML = MODULES.map(m => {
+    const cells = COLS.map(c => `<td>${chipHTML(STATE[m][c], m, c)}</td>`).join('');
     return `<tr>
-      <td class="grid-td-module">
-        <div class="module-cell-inner" onclick="showModule('${m.id}')">
-          <div>
-            <div class="module-name">${m.name}<span class="module-arrow">›</span></div>
-            <div class="module-hint">view details</div>
-          </div>
-        </div>
-      </td>
+      <td><span class="module-link" onclick="showModule('${m}')">${MODULE_NAMES[m]} <span class="module-link-arrow">→</span></span></td>
       ${cells}
     </tr>`;
   }).join('');
 }
 
-// ── RENDER LEGEND ──
-function renderLegend() {
-  document.getElementById('legendGrid').innerHTML = PHASE_KEYS.map(pk => {
-    const p = PHASES[pk];
-    return `<div class="legend-step" onclick="showPhaseModal('${pk}')">
-      <div class="legend-step-num">${p.tag}</div>
-      <div class="legend-step-name">${p.name}</div>
-      <div class="legend-step-desc">${p.desc.split('.')[0]}.</div>
-      <div class="legend-step-hint">↗ See full details</div>
-    </div>`;
-  }).join('');
-}
+// ── DRILLDOWN CONTENT ──
+const DRILLDOWN_CONTENT = {
 
-// ── RENDER DRILLDOWN ──
-function renderDrilldown(moduleId) {
-  const mod = MODULES.find(m => m.id === moduleId);
-  const data = S.modules[moduleId] || { phases: {}, drilldown: {} };
-  document.getElementById('drilldownTitle').textContent = mod.name;
-  document.getElementById('drilldownContent').innerHTML = PHASE_KEYS.map(pk => {
-    const p = PHASES[pk];
-    const status = data.phases[pk] || 'not-started';
-    const dd = (data.drilldown || {})[pk] || {};
-    return `<div class="drilldown-phase">
-      <div class="drilldown-phase-head">
-        <div class="drilldown-phase-head-left">
-          <span class="drilldown-phase-tag">${p.tag}</span>
-          <span class="drilldown-phase-name">${p.name}</span>
-        </div>
-        ${chipHTML(status, moduleId, pk)}
+wallet: `
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 1</span>
+    <span class="drilldown-step-name">Define</span>
+    <span class="chip done" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Done</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-done">
+      <span class="check-icon">✅</span>
+      <div class="check-info">
+        <span class="check-name">Module design exists (formal backfill in Module Design Template v1.2 pending)</span>
+        <span class="check-owner">Owner: Satyam</span>
       </div>
-      <div class="drilldown-phase-body">${buildPhaseBody(pk, status, dd)}</div>
-    </div>`;
-  }).join('');
-}
+    </div>
+  </div>
+</div>
 
-function buildPhaseBody(pk, status, dd) {
-  if (status === 'not-started' && !dd.notes && !dd.docs && !dd.total && !dd.newProcess) {
-    return `<div class="empty-phase">Not started yet.</div>`;
-  }
-  let html = '';
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2B</span>
+    <span class="drilldown-step-name">Track B — Backend Build</span>
+    <span class="chip in-progress" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>In Progress</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="phase-note">Phase A must complete before Phase B starts</div>
 
-  // P0+P1 docs checklist
-  if (pk === 'p01' && dd.docs && dd.docs.length) {
-    html += `<div class="docs-list">`;
-    dd.docs.forEach(doc => {
-      const isDone = ['locked','approved','done'].includes(doc.status);
-      html += `<div class="doc-item ${isDone ? 'done' : 'pending'}">
-        <span class="doc-icon">${isDone ? '✓' : '◌'}</span>
-        <span class="doc-name">${doc.name}</span>
-        <span class="doc-version">${doc.version}</span>
-        <span class="doc-status-tag ${doc.status}">${doc.status.toUpperCase()}</span>
-      </div>`;
-    });
-    html += `</div>`;
-  }
-
-  // P2 — new two-section layout
-  if (pk === 'p2' && dd.newProcess) {
-    // Section 1: Current Process Checklist
-    html += `<div class="process-section">
-      <div class="process-section-title">Current Process (Testing Standard v1.0)</div>
-      <div class="process-steps">`;
-    dd.newProcess.forEach(step => {
-      html += `<div class="process-step">
-        <div class="process-step-id">${step.id}</div>
-        <div class="process-step-info">
-          <div class="process-step-name">${step.name}</div>
-          <div class="process-step-owner">${step.owner}</div>
-          <div class="process-step-note">${step.note}</div>
+    <div class="phase-group">
+      <div class="phase-group-label">Phase A — Test Plan (BEFORE codegen)</div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">PS test plan written BEFORE Devender coded</span>
+          <span class="check-owner">Owner: Mukul</span>
+          <span class="check-note">Written after code existed — process violation</span>
         </div>
-        <div class="process-step-status ${step.status}">${step.status === 'done' ? 'DONE' : step.status === 'in-progress' ? 'IN PROGRESS' : 'PENDING'}</div>
-      </div>`;
-    });
-    html += `</div></div>`;
-
-    // Section 2: Pre-Standard Run (archived, collapsed)
-    if (dd.preStandardRun) {
-      const r = dd.preStandardRun;
-      const uid = 'archived-p2';
-      const allPass = r.passed === r.total;
-      html += `<div class="archived-section" style="margin-top:20px">
-        <div class="archived-header" onclick="toggleArchived('${uid}')">
-          <div class="archived-header-left">
-            <span class="archived-label">Archived</span>
-            <span class="archived-title">Pre-Standard Run — ${r.date} — ${r.passed}/${r.total} tests passed</span>
-          </div>
-          <span class="archived-toggle" id="${uid}-toggle">⌄</span>
-        </div>
-        <div class="archived-body" id="${uid}-body">
-          <div class="test-summary-bar ${allPass ? '' : 'partial'}" style="margin-bottom:16px">
-            <div class="test-count ${allPass ? '' : 'partial'}">${r.passed}/${r.total}</div>
-            <div class="test-label-group">
-              <div class="test-label-main">Integration Test Suite v1.0</div>
-              <div class="test-label-sub">${allPass ? 'All tests passed' : `${r.total - r.passed} did not pass`}</div>
-            </div>
-          </div>`;
-      if (r.issues && r.issues.length) {
-        html += `<div class="issues-section"><div class="issues-section-title">Issues &amp; Findings (${r.issues.length})</div>`;
-        r.issues.forEach(issue => {
-          html += `<div class="issue-card ${issue.status}">
-            <div class="issue-head">
-              <span class="issue-test-tag">${issue.test}</span>
-              <span class="issue-what">${issue.what}</span>
-              <span class="issue-badge ${issue.status}">${issue.status === 'fixed' ? 'FIXED' : issue.status === 'deferred' ? 'DEFERRED' : 'FAILED'}</span>
-            </div>
-            <div class="issue-body">
-              <div class="issue-row"><span class="issue-row-label">RCA</span><span class="issue-row-val">${issue.rca}</span></div>
-              <div class="issue-row"><span class="issue-row-label">Fix</span><span class="issue-row-val">${issue.fix}</span></div>
-              <div class="issue-row"><span class="issue-row-label">Should have</span><span class="issue-row-val">${issue.process}</span></div>
-            </div>
-          </div>`;
-        });
-        html += `</div>`;
-      }
-      if (r.notes) html += `<div class="notes-box">${r.notes}</div>`;
-      html += `</div></div>`;
-    }
-    return html;
-  }
-
-  // P3 test results (unchanged)
-  if (pk === 'p3' && dd.total) {
-    const allPass = dd.passed === dd.total;
-    const notPassedCount = dd.total - dd.passed;
-    html += `<div class="test-summary-bar ${allPass ? '' : 'partial'}">
-      <div class="test-count ${allPass ? '' : 'partial'}">${dd.passed}/${dd.total}</div>
-      <div class="test-label-group">
-        <div class="test-label-main">Integration Test Suite v1.0</div>
-        <div class="test-label-sub">${allPass ? 'All tests passed' : `${notPassedCount} did not pass — see below`}</div>
       </div>
-    </div>`;
-    if (dd.issues && dd.issues.length) {
-      html += `<div class="issues-section"><div class="issues-section-title">Issues &amp; Findings (${dd.issues.length})</div>`;
-      dd.issues.forEach(issue => {
-        html += `<div class="issue-card ${issue.status}">
-          <div class="issue-head">
-            <span class="issue-test-tag">${issue.test}</span>
-            <span class="issue-what">${issue.what}</span>
-            <span class="issue-badge ${issue.status}">${issue.status === 'fixed' ? 'FIXED' : issue.status === 'deferred' ? 'DEFERRED' : 'FAILED'}</span>
-          </div>
-          <div class="issue-body">
-            <div class="issue-row"><span class="issue-row-label">RCA</span><span class="issue-row-val">${issue.rca}</span></div>
-            <div class="issue-row"><span class="issue-row-label">Fix</span><span class="issue-row-val">${issue.fix}</span></div>
-            <div class="issue-row"><span class="issue-row-label">Should have</span><span class="issue-row-val">${issue.process}</span></div>
-          </div>
-        </div>`;
-      });
-      html += `</div>`;
-    }
-  }
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">CS test plan written BEFORE Devender coded</span>
+          <span class="check-owner">Owner: Mukul</span>
+          <span class="check-note">Same issue</span>
+        </div>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">Adit formal approval of test plans before codegen</span>
+          <span class="check-owner">Owner: Adit</span>
+        </div>
+      </div>
+    </div>
 
-  // P7 rollout stages
-  if (pk === 'p7') {
-    html += `<div class="stage-list">
-      <div class="stage-item"><div class="stage-num">1</div><div><div class="stage-name">Internal / Staff</div><div class="stage-desc">Wiom staff only. Confirm accuracy, role suppression, no crashes.</div></div></div>
-      <div class="stage-item"><div class="stage-num">2</div><div><div class="stage-name">Controlled CSP Cohort</div><div class="stage-desc">20–50 selected CSPs with verified bank accounts. Daily QA sweep.</div></div></div>
-      <div class="stage-item"><div class="stage-num">3</div><div><div class="stage-name">Broader Rollout</div><div class="stage-desc">All CSPs. Only if Stage 2 metrics clean for 7+ consecutive days.</div></div></div>
-    </div>`;
-  }
+    <div class="phase-group">
+      <div class="phase-group-label">Phase B — Code Generation</div>
+      <div class="check-item status-progress">
+        <span class="check-icon">⏳</span>
+        <div class="check-info">
+          <span class="check-name">PS service running</span>
+          <span class="check-owner">Owner: Devender</span>
+        </div>
+      </div>
+      <div class="check-item status-progress">
+        <span class="check-icon">⏳</span>
+        <div class="check-info">
+          <span class="check-name">CS service running</span>
+          <span class="check-owner">Owner: Devender</span>
+        </div>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">Agent self-check (8 items) documented in PR</span>
+          <span class="check-owner">Owner: Devender</span>
+        </div>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">PR references test plan + spec version</span>
+          <span class="check-owner">Owner: Devender</span>
+        </div>
+      </div>
+    </div>
 
-  // Notes
-  if (dd.notes) {
-    html += `<div class="notes-box">${dd.notes}</div>`;
-  } else if (status !== 'not-started' && pk !== 'p7') {
-    html += `<div class="notes-box empty">No notes yet.</div>`;
-  }
+    <div class="phase-group">
+      <div class="phase-group-label">Phase C — Adit Spec-to-Code Review (10-point check)</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Every §5 handler exists in code</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Every §5 guard exists in code</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Every §6 command exists with correct path</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Every §6B field present in ReadController</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Every consumed event DTO has correct field names</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Idempotency present on every handler and ingress</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Auth present on every handler</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Audit log + processed_events in same @Transactional</span><span class="check-owner">Owner: Adit</span></div></div>
+    </div>
 
-  return html || `<div class="empty-phase">In progress.</div>`;
+    <div class="phase-group">
+      <div class="phase-group-label">Phase D — QA</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Testability surfaces verified first (OverridableClock, admin state lookup, batch trigger)</span><span class="check-owner">Owner: Mukul</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Automated contract tests run first (snake_case, §6B fields, envelope)</span><span class="check-owner">Owner: Mukul</span></div></div>
+      <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">Full test plan executed</span><span class="check-owner">Owner: Mukul</span><span class="check-note">50 tests run — 39 pass, 7 NO-GO (auth env), 4 partial</span></div></div>
+      <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">Auth enabled in QA environment</span><span class="check-owner">Owner: Devender</span><span class="check-note">Currently disabled — T-08, T-09, T-29, T-41, T-55 untestable</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase E — Fix Loop (open items)</div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">T-34: FM-PAY-08 — DELAYED withdrawal not stored</span>
+          <span class="check-owner">Owner: Devender</span>
+        </div>
+        <span class="check-type">CODE_BUG</span>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">T-26: Withdrawal day guard at wrong layer (batch not POST)</span>
+          <span class="check-owner">Owner: Mukul → Satyam</span>
+        </div>
+        <span class="check-type specgap">SPEC_GAP</span>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">T-40: next_withdrawal_day hardcoded, ignores PaymentConfig</span>
+          <span class="check-owner">Owner: Devender</span>
+        </div>
+        <span class="check-type">CODE_BUG</span>
+      </div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase F — Sign-off</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Mukul exit criteria signed</span><span class="check-note">Blocked on Phase E</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Adit cross-review of QA results</span><span class="check-note">Blocked</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Satyam sign-off</span><span class="check-note">Blocked</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2</span>
+    <span class="drilldown-step-name">API Contract</span>
+    <span class="chip done" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Done</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-done">
+      <span class="check-icon">✅</span>
+      <div class="check-info">
+        <span class="check-name">Wallet Gateway API Contract v1.2 — LOCKED</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2A</span>
+    <span class="drilldown-step-name">Track A — Frontend Build</span>
+    <span class="chip in-progress" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>In Progress</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="phase-note">Phase A must complete before frontend engineer starts Phase B</div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase A — Product Prepares</div>
+      <div class="check-item status-done"><span class="check-icon">✅</span><div class="check-info"><span class="check-name">Visual Spec v1.3 — LOCKED</span></div></div>
+      <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">Copy keys (76 Hindi keys)</span><span class="check-owner">Owner: Copy Agent</span><span class="check-note">Awaiting delivery</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Canonical fixtures created from API Contract v1.2</span><span class="check-owner">Owner: Product</span><span class="check-note">Never created — caused FE-01 (paise 100×) and FE-08</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Render checklist created (every screen × every state)</span><span class="check-owner">Owner: Product</span><span class="check-note">Never created</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Adit approval of fixtures + render checklist</span><span class="check-owner">Owner: Adit</span><span class="check-note">Blocked on above</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase B — Frontend Build</div>
+      <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">Screens built</span><span class="check-owner">Owner: Frontend Eng</span><span class="check-note">Built against invented mocks, not contract fixtures — process violation</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Self-check 12 items documented in PR</span><span class="check-owner">Owner: Frontend Eng</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase C — Adit Code Review</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Visual Spec conformance (10 checks)</span><span class="check-owner">Owner: Adit</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L2 Architecture checklist all 15 rules</span><span class="check-owner">Owner: Adit</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase D — Manual QA Real Device</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Real budget Android, Hindi locale set</span><span class="check-owner">Owner: Product</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Render checklist walkthrough</span><span class="check-owner">Owner: Product</span><span class="check-note">Blocked — checklist doesn't exist</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L4 user scenarios (internal pre-field)</span><span class="check-owner">Owner: Product</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Performance checks (first paint, 3G, scroll 60fps)</span><span class="check-owner">Owner: Product</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Offline flows verified</span><span class="check-owner">Owner: Product</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Hindi: no truncation, no English fallback, no placeholder visible</span><span class="check-owner">Owner: Product</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase E — Fix Loop (open)</div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">FE-05: Auth hardcoded as OWNER, no token sent</span>
+          <span class="check-owner">Owner: Frontend Eng</span>
+        </div>
+        <span class="check-type arch">ARCH_DRIFT</span>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">FE-06: Idempotency sent as header, gateway expects body field</span>
+          <span class="check-owner">Owner: Frontend Eng</span>
+        </div>
+        <span class="check-type">CODE_BUG</span>
+      </div>
+      <div class="check-item status-blocked">
+        <span class="check-icon">❌</span>
+        <div class="check-info">
+          <span class="check-name">FE-07: API Contract doc uses nested structure, gateway flat</span>
+          <span class="check-owner">Owner: Mukul</span>
+        </div>
+        <span class="check-type specgap">SPEC_GAP</span>
+      </div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase F — Sign-off</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Product QA exit criteria (12 items) signed</span><span class="check-note">Blocked</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Adit cross-review</span><span class="check-note">Blocked</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Satyam sign-off</span><span class="check-note">Blocked</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 3</span>
+    <span class="drilldown-step-name">Module Test Strategy (L1–L4)</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Module Test Strategy Template v1.0 filled for Wallet</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L1 Truth cases (15-30 scenarios)</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L2 Architecture cases (8-12 scenarios)</span><span class="check-owner">Owner: Adit</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L3 Integration cases (15-25 scenarios)</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L4 User scenarios (5-10 scenarios)</span><span class="check-owner">Owner: Product</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Canonical fixture set created and versioned</span><span class="check-owner">Owner: Product</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 4</span>
+    <span class="drilldown-step-name">Execute</span>
+    <span class="chip in-progress" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>In Progress</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-done"><span class="check-icon">✅</span><div class="check-info"><span class="check-name">E1: Developer tests — substantially done</span></div></div>
+    <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">E2: Integration tests</span><span class="check-note">55 written, 39 pass / 7 auth env NO-GO / 4 partial</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">E3: Manual QA on real device</span><span class="check-note">Blocked — render checklist doesn't exist</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">E4: Field test (3-5 real CSPs, Hindi, no training)</span><span class="check-note">Not started</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 5</span>
+    <span class="drilldown-step-name">Gates</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">G1 Truth</span><span class="check-note">Mostly passing (state logic correct)</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">G2 Architecture</span><span class="check-note">3 L2 violations open (FE-05, FE-06, auth)</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">G3 Integration</span><span class="check-note">Idempotency broken, auth untested</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">G4 User</span><span class="check-note">No field test done</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">G5 Performance</span><span class="check-note">Not measured</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 6</span>
+    <span class="drilldown-step-name">Ship</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Staging personas created (8 CSPs: csp_happy_path, csp_no_bank, csp_zero, csp_hold, csp_frozen, csp_settling, csp_closed, csp_admin)</span><span class="check-owner">Owner: Devender</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Observability dashboards set up</span><span class="check-owner">Owner: Devender</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Rollback procedure documented</span><span class="check-owner">Owner: Devender</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">War game (7 scenarios) run on staging</span><span class="check-owner">Owner: All</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Stage 1: Internal rollout (5-10 Wiom staff)</span><span class="check-note">Blocked on all above</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Stage 2: Controlled cohort (20-50 CSPs)</span><span class="check-note">Blocked</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Stage 3: All CSPs</span><span class="check-note">Blocked</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 7</span>
+    <span class="drilldown-step-name">Regression Pack</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">10-15 critical scenarios from L1 + L3 identified</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Regression pack created and stored in version control</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Added to central regression suite (blocks all future module builds)</span><span class="check-owner">Owner: Mukul</span></div></div>
+  </div>
+</div>
+`,
+
+netbox: `
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 1</span>
+    <span class="drilldown-step-name">Define</span>
+    <span class="chip done" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Done</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-done">
+      <span class="check-icon">✅</span>
+      <div class="check-info">
+        <span class="check-name">Module Design Template v1.2 filled and locked (v1.1)</span>
+        <span class="check-owner">Owner: Satyam</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2B</span>
+    <span class="drilldown-step-name">Track B — Backend Build</span>
+    <span class="chip in-progress" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>In Progress</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="phase-group">
+      <div class="phase-group-label">Phase A — Test Plan (BEFORE codegen)</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">ACS test plan written</span><span class="check-owner">Owner: Mukul</span><span class="check-note">Not yet started</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Adit approval of test plan</span><span class="check-owner">Owner: Adit</span><span class="check-note">Blocked</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase B — Code Generation</div>
+      <div class="check-item status-done"><span class="check-icon">✅</span><div class="check-info"><span class="check-name">ACS service running</span><span class="check-owner">Owner: Devender</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase C — Adit Spec-to-Code Review</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">10-point spec-to-code conformance check</span><span class="check-owner">Owner: Adit</span><span class="check-note">Not done</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase D — QA</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Testability surfaces verified</span><span class="check-owner">Owner: Mukul</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Full QA per test plan</span><span class="check-owner">Owner: Mukul</span><span class="check-note">Blocked — test plan doesn't exist</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase E/F — Fix Loop + Sign-off</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Fix loop + sign-off</span><span class="check-note">Blocked on Phase D</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2</span>
+    <span class="drilldown-step-name">API Contract</span>
+    <span class="chip done" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Done</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">NetBox Gateway API Contract v1.0</span><span class="check-note">Active (not yet locked)</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2A</span>
+    <span class="drilldown-step-name">Track A — Frontend Build</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="phase-group">
+      <div class="phase-group-label">Phase A — Product Prepares</div>
+      <div class="check-item status-done"><span class="check-icon">✅</span><div class="check-info"><span class="check-name">Visual Spec v1.2 — LOCKED</span><span class="check-owner">Owner: UX Agent</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Copy keys (73 keys)</span><span class="check-owner">Owner: Copy Agent</span><span class="check-note">Pending delivery</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Canonical fixtures from API Contract v1.0</span><span class="check-owner">Owner: Product</span><span class="check-note">Not created</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Render checklist (all device states × all surfaces)</span><span class="check-owner">Owner: Product</span><span class="check-note">Not created</span></div></div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Adit approval</span><span class="check-owner">Owner: Adit</span><span class="check-note">Blocked</span></div></div>
+    </div>
+
+    <div class="phase-group">
+      <div class="phase-group-label">Phase B–F</div>
+      <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">All downstream phases not started</span><span class="check-note">Blocked on Phase A</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 3</span>
+    <span class="drilldown-step-name">Module Test Strategy</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Template v1.0 not filled for NetBox</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L1 Truth cases (~25 scenarios)</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L3 Integration cases (~40 scenarios)</span><span class="check-owner">Owner: Mukul</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">L4 User scenarios (~8 scenarios)</span><span class="check-owner">Owner: Product</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEPS 4–7</span>
+    <span class="drilldown-step-name">Execute, Gates, Ship, Regression</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Not started — all blocked on Steps 2-3</span></div></div>
+  </div>
+</div>
+`,
+
+assurance: `
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 1</span>
+    <span class="drilldown-step-name">Define</span>
+    <span class="chip in-progress" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>In Progress</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-progress"><span class="check-icon">⏳</span><div class="check-info"><span class="check-name">Module Design v1.1 — FOR REVIEW, not yet locked</span><span class="check-owner">Owner: Satyam</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2B</span>
+    <span class="drilldown-step-name">Track B — Backend Build</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="phase-blocker-note">BLOCKERS: QS Build Spec and DAS Build Spec not yet written. Nothing can start on backend until these exist.</div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">QS Build Spec — not written (needed from Quality OS v1.9)</span><span class="check-note">BLOCKER</span><span class="check-owner">Owner: Satyam + Claude</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">DAS Build Spec — not written (needed from D&amp;A OS v1.4)</span><span class="check-note">BLOCKER</span><span class="check-owner">Owner: Satyam + Claude</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">§6B read endpoint for CLS</span><span class="check-owner">Owner: Devender</span><span class="check-note">Needed for Connections chip</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">§6B read endpoint for CS</span><span class="check-owner">Owner: Devender</span><span class="check-note">Needed for Earnings chip</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">QS service build</span><span class="check-note">Blocked on QS Build Spec</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">DAS service build</span><span class="check-note">Blocked on DAS Build Spec</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2</span>
+    <span class="drilldown-step-name">API Contract</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Assurance Strip API Contract</span><span class="check-note">Not started — needs design session first</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2A</span>
+    <span class="drilldown-step-name">Track A — Frontend Build</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Visual Spec — not started</span><span class="check-note">UX Agent not yet briefed</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Everything downstream blocked</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">NOTE</span>
+    <span class="drilldown-step-name">Phased Delivery Plan</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="phase-note">Phase 2a: Ship Connections + Earnings chips first (CLS + CS). Phase 2b: Add SLA (QS) + Exposure (DAS) once specs are written.</div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEPS 3–7</span>
+    <span class="drilldown-step-name">Test Plan, Execute, Gates, Ship, Regression</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Not started — all blocked on Steps 1-2</span></div></div>
+  </div>
+</div>
+`,
+
+taskfeed: `
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 1</span>
+    <span class="drilldown-step-name">Define</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="phase-blocker-note">BLOCKER: TAS service definition required first. A dedicated design session is needed before any module design work can begin.</div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">TAS service definition — what events TAS consumes, what it computes, what it serves</span><span class="check-note">Design session needed</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Module Design not started</span><span class="check-note">BLOCKER: TAS definition required first</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2B</span>
+    <span class="drilldown-step-name">Track B — Backend Build</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">TAS Build Spec</span><span class="check-note">After TAS definition</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">All backend phases</span><span class="check-note">Blocked on TAS Build Spec</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2</span>
+    <span class="drilldown-step-name">API Contract</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Task Feed API Contract</span><span class="check-note">After TAS defined</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEPS 2A–7</span>
+    <span class="drilldown-step-name">Track A, Test Plan, Execute, Gates, Ship, Regression</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Not started — all blocked on TAS definition and Step 1</span></div></div>
+  </div>
+</div>
+`,
+
+navmenu: `
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 1</span>
+    <span class="drilldown-step-name">Define</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Module Design not started</span></div></div>
+    <div class="phase-note">Note: UX work and frontend planning can run partially parallel to Modules 3-4, as Nav/Menu has low backend dependency. However the Module Design must be locked before any build begins.</div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEPS 2–7</span>
+    <span class="drilldown-step-name">All Build Phases</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Not started — blocked on Step 1</span></div></div>
+  </div>
+</div>
+`,
+
+prodhardening: `
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEP 2B</span>
+    <span class="drilldown-step-name">Track B — 6 Build Specs Needed First</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="phase-blocker-note">6 build specs must be written before anything can be built. Prod Hardening replaces all stubs with real services.</div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">ES Build Spec</span><span class="check-note">From Enforcement OS v1.6</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">ACS Build Spec</span><span class="check-note">From Asset Custody OS v1.5</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">SRS Build Spec</span><span class="check-note">From Support &amp; Resolution OS v1.1</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">CIS Build Spec</span><span class="check-note">From Capability Intervention OS v1.1</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">XS Build Spec</span><span class="check-note">From Exit OS v1.7</span></div></div>
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">ONB Build Spec</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head expanded" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">NOTE</span>
+    <span class="drilldown-step-name">What Gets Replaced in Prod Hardening</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body open">
+    <div class="check-item"><span class="check-icon">→</span><div class="check-info"><span class="check-name">PGS stub → Real PGS (Juspay / RazorpayX)</span></div></div>
+    <div class="check-item"><span class="check-icon">→</span><div class="check-info"><span class="check-name">Notification mock → Real notification service</span></div></div>
+    <div class="check-item"><span class="check-icon">→</span><div class="check-info"><span class="check-name">Injected events → Real ES / ACS / SRS / CIS / XS services</span></div></div>
+  </div>
+</div>
+
+<div class="drilldown-section">
+  <div class="drilldown-section-head" onclick="toggleSection(this)">
+    <span class="drilldown-step-tag">STEPS 1–7</span>
+    <span class="drilldown-step-name">All Other Phases</span>
+    <span class="chip not-started" style="cursor:default;pointer-events:none;"><span class="chip-dot"></span>Not Started</span>
+    <span class="drilldown-chevron">▼</span>
+  </div>
+  <div class="drilldown-section-body">
+    <div class="check-item status-blocked"><span class="check-icon">❌</span><div class="check-info"><span class="check-name">Not started — blocked on 6 build specs</span></div></div>
+  </div>
+</div>
+`
+};
+
+// ── VIEW SWITCHING ──
+let currentView = 'summary';
+let currentModule = null;
+
+function showView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + view);
+  if (navEl) navEl.classList.add('active');
+
+  currentView = view;
+  if (view === 'summary') {
+    renderSummary();
+  }
 }
 
-// ── ARCHIVED TOGGLE ──
-function toggleArchived(uid) {
-  const body = document.getElementById(uid + '-body');
-  const toggle = document.getElementById(uid + '-toggle');
-  if (!body) return;
-  const isOpen = body.classList.toggle('open');
-  toggle.classList.toggle('open', isOpen);
-}
+function showModule(moduleKey) {
+  currentModule = moduleKey;
 
-// ── NAVIGATION ──
-let currentView = 'overview';
+  document.getElementById('module-title').textContent = MODULE_NAMES[moduleKey];
+  document.getElementById('module-subtitle').textContent = MODULE_SUBTITLES[moduleKey];
+  document.getElementById('module-content').innerHTML = DRILLDOWN_CONTENT[moduleKey] || '<p class="empty-note">Content coming soon.</p>';
 
-function showOverview() {
-  document.getElementById('view-overview').classList.add('active');
-  document.getElementById('view-module').classList.remove('active');
-  document.getElementById('sidebar-overview').classList.add('active');
-  MODULES.forEach(m => { const el = document.getElementById('sidebar-' + m.id); if(el) el.classList.remove('active'); });
-  currentView = 'overview';
-}
-
-function showModule(id) {
-  document.getElementById('view-overview').classList.remove('active');
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-module').classList.add('active');
-  document.getElementById('sidebar-overview').classList.remove('active');
-  MODULES.forEach(m => { const el = document.getElementById('sidebar-' + m.id); if(el) el.classList.toggle('active', m.id === id); });
-  renderDrilldown(id);
-  currentView = id;
+
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + moduleKey);
+  if (navEl) navEl.classList.add('active');
+
+  currentView = 'module';
+  window.scrollTo(0, 0);
 }
 
+// ── DRILLDOWN SECTION TOGGLE ──
+function toggleSection(headEl) {
+  headEl.classList.toggle('expanded');
+  const body = headEl.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+// ── SIDEBAR ──
 function toggleSidebar() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('sidebarOverlay').classList.toggle('open');
 }
-function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('open');
+
+// ── COLUMN MODAL ──
+function showColModal(colKey) {
+  const info = COL_DESCRIPTIONS[colKey];
+  if (!info) return;
+  document.getElementById('modalTag').textContent = info.tag;
+  document.getElementById('modalTitle').textContent = info.title;
+  document.getElementById('modalBody').textContent = info.body;
+  document.getElementById('modalOverlay').classList.add('open');
 }
 
-// ── PHASE MODAL ──
-function showPhaseModal(pk) {
-  const p = PHASES[pk]; if (!p) return;
-  document.getElementById('phaseModalTag').textContent = p.tag;
-  document.getElementById('phaseModalName').textContent = p.name;
-  document.getElementById('phaseModalDesc').textContent = p.desc;
-  document.getElementById('phaseModalArtifacts').innerHTML = p.artifacts.map(a => `<span class="artifact-tag">${a}</span>`).join('');
-  document.getElementById('phaseModalOverlay').classList.add('open');
-}
-function closePhaseModal(e) {
-  if (e.target === document.getElementById('phaseModalOverlay'))
-    document.getElementById('phaseModalOverlay').classList.remove('open');
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
 }
 
-function renderAll() { renderSummaryGrid(); renderLegend(); if (currentView !== 'overview') renderDrilldown(currentView); }
-renderAll();
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('modalOverlay').classList.remove('open');
+});
+
+// ── INIT ──
+showView('summary');
 </script>
 </body>
 </html>
