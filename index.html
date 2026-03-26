@@ -746,6 +746,133 @@ body {
 .skeleton-card h3 { font-size:14px; font-weight:600; margin-bottom:6px; }
 .skeleton-card p { font-size:12px; }
 
+/* ── DRILLDOWN FLOWCHART ── */
+.dd-flow { max-width:960px; margin:0 auto; }
+
+/* Step node */
+.dd-step {
+  background:var(--bg-white);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow-sm);
+  margin-bottom:0;
+}
+.dd-step-head {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 16px;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  user-select:none;
+}
+.dd-step-head:hover { background:var(--bg-hover); }
+.dd-step-num {
+  width:26px; height:26px; border-radius:50%;
+  background:var(--primary); color:#fff;
+  font-size:11px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.dd-step-title { font-size:13px; font-weight:700; flex:1; }
+.dd-step-status { margin-left:auto; }
+.dd-step-toggle { font-size:16px; color:var(--text-dim); margin-left:8px; transition:transform 0.2s; }
+.dd-step.collapsed .dd-step-toggle { transform:rotate(-90deg); }
+.dd-step-body { padding:14px 16px 16px; }
+.dd-step.collapsed .dd-step-body { display:none; }
+
+/* Arrow between steps */
+.dd-arrow {
+  display:flex; justify-content:center; align-items:center;
+  height:28px; color:var(--text-dim); font-size:18px;
+  position:relative;
+}
+.dd-arrow::before {
+  content:'';
+  position:absolute; top:0; left:50%; width:2px; height:100%;
+  background:var(--border-strong); transform:translateX(-50%);
+}
+.dd-arrow-head { background:var(--bg); padding:0 4px; position:relative; z-index:1; font-size:14px; }
+
+/* Parallel block (Step 2) */
+.dd-parallel {
+  display:grid; grid-template-columns:1fr auto 1fr; gap:0;
+  align-items:stretch;
+}
+.dd-parallel-divider {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:0 16px; gap:6px;
+}
+.dd-parallel-divider-line { flex:1; width:2px; background:var(--border-strong); }
+.dd-parallel-divider-label {
+  font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  color:var(--text-dim); white-space:nowrap;
+  padding:4px 8px; background:var(--bg); border:1px solid var(--border); border-radius:4px;
+}
+.dd-track {
+  border:1.5px solid var(--border); border-radius:var(--radius);
+  overflow:hidden;
+}
+.dd-track-head {
+  padding:10px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:8px;
+}
+.dd-track.track-a .dd-track-head { border-left:3px solid #7c3aed; background:#faf5ff; }
+.dd-track.track-b .dd-track-head { border-left:3px solid #0369a1; background:#f0f9ff; }
+.dd-track-label {
+  font-size:10px; font-weight:700; padding:2px 7px; border-radius:4px; letter-spacing:0.5px;
+  font-family:'JetBrains Mono',monospace;
+}
+.dd-track.track-a .dd-track-label { background:#ede9fe; color:#7c3aed; }
+.dd-track.track-b .dd-track-label { background:#e0f2fe; color:#0369a1; }
+.dd-track-title { font-size:12px; font-weight:700; }
+.dd-track-status { margin-left:auto; }
+
+/* Phase rows inside track */
+.dd-phase-list { padding:0; }
+.dd-phase-row {
+  display:grid; grid-template-columns:130px 1fr;
+  padding:10px 14px; border-bottom:1px solid var(--border);
+  gap:10px; align-items:flex-start;
+}
+.dd-phase-row:last-child { border-bottom:none; }
+.dd-phase-tag { font-size:9px; font-weight:700; color:var(--text-dim); font-family:'JetBrains Mono',monospace; }
+.dd-phase-name { font-size:11px; font-weight:600; margin-top:2px; }
+.dd-phase-content { font-size:11.5px; color:var(--text-secondary); line-height:1.5; }
+.dd-phase-status { margin-bottom:5px; }
+
+/* E-stage chain */
+.dd-estages { display:flex; align-items:center; gap:0; flex-wrap:wrap; }
+.dd-estage {
+  flex:1; min-width:120px;
+  border:1.5px solid var(--border); border-radius:var(--radius-sm);
+  padding:10px 12px; background:var(--bg-white);
+}
+.dd-estage-arrow { font-size:18px; color:var(--border-strong); padding:0 6px; flex-shrink:0; }
+.dd-estage-label { font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--text-dim); margin-bottom:3px; }
+.dd-estage-title { font-size:11.5px; font-weight:600; margin-bottom:5px; }
+.dd-estage-detail { font-size:11px; color:var(--text-secondary); line-height:1.4; }
+
+/* Gates grid */
+.dd-gates { display:flex; gap:8px; flex-wrap:wrap; }
+.dd-gate {
+  flex:1; min-width:140px;
+  border:1.5px solid var(--border); border-radius:var(--radius-sm);
+  padding:10px 12px; background:var(--bg-white);
+}
+.dd-gate-id { font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--text-dim); }
+.dd-gate-name { font-size:11.5px; font-weight:600; margin:3px 0 5px; }
+.dd-gate-detail { font-size:11px; color:var(--text-secondary); line-height:1.4; }
+
+/* Output tag */
+.dd-output {
+  margin-top:8px; padding:6px 10px;
+  background:var(--primary-bg); border:1px solid var(--primary-border);
+  border-radius:var(--radius-sm); font-size:11px; color:var(--primary); font-weight:500;
+}
+.dd-output::before { content:'Output: '; font-weight:700; }
+
 /* Section separator */
 .section-sep {
   height:1px;
@@ -1326,279 +1453,377 @@ function statusChip(status) {
   return `<span class="chip ${status}"><span class="chip-dot"></span>${STATUS_LABELS[status]}</span>`;
 }
 
-function miniStepClass(status) {
-  if (status === 'done') return 'background:var(--green-bg);border-color:var(--green-border);color:var(--green);';
-  if (status === 'in-progress') return 'background:var(--yellow-bg);border-color:var(--yellow-border);color:var(--yellow);';
-  if (status === 'blocked') return 'background:var(--red-bg);border-color:var(--red-border);color:var(--red);';
-  return 'background:var(--gray-bg);border-color:var(--gray-border);color:var(--gray);';
+// Toggle collapse on drilldown steps
+window.ddToggle = function(el) {
+  el.closest('.dd-step').classList.toggle('collapsed');
+};
+
+// Build a single dd-step card
+function ddStep(num, title, statusKey, bodyHtml, collapsed=false) {
+  return `
+  <div class="dd-step${collapsed?' collapsed':''}">
+    <div class="dd-step-head" onclick="ddToggle(this)">
+      <div class="dd-step-num">${num}</div>
+      <div class="dd-step-title">${title}</div>
+      <div class="dd-step-status">${statusChip(statusKey)}</div>
+      <div class="dd-step-toggle">▾</div>
+    </div>
+    <div class="dd-step-body">${bodyHtml}</div>
+  </div>`;
 }
 
-function renderDrilldownMiniFlow(key) {
-  const el = document.getElementById('miniflow-' + key);
-  if (!el) return;
-  el.innerHTML = buildMiniFlowHtml(key);
+function ddArrow() {
+  return `<div class="dd-arrow"><div class="dd-arrow-head">▼</div></div>`;
 }
 
-function buildMiniFlowHtml(key) {
+// A single phase row inside a track
+function ddPhase(tag, name, status, detailHtml, blockerHtml='', amendHtml='') {
+  return `
+  <div class="dd-phase-row">
+    <div>
+      <div class="dd-phase-tag">${tag}</div>
+      <div class="dd-phase-name">${name}</div>
+    </div>
+    <div class="dd-phase-content">
+      <div class="dd-phase-status">${statusChip(status)}</div>
+      ${detailHtml}
+      ${blockerHtml ? `<div class="phase-blocker">${blockerHtml}</div>` : ''}
+      ${amendHtml ? `<div class="phase-amendment">${amendHtml}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+// Build Track A + Track B side-by-side parallel block
+function ddParallel(trackAHtml, trackBHtml) {
+  return `
+  <div class="dd-parallel">
+    <div class="dd-track track-a">
+      <div class="dd-track-head">
+        <span class="dd-track-label">TRACK A</span>
+        <span class="dd-track-title">Frontend</span>
+      </div>
+      <div class="dd-phase-list">${trackAHtml}</div>
+    </div>
+    <div class="dd-parallel-divider">
+      <div class="dd-parallel-divider-line"></div>
+      <div class="dd-parallel-divider-label">parallel</div>
+      <div class="dd-parallel-divider-line"></div>
+    </div>
+    <div class="dd-track track-b">
+      <div class="dd-track-head">
+        <span class="dd-track-label">TRACK B</span>
+        <span class="dd-track-title">Backend</span>
+      </div>
+      <div class="dd-phase-list">${trackBHtml}</div>
+    </div>
+  </div>
+  <div style="margin-top:10px;padding:8px 12px;background:var(--primary-bg);border:1px solid var(--primary-border);border-radius:var(--radius-sm);font-size:11px;color:var(--primary);font-weight:600;text-align:center;">
+    ↕ Converge at API Contract — Track B produces it, Track A frontend build cannot start until it exists
+  </div>`;
+}
+
+// E-stage chain
+function ddEStages(stages) {
+  return `<div class="dd-estages">${stages.map((s,i) => `
+    ${i>0?'<div class="dd-estage-arrow">→</div>':''}
+    <div class="dd-estage">
+      <div class="dd-estage-label">${s.id}</div>
+      <div class="dd-estage-title">${s.title}</div>
+      <div class="dd-phase-status" style="margin-bottom:5px;">${statusChip(s.status)}</div>
+      <div class="dd-estage-detail">${s.detail}</div>
+    </div>`).join('')}</div>`;
+}
+
+// Gates grid
+function ddGates(gates) {
+  return `<div class="dd-gates">${gates.map(g => `
+    <div class="dd-gate">
+      <div class="dd-gate-id">${g.id}</div>
+      <div class="dd-gate-name">${g.name}</div>
+      <div class="dd-phase-status" style="margin-bottom:5px;">${statusChip(g.status)}</div>
+      <div class="dd-gate-detail">${g.detail}</div>
+    </div>`).join('')}</div>`;
+}
+
+// ── MODULE DATA ──
+
+const MODULE_DATA = {
+
+  wallet: (s) => {
+    const trackA = [
+      ddPhase('PHASE A','Canonical Fixtures','not-started',
+        `Fixtures from API Contract NOT created. Render checklist NOT created.<br>
+         Owner: Product (Dhruv).`,
+        'BLOCKER — frontend was built without these, causing 8 QA issues downstream. Must be created before E3 (manual QA) reruns.',
+        'If API Contract defines a state with no fixture → VISUAL_SPEC_GAP — stop, escalate to Satyam'),
+      ddPhase('PHASE B','Frontend Build','in-progress',
+        `25 Espresso tests — all passing.<br>
+         Built without canonical fixtures → 8 QA issues found. Framework complete, correctness gaps remain.`),
+      ddPhase('PHASE C','Adit L2 Review (15 rules)','not-started',
+        `Architecture review against 15 L2 rules not done yet.<br>Owner: Adit.`,
+        '','If any rule violated → ARCHITECTURE_DRIFT — PR rejection, revert, not "fix next sprint"'),
+      ddPhase('PHASE D','Manual QA — Real Device','in-progress',
+        `8 issues found. 5 fixed, 3 open.
+        <table class="issues-table" style="margin-top:8px;">
+          <thead><tr><th>ID</th><th>Issue</th><th>Type</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="issue-id">FE-01</td><td>Paise 100× — amount displayed as 100x actual</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
+            <tr><td class="issue-id">FE-02</td><td>Negative balance shown incorrectly</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
+            <tr><td class="issue-id">FE-03</td><td>Missing badge on wallet state</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
+            <tr><td class="issue-id">FE-04</td><td>Wrong badge color for state</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
+            <tr><td class="issue-id">FE-05</td><td>Auth env config — wrong environment in QA</td><td>CODE_BUG</td><td class="issue-open">Open</td></tr>
+            <tr><td class="issue-id">FE-06</td><td>Idempotency not handled — contract silent</td><td>SPEC_GAP</td><td class="issue-open">Blocked</td></tr>
+            <tr><td class="issue-id">FE-07</td><td>Contract doc reference wrong</td><td>CODE_BUG</td><td class="issue-open">Open</td></tr>
+            <tr><td class="issue-id">FE-08</td><td>Underpayment edge case unhandled</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
+          </tbody>
+        </table>`),
+      ddPhase('PHASE E','Fix Loop','blocked',
+        `<span class="bug-code">FE-05</span> env setup needed for correct auth env.<br>
+         <span class="bug-code">FE-06</span> — SPEC_GAP: idempotency undefined in contract. Contract amendment required.<br>
+         <span class="bug-code">FE-07</span> — contract doc update required.`,
+        'BLOCKED: FE-06 requires contract amendment — SPEC_GAP resolution pending'),
+      ddPhase('PHASE F','Sign-off','not-started',`Pending fix loop + L2 review completion.`),
+    ].join('');
+
+    const trackB = [
+      ddPhase('PHASE A','Test Plan','in-progress',
+        `PS test plan written by Adit (conflict of interest — Mukul cross-review pending).<br>
+         CS test plan written.<br>
+         Both cover L1-L4 layers as per Module Test Strategy Template.`,
+        '','If plan missing testability surfaces → must add before Phase B merges to main'),
+      ddPhase('PHASE B','Code Generation (Devender)','done',
+        `PS (Payment Service) — generated and deployed to QA env.<br>
+         CS (Compensation Service) — generated and deployed to QA env.`),
+      ddPhase('PHASE C','Adit 10-point Spec-to-Code Review','not-started',
+        `Review against Build Spec not done yet.<br>Owner: Adit. Checks: types, field names, state machine compliance, no local computation, FM- rule conformance.`,
+        '','If violations found → CODE_BUG (code is wrong) or ARCHITECTURE_DRIFT (computes locally) — both = fix now'),
+      ddPhase('PHASE D','QA Run (Mukul)','in-progress',
+        `50 tests run. <strong>39 GO</strong> · <strong style="color:var(--red)">7 NO-GO</strong> · <strong style="color:var(--yellow)">4 PARTIAL</strong>
+        <table class="issues-table" style="margin-top:8px;">
+          <thead><tr><th>Test ID</th><th>Finding</th><th>Type</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="issue-id">T-34</td><td>FM-PAY-08 violation — DELAYED state not stored</td><td>CODE_BUG</td><td class="issue-open">Fix needed</td></tr>
+            <tr><td class="issue-id">T-26</td><td>Withdrawal day guard at wrong layer</td><td>SPEC_GAP</td><td class="issue-open">Satyam pending</td></tr>
+            <tr><td class="issue-id">T-40</td><td>Withdrawal days hardcoded in service</td><td>CODE_BUG</td><td class="issue-open">Fix needed</td></tr>
+          </tbody>
+        </table>`),
+      ddPhase('PHASE E','Fix Loop','blocked',
+        `<span class="bug-code">T-34</span> — CODE_BUG: DELAYED state not stored. Fix in progress.<br>
+         <span class="bug-code">T-26</span> — SPEC_GAP: guard layer undefined in spec. Escalated to Satyam.<br>
+         <span class="bug-code">T-40</span> — CODE_BUG: hardcoded withdrawal days must be externalized to SPR config.`,
+        'BLOCKED: T-26 resolution pending Satyam decision — cannot complete fix loop'),
+      ddPhase('PHASE F','Sign-off','not-started',`Pending fix loop completion and re-run of failing tests.`),
+    ].join('');
+
+    return `<div class="dd-flow">
+      ${ddStep(1,'Define',s.define,`
+        <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
+          Scope: Wallet module — balance display, carry fee, withdrawal flow, compensation events.<br>
+          Services in scope: PS (Payment Service) + CS (Compensation Service).<br>
+          Key API surface: <code style="font-size:11px;background:var(--bg);padding:1px 5px;border-radius:4px;">/wallet/summary</code>, <code style="font-size:11px;background:var(--bg);padding:1px 5px;border-radius:4px;">/wallet/withdraw</code>, <code style="font-size:11px;background:var(--bg);padding:1px 5px;border-radius:4px;">/compensation/events</code>
+        </p>
+        <div class="dd-output">Problem statement, scope, API surface list, constraints locked. Build Specs: PS v1.4 + CS v1.3 approved.</div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(2,'Design — Track A (Frontend) + Track B (Backend) in parallel',
+        s.trackA==='done'&&s.trackB==='done'?'done':
+        s.trackA==='blocked'||s.trackB==='blocked'?'blocked':'in-progress',
+        ddParallel(trackA, trackB))}
+      ${ddArrow()}
+      ${ddStep(3,'API Contract',s.contract,`
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">
+          API Contract v1.2 — locked. Defines all endpoints, field types, state enumerations, error codes.<br>
+          Track B backend produced it. Track A frontend fixtures must be derived from it.
+        </p>
+        <div class="dd-output">API Contract v1.2 locked. FE-06 idempotency gap — contract amendment pending.</div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(4,'Test Plan',s.testPlan,`
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
+          Module Test Strategy must follow Template v1.0: L1 truth (15-30 cases) + L2 architecture (8-12) + L3 integration (15-25) + L4 user (5-10). Canonical fixture set required output.
+        </p>
+        <div style="padding:10px;background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--red);font-weight:600;">
+          NOT STARTED — Mukul must write full Module Test Strategy before E2 integration stage can begin.
+        </div>
+        <div class="dd-output">Module Test Strategy (L1-L4), canonical fixture set, regression pack skeleton.</div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(5,'Execute',
+        s.e1==='done'&&s.e2==='done'&&s.e3==='done'&&s.e4==='done'?'done':
+        s.e1==='not-started'?'not-started':'in-progress',
+        ddEStages([
+          { id:'E1', title:'Developer self-check', status:s.e1,
+            detail:'Before merge. Devender verifies against spec checklist. PS + CS both passed E1.' },
+          { id:'E2', title:'Integration — 100% required', status:s.e2,
+            detail:'After merge. 50 API tests run. 39 GO / 7 NO-GO / 4 PARTIAL. Must reach 100% before E3.' },
+          { id:'E3', title:'Manual QA — real Android device', status:s.e3,
+            detail:'Product (Dhruv) runs against canonical fixtures. Cannot start until E2=100% and fixtures exist.' },
+          { id:'E4', title:'Field test — real CSPs', status:s.e4,
+            detail:'Real CSPs on real network. Blocks ship. Not started.' },
+        ])
+      )}
+      ${ddArrow()}
+      ${ddStep(6,'Gates — all 5 must pass',s.gates,
+        ddGates([
+          { id:'G1', name:'Truth Gate', status:s.gates==='done'?'done':'not-started',
+            detail:'Code matches Build Spec (PS v1.4 + CS v1.3). No invented behavior.' },
+          { id:'G2', name:'Architecture Gate', status:s.gates==='done'?'done':'not-started',
+            detail:'All 15 L2 rules pass. No local computation. No ARCHITECTURE_DRIFT.' },
+          { id:'G3', name:'Integration Gate', status:s.gates==='done'?'done':'not-started',
+            detail:'E2 = 100% pass. API Contract fully honoured.' },
+          { id:'G4', name:'User Gate', status:s.gates==='done'?'done':'not-started',
+            detail:'E3 manual QA pass. All FE issues resolved.' },
+          { id:'G5', name:'Performance Gate', status:s.gates==='done'?'done':'not-started',
+            detail:'First paint cached <200ms. First paint 3G <3s. No blocking navigation.' },
+        ])
+      )}
+      ${ddArrow()}
+      ${ddStep(7,'Ship + Regression Pack',s.ship,`
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
+          Staged rollout: Wiom staff (3-5 days) → 20-50 CSPs (1-2 weeks) → All CSPs.<br>
+          Regression pack (10-15 scenarios) created at ship — blocks all future releases if missing.
+        </p>
+        <div class="dd-output">Deployed Wallet module + regression pack. Blocks: Assurance Strip cannot ship without Wallet regression pack.</div>
+      `)}
+    </div>`;
+  },
+
+  netbox: (s) => `<div class="dd-flow">
+    ${ddStep(1,'Define',s.define,`
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
+        Scope: NetBox — device list, device state display, connection health view.<br>
+        Services in scope: CLS (Connection List Service) + DAS (Device Audit Service).<br>
+        Build Specs: CLS v1.5 + DAS v1.4 approved.
+      </p>
+      <div class="dd-output">Scope + Build Specs locked.</div>
+    `)}
+    ${ddArrow()}
+    ${ddStep(2,'Design — Track A (Frontend) + Track B (Backend) in parallel',
+      s.trackB==='done'&&s.trackA==='done'?'done':s.trackB==='in-progress'||s.trackA==='in-progress'?'in-progress':'not-started',
+      ddParallel(
+        [ddPhase('PHASE A','Canonical Fixtures','not-started',`Not started. Requires API Contract first.`)].join(''),
+        [
+          ddPhase('PHASE A','Test Plan','not-started',`Mukul must write test plan BEFORE Devender codes. Not done yet.`,
+            'BLOCKER — no code generation until test plan exists and is reviewed'),
+          ddPhase('PHASE B','Code Generation','in-progress',`Devender building CLS + DAS. In progress.`),
+          ddPhase('PHASE C-F','Review → QA → Fix → Sign-off','not-started',`Pending.`),
+        ].join('')
+      )
+    )}
+    ${ddArrow()}
+    ${ddStep(3,'API Contract',s.contract,`
+      <p style="font-size:12px;color:var(--text-secondary);">API Contract for NetBox — locked. Defines device list endpoint, device state fields, connection health fields.</p>
+      <div class="dd-output">Contract locked. Frontend fixtures derivation pending.</div>
+    `)}
+    ${ddArrow()}
+    ${ddStep(4,'Test Plan',s.testPlan,`<div style="padding:10px;background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--red);font-weight:600;">NOT STARTED — Must be written before E2 integration stage.</div>`)}
+    ${ddArrow()}
+    ${ddStep(5,'Execute',s.e1==='not-started'?'not-started':'in-progress',
+      ddEStages([
+        { id:'E1', title:'Developer self-check', status:s.e1, detail:'Not started.' },
+        { id:'E2', title:'Integration — 100% required', status:s.e2, detail:'Not started.' },
+        { id:'E3', title:'Manual QA — real Android', status:s.e3, detail:'Not started.' },
+        { id:'E4', title:'Field test — real CSPs', status:s.e4, detail:'Not started.' },
+      ])
+    )}
+    ${ddArrow()}
+    ${ddStep(6,'Gates',s.gates,ddGates([
+      { id:'G1',name:'Truth Gate',status:'not-started',detail:'Pending.' },
+      { id:'G2',name:'Architecture Gate',status:'not-started',detail:'Pending.' },
+      { id:'G3',name:'Integration Gate',status:'not-started',detail:'Pending.' },
+      { id:'G4',name:'User Gate',status:'not-started',detail:'Pending.' },
+      { id:'G5',name:'Performance Gate',status:'not-started',detail:'Pending.' },
+    ]))}
+    ${ddArrow()}
+    ${ddStep(7,'Ship + Regression Pack',s.ship,`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Wallet regression pack existing first.</p>`)}
+  </div>`,
+
+  assurance: (s) => `<div class="dd-flow">
+    ${ddStep(1,'Define',s.define,`
+      <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
+        Scope: Assurance Strip — persistent status strip showing connection health + carry fee state.<br>
+        Services in scope: QS (Quality Service) + ES (Event Service).<br>
+        Build Specs: QS v1.3 + ES v1.1 approved. Module Design: FOR REVIEW — not yet locked.
+      </p>
+      <div style="margin-top:8px;padding:8px 10px;background:var(--yellow-bg);border:1px solid var(--yellow-border);border-radius:var(--radius-sm);font-size:11px;color:var(--yellow);font-weight:600;">
+        Module Design v1.1 still FOR REVIEW — must be locked before Track B can start.
+      </div>
+    `)}
+    ${ddArrow()}
+    ${ddStep(2,'Design — Track A + Track B',s.trackA==='not-started'&&s.trackB==='not-started'?'not-started':'in-progress',
+      ddParallel(
+        [ddPhase('ALL PHASES','Not started','not-started',`Waiting for Module Design lock and API Contract.`)].join(''),
+        [ddPhase('ALL PHASES','Not started','not-started',`Waiting for Module Design lock. Test plan must precede code gen.`,
+          'BLOCKER — Module Design must be locked before any Track B work begins')].join('')
+      )
+    )}
+    ${ddArrow()}
+    ${ddStep(3,'API Contract',s.contract,`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Module Design lock.</p>`)}
+    ${ddArrow()}
+    ${ddStep(4,'Test Plan',s.testPlan,`<div style="padding:10px;background:var(--gray-bg,var(--bg));border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--text-dim);">Not started.</div>`)}
+    ${ddArrow()}
+    ${ddStep(5,'Execute','not-started',ddEStages([
+      { id:'E1',title:'Developer self-check',status:'not-started',detail:'Not started.' },
+      { id:'E2',title:'Integration',status:'not-started',detail:'Not started.' },
+      { id:'E3',title:'Manual QA',status:'not-started',detail:'Not started.' },
+      { id:'E4',title:'Field test',status:'not-started',detail:'Not started.' },
+    ]))}
+    ${ddArrow()}
+    ${ddStep(6,'Gates','not-started',ddGates([
+      { id:'G1',name:'Truth Gate',status:'not-started',detail:'Not started.' },
+      { id:'G2',name:'Architecture Gate',status:'not-started',detail:'Not started.' },
+      { id:'G3',name:'Integration Gate',status:'not-started',detail:'Not started.' },
+      { id:'G4',name:'User Gate',status:'not-started',detail:'Not started.' },
+      { id:'G5',name:'Performance Gate',status:'not-started',detail:'Not started.' },
+    ]))}
+    ${ddArrow()}
+    ${ddStep(7,'Ship + Regression Pack','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Wallet + NetBox shipping first.</p>`)}
+  </div>`,
+
+};
+
+// Generic not-started module drilldown
+function ddGeneric(key) {
+  const mod = MODULES.find(m => m.key === key);
   const s = state[key];
-  const steps = [
-    { label:'Define', col:'define' },
-    { label:'Track B', col:'trackB' },
-    { label:'Contract', col:'contract' },
-    { label:'Track A', col:'trackA' },
-    { label:'Test Plan', col:'testPlan' },
-    { label:'E1', col:'e1' },
-    { label:'E2', col:'e2' },
-    { label:'E3', col:'e3' },
-    { label:'E4', col:'e4' },
-    { label:'Gates', col:'gates' },
-    { label:'Ship', col:'ship' },
-    { label:'Regression', col:'regression' },
-  ];
-  return steps.map((st, i) =>
-    `<div class="mini-step">
-       <div class="mini-step-box" style="${miniStepClass(s[st.col])}">${st.label}</div>
-       <div class="mini-step-label">${STATUS_LABELS[s[st.col]]}</div>
-     </div>${i < steps.length-1 ? '<div class="mini-arrow">›</div>' : ''}`
-  ).join('');
+  return `<div class="dd-flow">
+    ${ddStep(1,'Define',s.define,`<p style="font-size:12px;color:var(--text-secondary);">${mod.label} — ${mod.sub}. Not yet started.</p>`)}
+    ${ddArrow()}
+    ${ddStep(2,'Design — Track A + Track B','not-started',
+      ddParallel(
+        ddPhase('ALL PHASES','Not started','not-started','Waiting for prior modules to complete.'),
+        ddPhase('ALL PHASES','Not started','not-started','Waiting for prior modules to complete.')
+      ), true)}
+    ${ddArrow()}
+    ${ddStep(3,'API Contract','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
+    ${ddArrow()}
+    ${ddStep(4,'Test Plan','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
+    ${ddArrow()}
+    ${ddStep(5,'Execute','not-started',ddEStages([
+      { id:'E1',title:'Developer self-check',status:'not-started',detail:'Not started.' },
+      { id:'E2',title:'Integration',status:'not-started',detail:'Not started.' },
+      { id:'E3',title:'Manual QA',status:'not-started',detail:'Not started.' },
+      { id:'E4',title:'Field test',status:'not-started',detail:'Not started.' },
+    ]), true)}
+    ${ddArrow()}
+    ${ddStep(6,'Gates','not-started',ddGates([
+      { id:'G1',name:'Truth Gate',status:'not-started',detail:'Not started.' },
+      { id:'G2',name:'Architecture Gate',status:'not-started',detail:'Not started.' },
+      { id:'G3',name:'Integration Gate',status:'not-started',detail:'Not started.' },
+      { id:'G4',name:'User Gate',status:'not-started',detail:'Not started.' },
+      { id:'G5',name:'Performance Gate',status:'not-started',detail:'Not started.' },
+    ]), true)}
+    ${ddArrow()}
+    ${ddStep(7,'Ship + Regression Pack','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
+  </div>`;
 }
 
 function renderDrilldown(key) {
   const body = document.getElementById('drilldownBody');
   if (!body) return;
-
-  if (key === 'wallet') {
-    body.innerHTML = buildWalletDrilldown();
-  } else {
-    const mod = MODULES.find(m => m.key === key);
-    const s = state[key];
-    body.innerHTML = `
-      <div class="mini-flow" id="miniflow-${key}">${buildMiniFlowHtml(key)}</div>
-      <div class="skeleton-card">
-        <h3>${mod.label} — ${mod.sub}</h3>
-        <p style="margin-bottom:12px;">Detailed phase breakdown coming soon. Current overall status shown in mini-flow above.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;">
-          ${COLS.map(c => `<span style="font-size:11px;color:var(--text-dim);">${COL_LABELS[c]}: ${statusChip(s[c])}</span>`).join('')}
-        </div>
-      </div>`;
-  }
-}
-
-function buildWalletDrilldown() {
-  const s = state['wallet'];
-  return `
-  <div class="mini-flow" id="miniflow-wallet">${buildMiniFlowHtml('wallet')}</div>
-
-  <!-- TRACK B -->
-  <div class="track-card">
-    <div class="track-card-head back">
-      <span class="track-badge b">TRACK B</span>
-      <span class="track-card-title">Backend — PS (Payment Service) + CS (Compensation Service)</span>
-      <div class="track-card-status">${statusChip(s.trackB)}</div>
-    </div>
-    <div class="phase-list">
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE A</div>
-          <div class="phase-name">Test Plan</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('in-progress')}</div>
-          <div class="phase-detail">
-            PS test plan written by Adit (conflict of interest — needs Mukul cross-review).<br>
-            CS test plan written.<br>
-            <span class="highlight">Status: in-progress — cross-review pending.</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE B</div>
-          <div class="phase-name">Code Generation</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('done')}</div>
-          <div class="phase-detail">
-            PS code generated by Devender. CS code generated. Both complete.
-          </div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE C</div>
-          <div class="phase-name">Adit 10-point review</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('not-started')}</div>
-          <div class="phase-detail">
-            Spec-to-code check not done yet.
-          </div>
-          <div class="phase-amendment">AMENDMENT: If violations found → CODE_BUG or ARCHITECTURE_DRIFT depending on type</div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE D</div>
-          <div class="phase-name">QA Run (Mukul)</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('in-progress')}</div>
-          <div class="phase-detail">
-            50 tests run. Results: <strong>39 GO</strong>, <strong style="color:var(--red)">7 NO-GO</strong>, <strong style="color:var(--yellow)">4 PARTIAL</strong>
-            <table class="issues-table" style="margin-top:10px;">
-              <thead>
-                <tr><th>Test ID</th><th>Finding</th><th>Type</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="issue-id">T-34</td><td>FM-PAY-08 violation — DELAYED state not stored</td><td>CODE_BUG</td><td class="issue-open">Fix needed</td></tr>
-                <tr><td class="issue-id">T-26</td><td>Guard at wrong layer</td><td>SPEC_GAP</td><td class="issue-open">Satyam pending</td></tr>
-                <tr><td class="issue-id">T-40</td><td>Hardcoded value in service</td><td>CODE_BUG</td><td class="issue-open">Fix needed</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE E</div>
-          <div class="phase-name">Fix Loop</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('blocked')}</div>
-          <div class="phase-detail">
-            <span class="bug-code">T-34</span> — CODE_BUG: DELAYED state not stored. Fix in progress.<br>
-            <span class="bug-code">T-26</span> — SPEC_GAP: guard layer incorrect. <strong style="color:var(--red)">Escalated to Satyam. BLOCKED.</strong><br>
-            <span class="bug-code">T-40</span> — CODE_BUG: hardcoded value must be externalized.
-          </div>
-          <div class="phase-blocker">BLOCKED: T-26 resolution pending Satyam — cannot complete fix loop</div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE F</div>
-          <div class="phase-name">Sign-off</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('not-started')}</div>
-          <div class="phase-detail">Pending fix loop completion.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- TRACK A -->
-  <div class="track-card">
-    <div class="track-card-head front">
-      <span class="track-badge a">TRACK A</span>
-      <span class="track-card-title">Frontend — Wallet UI</span>
-      <div class="track-card-status">${statusChip(s.trackA)}</div>
-    </div>
-    <div class="phase-list">
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE A</div>
-          <div class="phase-name">Fixtures</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('not-started')}</div>
-          <div class="phase-detail">
-            Canonical fixtures NOT created. Render checklist NOT created.
-          </div>
-          <div class="phase-blocker">BLOCKER — canonical fixtures must exist before Phase B (Build) can start. Frontend was built without these, causing 8 QA issues.</div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE B</div>
-          <div class="phase-name">Frontend Build</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('in-progress')}</div>
-          <div class="phase-detail">
-            25 Espresso tests — all passing.<br>
-            Built <strong>without canonical fixtures</strong> → 8 QA issues found downstream.
-          </div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE C</div>
-          <div class="phase-name">Adit L2 Review</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('not-started')}</div>
-          <div class="phase-detail">15-rule architecture review not done yet.</div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE D</div>
-          <div class="phase-name">Manual QA</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('in-progress')}</div>
-          <div class="phase-detail">
-            8 issues found. 5 fixed, 3 open.
-            <table class="issues-table" style="margin-top:10px;">
-              <thead>
-                <tr><th>ID</th><th>Issue</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                <tr><td class="issue-id">FE-01</td><td>Paise 100× error — amount displayed as 100x actual</td><td class="issue-fixed">Fixed</td></tr>
-                <tr><td class="issue-id">FE-02</td><td>Negative balance shown incorrectly</td><td class="issue-fixed">Fixed</td></tr>
-                <tr><td class="issue-id">FE-03</td><td>Missing badge on wallet state</td><td class="issue-fixed">Fixed</td></tr>
-                <tr><td class="issue-id">FE-04</td><td>Wrong badge color for state</td><td class="issue-fixed">Fixed</td></tr>
-                <tr><td class="issue-id">FE-05</td><td>Auth env config — wrong environment</td><td class="issue-open">Open</td></tr>
-                <tr><td class="issue-id">FE-06</td><td>Idempotency not handled — SPEC_GAP, contract amendment needed</td><td class="issue-open">Open (blocked)</td></tr>
-                <tr><td class="issue-id">FE-07</td><td>Contract doc reference wrong</td><td class="issue-open">Open</td></tr>
-                <tr><td class="issue-id">FE-08</td><td>Underpayment edge case unhandled</td><td class="issue-fixed">Fixed</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE E</div>
-          <div class="phase-name">Fix Loop</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('blocked')}</div>
-          <div class="phase-detail">
-            <span class="bug-code">FE-05</span> — env setup needed for correct auth.<br>
-            <span class="bug-code">FE-06</span> — SPEC_GAP: idempotency undefined in contract. <strong style="color:var(--red)">Contract amendment needed.</strong><br>
-            <span class="bug-code">FE-07</span> — Contract doc update required.
-          </div>
-          <div class="phase-blocker">BLOCKED: FE-06 requires contract amendment — SPEC_GAP resolution needed</div>
-        </div>
-      </div>
-
-      <div class="phase-row">
-        <div class="phase-left">
-          <div class="phase-tag">PHASE F</div>
-          <div class="phase-name">Sign-off</div>
-        </div>
-        <div class="phase-right">
-          <div class="phase-status-row">${statusChip('not-started')}</div>
-          <div class="phase-detail">Pending fix loop completion.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  `;
+  const s = state[key];
+  const builder = MODULE_DATA[key];
+  body.innerHTML = builder ? builder(s) : ddGeneric(key);
 }
 
 // ── NAVIGATION ──
