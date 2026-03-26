@@ -973,14 +973,22 @@ body {
                 <span class="track-title">Frontend</span>
               </div>
               <div class="fc-phases">
-                <div class="fc-phase"><div class="phase-dot">A</div><div class="phase-content"><strong>Phase A:</strong> UX Design (Product + Dhruv + Ashish)</div></div>
-                <div class="fc-phase"><div class="phase-dot">B</div><div class="phase-content"><strong>Phase B:</strong> Visual Spec lock — Satyam approves</div></div>
-                <div class="fc-phase"><div class="phase-dot">C</div><div class="phase-content"><strong>Phase C:</strong> Copy + fixtures from API Contract</div></div>
-                <div class="fc-phase"><div class="phase-dot">D</div><div class="phase-content"><strong>Phase D:</strong> Frontend Build</div></div>
-                <div class="fc-phase"><div class="phase-dot">E</div><div class="phase-content"><strong>Phase E:</strong> Adit L2 review (15 rules)</div></div>
-                <div class="fc-phase"><div class="phase-dot">F</div><div class="phase-content"><strong>Phase F:</strong> Sign-off</div></div>
+                <div class="fc-phase"><div class="phase-dot">A</div><div class="phase-content"><strong>Phase A: UX Design</strong> (Product + Dhruv + Ashish)<br><span style="font-size:10px;color:var(--text-dim);">All states, flows, and edge cases designed. Output: UX flows doc.</span></div></div>
+                <div class="fc-phase"><div class="phase-dot">B</div><div class="phase-content"><strong>Phase B: Visual Spec</strong> (Ashish drafts, Satyam approves)<br><span style="font-size:10px;color:var(--text-dim);">Every state, badge, color token, number format defined. Must be formally locked before fixtures can be created — fixtures from an unlocked spec are invalid.</span></div></div>
+                <div class="fc-phase" style="background:rgba(124,58,237,0.04);border-left:3px solid rgba(124,58,237,0.4);padding-left:8px;margin:4px 0;border-radius:4px;">
+                  <div class="phase-dot" style="background:rgba(124,58,237,0.12);border-color:rgba(124,58,237,0.35);color:#7c3aed;font-size:9px;">✦</div>
+                  <div class="phase-content"><strong>GATE: Visual Spec locked — Satyam sign-off required</strong><br><span style="font-size:10px;color:var(--text-dim);">Cannot create canonical fixtures until Visual Spec is locked. Any fixture created before lock is thrown away.</span></div>
+                </div>
+                <div class="fc-phase"><div class="phase-dot">C</div><div class="phase-content"><strong>Phase C: Copy keys + canonical fixtures</strong> (from locked Visual Spec + API Contract)<br><span style="font-size:10px;color:var(--text-dim);">Requires both Visual Spec lock AND API Contract to exist. One fixture per contract state. Product creates, Adit reviews. Frontend build cannot start without these.</span></div></div>
+                <div class="fc-phase" style="background:rgba(124,58,237,0.04);border-left:3px solid rgba(124,58,237,0.4);padding-left:8px;margin:4px 0;border-radius:4px;">
+                  <div class="phase-dot" style="background:rgba(124,58,237,0.12);border-color:rgba(124,58,237,0.35);color:#7c3aed;font-size:9px;">✦</div>
+                  <div class="phase-content"><strong>GATE: Adit reviews canonical fixtures</strong><br><span style="font-size:10px;color:var(--text-dim);">Fixtures must match API Contract exactly — field names, types, values. Frontend build does not start until fixtures are reviewed and approved.</span></div>
+                </div>
+                <div class="fc-phase"><div class="phase-dot">D</div><div class="phase-content"><strong>Phase D: Frontend Build</strong><br><span style="font-size:10px;color:var(--text-dim);">Builds against Visual Spec + API Contract + approved fixtures. No state invented. No local computation.</span></div></div>
+                <div class="fc-phase"><div class="phase-dot">E</div><div class="phase-content"><strong>Phase E: Adit L2 review (15 rules)</strong><br><span style="font-size:10px;color:var(--text-dim);">Architecture review on every PR. ARCHITECTURE_DRIFT = PR rejection, not "fix next sprint."</span></div></div>
+                <div class="fc-phase"><div class="phase-dot">F</div><div class="phase-content"><strong>Phase F: Sign-off</strong> — frontend build complete</div></div>
               </div>
-              <div class="fc-blocker">BLOCKER: Cannot build until API Contract exists</div>
+              <div class="fc-blocker">Phases C–F require API Contract to exist (Step 3). Phases A–B can run in parallel with Track B.</div>
             </div>
             <!-- TRACK B -->
             <div class="fc-track track-b">
@@ -990,7 +998,11 @@ body {
               </div>
               <div class="fc-phases">
                 <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">A</div><div class="phase-content"><strong>Phase A: L1+L2 test cases</strong> (Mukul — BEFORE code)<br><span style="font-size:10px;color:var(--text-dim);">L1 = does service return correct values per spec? L2 = does it follow architecture rules? Backend in isolation only — no user scenarios here.</span></div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">B</div><div class="phase-content"><strong>Phase B: Code Generation</strong> (Devender)<br><span style="font-size:10px;color:var(--text-dim);">Devender generates service code. Phase A must exist first.</span></div></div>
+                <div class="fc-phase" style="background:rgba(3,105,161,0.04);border-left:3px solid rgba(3,105,161,0.4);padding-left:8px;margin:4px 0;border-radius:4px;">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.15);border-color:rgba(3,105,161,0.4);color:#0369a1;font-size:9px;">✦</div>
+                  <div class="phase-content"><strong>GATE: Adit reviews test plan + writes CLAUDE.md</strong><br><span style="font-size:10px;color:var(--text-dim);">CLAUDE.md goes in the repo root. Contains: Build Spec reference, RA architecture rules, ESR canonical events, SPR parameter IDs, FM-rules, what Claude must not compute locally. Devender does not start Phase B without this.</span></div>
+                </div>
+                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">B</div><div class="phase-content"><strong>Phase B: Code Generation</strong> (Devender uses Claude Code with CLAUDE.md in place)<br><span style="font-size:10px;color:var(--text-dim);">CLAUDE.md must exist before this starts. Without it, Claude has no spec context and will invent behavior.</span></div></div>
                 <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">C</div><div class="phase-content"><strong>Phase C: Spec-to-code review</strong> (Adit 10-point)<br><span style="font-size:10px;color:var(--text-dim);">Code review against Build Spec — field names, types, state machine, FM-rules. Not a test run.</span></div></div>
                 <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">D</div><div class="phase-content"><strong>Phase D: L1+L2 test execution</strong> (Mukul runs Phase A cases)<br><span style="font-size:10px;color:var(--text-dim);">Runs the L1+L2 cases written in Phase A against the service. Backend only — no frontend, no user flows. L3+L4 run later in Step 5.</span></div></div>
                 <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">E</div><div class="phase-content"><strong>Phase E: Fix loop</strong></div></div>
@@ -1479,6 +1491,18 @@ function ddArrow() {
   return `<div class="dd-arrow"><div class="dd-arrow-head">▼</div></div>`;
 }
 
+// A gate row inside a track (distinct styling from a phase)
+function ddGateRow(label, detailHtml) {
+  return `
+  <div class="dd-phase-row" style="background:rgba(217,43,144,0.04);border-left:3px solid var(--primary-border);">
+    <div>
+      <div class="dd-phase-tag" style="color:var(--primary);">GATE ✦</div>
+      <div class="dd-phase-name" style="color:var(--primary);">${label}</div>
+    </div>
+    <div class="dd-phase-content" style="font-size:11px;color:var(--text-secondary);">${detailHtml}</div>
+  </div>`;
+}
+
 // A single phase row inside a track
 function ddPhase(tag, name, status, detailHtml, blockerHtml='', amendHtml='') {
   return `
@@ -1554,68 +1578,74 @@ const MODULE_DATA = {
 
   wallet: (s) => {
     const trackA = [
-      ddPhase('PHASE A','Canonical Fixtures','not-started',
-        `Fixtures from API Contract NOT created. Render checklist NOT created.<br>
-         Owner: Product (Dhruv).`,
-        'BLOCKER — frontend was built without these, causing 8 QA issues downstream. Must be created before E3 (manual QA) reruns.',
-        'If API Contract defines a state with no fixture → VISUAL_SPEC_GAP — stop, escalate to Satyam'),
-      ddPhase('PHASE B','Frontend Build','in-progress',
-        `25 Espresso tests — all passing.<br>
-         Built without canonical fixtures → 8 QA issues found. Framework complete, correctness gaps remain.`),
-      ddPhase('PHASE C','Adit L2 Review (15 rules)','not-started',
-        `Architecture review against 15 L2 rules not done yet.<br>Owner: Adit.`,
-        '','If any rule violated → ARCHITECTURE_DRIFT — PR rejection, revert, not "fix next sprint"'),
-      ddPhase('PHASE D','Manual QA — Real Device','in-progress',
-        `8 issues found. 5 fixed, 3 open.
-        <table class="issues-table" style="margin-top:8px;">
-          <thead><tr><th>ID</th><th>Issue</th><th>Type</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td class="issue-id">FE-01</td><td>Paise 100× — amount displayed as 100x actual</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
-            <tr><td class="issue-id">FE-02</td><td>Negative balance shown incorrectly</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
-            <tr><td class="issue-id">FE-03</td><td>Missing badge on wallet state</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
-            <tr><td class="issue-id">FE-04</td><td>Wrong badge color for state</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
-            <tr><td class="issue-id">FE-05</td><td>Auth env config — wrong environment in QA</td><td>CODE_BUG</td><td class="issue-open">Open</td></tr>
-            <tr><td class="issue-id">FE-06</td><td>Idempotency not handled — contract silent</td><td>SPEC_GAP</td><td class="issue-open">Blocked</td></tr>
-            <tr><td class="issue-id">FE-07</td><td>Contract doc reference wrong</td><td>CODE_BUG</td><td class="issue-open">Open</td></tr>
-            <tr><td class="issue-id">FE-08</td><td>Underpayment edge case unhandled</td><td>RENDER_BUG</td><td class="issue-fixed">Fixed</td></tr>
-          </tbody>
-        </table>`),
-      ddPhase('PHASE E','Fix Loop','blocked',
-        `<span class="bug-code">FE-05</span> env setup needed for correct auth env.<br>
-         <span class="bug-code">FE-06</span> — SPEC_GAP: idempotency undefined in contract. Contract amendment required.<br>
-         <span class="bug-code">FE-07</span> — contract doc update required.`,
-        'BLOCKED: FE-06 requires contract amendment — SPEC_GAP resolution pending'),
-      ddPhase('PHASE F','Sign-off','not-started',`Pending fix loop + L2 review completion.`),
+      ddPhase('PHASE A','UX Design','not-started',
+        `All Wallet states and flows designed: balance display, carry fee states, withdrawal flow, compensation events.<br>
+         Owner: Product + Dhruv + Ashish. Output: UX flows document covering every state and edge case.`),
+      ddPhase('PHASE B','Visual Spec','not-started',
+        `Every state, badge, color token, number format defined for Wallet.<br>
+         Ashish drafts. Satyam approves. Must cover: balance states, carry fee badge, withdrawal states, error states.<br>
+         Owner: Ashish (draft), Satyam (approval).`),
+      ddGateRow('Visual Spec locked — Satyam sign-off',
+        `Visual Spec must be formally locked before canonical fixtures can be created.<br>
+         Fixtures created from an unlocked spec are thrown away if spec changes. Do not start Phase C until this gate is passed.`),
+      ddPhase('PHASE C','Copy keys + Canonical Fixtures','not-started',
+        `Requires: locked Visual Spec + locked API Contract (Step 3).<br>
+         Canonical fixtures: one JSON fixture per contract state, values matching contract exactly.<br>
+         Render checklist: every contract state mapped to its Visual Spec section.<br>
+         Copy keys: all Hindi strings for Wallet finalized.<br>
+         Owner: Product (Dhruv). Cannot invent any value — must come from contract.`,
+        '', 'If a contract state has no Visual Spec definition → VISUAL_SPEC_GAP — stop, escalate to Satyam'),
+      ddGateRow('Adit reviews canonical fixtures',
+        `Fixtures reviewed against API Contract v1.x — field names, types, values must match exactly.<br>
+         <strong>Frontend build (Phase D) does not start until fixtures are reviewed and approved.</strong>`),
+      ddPhase('PHASE D','Frontend Build','not-started',
+        `Builds against locked Visual Spec + API Contract + Adit-approved canonical fixtures.<br>
+         No state invented. No local computation. Every rendered value comes from the contract.`),
+      ddPhase('PHASE E','Adit L2 Review (15 rules)','not-started',
+        `Architecture review on every PR. 15-rule checklist.<br>Owner: Adit.`,
+        '','ARCHITECTURE_DRIFT = PR rejection. Not "fix next sprint." Fix now, revert the violation.'),
+      ddPhase('PHASE F','Manual QA — Real Device','not-started',
+        `Product (Dhruv) runs L4 user scenarios from Step 4 Module Test Strategy against canonical fixtures on a real budget Android device.<br>
+         Every finding logged with: screen, expected behavior (spec section), actual behavior, amendment classification.`),
+      ddPhase('PHASE G','Fix Loop','not-started',
+        `Each finding classified via amendment decision tree before any fix.<br>
+         RENDER_BUG → frontend fix. VISUAL_SPEC_GAP → stop, escalate to Satyam. ARCHITECTURE_DRIFT → PR rejection.<br>
+         Log every fix + re-test result.`),
+      ddPhase('PHASE H','Sign-off','not-started',
+        `All L4 scenarios passing. L2 review complete. No open findings.<br>
+         Log: date, who signed off.`),
     ].join('');
 
     const trackB = [
       ddPhase('PHASE A','Test Plan','in-progress',
-        `PS test plan written by Adit (conflict of interest — Mukul cross-review pending).<br>
-         CS test plan written.<br>
-         Both cover L1-L4 layers as per Module Test Strategy Template.`,
-        '','If plan missing testability surfaces → must add before Phase B merges to main'),
-      ddPhase('PHASE B','Code Generation (Devender)','done',
-        `PS (Payment Service) — generated and deployed to QA env.<br>
-         CS (Compensation Service) — generated and deployed to QA env.`),
+        `L1 cases: for each endpoint in PS v1.4 + CS v1.3 — expected fields, types, values, state transitions.<br>
+         L2 cases: architecture rule checks — no local computation, FM-rule compliance, correct state machine.<br>
+         Owner: Mukul. PS test plan written by Adit previously (conflict of interest) — Mukul must re-own and cross-review.<br>
+         Both services must be covered before any code is written.`,
+        '','If plan missing testability surfaces → must add before Phase B can start'),
+      ddGateRow('Adit reviews test plan + writes CLAUDE.md',
+        `CLAUDE.md goes in repo root before Devender opens Claude Code.<br>
+         Must contain: PS v1.4 + CS v1.3 Build Spec references, RA v2.13 architecture rules, ESR canonical event list, SPR parameter IDs for all config values, FM-rules for Payment + Compensation, explicit "do not compute locally" instructions.<br>
+         <strong>Devender does not start Phase B without this. No exceptions.</strong>`),
+      ddPhase('PHASE B','Code Generation (Devender)','not-started',
+        `Devender uses Claude Code with CLAUDE.md in place.<br>
+         Generates PS + CS service code against the L1+L2 test cases from Phase A.<br>
+         Code must not hardcode any SPR parameter values.`),
       ddPhase('PHASE C','Adit 10-point Spec-to-Code Review','not-started',
-        `Review against Build Spec not done yet.<br>Owner: Adit. Checks: types, field names, state machine compliance, no local computation, FM- rule conformance.`,
-        '','If violations found → CODE_BUG (code is wrong) or ARCHITECTURE_DRIFT (computes locally) — both = fix now'),
-      ddPhase('PHASE D','QA Run (Mukul)','in-progress',
-        `50 tests run. <strong>39 GO</strong> · <strong style="color:var(--red)">7 NO-GO</strong> · <strong style="color:var(--yellow)">4 PARTIAL</strong>
-        <table class="issues-table" style="margin-top:8px;">
-          <thead><tr><th>Test ID</th><th>Finding</th><th>Type</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td class="issue-id">T-34</td><td>FM-PAY-08 violation — DELAYED state not stored</td><td>CODE_BUG</td><td class="issue-open">Fix needed</td></tr>
-            <tr><td class="issue-id">T-26</td><td>Withdrawal day guard at wrong layer</td><td>SPEC_GAP</td><td class="issue-open">Satyam pending</td></tr>
-            <tr><td class="issue-id">T-40</td><td>Withdrawal days hardcoded in service</td><td>CODE_BUG</td><td class="issue-open">Fix needed</td></tr>
-          </tbody>
-        </table>`),
-      ddPhase('PHASE E','Fix Loop','blocked',
-        `<span class="bug-code">T-34</span> — CODE_BUG: DELAYED state not stored. Fix in progress.<br>
-         <span class="bug-code">T-26</span> — SPEC_GAP: guard layer undefined in spec. Escalated to Satyam.<br>
-         <span class="bug-code">T-40</span> — CODE_BUG: hardcoded withdrawal days must be externalized to SPR config.`,
-        'BLOCKED: T-26 resolution pending Satyam decision — cannot complete fix loop'),
-      ddPhase('PHASE F','Sign-off','not-started',`Pending fix loop completion and re-run of failing tests.`),
+        `Adit reads generated code against PS v1.4 + CS v1.3. Checks: field names, types, state machine transitions, FM-rule compliance, no local computation, no hardcoded SPR values, no invented behavior.<br>
+         Log every finding with spec section reference.`,
+        '','Violations → CODE_BUG (wrong value/behavior) or ARCHITECTURE_DRIFT (computes locally) — both = fix before moving on'),
+      ddPhase('PHASE D','L1+L2 Test Execution (Mukul)','not-started',
+        `Mukul runs the L1+L2 cases written in Phase A against the generated service code.<br>
+         Every failure must be logged with test ID, expected vs actual, and amendment classification.<br>
+         Backend in isolation — no frontend, no user flows yet.`),
+      ddPhase('PHASE E','Fix Loop','not-started',
+        `For each failing test: classify (CODE_BUG / SPEC_GAP / DESIGN_GAP), fix or escalate, re-run.<br>
+         CODE_BUG → Devender fixes. SPEC_GAP → spec amendment, then fix. DESIGN_GAP → Satyam decides before any code changes.<br>
+         Log every fix with amendment type and which test it resolved.`),
+      ddPhase('PHASE F','Sign-off','not-started',
+        `All L1+L2 cases passing. Adit spec-to-code review complete with no open findings.<br>
+         Log: date, who signed off, any exceptions noted.`),
     ].join('');
 
     return `<div class="dd-flow">
