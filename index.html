@@ -185,15 +185,13 @@ body {
   flex:1;
 }
 
-/* Flowchart container */
 .flowchart { display:flex; flex-direction:column; align-items:center; gap:0; width:100%; }
 
 .fc-step {
   width:100%;
-  max-width:900px;
+  max-width:960px;
 }
 
-/* Step box */
 .fc-box {
   background:var(--bg-white);
   border:1.5px solid var(--border);
@@ -218,11 +216,10 @@ body {
 .fc-box-meta { font-size:11.5px; color:var(--text-secondary); line-height:1.55; }
 .fc-box-meta strong { color:var(--text); font-weight:600; }
 
-/* Arrow connector */
 .fc-arrow {
   display:flex; flex-direction:column; align-items:center;
   height:32px; justify-content:center; gap:0;
-  max-width:900px; width:100%;
+  max-width:960px; width:100%;
 }
 .fc-arrow-line { width:1.5px; flex:1; background:var(--border-strong); }
 .fc-arrow-head {
@@ -232,9 +229,8 @@ body {
   border-top:6px solid var(--border-strong);
 }
 
-/* Parallel tracks */
 .fc-parallel {
-  display:flex; gap:16px; width:100%; max-width:900px;
+  display:flex; gap:16px; width:100%; max-width:960px;
   align-items:stretch;
 }
 .fc-track {
@@ -289,56 +285,58 @@ body {
   font-size:11px; color:var(--red); font-weight:500;
 }
 
+.fc-test-strategy-note {
+  margin:8px 0;
+  padding:7px 10px;
+  background:rgba(3,105,161,0.06);
+  border:1px solid rgba(3,105,161,0.25);
+  border-radius:var(--radius-sm);
+  font-size:11px; color:#0369a1; font-weight:600;
+}
+
 .fc-convergence {
   background:var(--primary-bg);
   border:1.5px solid var(--primary-border);
   border-radius:var(--radius);
   padding:10px 18px;
-  max-width:900px;
+  max-width:960px;
   width:100%;
   text-align:center;
   font-size:12px; font-weight:600; color:var(--primary);
 }
 
-/* Execution stages */
-.fc-stages {
-  display:flex; gap:8px; flex-wrap:nowrap; width:100%; margin-top:8px;
-  overflow-x:auto;
+/* Execute chain */
+.fc-exec-chain {
+  display:flex; align-items:center; gap:0; width:100%; overflow-x:auto; margin-top:8px; flex-wrap:nowrap;
 }
-.fc-stage {
-  flex:1; min-width:150px;
+.fc-exec-stage {
+  flex:1; min-width:130px;
   background:var(--bg);
   border:1.5px solid var(--border);
   border-radius:var(--radius-sm);
   padding:10px 12px;
 }
+.fc-exec-gate {
+  flex:0 0 auto;
+  background:var(--primary-bg);
+  border:1.5px solid var(--primary-border);
+  border-radius:var(--radius-sm);
+  padding:8px 10px;
+  text-align:center;
+  min-width:60px;
+}
+.fc-exec-arrow {
+  font-size:14px; color:var(--border-strong); padding:0 4px; flex-shrink:0;
+}
 .stage-label { font-size:11px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--text-dim); margin-bottom:4px; }
 .stage-title { font-size:12px; font-weight:600; margin-bottom:2px; }
-.stage-desc { font-size:11px; color:var(--text-secondary); }
-.stage-arrow { font-size:16px; color:var(--border-strong); display:flex; align-items:center; flex-shrink:0; }
-
-/* Gates grid */
-.fc-gates {
-  display:flex; gap:8px; flex-wrap:wrap; width:100%; margin-top:8px;
-}
-.fc-gate {
-  background:var(--bg);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius-sm);
-  padding:8px 14px;
-  font-size:12px; font-weight:600;
-  display:flex; align-items:center; gap:6px;
-}
-.gate-num {
-  font-size:10px;
-  font-family:'JetBrains Mono',monospace;
-  font-weight:700;
-  color:var(--primary);
-}
+.stage-desc { font-size:11px; color:var(--text-secondary); line-height:1.4; }
+.gate-label { font-size:11px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--primary); margin-bottom:3px; }
+.gate-name { font-size:10px; color:var(--primary); font-weight:600; line-height:1.3; }
 
 /* Skip consequences */
 .skip-table {
-  width:100%; max-width:900px;
+  width:100%; max-width:960px;
   border-collapse:collapse;
   background:var(--bg-white);
   border:1.5px solid var(--border);
@@ -370,7 +368,7 @@ body {
 
 /* Amendment tree */
 .amendment-section {
-  max-width:900px; width:100%;
+  max-width:960px; width:100%;
   margin-top:24px;
 }
 .section-heading {
@@ -413,7 +411,6 @@ body {
 .tree-action.hotfix { background:rgba(220,38,38,0.15); color:var(--red); border:1px solid var(--red-border); }
 .tree-desc { font-size:11.5px; color:var(--text-secondary); }
 
-/* Frontend subtypes */
 .subtypes-grid {
   display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
   gap:10px; margin-top:10px;
@@ -433,7 +430,6 @@ body {
 }
 .subtype-desc { font-size:11.5px; color:var(--text-secondary); line-height:1.45; }
 
-/* Non-negotiables */
 .nonneg-grid {
   display:grid; grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
   gap:10px; margin-top:10px;
@@ -523,7 +519,6 @@ body {
   white-space:nowrap;
 }
 
-/* Status chips */
 .chip {
   display:inline-flex;
   align-items:center;
@@ -547,12 +542,10 @@ body {
 
 .chip-dot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
 
-/* Module label left col */
 .module-name { display:flex; flex-direction:column; gap:2px; }
 .module-label { font-size:13px; font-weight:700; }
 .module-sub { font-size:10.5px; color:var(--text-dim); font-weight:400; }
 
-/* Legend row */
 .summary-legend {
   display:flex; gap:14px; align-items:center;
   padding:10px 20px;
@@ -603,137 +596,6 @@ body {
   padding:20px 24px 40px;
 }
 
-/* Mini flowchart for drilldown */
-.mini-flow {
-  display:flex;
-  gap:6px;
-  align-items:center;
-  overflow-x:auto;
-  padding:14px 16px;
-  background:var(--bg-white);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  margin-bottom:20px;
-  box-shadow:var(--shadow-sm);
-  flex-wrap:nowrap;
-}
-.mini-step {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  flex-shrink:0;
-}
-.mini-step-box {
-  padding:6px 12px;
-  border-radius:var(--radius-sm);
-  font-size:11px;
-  font-weight:600;
-  border:1.5px solid;
-  text-align:center;
-  white-space:nowrap;
-}
-.mini-step-label { font-size:10px; color:var(--text-dim); }
-.mini-arrow { font-size:12px; color:var(--border-strong); flex-shrink:0; }
-
-/* Track cards */
-.track-card {
-  background:var(--bg-white);
-  border:1.5px solid var(--border);
-  border-radius:var(--radius);
-  margin-bottom:16px;
-  box-shadow:var(--shadow-sm);
-  overflow:hidden;
-}
-.track-card-head {
-  padding:12px 16px;
-  border-bottom:1px solid var(--border);
-  display:flex; align-items:center; gap:10px;
-  background:var(--bg);
-}
-.track-card-head.front { border-left:3px solid #7c3aed; }
-.track-card-head.back { border-left:3px solid #0369a1; }
-.track-card-title { font-size:13px; font-weight:700; }
-.track-card-status { margin-left:auto; }
-
-.phase-list { padding:4px 0; }
-.phase-row {
-  display:flex; align-items:flex-start; gap:0;
-  padding:10px 16px;
-  border-bottom:1px solid var(--border);
-}
-.phase-row:last-child { border-bottom:none; }
-.phase-left {
-  width:160px; flex-shrink:0;
-  display:flex; flex-direction:column; gap:2px;
-}
-.phase-tag {
-  font-size:10px; font-weight:700;
-  font-family:'JetBrains Mono',monospace;
-  color:var(--text-dim);
-}
-.phase-name { font-size:12px; font-weight:600; }
-.phase-right { flex:1; padding-left:12px; }
-.phase-status-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-.phase-detail { font-size:12px; color:var(--text-secondary); line-height:1.5; }
-.phase-detail ul { padding-left:16px; margin-top:4px; }
-.phase-detail li { margin-bottom:2px; }
-.phase-detail .highlight { color:var(--primary); font-weight:600; }
-.phase-detail .bug-code {
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:4px;
-  padding:1px 5px;
-}
-.phase-amendment {
-  margin-top:6px;
-  padding:6px 10px;
-  background:var(--yellow-bg);
-  border:1px solid var(--yellow-border);
-  border-radius:var(--radius-sm);
-  font-size:11px; color:var(--yellow); font-weight:500;
-}
-.phase-blocker {
-  margin-top:6px;
-  padding:6px 10px;
-  background:var(--red-bg);
-  border:1px solid var(--red-border);
-  border-radius:var(--radius-sm);
-  font-size:11px; color:var(--red); font-weight:600;
-}
-
-/* Issues table in drilldown */
-.issues-table {
-  width:100%; border-collapse:collapse;
-  font-size:11.5px; margin-top:8px;
-}
-.issues-table th {
-  background:var(--bg);
-  padding:6px 10px;
-  text-align:left;
-  font-size:10px; font-weight:700;
-  letter-spacing:0.5px;
-  text-transform:uppercase;
-  color:var(--text-secondary);
-  border:1px solid var(--border);
-}
-.issues-table td {
-  padding:7px 10px;
-  border:1px solid var(--border);
-  vertical-align:top;
-  line-height:1.45;
-}
-.issue-id {
-  font-family:'JetBrains Mono',monospace;
-  font-size:11px; font-weight:600;
-  color:var(--primary);
-}
-.issue-open { color:var(--red); font-weight:600; }
-.issue-fixed { color:var(--green); font-weight:600; }
-
-/* Skeleton modules */
 .skeleton-card {
   background:var(--bg-white);
   border:1.5px solid var(--border);
@@ -749,7 +611,6 @@ body {
 /* ── DRILLDOWN FLOWCHART ── */
 .dd-flow { max-width:960px; margin:0 auto; }
 
-/* Step node */
 .dd-step {
   background:var(--bg-white);
   border:1.5px solid var(--border);
@@ -781,7 +642,6 @@ body {
 .dd-step-body { padding:14px 16px 16px; }
 .dd-step.collapsed .dd-step-body { display:none; }
 
-/* Arrow between steps */
 .dd-arrow {
   display:flex; justify-content:center; align-items:center;
   height:28px; color:var(--text-dim); font-size:18px;
@@ -794,7 +654,6 @@ body {
 }
 .dd-arrow-head { background:var(--bg); padding:0 4px; position:relative; z-index:1; font-size:14px; }
 
-/* Parallel block (Step 2) */
 .dd-parallel {
   display:grid; grid-template-columns:1fr auto 1fr; gap:0;
   align-items:stretch;
@@ -829,7 +688,6 @@ body {
 .dd-track-title { font-size:12px; font-weight:700; }
 .dd-track-status { margin-left:auto; }
 
-/* Phase rows inside track */
 .dd-phase-list { padding:0; }
 .dd-phase-row {
   display:grid; grid-template-columns:130px 1fr;
@@ -842,30 +700,26 @@ body {
 .dd-phase-content { font-size:11.5px; color:var(--text-secondary); line-height:1.5; }
 .dd-phase-status { margin-bottom:5px; }
 
-/* E-stage chain */
-.dd-estages { display:flex; align-items:center; gap:0; flex-wrap:wrap; }
+/* E-stage + gate chain in drilldown */
+.dd-exec-chain { display:flex; align-items:center; gap:0; flex-wrap:wrap; overflow-x:auto; }
 .dd-estage {
-  flex:1; min-width:120px;
+  flex:1; min-width:110px;
   border:1.5px solid var(--border); border-radius:var(--radius-sm);
   padding:10px 12px; background:var(--bg-white);
 }
-.dd-estage-arrow { font-size:18px; color:var(--border-strong); padding:0 6px; flex-shrink:0; }
+.dd-egate {
+  flex:0 0 auto;
+  border:1.5px solid var(--primary-border); border-radius:var(--radius-sm);
+  padding:8px 10px; background:var(--primary-bg);
+  text-align:center; min-width:55px;
+}
+.dd-exec-arrow { font-size:14px; color:var(--border-strong); padding:0 4px; flex-shrink:0; }
 .dd-estage-label { font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--text-dim); margin-bottom:3px; }
 .dd-estage-title { font-size:11.5px; font-weight:600; margin-bottom:5px; }
 .dd-estage-detail { font-size:11px; color:var(--text-secondary); line-height:1.4; }
+.dd-egate-id { font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--primary); }
+.dd-egate-name { font-size:10px; font-weight:600; color:var(--primary); margin-top:2px; line-height:1.3; }
 
-/* Gates grid */
-.dd-gates { display:flex; gap:8px; flex-wrap:wrap; }
-.dd-gate {
-  flex:1; min-width:140px;
-  border:1.5px solid var(--border); border-radius:var(--radius-sm);
-  padding:10px 12px; background:var(--bg-white);
-}
-.dd-gate-id { font-size:10px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--text-dim); }
-.dd-gate-name { font-size:11.5px; font-weight:600; margin:3px 0 5px; }
-.dd-gate-detail { font-size:11px; color:var(--text-secondary); line-height:1.4; }
-
-/* Output tag */
 .dd-output {
   margin-top:8px; padding:6px 10px;
   background:var(--primary-bg); border:1px solid var(--primary-border);
@@ -873,26 +727,22 @@ body {
 }
 .dd-output::before { content:'Output: '; font-weight:700; }
 
-/* Section separator */
 .section-sep {
   height:1px;
   background:var(--border);
   margin:24px 0;
-  max-width:900px;
+  max-width:960px;
 }
 
-/* Scrollbars */
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-track { background:transparent; }
 ::-webkit-scrollbar-thumb { background:var(--border-strong); border-radius:3px; }
 ::-webkit-scrollbar-thumb:hover { background:var(--text-dim); }
 
-/* Utility */
 .text-muted { color:var(--text-secondary); }
 .text-dim { color:var(--text-dim); }
 .font-mono { font-family:'JetBrains Mono',monospace; }
 .fw-700 { font-weight:700; }
-
 </style>
 </head>
 <body>
@@ -936,14 +786,13 @@ body {
   <div id="page-process" class="page active">
     <div class="page-header">
       <h1>Build Process</h1>
-      <p>7-step flow with parallel tracks — every module follows this exact sequence</p>
+      <p>6-step flow with parallel tracks — every module follows this exact sequence</p>
     </div>
     <div class="process-page-body">
 
-      <!-- FLOWCHART -->
       <div class="flowchart">
 
-        <!-- STEP 1 -->
+        <!-- STEP 1: DEFINE -->
         <div class="fc-step">
           <div class="fc-box">
             <div class="fc-box-header">
@@ -951,19 +800,19 @@ body {
               <span class="fc-box-title">DEFINE</span>
             </div>
             <div class="fc-box-meta">
-              <strong>Output:</strong> Problem statement, scope, API surface list, key constraints<br>
-              <strong>Owner:</strong> Adit + Mukul &nbsp;·&nbsp; <strong>Track:</strong> Single sequential step — no parallel work here
+              <strong>Output:</strong> Problem definition, system rules (OS-aligned), success criteria<br>
+              <strong>Owner:</strong> Satyam designs, Consultant reviews, Satyam locks
             </div>
           </div>
         </div>
 
         <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
 
-        <!-- STEP 2 — PARALLEL TRACKS -->
+        <!-- STEP 2: DESIGN — parallel tracks -->
         <div class="fc-step">
-          <div style="margin-bottom:8px; display:flex; align-items:center; gap:10px; max-width:900px;">
+          <div style="margin-bottom:8px; display:flex; align-items:center; gap:10px; max-width:960px;">
             <span class="step-badge">STEP 2</span>
-            <span style="font-size:14px; font-weight:700;">DESIGN — Two parallel tracks run simultaneously</span>
+            <span style="font-size:14px; font-weight:700;">DESIGN — Track A and Track B run in parallel</span>
           </div>
           <div class="fc-parallel">
             <!-- TRACK A -->
@@ -973,22 +822,46 @@ body {
                 <span class="track-title">Frontend</span>
               </div>
               <div class="fc-phases">
-                <div class="fc-phase"><div class="phase-dot">A</div><div class="phase-content"><strong>Phase A: UX Design</strong> (Product + Dhruv + Ashish)<br><span style="font-size:10px;color:var(--text-dim);">All states, flows, and edge cases designed. Output: UX flows doc.</span></div></div>
-                <div class="fc-phase"><div class="phase-dot">B</div><div class="phase-content"><strong>Phase B: Visual Spec</strong> (Ashish drafts, Satyam approves)<br><span style="font-size:10px;color:var(--text-dim);">Every state, badge, color token, number format defined. Must be formally locked before fixtures can be created — fixtures from an unlocked spec are invalid.</span></div></div>
+                <div class="fc-phase">
+                  <div class="phase-dot">A</div>
+                  <div class="phase-content"><strong>A: UX Agent Brief sent</strong><br><span style="font-size:10px;color:var(--text-dim);">Module Design + Constitution v2.1 + Home Spec v2.3 tokens sent to UX Agent.</span></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot">B</div>
+                  <div class="phase-content"><strong>B: UX Agent delivers Visual Spec</strong></div>
+                </div>
                 <div class="fc-phase" style="background:rgba(124,58,237,0.04);border-left:3px solid rgba(124,58,237,0.4);padding-left:8px;margin:4px 0;border-radius:4px;">
                   <div class="phase-dot" style="background:rgba(124,58,237,0.12);border-color:rgba(124,58,237,0.35);color:#7c3aed;font-size:9px;">✦</div>
-                  <div class="phase-content"><strong>GATE: Visual Spec locked — Satyam sign-off required</strong><br><span style="font-size:10px;color:var(--text-dim);">Cannot create canonical fixtures until Visual Spec is locked. Any fixture created before lock is thrown away.</span></div>
+                  <div class="phase-content"><strong>GATE: Visual Spec locked — Satyam sign-off</strong></div>
                 </div>
-                <div class="fc-phase"><div class="phase-dot">C</div><div class="phase-content"><strong>Phase C: Copy keys + canonical fixtures</strong> (from locked Visual Spec + API Contract)<br><span style="font-size:10px;color:var(--text-dim);">Requires both Visual Spec lock AND API Contract to exist. One fixture per contract state. Product creates, Adit reviews. Frontend build cannot start without these.</span></div></div>
+                <div class="fc-phase">
+                  <div class="phase-dot">C</div>
+                  <div class="phase-content"><strong>C: Copy Agent fills Hindi keys</strong></div>
+                </div>
+                <div class="fc-phase" style="color:var(--text-dim);font-size:11px;padding-left:24px;">
+                  <div class="phase-content">(wait for contract from Track B)</div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot">D</div>
+                  <div class="phase-content"><strong>D: Product creates fixtures + render checklist from API Contract</strong><br><span style="font-size:10px;color:var(--text-dim);">Requires locked Visual Spec AND locked API Contract.</span></div>
+                </div>
                 <div class="fc-phase" style="background:rgba(124,58,237,0.04);border-left:3px solid rgba(124,58,237,0.4);padding-left:8px;margin:4px 0;border-radius:4px;">
                   <div class="phase-dot" style="background:rgba(124,58,237,0.12);border-color:rgba(124,58,237,0.35);color:#7c3aed;font-size:9px;">✦</div>
-                  <div class="phase-content"><strong>GATE: Adit reviews canonical fixtures</strong><br><span style="font-size:10px;color:var(--text-dim);">Fixtures must match API Contract exactly — field names, types, values. Frontend build does not start until fixtures are reviewed and approved.</span></div>
+                  <div class="phase-content"><strong>GATE: Adit reviews fixtures</strong></div>
                 </div>
-                <div class="fc-phase"><div class="phase-dot">D</div><div class="phase-content"><strong>Phase D: Frontend Build</strong><br><span style="font-size:10px;color:var(--text-dim);">Builds against Visual Spec + API Contract + approved fixtures. No state invented. No local computation.</span></div></div>
-                <div class="fc-phase"><div class="phase-dot">E</div><div class="phase-content"><strong>Phase E: Adit L2 review (15 rules)</strong><br><span style="font-size:10px;color:var(--text-dim);">Architecture review on every PR. ARCHITECTURE_DRIFT = PR rejection, not "fix next sprint."</span></div></div>
-                <div class="fc-phase"><div class="phase-dot">F</div><div class="phase-content"><strong>Phase F: Sign-off</strong> — frontend build complete</div></div>
+                <div class="fc-phase">
+                  <div class="phase-dot">E</div>
+                  <div class="phase-content"><strong>E: Frontend Build</strong><br><span style="font-size:10px;color:var(--text-dim);">Visual Spec + Contract + fixtures + perf rules.</span></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot">F</div>
+                  <div class="phase-content"><strong>F: Adit L2 review (15 rules)</strong></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot">G</div>
+                  <div class="phase-content"><strong>G: Sign-off</strong></div>
+                </div>
               </div>
-              <div class="fc-blocker">Phases C–F require API Contract to exist (Step 3). Phases A–B can run in parallel with Track B.</div>
             </div>
             <!-- TRACK B -->
             <div class="fc-track track-b">
@@ -997,95 +870,129 @@ body {
                 <span class="track-title">Backend</span>
               </div>
               <div class="fc-phases">
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">A</div><div class="phase-content"><strong>Phase A: L1+L2 test cases</strong> (Mukul — BEFORE code)<br><span style="font-size:10px;color:var(--text-dim);">L1 = does service return correct values per spec? L2 = does it follow architecture rules? Backend in isolation only — no user scenarios here.</span></div></div>
-                <div class="fc-phase" style="background:rgba(3,105,161,0.04);border-left:3px solid rgba(3,105,161,0.4);padding-left:8px;margin:4px 0;border-radius:4px;">
-                  <div class="phase-dot" style="background:rgba(3,105,161,0.15);border-color:rgba(3,105,161,0.4);color:#0369a1;font-size:9px;">✦</div>
-                  <div class="phase-content"><strong>GATE: Adit reviews test plan + writes CLAUDE.md</strong><br><span style="font-size:10px;color:var(--text-dim);">CLAUDE.md goes in the repo root. Contains: Build Spec reference, RA architecture rules, ESR canonical events, SPR parameter IDs, FM-rules, what Claude must not compute locally. Devender does not start Phase B without this.</span></div>
+                <div class="fc-phase">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">A</div>
+                  <div class="phase-content"><strong>A: Write Build Spec</strong><br><span style="font-size:10px;color:var(--text-dim);">From OS doc + Template v2.4. Owner: Mukul/Adit.</span></div>
                 </div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">B</div><div class="phase-content"><strong>Phase B: Code Generation</strong> (Devender uses Claude Code with CLAUDE.md in place)<br><span style="font-size:10px;color:var(--text-dim);">CLAUDE.md must exist before this starts. Without it, Claude has no spec context and will invent behavior.</span></div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">C</div><div class="phase-content"><strong>Phase C: Spec-to-code review</strong> (Adit 10-point)<br><span style="font-size:10px;color:var(--text-dim);">Code review against Build Spec — field names, types, state machine, FM-rules. Not a test run.</span></div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">D</div><div class="phase-content"><strong>Phase D: L1+L2 test execution</strong> (Mukul runs Phase A cases)<br><span style="font-size:10px;color:var(--text-dim);">Runs the L1+L2 cases written in Phase A against the service. Backend only — no frontend, no user flows. L3+L4 run later in Step 5.</span></div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">E</div><div class="phase-content"><strong>Phase E: Fix loop</strong></div></div>
-                <div class="fc-phase"><div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">F</div><div class="phase-content"><strong>Phase F: Sign-off</strong> — backend service complete</div></div>
+                <div class="fc-test-strategy-note">── TEST STRATEGY STARTS HERE ── L1+L2 cases written from Build Spec (Mukul)</div>
+                <div class="fc-phase">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">B</div>
+                  <div class="phase-content"><strong>B: Devender builds service</strong><br><span style="font-size:10px;color:var(--text-dim);">Claude Code + CLAUDE.md.</span></div>
+                </div>
+                <div class="fc-phase" style="background:rgba(3,105,161,0.05);border-left:3px solid rgba(3,105,161,0.35);padding-left:8px;margin:4px 0;border-radius:4px;">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.15);border-color:rgba(3,105,161,0.4);color:#0369a1;font-size:9px;">✦</div>
+                  <div class="phase-content"><strong>GATE: CLAUDE.md in repo before Phase B starts</strong></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">C</div>
+                  <div class="phase-content"><strong>C: Adit 10-point spec-to-code review</strong></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">D</div>
+                  <div class="phase-content"><strong>D: Mukul runs L1+L2 test execution</strong><br><span style="font-size:10px;color:var(--text-dim);">Backend in isolation.</span></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">E</div>
+                  <div class="phase-content"><strong>E: Fix loop</strong></div>
+                </div>
+                <div class="fc-phase">
+                  <div class="phase-dot" style="background:rgba(3,105,161,0.1);border-color:rgba(3,105,161,0.3);color:#0369a1">F</div>
+                  <div class="phase-content"><strong>F: Sign-off → API Contract locked</strong></div>
+                </div>
+                <div class="fc-test-strategy-note">── TEST STRATEGY COMPLETES HERE ── L3+L4 cases + fixtures written from locked contract (Mukul + Satyam)</div>
               </div>
-              <div class="fc-blocker" style="background:rgba(3,105,161,0.07);border-color:rgba(3,105,161,0.25);color:#0369a1">Track B output = API Contract. Track A phases D–F (build onward) cannot start until contract exists.</div>
+              <div class="fc-blocker" style="background:rgba(3,105,161,0.07);border-color:rgba(3,105,161,0.25);color:#0369a1;">Track B output = API Contract. Track A phases D–G consume it. Test Strategy L3+L4 written from it.</div>
             </div>
+          </div>
+          <div class="fc-convergence" style="margin-top:12px;">
+            API CONTRACT — Track B produces it. Track A phases D–G consume it. Test Strategy L3+L4 written from it.
           </div>
         </div>
 
         <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
 
-        <!-- CONVERGENCE -->
-        <div class="fc-convergence">
-          CONVERGENCE POINT: API CONTRACT &nbsp;·&nbsp; Track B backend provides contract. Track A frontend consumes it.
-        </div>
-
-        <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
-
-        <!-- STEP 3 -->
+        <!-- STEP 3: TEST STRATEGY -->
         <div class="fc-step">
           <div class="fc-box">
             <div class="fc-box-header">
               <span class="step-badge">STEP 3</span>
-              <span class="fc-box-title">CONTRACT</span>
+              <span class="fc-box-title">TEST STRATEGY</span>
             </div>
             <div class="fc-box-meta">
-              <strong>Output:</strong> API Contract v1.x locked &nbsp;·&nbsp; Convergence of Track A design work + Track B backend
+              <strong>Note:</strong> L1+L2 written during Track B Design (from Build Spec). L3+L4 + fixtures written after Contract locked. Must be COMPLETE before E1 can start.<br><br>
+              <strong>L1 — Truth cases (15–30):</strong> Does service return correct values per spec?<br>
+              <strong>L2 — Architecture cases (8–12):</strong> Does it follow architecture rules?<br>
+              <strong>L3 — Integration cases (15–25):</strong> Frontend + backend together, contract honoured end-to-end.<br>
+              <strong>L4 — User scenarios (5–10):</strong> Real user flows on the full module.<br>
+              <strong>Canonical fixtures + seed personas:</strong> Derived from API Contract.<br><br>
+              <strong>Owner:</strong> Mukul writes (L1+L2), Mukul+Satyam write (L3+L4), Product creates fixtures
             </div>
           </div>
         </div>
 
         <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
 
-        <!-- STEP 4 -->
+        <!-- STEP 4: EXECUTE -->
         <div class="fc-step">
           <div class="fc-box">
             <div class="fc-box-header">
               <span class="step-badge">STEP 4</span>
-              <span class="fc-box-title">MODULE TEST STRATEGY — L3 + L4 + Canonical Fixtures</span>
+              <span class="fc-box-title">EXECUTE — E1→G1→E2→G2→E3→G3→E4→G4→E5→G5. Gate fail = blocked.</span>
             </div>
-            <div class="fc-box-meta">
-              <strong>Why this is separate from Track B Phase A:</strong> L1+L2 test cases (backend service behavior) can be written before code exists. L3+L4 require the API Contract to exist first — you can't write integration or user scenarios without knowing the contract shape.<br><br>
-              <strong>L3 — Integration cases (15–25):</strong> Frontend + backend together. Contract honoured end-to-end. Run at E2.<br>
-              <strong>L4 — User scenarios (5–10):</strong> Real user flows on the full module. Run at E3 on a real device.<br>
-              <strong>Canonical fixture set:</strong> Derived from API Contract. Product creates these. Frontend QA cannot run without them.<br><br>
-              <strong>Owner:</strong> Mukul writes (L3+L4), Product creates fixtures — Adit reviews &nbsp;·&nbsp; <strong>Blocker:</strong> E2 and E3 cannot start until this exists
-            </div>
-          </div>
-        </div>
-
-        <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
-
-        <!-- STEP 5 — EXECUTE -->
-        <div class="fc-step">
-          <div class="fc-box">
-            <div class="fc-box-header">
-              <span class="step-badge">STEP 5</span>
-              <span class="fc-box-title">EXECUTE — 4 stages, each blocks the next</span>
-            </div>
-            <div class="fc-stages">
-              <div class="fc-stage">
+            <div class="fc-exec-chain">
+              <div class="fc-exec-stage">
                 <div class="stage-label">E1</div>
                 <div class="stage-title">Developer self-check</div>
-                <div class="stage-desc">Before merge. Dev validates own code against spec checklist.</div>
+                <div class="stage-desc">Before merge. Unit tests, contract shape, event emission. L1 subset + L2 + L3 unit. Frontend: render all states, L2 checklist, offline.</div>
               </div>
-              <div class="stage-arrow">→</div>
-              <div class="fc-stage">
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-gate">
+                <div class="gate-label">G1</div>
+                <div class="gate-name">Logic correctness gate</div>
+              </div>
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-stage">
                 <div class="stage-label">E2</div>
-                <div class="stage-title">Integration — runs L3 cases</div>
-                <div class="stage-desc">After merge. Runs L3 integration cases from Step 4. 100% pass required before E3. Step 4 must exist first.</div>
+                <div class="stage-title">Integration</div>
+                <div class="stage-desc">After merge. Devender runs L3 full suite against live services. Performance checks. 100% pass required.</div>
               </div>
-              <div class="stage-arrow">→</div>
-              <div class="fc-stage">
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-gate">
+                <div class="gate-label">G2</div>
+                <div class="gate-name">Architecture integrity gate</div>
+              </div>
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-stage">
                 <div class="stage-label">E3</div>
-                <div class="stage-title">Manual QA — runs L4 cases</div>
-                <div class="stage-desc">Real device, real Android. Product runs L4 user scenarios from Step 4 against canonical fixtures. Both must exist before E3 starts.</div>
+                <div class="stage-title">Manual QA</div>
+                <div class="stage-desc">Real device, NOT the builder. L1 truth on real budget Android, Hindi locale. L4 user scenarios. Network: 3G, offline, reconnect.</div>
               </div>
-              <div class="stage-arrow">→</div>
-              <div class="fc-stage">
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-gate">
+                <div class="gate-label">G3</div>
+                <div class="gate-name">System correctness gate</div>
+              </div>
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-stage">
                 <div class="stage-label">E4</div>
-                <div class="stage-title">Field test — real CSPs</div>
-                <div class="stage-desc">Real CSPs on real network. Blocks ship. No defined test cases — observational.</div>
+                <div class="stage-title">Field test</div>
+                <div class="stage-desc">3–5 real CSPs, no training. Give task in Hindi. Watch. Don't help. Record time, hesitation, wrong taps, questions.</div>
+              </div>
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-gate">
+                <div class="gate-label">G4</div>
+                <div class="gate-name">User reality gate</div>
+              </div>
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-stage">
+                <div class="stage-label">E5</div>
+                <div class="stage-title">Production monitoring</div>
+                <div class="stage-desc">After each rollout stage. Dashboards, alerts, rollback criteria. Success &gt;99%, crash &lt;1%, no balance mismatch.</div>
+              </div>
+              <div class="fc-exec-arrow">→</div>
+              <div class="fc-exec-gate">
+                <div class="gate-label">G5</div>
+                <div class="gate-name">Production stability gate</div>
               </div>
             </div>
           </div>
@@ -1093,35 +1000,34 @@ body {
 
         <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
 
-        <!-- STEP 6 — GATES -->
+        <!-- STEP 5: SHIP -->
+        <div class="fc-step">
+          <div class="fc-box" style="border-color:var(--primary-border);">
+            <div class="fc-box-header">
+              <span class="step-badge">STEP 5</span>
+              <span class="fc-box-title">SHIP</span>
+            </div>
+            <div class="fc-box-meta">
+              <strong>Staged rollout:</strong> Wiom staff (3–5 days) → 20–50 CSPs (1–2 weeks) → All CSPs<br>
+              <strong>Block between stages if:</strong> crash &gt;3%, success &lt;85%, 3+ CSPs same issue, any balance mismatch<br>
+              <strong>Gate:</strong> Only if ALL gates G1–G5 passed
+            </div>
+          </div>
+        </div>
+
+        <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
+
+        <!-- STEP 6: REGRESSION -->
         <div class="fc-step">
           <div class="fc-box">
             <div class="fc-box-header">
               <span class="step-badge">STEP 6</span>
-              <span class="fc-box-title">GATES — All 5 must pass</span>
-            </div>
-            <div class="fc-gates">
-              <div class="fc-gate"><span class="gate-num">G1</span> Truth gate</div>
-              <div class="fc-gate"><span class="gate-num">G2</span> Architecture gate</div>
-              <div class="fc-gate"><span class="gate-num">G3</span> Integration gate</div>
-              <div class="fc-gate"><span class="gate-num">G4</span> User gate</div>
-              <div class="fc-gate"><span class="gate-num">G5</span> Performance gate</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="fc-arrow"><div class="fc-arrow-line"></div><div class="fc-arrow-head"></div></div>
-
-        <!-- STEP 7 -->
-        <div class="fc-step">
-          <div class="fc-box" style="border-color:var(--primary-border);">
-            <div class="fc-box-header">
-              <span class="step-badge">STEP 7</span>
-              <span class="fc-box-title">SHIP + REGRESSION PACK</span>
+              <span class="fc-box-title">REGRESSION</span>
             </div>
             <div class="fc-box-meta">
-              <strong>Output:</strong> Deployed module + regression pack (10–15 scenarios — blocks future releases if missing)<br>
-              <strong>Staged rollout:</strong> Wiom staff (3–5 days) → 20–50 CSPs (1–2 weeks) → All CSPs
+              Create regression pack: 10–15 critical scenarios from L1+L3.<br>
+              Add to central regression suite. Every future module PR runs regression for ALL shipped modules.<br>
+              <strong>Any regression failure → BLOCK release.</strong>
             </div>
           </div>
         </div>
@@ -1129,19 +1035,22 @@ body {
       </div><!-- /flowchart -->
 
       <!-- SKIP CONSEQUENCES -->
-      <div style="max-width:900px; width:100%; margin-top:24px;">
+      <div style="max-width:960px; width:100%; margin-top:24px;">
         <div class="section-heading">What happens if you skip</div>
         <table class="skip-table">
           <thead>
             <tr><th>If you skip…</th><th>What breaks</th></tr>
           </thead>
           <tbody>
-            <tr><td class="skip-skip">Track B Phase A (L1+L2 cases before code)</td><td class="skip-result">No defined expected behavior → code written freely → bugs only found in Phase D or later</td></tr>
-            <tr><td class="skip-skip">Step 4 (L3+L4 + fixtures) before Execute</td><td class="skip-result">E2 has no L3 cases to run. E3 has no L4 scenarios or canonical fixtures. QA becomes improvised — bugs fall through (happened in Wallet: FE-01, FE-08)</td></tr>
-            <tr><td class="skip-skip">Canonical fixtures before E3</td><td class="skip-result">Frontend QA has no truth reference → paise 100× bugs, wrong badges, underpayment edge cases missed</td></tr>
-            <tr><td class="skip-skip">E2 reaching 100% before E3</td><td class="skip-result">Integration bugs reach manual QA → expensive rework on real device</td></tr>
-            <tr><td class="skip-skip">E4 (Field test)</td><td class="skip-result">Real CSP issues only discovered in production — too late to fix cleanly</td></tr>
-            <tr><td class="skip-skip">Regression Pack at ship</td><td class="skip-result">Future module releases break existing behavior — no safety net, each ship is a gamble</td></tr>
+            <tr><td class="skip-skip">Step 1 (Define)</td><td class="skip-result">No scope boundary → scope creep during build. No success criteria → ship without knowing if it worked.</td></tr>
+            <tr><td class="skip-skip">Track B Phase A (Build Spec before code)</td><td class="skip-result">No defined expected behavior → code written freely → bugs only found in E1 or later.</td></tr>
+            <tr><td class="skip-skip">CLAUDE.md before code gen</td><td class="skip-result">Claude invents behavior — no spec context, no architecture rules, no event list. Output is useless.</td></tr>
+            <tr><td class="skip-skip">Test Strategy L1+L2 before code</td><td class="skip-result">No truth reference before E1 → developer self-check is improvised → bugs reach integration.</td></tr>
+            <tr><td class="skip-skip">Test Strategy L3+L4 + fixtures before E1</td><td class="skip-result">E2 has no L3 cases to run. E3 has no L4 scenarios or canonical fixtures. QA becomes improvised.</td></tr>
+            <tr><td class="skip-skip">G1 gate (E2 must follow E1 pass)</td><td class="skip-result">Integration test runs against broken logic → cascading failures → expensive rework after merge.</td></tr>
+            <tr><td class="skip-skip">E4 field test</td><td class="skip-result">Real CSP usability issues only discovered in production — too late to fix cleanly.</td></tr>
+            <tr><td class="skip-skip">E5 production monitoring</td><td class="skip-result">Silent failures at scale — balance mismatches, crashes undetected until CSP reports them.</td></tr>
+            <tr><td class="skip-skip">Regression Pack at ship</td><td class="skip-result">Future module releases break existing behavior — no safety net, each ship is a gamble.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1226,7 +1135,7 @@ body {
             </div>
             <div class="subtype-card">
               <div class="subtype-label">VISUAL_SPEC_GAP</div>
-              <div class="subtype-desc">Spec is missing a rendering rule → STOP. Do not invent rendering. Escalate.</div>
+              <div class="subtype-desc">Spec is missing a rendering rule → STOP. Do not invent rendering. Escalate to Satyam.</div>
             </div>
             <div class="subtype-card">
               <div class="subtype-label">CONTRACT_MISMATCH</div>
@@ -1237,19 +1146,19 @@ body {
       </div>
 
       <!-- 10 NON-NEGOTIABLES -->
-      <div style="max-width:900px; width:100%; margin-top:24px;">
+      <div style="max-width:960px; width:100%; margin-top:24px;">
         <div class="section-heading">10 Non-Negotiables</div>
         <div class="nonneg-grid">
-          <div class="nonneg-item"><span class="nonneg-num">01</span><span class="nonneg-text"><strong>Mukul writes test plan BEFORE Devender codes</strong> — no exceptions</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">02</span><span class="nonneg-text"><strong>Canonical fixtures from API Contract BEFORE frontend builds</strong> — truth must exist first</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">03</span><span class="nonneg-text"><strong>Track A and Track B converge at API Contract</strong> — neither can skip it</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">04</span><span class="nonneg-text"><strong>L2 architecture review on every frontend PR</strong> — Adit's 15-rule checklist</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">05</span><span class="nonneg-text"><strong>E2 must reach 100% before E3 starts</strong> — integration must be clean</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">06</span><span class="nonneg-text"><strong>E4 field test before any module ships</strong> — real CSPs, real devices</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">07</span><span class="nonneg-text"><strong>Regression pack created at ship</strong> — blocks future releases if missing</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">08</span><span class="nonneg-text"><strong>Amendment type determined by spec/OS</strong> — not by person's preference or convenience</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">01</span><span class="nonneg-text"><strong>Step 1 is Satyam's gate</strong> — Define is locked only when Satyam signs off. No exceptions.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">02</span><span class="nonneg-text"><strong>Mukul writes L1+L2 test cases BEFORE Devender codes</strong> — Test Strategy starts at Build Spec, not after contract.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">03</span><span class="nonneg-text"><strong>CLAUDE.md in repo before code gen starts</strong> — Without it, Claude has no spec context and will invent behavior.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">04</span><span class="nonneg-text"><strong>Canonical fixtures from API Contract BEFORE frontend builds</strong> — truth must exist first.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">05</span><span class="nonneg-text"><strong>Test Strategy (L1–L4 complete) before E1 can start</strong> — E1 needs cases to run against.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">06</span><span class="nonneg-text"><strong>Each gate must pass before the next E stage starts</strong> — E1→G1→E2→G2… is sequential. Gate fail = blocked.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">07</span><span class="nonneg-text"><strong>E4 field test before any module ships</strong> — real CSPs, real devices, no training.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">08</span><span class="nonneg-text"><strong>E5 production monitoring after each rollout stage</strong> — staged rollout with dashboards + rollback criteria.</span></div>
           <div class="nonneg-item"><span class="nonneg-num">09</span><span class="nonneg-text"><strong>ARCHITECTURE_DRIFT = PR rejection</strong> — not "fix next sprint". Hard stop.</span></div>
-          <div class="nonneg-item"><span class="nonneg-num">10</span><span class="nonneg-text"><strong>VISUAL_SPEC_GAP = STOP</strong> — do not invent rendering. Escalate to Satyam.</span></div>
+          <div class="nonneg-item"><span class="nonneg-num">10</span><span class="nonneg-text"><strong>Regression pack created at ship</strong> — every future module PR runs regression for all shipped modules.</span></div>
         </div>
       </div>
 
@@ -1270,15 +1179,13 @@ body {
             <tr>
               <th>Module</th>
               <th>Define</th>
-              <th>Track B</th>
-              <th>Contract</th>
-              <th>Track A</th>
-              <th>Test Plan</th>
+              <th>Design</th>
+              <th>Test Strategy</th>
               <th>E1</th>
               <th>E2</th>
               <th>E3</th>
               <th>E4</th>
-              <th>Gates</th>
+              <th>E5</th>
               <th>Ship</th>
               <th>Regression</th>
             </tr>
@@ -1303,7 +1210,7 @@ body {
   <div id="page-drilldown" class="page">
     <div class="page-header">
       <h1>Module Drilldown</h1>
-      <p>Per-module phase-level detail with mini flowchart showing current status</p>
+      <p>Per-module 6-step detail — click step headers to expand/collapse</p>
     </div>
     <div class="drilldown-wrap">
       <div class="module-tabs" id="moduleTabs">
@@ -1339,11 +1246,11 @@ const firebaseConfig = {
 
 const DB_PATH = 'golive_v5';
 
-const COLS = ['define','trackB','contract','trackA','testPlan','e1','e2','e3','e4','gates','ship','regression'];
+const COLS = ['define','design','testStrategy','e1','e2','e3','e4','e5','ship','regression'];
 const COL_LABELS = {
-  define:'Define', trackB:'Track B', contract:'Contract', trackA:'Track A',
-  testPlan:'Test Plan', e1:'E1', e2:'E2', e3:'E3', e4:'E4',
-  gates:'Gates', ship:'Ship', regression:'Regression'
+  define:'Define', design:'Design', testStrategy:'Test Strategy',
+  e1:'E1', e2:'E2', e3:'E3', e4:'E4', e5:'E5',
+  ship:'Ship', regression:'Regression'
 };
 
 const MODULES = [
@@ -1356,12 +1263,12 @@ const MODULES = [
 ];
 
 const DEFAULT_STATE = {
-  wallet: { define:'done', trackB:'in-progress', contract:'done', trackA:'in-progress', testPlan:'not-started', e1:'done', e2:'in-progress', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
-  netbox: { define:'done', trackB:'in-progress', contract:'done', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
-  assurance: { define:'in-progress', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
-  taskfeed: { define:'not-started', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
-  navmenu: { define:'not-started', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
-  prodhardening: { define:'not-started', trackB:'not-started', contract:'not-started', trackA:'not-started', testPlan:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', gates:'not-started', ship:'not-started', regression:'not-started' },
+  wallet:        { define:'done', design:'in-progress', testStrategy:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', e5:'not-started', ship:'not-started', regression:'not-started' },
+  netbox:        { define:'done', design:'in-progress', testStrategy:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', e5:'not-started', ship:'not-started', regression:'not-started' },
+  assurance:     { define:'in-progress', design:'not-started', testStrategy:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', e5:'not-started', ship:'not-started', regression:'not-started' },
+  taskfeed:      { define:'not-started', design:'not-started', testStrategy:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', e5:'not-started', ship:'not-started', regression:'not-started' },
+  navmenu:       { define:'not-started', design:'not-started', testStrategy:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', e5:'not-started', ship:'not-started', regression:'not-started' },
+  prodhardening: { define:'not-started', design:'not-started', testStrategy:'not-started', e1:'not-started', e2:'not-started', e3:'not-started', e4:'not-started', e5:'not-started', ship:'not-started', regression:'not-started' },
 };
 
 const STATUS_CYCLE = ['not-started','in-progress','done','blocked'];
@@ -1370,7 +1277,6 @@ const STATUS_LABELS = { 'not-started':'—', 'in-progress':'In progress', 'done'
 let state = JSON.parse(JSON.stringify(DEFAULT_STATE));
 let saveTimer = null;
 
-// Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const dbRef = ref(db, DB_PATH);
@@ -1384,11 +1290,9 @@ function setSyncStatus(status, label) {
   lbl.textContent = label;
 }
 
-// Load from Firebase
 onValue(dbRef, (snapshot) => {
   const data = snapshot.val();
   if (data) {
-    // Merge with defaults for any missing keys
     for (const modKey of Object.keys(DEFAULT_STATE)) {
       if (data[modKey]) {
         state[modKey] = Object.assign({}, DEFAULT_STATE[modKey], data[modKey]);
@@ -1421,7 +1325,7 @@ function debounceSave() {
   saveTimer = setTimeout(saveToFirebase, 500);
 }
 
-// ── SUMMARY TABLE RENDER ──
+// ── SUMMARY TABLE ──
 function chipHtml(moduleKey, col, status) {
   return `<span class="chip ${status}" data-module="${moduleKey}" data-col="${col}" onclick="window.cycleChip('${moduleKey}','${col}',this)"><span class="chip-dot"></span>${STATUS_LABELS[status]}</span>`;
 }
@@ -1445,10 +1349,8 @@ window.cycleChip = function(moduleKey, col, el) {
   const idx = STATUS_CYCLE.indexOf(cur);
   const next = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
   state[moduleKey][col] = next;
-  // Update chip in place
   el.className = 'chip ' + next;
   el.innerHTML = `<span class="chip-dot"></span>${STATUS_LABELS[next]}`;
-  // Also update drilldown mini-flow if visible
   renderDrilldownMiniFlow(moduleKey);
   debounceSave();
 };
@@ -1468,12 +1370,10 @@ function statusChip(status) {
   return `<span class="chip ${status}"><span class="chip-dot"></span>${STATUS_LABELS[status]}</span>`;
 }
 
-// Toggle collapse on drilldown steps
 window.ddToggle = function(el) {
   el.closest('.dd-step').classList.toggle('collapsed');
 };
 
-// Build a single dd-step card
 function ddStep(num, title, statusKey, bodyHtml, collapsed=false) {
   return `
   <div class="dd-step${collapsed?' collapsed':''}">
@@ -1491,7 +1391,6 @@ function ddArrow() {
   return `<div class="dd-arrow"><div class="dd-arrow-head">▼</div></div>`;
 }
 
-// A gate row inside a track (distinct styling from a phase)
 function ddGateRow(label, detailHtml) {
   return `
   <div class="dd-phase-row" style="background:rgba(217,43,144,0.04);border-left:3px solid var(--primary-border);">
@@ -1503,7 +1402,14 @@ function ddGateRow(label, detailHtml) {
   </div>`;
 }
 
-// A single phase row inside a track
+function ddTsNote(text) {
+  return `
+  <div class="dd-phase-row" style="background:rgba(3,105,161,0.05);border-left:3px solid rgba(3,105,161,0.3);">
+    <div><div class="dd-phase-tag" style="color:#0369a1;">TEST STRATEGY</div></div>
+    <div class="dd-phase-content" style="font-size:11px;color:#0369a1;font-weight:600;">${text}</div>
+  </div>`;
+}
+
 function ddPhase(tag, name, status, detailHtml, blockerHtml='', amendHtml='') {
   return `
   <div class="dd-phase-row">
@@ -1514,13 +1420,12 @@ function ddPhase(tag, name, status, detailHtml, blockerHtml='', amendHtml='') {
     <div class="dd-phase-content">
       <div class="dd-phase-status">${statusChip(status)}</div>
       ${detailHtml}
-      ${blockerHtml ? `<div class="phase-blocker">${blockerHtml}</div>` : ''}
-      ${amendHtml ? `<div class="phase-amendment">${amendHtml}</div>` : ''}
+      ${blockerHtml ? `<div style="margin-top:6px;padding:6px 10px;background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-sm);font-size:11px;color:var(--red);font-weight:600;">${blockerHtml}</div>` : ''}
+      ${amendHtml ? `<div style="margin-top:6px;padding:6px 10px;background:var(--yellow-bg);border:1px solid var(--yellow-border);border-radius:var(--radius-sm);font-size:11px;color:var(--yellow);font-weight:500;">${amendHtml}</div>` : ''}
     </div>
   </div>`;
 }
 
-// Build Track A + Track B side-by-side parallel block
 function ddParallel(trackAHtml, trackBHtml) {
   return `
   <div class="dd-parallel">
@@ -1545,31 +1450,36 @@ function ddParallel(trackAHtml, trackBHtml) {
     </div>
   </div>
   <div style="margin-top:10px;padding:8px 12px;background:var(--primary-bg);border:1px solid var(--primary-border);border-radius:var(--radius-sm);font-size:11px;color:var(--primary);font-weight:600;text-align:center;">
-    Track B's output IS the API Contract (Step 3 ↓). Track A early phases (UX, Visual Spec, copy) run in parallel — but Track A Phases D–F (build, L2 review, sign-off) require Step 3 to exist first.
+    API Contract: Track B produces it. Track A phases D–G consume it. Test Strategy L3+L4 written from it.
   </div>`;
 }
 
-// E-stage chain
-function ddEStages(stages) {
-  return `<div class="dd-estages">${stages.map((s,i) => `
-    ${i>0?'<div class="dd-estage-arrow">→</div>':''}
-    <div class="dd-estage">
-      <div class="dd-estage-label">${s.id}</div>
-      <div class="dd-estage-title">${s.title}</div>
-      <div class="dd-phase-status" style="margin-bottom:5px;">${statusChip(s.status)}</div>
-      <div class="dd-estage-detail">${s.detail}</div>
-    </div>`).join('')}</div>`;
+function ddExecChain(stages) {
+  // stages: [{id, title, status, detail}, ...] alternating with gates [{id, name, status}]
+  // Pass as array of objects with type: 'stage' or 'gate'
+  return `<div class="dd-exec-chain">${stages.map((item, i) => {
+    if (item.type === 'gate') {
+      return `${i>0?'<div class="dd-exec-arrow">→</div>':''}
+      <div class="dd-egate">
+        <div class="dd-egate-id">${item.id}</div>
+        <div class="dd-phase-status" style="margin:3px 0;">${statusChip(item.status)}</div>
+        <div class="dd-egate-name">${item.name}</div>
+      </div>`;
+    } else {
+      return `${i>0?'<div class="dd-exec-arrow">→</div>':''}
+      <div class="dd-estage">
+        <div class="dd-estage-label">${item.id}</div>
+        <div class="dd-estage-title">${item.title}</div>
+        <div class="dd-phase-status" style="margin-bottom:5px;">${statusChip(item.status)}</div>
+        <div class="dd-estage-detail">${item.detail}</div>
+      </div>`;
+    }
+  }).join('')}</div>`;
 }
 
-// Gates grid
-function ddGates(gates) {
-  return `<div class="dd-gates">${gates.map(g => `
-    <div class="dd-gate">
-      <div class="dd-gate-id">${g.id}</div>
-      <div class="dd-gate-name">${g.name}</div>
-      <div class="dd-phase-status" style="margin-bottom:5px;">${statusChip(g.status)}</div>
-      <div class="dd-gate-detail">${g.detail}</div>
-    </div>`).join('')}</div>`;
+// stub for mini flow update (no-op, summary table updates are direct DOM)
+function renderDrilldownMiniFlow(key) {
+  if (window._activeModule === key) renderDrilldown(key);
 }
 
 // ── MODULE DATA ──
@@ -1578,247 +1488,227 @@ const MODULE_DATA = {
 
   wallet: (s) => {
     const trackA = [
-      ddPhase('PHASE A','UX Design','not-started',
-        `All Wallet states and flows designed: balance display, carry fee states, withdrawal flow, compensation events.<br>
-         Owner: Product + Dhruv + Ashish. Output: UX flows document covering every state and edge case.`),
-      ddPhase('PHASE B','Visual Spec','not-started',
-        `Every state, badge, color token, number format defined for Wallet.<br>
-         Ashish drafts. Satyam approves. Must cover: balance states, carry fee badge, withdrawal states, error states.<br>
-         Owner: Ashish (draft), Satyam (approval).`),
+      ddPhase('PHASE A','UX Agent Brief','done',
+        `UX Agent Brief sent with Module Design tokens.<br>Owner: Dhruv + Ashish.`),
+      ddPhase('PHASE B','Visual Spec','done',
+        `Visual Spec v1.3 LOCKED. Every state, badge, color token, number format defined.<br>Satyam sign-off: complete.`),
       ddGateRow('Visual Spec locked — Satyam sign-off',
-        `Visual Spec must be formally locked before canonical fixtures can be created.<br>
-         Fixtures created from an unlocked spec are thrown away if spec changes. Do not start Phase C until this gate is passed.`),
-      ddPhase('PHASE C','Copy keys + Canonical Fixtures','not-started',
-        `Requires: locked Visual Spec + locked API Contract (Step 3).<br>
-         Canonical fixtures: one JSON fixture per contract state, values matching contract exactly.<br>
-         Render checklist: every contract state mapped to its Visual Spec section.<br>
-         Copy keys: all Hindi strings for Wallet finalized.<br>
-         Owner: Product (Dhruv). Cannot invent any value — must come from contract.`,
-        '', 'If a contract state has no Visual Spec definition → VISUAL_SPEC_GAP — stop, escalate to Satyam'),
+        `Visual Spec v1.3 locked. Canonical fixtures can now be created.`),
+      ddPhase('PHASE C','Copy keys','done',
+        `76 Hindi labels done.`),
+      ddPhase('PHASE D','Fixtures + render checklist','not-started',
+        `PENDING new API Contract. Requires locked Visual Spec AND new contract from rebuilt PS.<br>Previous fixtures invalidated by PS rebuild.`,
+        'BLOCKER — fixtures require new contract from rebuilt PS'),
       ddGateRow('Adit reviews canonical fixtures',
-        `Fixtures reviewed against API Contract v1.x — field names, types, values must match exactly.<br>
-         <strong>Frontend build (Phase D) does not start until fixtures are reviewed and approved.</strong>`),
-      ddPhase('PHASE D','Frontend Build','not-started',
-        `Builds against locked Visual Spec + API Contract + Adit-approved canonical fixtures.<br>
-         No state invented. No local computation. Every rendered value comes from the contract.`),
-      ddPhase('PHASE E','Adit L2 Review (15 rules)','not-started',
-        `Architecture review on every PR. 15-rule checklist.<br>Owner: Adit.`,
-        '','ARCHITECTURE_DRIFT = PR rejection. Not "fix next sprint." Fix now, revert the violation.'),
-      ddPhase('PHASE F','Manual QA — Real Device','not-started',
-        `Product (Dhruv) runs L4 user scenarios from Step 4 Module Test Strategy against canonical fixtures on a real budget Android device.<br>
-         Every finding logged with: screen, expected behavior (spec section), actual behavior, amendment classification.`),
-      ddPhase('PHASE G','Fix Loop','not-started',
-        `Each finding classified via amendment decision tree before any fix.<br>
-         RENDER_BUG → frontend fix. VISUAL_SPEC_GAP → stop, escalate to Satyam. ARCHITECTURE_DRIFT → PR rejection.<br>
-         Log every fix + re-test result.`),
-      ddPhase('PHASE H','Sign-off','not-started',
-        `All L4 scenarios passing. L2 review complete. No open findings.<br>
-         Log: date, who signed off.`),
+        `Frontend build (Phase E) does not start until fixtures are reviewed and approved.`),
+      ddPhase('PHASE E','Frontend Build','not-started',
+        `Frontend build exists but not validated against new contract. Must be re-validated once new contract is locked.`),
+      ddPhase('PHASE F','Adit L2 Review (15 rules)','not-started',
+        `Architecture review on every PR. 15-rule checklist.`,
+        '','ARCHITECTURE_DRIFT = PR rejection. Not "fix next sprint." Fix now.'),
+      ddPhase('PHASE G','Sign-off','not-started',
+        `All gates passed. Frontend build complete.`),
     ].join('');
 
     const trackB = [
-      ddPhase('PHASE A','Test Plan','in-progress',
-        `L1 cases: for each endpoint in PS v1.4 + CS v1.3 — expected fields, types, values, state transitions.<br>
-         L2 cases: architecture rule checks — no local computation, FM-rule compliance, correct state machine.<br>
-         Owner: Mukul. PS test plan written by Adit previously (conflict of interest) — Mukul must re-own and cross-review.<br>
-         Both services must be covered before any code is written.`,
-        '','If plan missing testability surfaces → must add before Phase B can start'),
-      ddGateRow('Adit reviews test plan + writes CLAUDE.md',
-        `CLAUDE.md goes in repo root before Devender opens Claude Code.<br>
-         Must contain: PS v1.4 + CS v1.3 Build Spec references, RA v2.13 architecture rules, ESR canonical event list, SPR parameter IDs for all config values, FM-rules for Payment + Compensation, explicit "do not compute locally" instructions.<br>
-         <strong>Devender does not start Phase B without this. No exceptions.</strong>`),
+      ddPhase('PHASE A','Write Build Spec','in-progress',
+        `PS is being REBUILT against new scaffold. New Build Spec required before L1+L2 cases can be written.<br>CS v1.3 locked.`),
+      ddTsNote('L1+L2 test cases: NOT STARTED — waiting for new PS Build Spec to be finalized.'),
+      ddGateRow('CLAUDE.md in repo before Phase B starts',
+        `CLAUDE.md needs updating for rebuilt PS. Must contain: new PS Build Spec reference, RA v2.13 rules, ESR event list, SPR parameter IDs, FM-rules.<br><strong>Devender does not start Phase B without this.</strong>`),
       ddPhase('PHASE B','Code Generation (Devender)','not-started',
-        `Devender uses Claude Code with CLAUDE.md in place.<br>
-         Generates PS + CS service code against the L1+L2 test cases from Phase A.<br>
-         Code must not hardcode any SPR parameter values.`),
+        `Devender will rebuild PS against new scaffold using Claude Code + updated CLAUDE.md.`),
       ddPhase('PHASE C','Adit 10-point Spec-to-Code Review','not-started',
-        `Adit reads generated code against PS v1.4 + CS v1.3. Checks: field names, types, state machine transitions, FM-rule compliance, no local computation, no hardcoded SPR values, no invented behavior.<br>
-         Log every finding with spec section reference.`,
-        '','Violations → CODE_BUG (wrong value/behavior) or ARCHITECTURE_DRIFT (computes locally) — both = fix before moving on'),
+        `Adit reads generated code against new PS Build Spec. Checks: field names, types, state machine, FM-rules, no local computation, no hardcoded SPR values.`),
       ddPhase('PHASE D','L1+L2 Test Execution (Mukul)','not-started',
-        `Mukul runs the L1+L2 cases written in Phase A against the generated service code.<br>
-         Every failure must be logged with test ID, expected vs actual, and amendment classification.<br>
-         Backend in isolation — no frontend, no user flows yet.`),
+        `Mukul runs L1+L2 cases against rebuilt service. Backend in isolation.`),
       ddPhase('PHASE E','Fix Loop','not-started',
-        `For each failing test: classify (CODE_BUG / SPEC_GAP / DESIGN_GAP), fix or escalate, re-run.<br>
-         CODE_BUG → Devender fixes. SPEC_GAP → spec amendment, then fix. DESIGN_GAP → Satyam decides before any code changes.<br>
-         Log every fix with amendment type and which test it resolved.`),
-      ddPhase('PHASE F','Sign-off','not-started',
-        `All L1+L2 cases passing. Adit spec-to-code review complete with no open findings.<br>
-         Log: date, who signed off, any exceptions noted.`),
+        `Classify each failure via amendment decision tree. Fix or escalate.`),
+      ddPhase('PHASE F','Sign-off → Contract locked','not-started',
+        `All L1+L2 passing. New API Contract locked. This contract supersedes v1.2.<br>Track A fixtures derivation and Test Strategy L3+L4 can now proceed.`),
+      ddTsNote('L3+L4 cases + fixtures: written from locked contract after Phase F. Mukul + Satyam. Must be complete before E1.'),
     ].join('');
+
+    const execChain = ddExecChain([
+      { type:'stage', id:'E1', title:'Developer self-check', status:s.e1, detail:'Before merge. Unit tests, contract shape, event emission. L1+L2+L3 unit.' },
+      { type:'gate',  id:'G1', name:'Logic correctness gate', status:'not-started' },
+      { type:'stage', id:'E2', title:'Integration — 100% required', status:s.e2, detail:'After merge. Devender runs L3 full suite against live services.' },
+      { type:'gate',  id:'G2', name:'Architecture integrity gate', status:'not-started' },
+      { type:'stage', id:'E3', title:'Manual QA — real Android', status:s.e3, detail:'Real device, NOT the builder. L1 truth + L4 user scenarios. Hindi locale. 3G/offline/reconnect.' },
+      { type:'gate',  id:'G3', name:'System correctness gate', status:'not-started' },
+      { type:'stage', id:'E4', title:'Field test — real CSPs', status:s.e4, detail:'3–5 real CSPs, no training. Give task in Hindi. Watch. Record.' },
+      { type:'gate',  id:'G4', name:'User reality gate', status:'not-started' },
+      { type:'stage', id:'E5', title:'Production monitoring', status:s.e5, detail:'After each rollout stage. Dashboards, alerts, rollback criteria.' },
+      { type:'gate',  id:'G5', name:'Production stability gate', status:'not-started' },
+    ]);
 
     return `<div class="dd-flow">
       ${ddStep(1,'Define',s.define,`
         <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
           Scope: Wallet module — balance display, carry fee, withdrawal flow, compensation events.<br>
-          Services in scope: PS (Payment Service) + CS (Compensation Service).<br>
-          Key API surface: <code style="font-size:11px;background:var(--bg);padding:1px 5px;border-radius:4px;">/wallet/summary</code>, <code style="font-size:11px;background:var(--bg);padding:1px 5px;border-radius:4px;">/wallet/withdraw</code>, <code style="font-size:11px;background:var(--bg);padding:1px 5px;border-radius:4px;">/compensation/events</code>
+          Services: PS (Payment Service) v1.4 + CS (Compensation Service) v1.3 locked.
         </p>
-        <div class="dd-output">Problem statement, scope, API surface list, constraints locked. Build Specs: PS v1.4 + CS v1.3 approved.</div>
+        <div class="dd-output">PS v1.4 + CS v1.3 locked. Scope defined. Success criteria set.</div>
       `)}
       ${ddArrow()}
       ${ddStep(2,'Design — Track A (Frontend) + Track B (Backend) in parallel',
-        s.trackA==='done'&&s.trackB==='done'?'done':
-        s.trackA==='blocked'||s.trackB==='blocked'?'blocked':'in-progress',
+        s.design,
         ddParallel(trackA, trackB))}
       ${ddArrow()}
-      ${ddStep(3,'API Contract',s.contract,`
-        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:8px;">
-          API Contract v1.2 — locked. Defines all endpoints, field types, state enumerations, error codes.<br>
-          Track B backend produced it. Track A frontend fixtures must be derived from it.
-        </p>
-        <div class="dd-output">API Contract v1.2 locked. FE-06 idempotency gap — contract amendment pending.</div>
-      `)}
-      ${ddArrow()}
-      ${ddStep(4,'Test Plan',s.testPlan,`
+      ${ddStep(3,'Test Strategy',s.testStrategy,`
         <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
-          Module Test Strategy must follow Template v1.0: L1 truth (15-30 cases) + L2 architecture (8-12) + L3 integration (15-25) + L4 user (5-10). Canonical fixture set required output.
+          L1+L2: NOT STARTED — waiting for new PS Build Spec.<br>
+          L3+L4 + fixtures: NOT STARTED — waiting for new API Contract.
         </p>
         <div style="padding:10px;background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--red);font-weight:600;">
-          NOT STARTED — Mukul must write full Module Test Strategy before E2 integration stage can begin.
+          BLOCKED — Cannot proceed until PS rebuild (Track B Phase A–F) is complete and new contract is locked.
         </div>
-        <div class="dd-output">Module Test Strategy (L1-L4), canonical fixture set, regression pack skeleton.</div>
+        <div class="dd-output">L1 truth cases (15-30), L2 arch cases (8-12), L3 integration cases (15-25), L4 user scenarios (5-10), canonical fixtures, seed personas.</div>
       `)}
       ${ddArrow()}
-      ${ddStep(5,'Execute',
-        s.e1==='done'&&s.e2==='done'&&s.e3==='done'&&s.e4==='done'?'done':
+      ${ddStep(4,'Execute — E1→G1→E2→G2→E3→G3→E4→G4→E5→G5',
         s.e1==='not-started'?'not-started':'in-progress',
-        ddEStages([
-          { id:'E1', title:'Developer self-check', status:s.e1,
-            detail:'Before merge. Devender verifies against spec checklist. PS + CS both passed E1.' },
-          { id:'E2', title:'Integration — 100% required', status:s.e2,
-            detail:'After merge. 50 API tests run. 39 GO / 7 NO-GO / 4 PARTIAL. Must reach 100% before E3.' },
-          { id:'E3', title:'Manual QA — real Android device', status:s.e3,
-            detail:'Product (Dhruv) runs against canonical fixtures. Cannot start until E2=100% and fixtures exist.' },
-          { id:'E4', title:'Field test — real CSPs', status:s.e4,
-            detail:'Real CSPs on real network. Blocks ship. Not started.' },
-        ])
-      )}
+        execChain)}
       ${ddArrow()}
-      ${ddStep(6,'Gates — all 5 must pass',s.gates,
-        ddGates([
-          { id:'G1', name:'Truth Gate', status:s.gates==='done'?'done':'not-started',
-            detail:'Code matches Build Spec (PS v1.4 + CS v1.3). No invented behavior.' },
-          { id:'G2', name:'Architecture Gate', status:s.gates==='done'?'done':'not-started',
-            detail:'All 15 L2 rules pass. No local computation. No ARCHITECTURE_DRIFT.' },
-          { id:'G3', name:'Integration Gate', status:s.gates==='done'?'done':'not-started',
-            detail:'E2 = 100% pass. API Contract fully honoured.' },
-          { id:'G4', name:'User Gate', status:s.gates==='done'?'done':'not-started',
-            detail:'E3 manual QA pass. All FE issues resolved.' },
-          { id:'G5', name:'Performance Gate', status:s.gates==='done'?'done':'not-started',
-            detail:'First paint cached <200ms. First paint 3G <3s. No blocking navigation.' },
-        ])
-      )}
-      ${ddArrow()}
-      ${ddStep(7,'Ship + Regression Pack',s.ship,`
+      ${ddStep(5,'Ship',s.ship,`
         <p style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
           Staged rollout: Wiom staff (3-5 days) → 20-50 CSPs (1-2 weeks) → All CSPs.<br>
-          Regression pack (10-15 scenarios) created at ship — blocks all future releases if missing.
+          Block between stages if: crash &gt;3%, success &lt;85%, 3+ CSPs same issue, any balance mismatch.
         </p>
-        <div class="dd-output">Deployed Wallet module + regression pack. Blocks: Assurance Strip cannot ship without Wallet regression pack.</div>
+        <div class="dd-output">Deployed Wallet module. Blocks: Assurance Strip cannot ship without Wallet regression pack.</div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(6,'Regression',s.regression,`
+        <p style="font-size:12px;color:var(--text-secondary);">
+          10-15 critical scenarios from L1+L3 added to central regression suite.<br>
+          Every future module PR runs this suite. Any failure blocks release.
+        </p>
       `)}
     </div>`;
   },
 
-  netbox: (s) => `<div class="dd-flow">
-    ${ddStep(1,'Define',s.define,`
-      <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
-        Scope: NetBox — device list, device state display, connection health view.<br>
-        Services in scope: CLS (Connection List Service) + DAS (Device Audit Service).<br>
-        Build Specs: CLS v1.5 + DAS v1.4 approved.
-      </p>
-      <div class="dd-output">Scope + Build Specs locked.</div>
-    `)}
-    ${ddArrow()}
-    ${ddStep(2,'Design — Track A (Frontend) + Track B (Backend) in parallel',
-      s.trackB==='done'&&s.trackA==='done'?'done':s.trackB==='in-progress'||s.trackA==='in-progress'?'in-progress':'not-started',
-      ddParallel(
-        [ddPhase('PHASE A','Canonical Fixtures','not-started',`Not started. Requires API Contract first.`)].join(''),
-        [
-          ddPhase('PHASE A','Test Plan','not-started',`Mukul must write test plan BEFORE Devender codes. Not done yet.`,
-            'BLOCKER — no code generation until test plan exists and is reviewed'),
-          ddPhase('PHASE B','Code Generation','in-progress',`Devender building CLS + DAS. In progress.`),
-          ddPhase('PHASE C-F','Review → QA → Fix → Sign-off','not-started',`Pending.`),
-        ].join('')
-      )
-    )}
-    ${ddArrow()}
-    ${ddStep(3,'API Contract',s.contract,`
-      <p style="font-size:12px;color:var(--text-secondary);">API Contract for NetBox — locked. Defines device list endpoint, device state fields, connection health fields.</p>
-      <div class="dd-output">Contract locked. Frontend fixtures derivation pending.</div>
-    `)}
-    ${ddArrow()}
-    ${ddStep(4,'Test Plan',s.testPlan,`<div style="padding:10px;background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--red);font-weight:600;">NOT STARTED — Must be written before E2 integration stage.</div>`)}
-    ${ddArrow()}
-    ${ddStep(5,'Execute',s.e1==='not-started'?'not-started':'in-progress',
-      ddEStages([
-        { id:'E1', title:'Developer self-check', status:s.e1, detail:'Not started.' },
-        { id:'E2', title:'Integration — 100% required', status:s.e2, detail:'Not started.' },
-        { id:'E3', title:'Manual QA — real Android', status:s.e3, detail:'Not started.' },
-        { id:'E4', title:'Field test — real CSPs', status:s.e4, detail:'Not started.' },
-      ])
-    )}
-    ${ddArrow()}
-    ${ddStep(6,'Gates',s.gates,ddGates([
-      { id:'G1',name:'Truth Gate',status:'not-started',detail:'Pending.' },
-      { id:'G2',name:'Architecture Gate',status:'not-started',detail:'Pending.' },
-      { id:'G3',name:'Integration Gate',status:'not-started',detail:'Pending.' },
-      { id:'G4',name:'User Gate',status:'not-started',detail:'Pending.' },
-      { id:'G5',name:'Performance Gate',status:'not-started',detail:'Pending.' },
-    ]))}
-    ${ddArrow()}
-    ${ddStep(7,'Ship + Regression Pack',s.ship,`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Wallet regression pack existing first.</p>`)}
-  </div>`,
+  netbox: (s) => {
+    const trackA = [
+      ddPhase('PHASE A–C','Visual Spec + Copy keys','not-started',
+        `Track A early phases not started. Waiting for Track B progress.`),
+      ddPhase('PHASE D–G','Fixtures + Build + Review + Sign-off','not-started',
+        `Requires API Contract from Track B.`,
+        'Waiting for API Contract'),
+    ].join('');
 
-  assurance: (s) => `<div class="dd-flow">
-    ${ddStep(1,'Define',s.define,`
-      <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
-        Scope: Assurance Strip — persistent status strip showing connection health + carry fee state.<br>
-        Services in scope: QS (Quality Service) + ES (Event Service).<br>
-        Build Specs: QS v1.3 + ES v1.1 approved. Module Design: FOR REVIEW — not yet locked.
-      </p>
-      <div style="margin-top:8px;padding:8px 10px;background:var(--yellow-bg);border:1px solid var(--yellow-border);border-radius:var(--radius-sm);font-size:11px;color:var(--yellow);font-weight:600;">
-        Module Design v1.1 still FOR REVIEW — must be locked before Track B can start.
-      </div>
-    `)}
-    ${ddArrow()}
-    ${ddStep(2,'Design — Track A + Track B',s.trackA==='not-started'&&s.trackB==='not-started'?'not-started':'in-progress',
-      ddParallel(
-        [ddPhase('ALL PHASES','Not started','not-started',`Waiting for Module Design lock and API Contract.`)].join(''),
-        [ddPhase('ALL PHASES','Not started','not-started',`Waiting for Module Design lock. Test plan must precede code gen.`,
-          'BLOCKER — Module Design must be locked before any Track B work begins')].join('')
-      )
-    )}
-    ${ddArrow()}
-    ${ddStep(3,'API Contract',s.contract,`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Module Design lock.</p>`)}
-    ${ddArrow()}
-    ${ddStep(4,'Test Plan',s.testPlan,`<div style="padding:10px;background:var(--gray-bg,var(--bg));border:1px solid var(--border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--text-dim);">Not started.</div>`)}
-    ${ddArrow()}
-    ${ddStep(5,'Execute','not-started',ddEStages([
-      { id:'E1',title:'Developer self-check',status:'not-started',detail:'Not started.' },
-      { id:'E2',title:'Integration',status:'not-started',detail:'Not started.' },
-      { id:'E3',title:'Manual QA',status:'not-started',detail:'Not started.' },
-      { id:'E4',title:'Field test',status:'not-started',detail:'Not started.' },
-    ]))}
-    ${ddArrow()}
-    ${ddStep(6,'Gates','not-started',ddGates([
-      { id:'G1',name:'Truth Gate',status:'not-started',detail:'Not started.' },
-      { id:'G2',name:'Architecture Gate',status:'not-started',detail:'Not started.' },
-      { id:'G3',name:'Integration Gate',status:'not-started',detail:'Not started.' },
-      { id:'G4',name:'User Gate',status:'not-started',detail:'Not started.' },
-      { id:'G5',name:'Performance Gate',status:'not-started',detail:'Not started.' },
-    ]))}
-    ${ddArrow()}
-    ${ddStep(7,'Ship + Regression Pack','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Wallet + NetBox shipping first.</p>`)}
-  </div>`,
+    const trackB = [
+      ddPhase('PHASE A','Write Build Spec','done',
+        `CLS v1.5 + DAS v1.4 approved.`),
+      ddTsNote('L1+L2 test cases: should be written now (Mukul) before code gen proceeds.'),
+      ddGateRow('CLAUDE.md in repo before Phase B starts',
+        `CLAUDE.md required before Devender opens Claude Code. Must contain CLS v1.5 + DAS v1.4 references.`),
+      ddPhase('PHASE B','Code Generation','in-progress',
+        `Devender building CLS + DAS. In progress.`),
+      ddPhase('PHASE C–F','Review → QA → Fix → Sign-off','not-started',
+        `Pending completion of Phase B.`),
+      ddTsNote('L3+L4 + fixtures: written from locked contract after Phase F.'),
+    ].join('');
+
+    const execChain = ddExecChain([
+      { type:'stage', id:'E1', title:'Developer self-check', status:s.e1, detail:'Not started.' },
+      { type:'gate',  id:'G1', name:'Logic correctness gate', status:'not-started' },
+      { type:'stage', id:'E2', title:'Integration — 100% required', status:s.e2, detail:'Not started.' },
+      { type:'gate',  id:'G2', name:'Architecture integrity gate', status:'not-started' },
+      { type:'stage', id:'E3', title:'Manual QA — real Android', status:s.e3, detail:'Not started.' },
+      { type:'gate',  id:'G3', name:'System correctness gate', status:'not-started' },
+      { type:'stage', id:'E4', title:'Field test — real CSPs', status:s.e4, detail:'Not started.' },
+      { type:'gate',  id:'G4', name:'User reality gate', status:'not-started' },
+      { type:'stage', id:'E5', title:'Production monitoring', status:s.e5, detail:'Not started.' },
+      { type:'gate',  id:'G5', name:'Production stability gate', status:'not-started' },
+    ]);
+
+    return `<div class="dd-flow">
+      ${ddStep(1,'Define',s.define,`
+        <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
+          Scope: NetBox — device list, device state display, connection health view.<br>
+          Services: CLS v1.5 + DAS v1.4 approved.
+        </p>
+        <div class="dd-output">Scope + Build Specs locked.</div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(2,'Design — Track A + Track B in parallel', s.design, ddParallel(trackA, trackB))}
+      ${ddArrow()}
+      ${ddStep(3,'Test Strategy',s.testStrategy,`
+        <div style="padding:10px;background:var(--red-bg);border:1px solid var(--red-border);border-radius:var(--radius-sm);font-size:11.5px;color:var(--red);font-weight:600;">
+          NOT STARTED — L1+L2 must be written now (Mukul, from Build Spec). L3+L4 after contract locks.
+        </div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(4,'Execute — E1→G1→E2→G2→E3→G3→E4→G4→E5→G5',
+        s.e1==='not-started'?'not-started':'in-progress', execChain)}
+      ${ddArrow()}
+      ${ddStep(5,'Ship',s.ship,`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Wallet shipping first.</p>`)}
+      ${ddArrow()}
+      ${ddStep(6,'Regression',s.regression,`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`)}
+    </div>`;
+  },
+
+  assurance: (s) => {
+    const execChain = ddExecChain([
+      { type:'stage', id:'E1', title:'Developer self-check', status:s.e1, detail:'Not started.' },
+      { type:'gate',  id:'G1', name:'Logic correctness gate', status:'not-started' },
+      { type:'stage', id:'E2', title:'Integration', status:s.e2, detail:'Not started.' },
+      { type:'gate',  id:'G2', name:'Architecture integrity gate', status:'not-started' },
+      { type:'stage', id:'E3', title:'Manual QA', status:s.e3, detail:'Not started.' },
+      { type:'gate',  id:'G3', name:'System correctness gate', status:'not-started' },
+      { type:'stage', id:'E4', title:'Field test', status:s.e4, detail:'Not started.' },
+      { type:'gate',  id:'G4', name:'User reality gate', status:'not-started' },
+      { type:'stage', id:'E5', title:'Production monitoring', status:s.e5, detail:'Not started.' },
+      { type:'gate',  id:'G5', name:'Production stability gate', status:'not-started' },
+    ]);
+
+    return `<div class="dd-flow">
+      ${ddStep(1,'Define',s.define,`
+        <p style="font-size:12px;color:var(--text-secondary);line-height:1.6;margin-bottom:8px;">
+          Scope: Assurance Strip — persistent status strip showing connection health + carry fee state.<br>
+          Services: QS v1.3 + ES v1.1 approved. Module Design: FOR REVIEW — not yet locked.
+        </p>
+        <div style="margin-top:8px;padding:8px 10px;background:var(--yellow-bg);border:1px solid var(--yellow-border);border-radius:var(--radius-sm);font-size:11px;color:var(--yellow);font-weight:600;">
+          Module Design still FOR REVIEW — must be locked before Track B can start.
+        </div>
+      `)}
+      ${ddArrow()}
+      ${ddStep(2,'Design — Track A + Track B', s.design,
+        ddParallel(
+          [ddPhase('ALL PHASES','Not started','not-started',`Waiting for Module Design lock and API Contract.`)].join(''),
+          [ddPhase('ALL PHASES','Not started','not-started',`Waiting for Module Design lock. Build Spec must exist before test cases or code gen.`,
+            'BLOCKER — Module Design must be locked before any Track B work begins')].join('')
+        )
+      )}
+      ${ddArrow()}
+      ${ddStep(3,'Test Strategy',s.testStrategy,`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Module Design lock.</p>`)}
+      ${ddArrow()}
+      ${ddStep(4,'Execute — E1→G1→E2→G2→E3→G3→E4→G4→E5→G5','not-started', execChain)}
+      ${ddArrow()}
+      ${ddStep(5,'Ship','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started. Depends on Wallet + NetBox shipping first.</p>`)}
+      ${ddArrow()}
+      ${ddStep(6,'Regression','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`)}
+    </div>`;
+  },
 
 };
 
-// Generic not-started module drilldown
 function ddGeneric(key) {
   const mod = MODULES.find(m => m.key === key);
   const s = state[key];
+  const execChain = ddExecChain([
+    { type:'stage', id:'E1', title:'Developer self-check', status:'not-started', detail:'Not started.' },
+    { type:'gate',  id:'G1', name:'Logic correctness gate', status:'not-started' },
+    { type:'stage', id:'E2', title:'Integration', status:'not-started', detail:'Not started.' },
+    { type:'gate',  id:'G2', name:'Architecture integrity gate', status:'not-started' },
+    { type:'stage', id:'E3', title:'Manual QA', status:'not-started', detail:'Not started.' },
+    { type:'gate',  id:'G3', name:'System correctness gate', status:'not-started' },
+    { type:'stage', id:'E4', title:'Field test', status:'not-started', detail:'Not started.' },
+    { type:'gate',  id:'G4', name:'User reality gate', status:'not-started' },
+    { type:'stage', id:'E5', title:'Production monitoring', status:'not-started', detail:'Not started.' },
+    { type:'gate',  id:'G5', name:'Production stability gate', status:'not-started' },
+  ]);
+
   return `<div class="dd-flow">
     ${ddStep(1,'Define',s.define,`<p style="font-size:12px;color:var(--text-secondary);">${mod.label} — ${mod.sub}. Not yet started.</p>`)}
     ${ddArrow()}
@@ -1828,26 +1718,13 @@ function ddGeneric(key) {
         ddPhase('ALL PHASES','Not started','not-started','Waiting for prior modules to complete.')
       ), true)}
     ${ddArrow()}
-    ${ddStep(3,'API Contract','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
+    ${ddStep(3,'Test Strategy','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
     ${ddArrow()}
-    ${ddStep(4,'Test Plan','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
+    ${ddStep(4,'Execute — E1→G1→E2→G2→E3→G3→E4→G4→E5→G5','not-started', execChain, true)}
     ${ddArrow()}
-    ${ddStep(5,'Execute','not-started',ddEStages([
-      { id:'E1',title:'Developer self-check',status:'not-started',detail:'Not started.' },
-      { id:'E2',title:'Integration',status:'not-started',detail:'Not started.' },
-      { id:'E3',title:'Manual QA',status:'not-started',detail:'Not started.' },
-      { id:'E4',title:'Field test',status:'not-started',detail:'Not started.' },
-    ]), true)}
+    ${ddStep(5,'Ship','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
     ${ddArrow()}
-    ${ddStep(6,'Gates','not-started',ddGates([
-      { id:'G1',name:'Truth Gate',status:'not-started',detail:'Not started.' },
-      { id:'G2',name:'Architecture Gate',status:'not-started',detail:'Not started.' },
-      { id:'G3',name:'Integration Gate',status:'not-started',detail:'Not started.' },
-      { id:'G4',name:'User Gate',status:'not-started',detail:'Not started.' },
-      { id:'G5',name:'Performance Gate',status:'not-started',detail:'Not started.' },
-    ]), true)}
-    ${ddArrow()}
-    ${ddStep(7,'Ship + Regression Pack','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
+    ${ddStep(6,'Regression','not-started',`<p style="font-size:12px;color:var(--text-secondary);">Not started.</p>`, true)}
   </div>`;
 }
 
@@ -1873,7 +1750,6 @@ window.navigate = function(page) {
   if (page === 'drilldown') renderDrilldown(window._activeModule || 'wallet');
 };
 
-// Hash-based routing on load
 function initRoute() {
   const hash = window.location.hash.replace('#','') || 'process';
   const valid = ['process','summary','drilldown'];
