@@ -267,7 +267,7 @@ input:checked + .slider:before { transform: translateX(20px); }
   <h1>Customer OS — Learning Hub</h1>
   <span class="header-sub">Wiom Home Internet · Customer-side architecture</span>
   <div class="header-badges">
-    <span class="hbadge hbadge-lock">🔒 B2I v3.1 · SQ v1.0 · Recovery v1.0 · Continuity v1.0.1 · RS v1.1 · Exit v1.0.1 LOCKED</span>
+    <span class="hbadge hbadge-lock">🔒 All 8 OS specs LOCKED · B2I v3.1 · SQ v1.0 · Recovery v1.0 · Continuity v1.0.1 · RS v1.1 · Exit v1.0.1 · CM OS v1.0 · ARR OS v1.0</span>
     <span class="hbadge hbadge-date">May 2026</span>
   </div>
 </header>
@@ -281,6 +281,8 @@ input:checked + .slider:before { transform: translateX(20px); }
   <button class="tab-btn" onclick="switchTab('continuity',this)">Continuity OS</button>
   <button class="tab-btn" onclick="switchTab('rs',this)">Relationship-State OS</button>
   <button class="tab-btn" onclick="switchTab('exit',this)">Exit OS</button>
+  <button class="tab-btn" onclick="switchTab('cm',this)">Customer Mgmt OS</button>
+  <button class="tab-btn" onclick="switchTab('arr',this)">At-Risk Resolution OS</button>
   <button class="tab-btn" onclick="switchTab('scenarios',this)">Scenarios</button>
   <button class="tab-btn" onclick="switchTab('questions',this)">Questions</button>
 </nav>
@@ -332,7 +334,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 
   <div class="divider"></div>
   <div class="sec-title">The 10 Operating Systems</div>
-  <div class="sec-sub">Three types: Stock-Flow (manage lifecycle transitions), Base-State/Epistemic (produce truth overlays), Semantic Integration (manage cross-OS relationships). Six are locked: B2I v3.1, SQ Driver v1.0, Recovery OS v1.0, Continuity OS v1.0.1, RS OS v1.1, Exit OS v1.0.1.</div>
+  <div class="sec-sub">Three types: Stock-Flow (manage lifecycle transitions), Base-State/Epistemic (produce truth overlays), Semantic Integration (manage cross-OS relationships). All 8 customer OS specs locked as of 28 May 2026.</div>
 
   <div class="os-grid">
     <div class="os-card">
@@ -360,8 +362,12 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="os-card-oneliner">"Exit OS finalizes custody. It does not judge departure."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Customer Management OS</div><div class="os-card-type">Semantic Integration</div></div><span class="badge b-pending" style="background:#fef2f2;color:#dc2626;">❌ No spec yet</span></div>
-      <div class="os-card-oneiller">Blocked on Satyam answering 47-question questionnaire.</div>
+      <div class="os-card-top"><div><div class="os-card-name">Customer Management OS</div><div class="os-card-type">Semantic Integration</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
+      <div class="os-card-oneliner">"CM OS remembers and resolves. It does not score, rank, predict, or act."</div>
+    </div>
+    <div class="os-card">
+      <div class="os-card-top"><div><div class="os-card-name">At-Risk Resolution OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
+      <div class="os-card-oneliner">"Act on the problem, never on the decision."</div>
     </div>
     <div class="os-card">
       <div class="os-card-top"><div><div class="os-card-name">Recharge OS (CSP-side)</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-pending">In CSP OS build</span></div>
@@ -2330,6 +2336,391 @@ input:checked + .slider:before { transform: translateX(20px); }
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 4e — CUSTOMER MANAGEMENT OS
+═══════════════════════════════════════════════════════════ -->
+<div id="tab-cm" class="tab-content">
+  <div class="toggle-bar">
+    <span class="tl">View mode</span>
+    <label class="switch"><input type="checkbox" onchange="toggleView('cm', this)"><span class="slider"></span></label>
+    <span class="toggle-mode" id="mode-cm">Simple (ELI10)</span>
+    <span class="toggle-hint">Toggle for technical detail</span>
+  </div>
+
+  <!-- ELI10 VIEW -->
+  <div class="eli10-view">
+    <div class="one-liner">🧠 "CM OS remembers and resolves. It does not score, rank, predict, or act."</div>
+
+    <div class="card">
+      <div class="card-title">🪪 What Customer Management OS is, in plain English</div>
+      <div class="card-body">
+        <p>Think of CM OS like a person's <strong>passport and history file</strong> — it records who they are, what actually happened, and any obligations they're owed. It does not predict what they might do or score how valuable they are.</p>
+        <p>It is the <strong>only OS that operates at person level</strong> (<code>customer_id</code>). Every other OS sees one service connection. CM OS sees the human being — across all connections, exits, and returns.</p>
+        <p><strong>What it holds:</strong> Identity (phone, name, address), preferences, behavioral history (as observed events — not predictions), confidence metadata, and trust/obligation signals from other OSes.</p>
+        <p><strong>The obligation ledger:</strong> If Wiom owes a customer compensation that was never paid — even after they leave — CM OS holds that obligation. No long-stop. Dormancy never makes it disappear.</p>
+      </div>
+    </div>
+
+    <div class="emoji-title">📍 Identity Lifecycle States</div>
+    <div class="state-grid">
+      <div class="sbox"><div class="sbox-code">CREATED</div><div class="sbox-name">Signed up, no booking yet</div><div class="sbox-desc">customer_id minted at OTP. Real person even with zero services.</div></div>
+      <div class="sbox" style="border-color:#16a34a"><div class="sbox-code" style="color:#16a34a">ACTIVE</div><div class="sbox-name">Live connection exists</div><div class="sbox-desc">At least one service_instance_id is live.</div></div>
+      <div class="sbox"><div class="sbox-code">EXITED_WITH_MEMORY</div><div class="sbox-name">Left, memory kept</div><div class="sbox-desc">All connections archived. customer_id survives forever. Audit-bound — cannot prune.</div></div>
+      <div class="sbox" style="border-color:#16a34a"><div class="sbox-code" style="color:#16a34a">RETURNED</div><div class="sbox-name">Came back</div><div class="sbox-desc">Same customer_id, new service_instance_id. Fresh start with context.</div></div>
+      <div class="sbox"><div class="sbox-code">DORMANT</div><div class="sbox-name">Signed up, never booked</div><div class="sbox-desc">Prunable after dormancy window (duration TBD).</div></div>
+    </div>
+
+    <div class="emoji-title">🔑 5 Rules That Make CM OS Different</div>
+    <div class="callout"><strong>Rule 1 — False split over false merge.</strong> When two signals could be the same person, CM OS creates a new customer_id (false split) rather than collapsing them (false merge). False merge contaminates an innocent person's record and is catastrophic. False split creates a duplicate, which is fixable.</div>
+    <div class="callout"><strong>Rule 2 — Only what was observed.</strong> CM OS stores observables only. No inference, no predicted sentiment, no propensity scores, no health ratings. If it wasn't a real event, it cannot be stored.</div>
+    <div class="callout"><strong>Rule 3 — Person-level obligation ledger, no long-stop.</strong> Obligations Wiom owes a customer survive their exit. The ledger never expires. A customer who returns 2 years later — CM OS still shows what Wiom owes them.</div>
+    <div class="callout"><strong>Rule 4 — Explicit always overwrites inferred.</strong> If a customer sets a preference directly (language, channel, timing), that beats anything the system inferred. No exception.</div>
+    <div class="callout"><strong>Rule 5 — Sensitive categories: absolute exclusion.</strong> Political, religious, caste, health, sexual orientation — never stored, even if stated verbatim by the customer. CM-11 is non-negotiable.</div>
+
+    <div class="callout callout-warn" style="margin-top:16px"><strong>What CM OS never does:</strong> Score customers. Compute LTV or health. Infer household composition. Run campaigns. Optimise any outcome. Write back to any other OS's domain truth. If you find a score or a model in CM OS data — that is a critical violation.</div>
+  </div>
+
+  <!-- TECH VIEW -->
+  <div class="tech-view">
+    <div class="one-liner">🧠 "CM OS remembers and resolves. It does not score, rank, predict, or act."</div>
+    <div class="callout callout-info"><strong>Identity:</strong> Semantic Integration OS. The only OS at customer_id level. Every other customer OS operates at service_instance_id. This is CM OS's architectural reason for existence.</div>
+
+    <div class="emoji-title">5 History Domains (every item carries 5 mandatory metadata fields)</div>
+    <table class="dt">
+      <thead><tr><th>Domain</th><th>What's stored</th><th>Key rule</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Identity</strong></td><td>customer_id, phone binding, name, address, sign-up context</td><td>CM-1: person-level, never household-keyed</td></tr>
+        <tr><td><strong>Preference</strong></td><td>Channel preference, language, communication timing</td><td>Explicit always overwrites inferred</td></tr>
+        <tr><td><strong>Behavioral</strong></td><td>Recharge patterns, pre-booking behavior (as observed events)</td><td>CM-3: payment = observed event, never authored "payer" role</td></tr>
+        <tr><td><strong>Confidence & Freshness</strong></td><td>Resolution confidence, attribution confidence, per-attribute freshness</td><td>Never binary — always LOW/MEDIUM/HIGH with explicit basis</td></tr>
+        <tr><td><strong>Recovery/Trust</strong></td><td>Trust signals from Exit OS, Recovery Debt history, exit reasons</td><td>Trust signals shown with full context — never as bare labels</td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-info"><strong>Mandatory metadata per item:</strong> value · source · timestamp · confidence · explicit_or_inferred. No item may be stored without all five.</div>
+
+    <div class="emoji-title">Identity Resolution — Confidence Model</div>
+    <table class="dt">
+      <thead><tr><th>Operation</th><th>Min confidence required</th></tr></thead>
+      <tbody>
+        <tr><td>Benign recognition ("welcome back")</td><td>MEDIUM resolution</td></tr>
+        <tr><td>Store as person-level observable</td><td>MEDIUM attribution (LOW stored with flag)</td></tr>
+        <tr><td>Identity merge</td><td>HIGH resolution</td></tr>
+        <tr><td>Apply negative trust signal</td><td>HIGH resolution + HIGH attribution</td></tr>
+        <tr><td>Multi-service restriction</td><td>HIGH resolution + HIGH attribution</td></tr>
+        <tr><td>Phone re-binding</td><td>HIGH (Aadhaar eKYC / OTP — not customer assertion alone)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Dark Data Governance (CM-10 through CM-13)</div>
+    <div class="callout callout-info"><strong>Default is exclusion.</strong> Nothing from support logs or interactions is stored unless it passes Steward review (mechanics + operational-relevance claim). Relevance is not self-certified.</div>
+    <table class="dt">
+      <thead><tr><th>Doctrine</th><th>Rule</th></tr></thead>
+      <tbody>
+        <tr><td>CM-10</td><td>Extraction produces structured observables only. Inference of sentiment, intent, or propensity prohibited at extraction layer.</td></tr>
+        <tr><td>CM-11</td><td>Sensitive categories (political, religious, caste, health, sexual orientation) — absolute exclusion even if stated verbatim.</td></tr>
+        <tr><td>CM-12</td><td>Every extraction rule requires Constitution Steward review — mechanics AND operational-relevance claim validated.</td></tr>
+        <tr><td>CM-13</td><td>Extracted observables are context only, never standalone triggers. Must be accompanied by event-grounded evidence.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Key Invariants</div>
+    <div class="inv-item"><div class="inv-code">INV-CM-02</div><div class="inv-name">False Split Over False Merge</div><div class="inv-rule">Under uncertainty, mint new over merge. False merge is the grave error.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CM-04</div><div class="inv-name">No Scores, No Models</div><div class="inv-rule">CM OS never holds, computes, or emits any value score, propensity score, health score, or latent customer model. Ever.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CM-09</div><div class="inv-name">Obligation Never Extinguished</div><div class="inv-rule">Undischarged restorative obligations have no long-stop. Dormancy never reduces or hides. Auto-reactivates on customer contact.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CM-14</div><div class="inv-name">No Action Surface</div><div class="inv-rule">CM OS has no campaigns, workflows, treatments, contact-prioritisation, or outcome optimisation.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CM-27</div><div class="inv-name">Stale Binding Release</div><div class="inv-rule">A freed phone number must never auto-resolve to its former customer_id. Re-appearance is a fresh resolution event.</div></div>
+  </div>
+
+  <!-- UNDERSTAND MORE -->
+  <div class="um-section" style="margin-top:22px">
+    <button class="um-btn" id="um-btn-cm" onclick="toggleUnderstand('cm')">
+      Understand More — Scenarios, Connections &amp; Role Guides <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-cm">
+      <div class="um-h">3 Real Scenarios</div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1</div>
+        <div class="um-sc-title">Re-entry after exit (Priya comes back)</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Priya exited 4 months ago. She re-downloads the app and books a new connection.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">B2I links a new service_instance_id to Priya's existing customer_id. CM OS serves carried-forward memory to B2I OS and RS OS: exit reason (non-reaffirmation), prior obligations (cleared), preferences (WhatsApp, Hindi). RS OS uses this for initial classification context.</span></div>
+        <div class="um-sc-result">✅ Priya's experience starts fresh (new service) but the system is not amnesiac. No surveillance framing — just honest context about what happened before and what Wiom owes.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2</div>
+        <div class="um-sc-title">Simultaneous phone + SIM change (Kumar)</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Kumar got a new phone and new SIM simultaneously. All external signals changed. He tries to log in on the new device.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">CM OS cannot auto-resolve (all signals changed at once). Default: false split — new customer_id tentatively minted. Kumar calls support. Connection-anchored reconciliation: his netbox at home didn't move. Support verifies netbox + new OTP. CM OS merges at HIGH confidence with full audit trail (CM-15 append-only).</span></div>
+        <div class="um-sc-result">✅ Kumar's full history intact. No duplicate record. If the merge is later found wrong, CM-15 merge reversal path exists.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3</div>
+        <div class="um-sc-title">Obligation survives exit (Rahul's Recovery Debt)</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Rahul exited with an open Recovery Debt — 3-day outage, never compensated. CM OS recorded it in the obligation ledger under CM-9. 6 months later, Rahul calls support about reconnecting.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">Support tool shows the open obligation: "Recovery Debt — ₹X, source: Recovery OS, status: open." Not a punitive flag — an obligation Wiom owes Rahul. It survived his exit. Dormancy did not reduce it.</span></div>
+        <div class="um-sc-result">✅ Wiom hasn't forgotten. When Rahul re-books, the obligation is settled per the settlement pathway. CM-9: no long-stop.</div>
+      </div>
+
+      <div class="um-h">Connections</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">Receives signals from</div>
+          <div class="um-conn-item"><strong>All OSes</strong> — each OS writes domain facts: B2I (service creation), Recovery (debt/closures), Continuity (payment events), RS OS (classification history), Exit OS (carried-forward bundle + trust signals), SQ Driver (quality history)</div>
+          <div class="um-conn-item"><strong>Support / Interaction Log</strong> — structured observables only (dark data pipeline, CM-10 through CM-13)</div>
+          <div class="um-conn-item"><strong>Customer directly</strong> — explicit preferences. Always overwrites inferred.</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">Sends signals to</div>
+          <div class="um-conn-item"><strong>B2I OS</strong> — prior history at re-entry (trust signals, exit reasons, obligations)</div>
+          <div class="um-conn-item"><strong>RS OS</strong> — person-level context for initial classification</div>
+          <div class="um-conn-item"><strong>All service-instance OSes</strong> — personalization inputs (preferences, identity context)</div>
+          <div class="um-conn-item"><strong>Support tools</strong> — event-referenced facts + obligation status. Never hidden scores.</div>
+          <div class="um-conn-item"><strong>Payment OS</strong> — obligation settlement status</div>
+        </div>
+      </div>
+
+      <div class="um-h">Role Guides</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>What you see in the support tool is event-referenced facts — not hidden scores or health ratings. Everything traced to a real event.</li>
+            <li>Trust signals shown with full context (reason, confidence, dispute status). Never act on a bare label.</li>
+            <li>If a customer disputes a trust signal → CM-15 dispute path. It freezes enforcement while open.</li>
+            <li>Open obligations are real and unresolved. Do not clear manually. Route to settlement path.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>customer_id and service_instance_id are structurally separate. No OS may create a customer_id outside CM OS.</li>
+            <li>Every stored item must carry all 5 metadata fields. Build the storage layer to reject items missing any of the five.</li>
+            <li>False-split-preferred: identity resolution defaults to minting new. Merge is an explicit, audited, append-only operation.</li>
+            <li>Obligation ledger must auto-reactivate on any customer contact, even after long dormancy.</li>
+            <li>Dark-data extraction rules need an explicit Steward-gate before deployment — not a free-form write path.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li>Locked: false-split-preferred default, no scoring or health metrics, obligation ledger with no long-stop, default-exclusion dark data.</li>
+            <li>Open: never-booked retention duration (CP-CM-04), DPDP minimums, Aadhaar storage legality, CM OS ↔ Payment interface.</li>
+            <li>Service Transfer Flow (relocation) is a named seam escalated to Architecture — ~20%+ of big-city customers/yr. Must resolve before Architecture v2.0.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Design / Comms</div>
+          <ul>
+            <li>Support tool UI: trust signals with context (not bare labels), obligations with source + dispute path, no value indicators.</li>
+            <li>Memory classes are distinct — carried-forward, live obligations, archived (only on explicit query), historical. Design must not blur these.</li>
+            <li>Re-entry comms: "welcome back" is fine. Surveillance-implication framing is not. Each service instance is a fresh start.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 4f — AT-RISK RESOLUTION OS
+═══════════════════════════════════════════════════════════ -->
+<div id="tab-arr" class="tab-content">
+  <div class="toggle-bar">
+    <span class="tl">View mode</span>
+    <label class="switch"><input type="checkbox" onchange="toggleView('arr', this)"><span class="slider"></span></label>
+    <span class="toggle-mode" id="mode-arr">Simple (ELI10)</span>
+    <span class="toggle-hint">Toggle for technical detail</span>
+  </div>
+
+  <!-- ELI10 VIEW -->
+  <div class="eli10-view">
+    <div class="one-liner">🎯 "Act on the problem, never on the decision. The space between AT_RISK and EXITED has an owner."</div>
+
+    <div class="card">
+      <div class="card-title">🩺 What At-Risk Resolution OS is, in plain English</div>
+      <div class="card-body">
+        <p>Think of At-Risk Resolution OS like a <strong>doctor treating an illness</strong>. Their job is to fix the problem — the deterioration in the customer's service experience. Whether the patient decides to stay or leave afterwards is not the doctor's outcome metric.</p>
+        <p>When RS OS classifies a customer as AT_RISK (Medium+), this OS opens a bounded, time-limited case. It has <strong>exactly 8 tools</strong> — no more, no less. It has a <strong>hard 90-day cap</strong>. It never tells the customer they are AT_RISK. It never offers "stay and get X" incentives.</p>
+        <p><strong>A customer who exits with their deterioration fully resolved is a success for this OS.</strong> The goal is never to keep someone — it is to ensure that if they leave, it is not because of something Wiom failed to fix.</p>
+        <p><strong>Formerly called Retention OS.</strong> The name changed deliberately — "retention" imports the subscription-company mental model. This OS resolves problems. It is not a save desk.</p>
+      </div>
+    </div>
+
+    <div class="emoji-title">📍 What Triggers This OS</div>
+    <div class="callout callout-info">Sole automatic trigger: <strong>RS OS emits Medium+ AT_RISK classification</strong>. That's it. Does NOT trigger on: Fragile alone, non-recharge alone, low usage, app inactivity, "likely churn," or any marketing team request.</div>
+
+    <div class="emoji-title">🔧 The 8 Tools (T1–T8) — Only These, Nothing Else</div>
+    <table class="dt">
+      <thead><tr><th>Tool</th><th>What it does</th><th>Key constraint</th></tr></thead>
+      <tbody>
+        <tr><td><strong>T1</strong> — Acknowledgment</td><td>Event-referenced statement naming the specific deterioration. Default at every case opening.</td><td>Must pass 4 tests: (i) event-referenced, (ii) delivered, (iii) states what Wiom is addressing, (iv) gives next step</td></tr>
+        <tr><td><strong>T2</strong> — Recovery Debt Discharge</td><td>Surfaces an obligation Wiom already owes but hasn't paid. Never creates new obligations.</td><td>Only for known existing obligations — never invents new ones</td></tr>
+        <tr><td><strong>T3</strong> — SQ Investigation Flag</td><td>Priority flag to SQ Driver to investigate a quality cause.</td><td>Flag only — SQ Driver owns its response. Cannot command.</td></tr>
+        <tr><td><strong>T4</strong> — Recovery Action Flag</td><td>Priority flag to Recovery OS to reopen a nominally closed case.</td><td>Flag only. Distinct from T2 (T4 = re-investigate, T2 = discharge existing).</td></tr>
+        <tr><td><strong>T5</strong> — Restorative Compensation</td><td>Compensates accumulated relationship damage Recovery couldn't see. Non-contingent — same payout whether customer stays or leaves. Rate-card bounded.</td><td>Never changes based on whether customer is "likely to stay." Same payout on exit test is mandatory.</td></tr>
+        <tr><td><strong>T6</strong> — Reservation Window Extension</td><td>Request to Continuity OS to delay RESERVATION_EXPIRED while Wiom-side fix is in progress.</td><td>T6 alone does NOT count as initiating the case. Must pair with a substantive tool.</td></tr>
+        <tr><td><strong>T7</strong> — Confirm-and-Handoff</td><td>For non-Wiom AT_RISK cases: verify no hidden Wiom cause → discharge any obligations → clean handoff to Exit OS.</td><td>Verification IS the work — confirming non-Wiom is substantive action, not idle waiting.</td></tr>
+        <tr><td><strong>T8</strong> — Documented Watchful-Waiting</td><td>RESOLVING_MONITORING substate. Obligations discharged. Decision documented + signed. 30-day cap. Three outcomes only: resolve, escalate, or fail.</td><td>30-day hard cap. No fourth outcome.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">⏱️ The Hard Caps</div>
+    <div class="callout callout-warn"><strong>30 days maximum</strong> for RESOLVING_MONITORING (watchful-waiting). No extension. No exception.</div>
+    <div class="callout callout-warn"><strong>90 days maximum</strong> for the entire case. F3 fires automatically on Day 90. <strong>Founder ruling: no self-extension, no emergency exception.</strong></div>
+
+    <div class="emoji-title">🚫 What This OS Never Does</div>
+    <div class="callout"><strong>Never:</strong> Offer recharge discounts, save coupons, loyalty rewards, or "stay and get X" incentives. Run save campaigns. Tell the customer they are AT_RISK. Trigger on Fragile alone. Command SQ Driver or Recovery OS to act (flags only). Improvise outside T1–T8 for any reason.</div>
+  </div>
+
+  <!-- TECH VIEW -->
+  <div class="tech-view">
+    <div class="one-liner">🎯 "Act on the problem, never on the decision."</div>
+    <div class="callout callout-info"><strong>Identity:</strong> Stock-Flow OS. The highest corruption-risk OS in the customer system. 29 doctrines, 8 tools, 4 failure codes — all built to prevent this OS from becoming a save desk.</div>
+
+    <div class="emoji-title">State Machine</div>
+    <div class="diagram-wrap">
+      <div class="flow">
+        <div class="flow-row"><div class="flow-box">AT_RISK (RS OS)</div><div class="flow-arrow">→</div><div class="flow-box highlight">RESOLVING</div></div>
+        <div class="flow-down">↓</div>
+        <div class="flow-row" style="gap:8px">
+          <div class="flow-box" style="min-width:170px">RESOLVING_ACTIVE<br><span style="font-size:10px;font-weight:400">Active intervention, T1–T8</span></div>
+          <div class="flow-arrow">⇄</div>
+          <div class="flow-box" style="min-width:170px">RESOLVING_MONITORING<br><span style="font-size:10px;font-weight:400">T8 watchful-waiting, 30-day cap</span></div>
+        </div>
+        <div class="flow-down">↓</div>
+        <div class="flow-row" style="gap:8px">
+          <div class="flow-box terminal-ok">ACTIVE_ENTITLED<br><span style="font-size:10px;font-weight:400">Success — RS OS authors this</span></div>
+          <div class="flow-arrow">or</div>
+          <div class="flow-box terminal-drop">at-risk-resolution-failed<br><span style="font-size:10px;font-weight:400">→ Exit OS with D26 payload</span></div>
+          <div class="flow-arrow">or</div>
+          <div class="flow-box" style="border-color:#6b7280">CASE_VACATED<br><span style="font-size:10px;font-weight:400">RS corrects — no failure attr.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="emoji-title">4 Failure Codes (D19 — mandatory on every failure)</div>
+    <table class="dt">
+      <thead><tr><th>Code</th><th>Meaning</th><th>Key constraint</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge b-terminal">F1</span> ROOT_CAUSE_UNFIXABLE</td><td>Technical evidence that cause cannot be addressed</td><td><strong>Anti-ROI rule:</strong> "not commercially worthwhile" is NOT F1. Must be technical impossibility.</td></tr>
+        <tr><td><span class="badge b-terminal">F2</span> CUSTOMER_UNREACHABLE</td><td>Uncontactable across all governed channels</td><td>Evidence-traced contact log with per-attempt timestamps required</td></tr>
+        <tr><td><span class="badge b-terminal">F3</span> DURATION_CAP_EXCEEDED</td><td>90-day hard cap reached</td><td>Fires automatically. No extension path exists.</td></tr>
+        <tr><td><span class="badge b-terminal">F4</span> EXPLICIT_EXIT_DETERIORATION_LINKED</td><td>Customer declared exit, traced to deterioration cause</td><td>Customer statement + deterioration evidence both required</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Key Invariants</div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-01</div><div class="inv-name">Problem Not Decision</div><div class="inv-rule">Every action's object is a problem (deterioration, obligation, classification, handoff), never the customer's stay/leave decision.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-03</div><div class="inv-name">Same Payout On Exit</div><div class="inv-rule">Every T5 compensation passes: "Would the customer receive the same payout if they exited tomorrow?" Must be yes.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-06</div><div class="inv-name">Eight Tools Only</div><div class="inv-rule">T1–T8 exhausts the toolkit. Operator improvisation is doctrine violation regardless of intent or outcome.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-08</div><div class="inv-name">Hard Caps Fire</div><div class="inv-rule">Duration caps fire automatically. No self-extension. No emergency exception. Founder ruling.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-10</div><div class="inv-name">Customer Invisible</div><div class="inv-rule">Customer never told they are AT_RISK or "in resolution." Classification vocabulary prohibited in all communications.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-15</div><div class="inv-name">Save Rate Engineering Only</div><div class="inv-rule">Save rate never in any leadership-visible surface or derivable from any leadership-accessible path.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-ARR-27</div><div class="inv-name">No Outcome-Continuation Joins</div><div class="inv-rule">No data join between case outcomes and recharge-continuation/payment tables in any leadership-accessible surface. Enforced at data infrastructure layer.</div></div>
+  </div>
+
+  <!-- UNDERSTAND MORE -->
+  <div class="um-section" style="margin-top:22px">
+    <button class="um-btn" id="um-btn-arr" onclick="toggleUnderstand('arr')">
+      Understand More — Scenarios, Connections &amp; Role Guides <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-arr">
+      <div class="um-h">3 Real Scenarios</div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1</div>
+        <div class="um-sc-title">Wiom-caused deterioration resolved (Meena)</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Meena has been Fragile for 6 weeks. Last week she said "agar internet theek nahi hua toh band karwa deti hoon." RS OS: AT_RISK (Medium). Case opens.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">T1 acknowledgment sent (event-referenced, passes all 4 tests). T3 flag to SQ Driver: priority investigation. T5 non-contingent compensation triggered for accumulated damage. SQ fixes root issue. RS trajectory improves over 30 days. OS closes: CLEARED, evidence provided to RS OS. RS OS authors ACTIVE_ENTITLED.</span></div>
+        <div class="um-sc-result">✅ Meena never knew she was AT_RISK. She received substantive help, her issue was fixed, compensation paid. Her decision to stay was free. A success.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2</div>
+        <div class="um-sc-title">90-day cap reached — infrastructure issue (Raju)</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Raju is AT_RISK. Root cause: infrastructure problem in his area — upgrade is 4 months away. OS does everything right: T1, T3 flags, T5 compensation, T6 extension. But the cause is not fixable within the 90-day window.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">Day 87: T3 response from SQ Driver confirms root cause not fixable within window. Day 90: F3 fires automatically. No extension — that path does not exist. Failure codes: F3 + F1 (paired). Full D26 payload emitted to Exit OS: evidence trace, all actions taken, failure codes, attribution.</span></div>
+        <div class="um-sc-result">✅ The case did not linger indefinitely. The 90-day cap is the architecture's commitment that cases don't become hold mechanisms. Raju's exit is clean, attributed correctly.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3</div>
+        <div class="um-sc-title">Non-Wiom case — T7 Confirm-and-Handoff (Deepak)</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Deepak is AT_RISK. RS OS reason: behavioral-drift/life-change signal. SQ: HEALTHY. No open Recovery cases. Reason suggests voluntary lifestyle change — not a Wiom failure.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">T7 invoked. Verification: check SQ evidence, Recovery history, support logs — no Wiom failure found. Check CM OS: one open Recovery Debt — T2 invoked to discharge it. Non-Wiom cause confirmed. Clean handoff to Exit OS with attribution.</span></div>
+        <div class="um-sc-result">✅ This OS did not try to save Deepak. It verified the cause was not Wiom's failure, discharged the one obligation Wiom owed, and handed off cleanly. That is resolution.</div>
+      </div>
+
+      <div class="um-h">Connections</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">Receives signals from</div>
+          <div class="um-conn-item"><strong>RS OS</strong> — sole automatic trigger (Medium+ AT_RISK + reason taxonomy + confidence + trajectory)</div>
+          <div class="um-conn-item"><strong>CM OS</strong> — person-level history, obligation ledger (explicit query only)</div>
+          <div class="um-conn-item"><strong>Recovery OS</strong> — Recovery Debt status, case closure evidence (T2, T4 context)</div>
+          <div class="um-conn-item"><strong>SQ Driver</strong> — quality state, fault domain, investigation status (T3 context)</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — reservation state, posture (T6 extension context)</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">Sends signals to</div>
+          <div class="um-conn-item"><strong>RS OS</strong> — RESOLVING state (reflected); resolution evidence (RS authors ACTIVE_ENTITLED)</div>
+          <div class="um-conn-item"><strong>Exit OS</strong> — at-risk-resolution-failed with full D26 payload on every failure</div>
+          <div class="um-conn-item"><strong>SQ Driver</strong> — T3 priority investigation flags (REQUEST events)</div>
+          <div class="um-conn-item"><strong>Recovery OS</strong> — T4 priority reopen flags (REQUEST events)</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — T6 reservation-window extension requests</div>
+          <div class="um-conn-item"><strong>Payment OS</strong> — T5 compensation for execution</div>
+          <div class="um-conn-item"><strong>CM OS</strong> — case history (CM OS stores as person-level history)</div>
+        </div>
+      </div>
+
+      <div class="um-h">Role Guides</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support (embedded specialists)</div>
+          <ul>
+            <li>T1–T8 are exhaustive. If a situation seems to need something outside the toolkit — escalate to OS Owner. Never improvise. Improvisation = doctrine violation.</li>
+            <li>T1 must pass 4 tests: (i) event-referenced, (ii) delivered, (iii) states what Wiom is addressing, (iv) gives next step. "We hear you" alone fails.</li>
+            <li>Hard 90-day clock. Plan case timeline with the cap in mind from Day 1.</li>
+            <li>Never use AT_RISK vocabulary with the customer. Event-referenced language only: "We noticed your connection had [specific issue]."</li>
+            <li>T5 compensation is non-contingent. Present it as: "We owe you this because of what happened" — not "stay and you'll receive this."</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>RESOLVING is authored by this OS, reflected by RS OS. Structurally separate write operations.</li>
+            <li>Duration caps (30-day monitoring, 90-day total) fire automatically. No manual override path. No exception button.</li>
+            <li>T3/T4 are REQUEST events — not FACT events. Recipient OS must implement the 3-state response contract. SLA breach emits ALERT to Constitution Steward.</li>
+            <li>INV-ARR-27: no data join between case outcomes and recharge/payment tables in any leadership-accessible surface. Enforce at data-infrastructure layer.</li>
+            <li>Save rate must be architecturally absent from all leadership surfaces — not just access-controlled.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li>Locked: 8-tool toolkit (any new tool = Steward review), 90-day hard cap, no outcome KRAs, no save-rate visibility above engineering, no dedicated retention team.</li>
+            <li>Launch blockers (must resolve before V1): CP-CON-10 value, T2–T8 substantive thresholds, D8 rate-card ₹ values, per-language prohibited vocabulary lists, audit replay infrastructure, RS OS 7-category reason taxonomy.</li>
+            <li>D9 signal: if caseload grows, the diagnosis is upstream SQ/Recovery failure. Any staffing request must be paired with upstream corrective action + deadline.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Design / Comms</div>
+          <ul>
+            <li>D28 structural test: would this message read the same if the customer had already decided to leave? If not — it's persuasion, not resolution. Only resolution language is permitted.</li>
+            <li>Every outbound communication must be event-referenced — names the specific deterioration event. Generic "we want to make things right" fails D6.</li>
+            <li>Per-language prohibited vocabulary lists are a launch blocker. Hindi, Hinglish, regional — each needs an explicit list. Steward approval required before V1.</li>
+            <li>Channel cadence: min 7-day between contacts (CP-ARR-04), max 7 total contact attempts per case (CP-ARR-05). Build templates with these constraints built in.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>
