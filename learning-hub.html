@@ -267,7 +267,7 @@ input:checked + .slider:before { transform: translateX(20px); }
   <h1>Customer OS — Learning Hub</h1>
   <span class="header-sub">Wiom Home Internet · Customer-side architecture</span>
   <div class="header-badges">
-    <span class="hbadge hbadge-lock">🔒 B2I v3.1 · SQ v1.0 · Recovery v1.0 LOCKED</span>
+    <span class="hbadge hbadge-lock">🔒 B2I v3.1 · SQ v1.0 · Recovery v1.0 · Continuity v1.0.1 · RS v1.1 · Exit v1.0.1 LOCKED</span>
     <span class="hbadge hbadge-date">May 2026</span>
   </div>
 </header>
@@ -278,6 +278,9 @@ input:checked + .slider:before { transform: translateX(20px); }
   <button class="tab-btn" onclick="switchTab('b2i',this)">B2I OS</button>
   <button class="tab-btn" onclick="switchTab('sq',this)">SQ Driver</button>
   <button class="tab-btn" onclick="switchTab('recovery',this)">Recovery OS</button>
+  <button class="tab-btn" onclick="switchTab('continuity',this)">Continuity OS</button>
+  <button class="tab-btn" onclick="switchTab('rs',this)">Relationship-State OS</button>
+  <button class="tab-btn" onclick="switchTab('exit',this)">Exit OS</button>
   <button class="tab-btn" onclick="switchTab('scenarios',this)">Scenarios</button>
   <button class="tab-btn" onclick="switchTab('questions',this)">Questions</button>
 </nav>
@@ -329,7 +332,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 
   <div class="divider"></div>
   <div class="sec-title">The 10 Operating Systems</div>
-  <div class="sec-sub">Three types: Stock-Flow (manage lifecycle transitions), Base-State/Epistemic (produce truth overlays), Semantic Integration (manage cross-OS relationships). Three are locked. Seven are in various states.</div>
+  <div class="sec-sub">Three types: Stock-Flow (manage lifecycle transitions), Base-State/Epistemic (produce truth overlays), Semantic Integration (manage cross-OS relationships). Six are locked: B2I v3.1, SQ Driver v1.0, Recovery OS v1.0, Continuity OS v1.0.1, RS OS v1.1, Exit OS v1.0.1.</div>
 
   <div class="os-grid">
     <div class="os-card">
@@ -345,24 +348,24 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="os-card-oneiller">"Recovery OS prevents and exposes Recovery Debt."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Continuity OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-pending">⏳ Structurally locked</span></div>
-      <div class="os-card-oneiller">Blocked on C2 product-strategy decision.</div>
+      <div class="os-card-top"><div><div class="os-card-name">Continuity OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-locked">🔒 v1.0.1 LOCKED</span></div>
+      <div class="os-card-oneliner">"Continuity OS handles customers correctly. It does not manufacture recharges."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Relationship-State OS</div><div class="os-card-type">Base-State / Epistemic</div></div><span class="badge b-draft">🟡 Ready for lock</span></div>
-      <div class="os-card-oneiller">Consultant review pending.</div>
+      <div class="os-card-top"><div><div class="os-card-name">Relationship-State OS</div><div class="os-card-type">Base-State / Epistemic</div></div><span class="badge b-locked">🔒 v1.1 LOCKED</span></div>
+      <div class="os-card-oneliner">"RS OS classifies. It does not act. It does not predict. It does not optimize outcomes."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Exit OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-draft">🟡 Ready for lock</span></div>
-      <div class="os-card-oneiller">Governs refunds, closure, re-entry eligibility.</div>
+      <div class="os-card-top"><div><div class="os-card-name">Exit OS</div><div class="os-card-type">Integrity Steward</div></div><span class="badge b-locked">🔒 v1.0.1 LOCKED</span></div>
+      <div class="os-card-oneliner">"Exit OS finalizes custody. It does not judge departure."</div>
     </div>
     <div class="os-card">
       <div class="os-card-top"><div><div class="os-card-name">Customer Management OS</div><div class="os-card-type">Semantic Integration</div></div><span class="badge b-pending" style="background:#fef2f2;color:#dc2626;">❌ No spec yet</span></div>
       <div class="os-card-oneiller">Blocked on Satyam answering 47-question questionnaire.</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Recharge OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-pending">In CSP OS build</span></div>
-      <div class="os-card-oneiller">Governs recharge cycles, continuity clocks, posture decisions.</div>
+      <div class="os-card-top"><div><div class="os-card-name">Recharge OS (CSP-side)</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-pending">In CSP OS build</span></div>
+      <div class="os-card-oneiller">CSP-side payment processing. Continuity OS (Customer OS) reads recharge events from here.</div>
     </div>
     <div class="os-card">
       <div class="os-card-top"><div><div class="os-card-name">Credit Ledger OS</div><div class="os-card-type">Infrastructure</div></div><span class="badge b-pending">In CSP OS build</span></div>
@@ -470,7 +473,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <tr><td><strong>S11</strong> — Booking Rerouted</td><td>CSP changed. Customer informed (C4).</td><td>Reroute count ≥ CP-10 → S13 or ops</td><td><span class="badge b-active">Active</span></td></tr>
         <tr><td><strong>S12</strong> — Reschedule Requested</td><td>Universal customer right from any active state.</td><td>Count ≥ CP-11 → S7 closure proposal</td><td><span class="badge b-active">Active</span></td></tr>
         <tr><td><strong>S13</strong> — Dropped with Attribution</td><td>TERMINAL — FACT. Every drop has attribution_bucket + reason_structured.</td><td>Terminal → triggers Exit OS</td><td><span class="badge b-terminal">Terminal</span></td></tr>
-        <tr><td><strong>S14</strong> — Install Completed</td><td>TERMINAL — Happy path. Stock created. → Recharge OS + SQ Driver start.</td><td>Terminal</td><td><span class="badge b-terminal">Terminal</span></td></tr>
+        <tr><td><strong>S14</strong> — Install Completed</td><td>TERMINAL — Happy path. Stock created. → Continuity OS + SQ Driver start.</td><td>Terminal</td><td><span class="badge b-terminal">Terminal</span></td></tr>
         <tr><td><strong>S15</strong> — Exit OS Handoff</td><td>TERMINAL — COMMAND. Exit OS governs refund, closure, history preservation.</td><td>Terminal</td><td><span class="badge b-terminal">Terminal</span></td></tr>
       </tbody>
     </table>
@@ -481,7 +484,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="emoji-title">10 Events Emitted by B2I OS</div>
     <div class="ev-card"><div class="ev-name">BOOKING_CREATED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Idempotency: one per service_instance, ever</div><div class="ev-guarantee">A valid paid booking exists. Downstream systems may begin consuming this entity.</div></div>
     <div class="ev-card"><div class="ev-name">SLOT_CONFIRMED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id + slot_datetime · confirmation_mode: always "customer-confirmed"</div><div class="ev-guarantee">Customer has EXPLICITLY confirmed via deliberate app action. NOT auto-confirmed. NOT system-inferred. Consumers can trust this as genuine commitment.</div></div>
-    <div class="ev-card"><div class="ev-name">INSTALL_COMPLETED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Fires exactly once per service_instance, ever. Irreversible terminal.</div><div class="ev-guarantee">Service is installed and verified. This service instance is now ACTIVE stock. SQ Driver and Recharge OS may begin governing.</div></div>
+    <div class="ev-card"><div class="ev-name">INSTALL_COMPLETED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Fires exactly once per service_instance, ever. Irreversible terminal.</div><div class="ev-guarantee">Service is installed and verified. This service instance is now ACTIVE stock. SQ Driver and Continuity OS may begin governing.</div></div>
     <div class="ev-card"><div class="ev-name">BOOKING_DROPPED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Required payload: attribution_bucket (customer-truth / CSP-execution / system) + reason_structured</div><div class="ev-guarantee">Booking ended without install. Attribution is governed — "truth indeterminate" only after full investigation, never as lazy default.</div></div>
     <div class="ev-card"><div class="ev-name">CSP_SILENCE_TIMEOUT <span class="badge b-fact">FACT</span></div><div class="ev-meta">Emitted when CSP fails to act within governed window</div><div class="ev-guarantee">CSP had an obligation (propose slot / record outcome) and did not act. Compliance failure signal → Quality OS.</div></div>
     <div class="ev-card"><div class="ev-name">INSTALL_OUTCOME_RECORDED <span class="badge b-fact">FACT</span></div><div class="ev-meta">From CSP App structured recording. Outcome from governed list — not free text.</div><div class="ev-guarantee">May be contested via TRUTH_DIVERGENCE_FLAGGED if customer story conflicts.</div></div>
@@ -728,13 +731,13 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="card-title">🩺 What SQ Driver is, in plain English</div>
       <div class="card-body">
         <p>Think of SQ Driver as a <strong>doctor who only does diagnosis — never prescribes medicine</strong>. It constantly monitors every customer's internet (through router telemetry) and classifies what it observes: is the internet healthy, slow, cutting in and out, or just not working?</p>
-        <p>It then tells other systems what it found. Recovery OS hears "this customer has been without internet for 6 hours" and opens a recovery case. Recharge OS hears "this customer's internet is broken" and adjusts its nudge posture. SQ Driver just reports. It never acts.</p>
+        <p>It then tells other systems what it found. Recovery OS hears "this customer has been without internet for 6 hours" and opens a recovery case. Continuity OS hears "this customer's internet is broken" and adjusts its nudge posture. SQ Driver just reports. It never acts.</p>
         <p><strong>The most important thing SQ Driver proved with data:</strong> Unknown (we can't tell what's wrong) is worse than Unusable (we know it's broken). Customers you can't see are more likely to churn than customers you know have bad internet.</p>
       </div>
     </div>
 
     <div class="emoji-title">📊 5 Quality States — with real data</div>
-    <div class="callout callout-info">These are <strong>concurrent overlay states</strong> — not a lifecycle. A customer in ACTIVE_ENTITLED state (from Recharge OS) can simultaneously be in any quality state. Both exist at the same time. Quality state can change any direction, any time, based on telemetry.</div>
+    <div class="callout callout-info">These are <strong>concurrent overlay states</strong> — not a lifecycle. A customer in ACTIVE_ENTITLED state (from Continuity OS) can simultaneously be in any quality state. Both exist at the same time. Quality state can change any direction, any time, based on telemetry.</div>
 
     <div class="q-states">
       <div class="qstate qs-healthy"><div>✅ Healthy</div><div style="font-size:11px;font-weight:400;margin-top:4px">R30: 91.6%</div><div style="font-size:11px;font-weight:400">"All good"</div></div>
@@ -753,7 +756,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <p><strong>RDNI = Recharge Done, No Internet.</strong> Customer pays → service does not resume. This is the worst failure because it combines demonstrated payment intent with zero service delivery — a C2 violation by construction.</p>
         <p><strong>Who owns what:</strong></p>
         <p>SQ Driver: detects it (STATE=Unusable, FAULT_DOMAIN=platform_system, ATTRIBUTION_DETAIL=service_not_resumed_after_payment). Full confidence.</p>
-        <p>Recharge OS / Platform: prevents it (H8 integration fix — eliminates this category entirely when done).</p>
+        <p>Continuity OS / Platform: prevents it (H8 integration fix — eliminates this category entirely when done).</p>
         <p>Recovery OS: handles the customer (opens proactive recovery case, highest urgency).</p>
         <p>SQ Driver does NOT fix it. SQ Driver does NOT contact the customer. It reports truth.</p>
       </div>
@@ -762,7 +765,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="emoji-title">⚠️ What SQ Driver cannot do (critical boundaries)</div>
     <div class="callout">❌ Fix the internet — that's IE team</div>
     <div class="callout">❌ Tell the customer about their outage — that's Recovery OS</div>
-    <div class="callout">❌ Suppress recharge nudges — that's Recharge OS deciding</div>
+    <div class="callout">❌ Suppress recharge nudges — that's Continuity OS deciding</div>
     <div class="callout">❌ Give a quality score (0-100) — it emits decomposed facts, not synthesized scores</div>
     <div class="callout">❌ Predict future states ("likely to degrade") — observed truth only, never prediction</div>
   </div>
@@ -823,7 +826,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 
     <div class="divider"></div>
     <div class="emoji-title">3 Events Emitted</div>
-    <div class="ev-card"><div class="ev-name">QUALITY_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id + state + timestamp · Consumers: Recharge OS, Recovery OS, RS OS, IE team, Analytics</div><div class="ev-guarantee">Canonical operational quality state changed. Technical truth, not customer-experience truth. Consumers decide their own action thresholds — SQ does not recommend actions.</div></div>
+    <div class="ev-card"><div class="ev-name">QUALITY_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id + state + timestamp · Consumers: Continuity OS, Recovery OS, RS OS, IE team, Analytics</div><div class="ev-guarantee">Canonical operational quality state changed. Technical truth, not customer-experience truth. Consumers decide their own action thresholds — SQ does not recommend actions.</div></div>
     <div class="ev-card"><div class="ev-name">QUALITY_INVESTIGATION_TRIGGERED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Triggered by truth integrity gap: telemetry-complaint mismatch, dead-router ambiguity, pipe-health failure</div><div class="ev-guarantee">NOT customer-facing. SQ has detected a truth gap and initiated a truth-maintenance action (diagnostic, probe, evidence collection).</div></div>
     <div class="ev-card"><div class="ev-name">CLUSTER_DEGRADATION_DETECTED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Entity scope: zone (geographic). Partition: zone_id.</div><div class="ev-guarantee">Cross-netbox correlation shows area-wide degradation. Individual netboxes will carry SCOPE=area-wide. Consumers: IE team (area repair), Recovery OS (proactive trigger for all affected customers).</div></div>
 
@@ -843,7 +846,7 @@ input:checked + .slider:before { transform: translateX(20px); }
       <span class="diag-icon">▼</span>
     </button>
     <div class="diag-body" id="diag-sq">
-      <p class="diag-note-sm">States are concurrent overlays on the service lifecycle — not sequential steps. A customer can be ACTIVE_ENTITLED (Recharge OS) and Unusable (SQ Driver) at the same time. States change in any direction, any time, driven purely by telemetry.</p>
+      <p class="diag-note-sm">States are concurrent overlays on the service lifecycle — not sequential steps. A customer can be ACTIVE_ENTITLED (Continuity OS) and Unusable (SQ Driver) at the same time. States change in any direction, any time, driven purely by telemetry.</p>
       <svg viewBox="0 0 660 320" style="width:100%;max-width:660px;display:block;margin:0 auto;" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
 
         <!-- LEFT COLUMN: Severity ladder -->
@@ -921,7 +924,7 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="um-h">⛔ What SQ Driver never does</div>
       <div class="um-never">❌ <strong>Does not fix the internet.</strong> That's the IE team's job. SQ Driver only diagnoses and reports — it never prescribes medicine.</div>
       <div class="um-never">❌ <strong>Does not talk to customers about outages.</strong> Recovery OS handles all customer communication. SQ emits truth and stops there.</div>
-      <div class="um-never">❌ <strong>Does not decide whether to suppress recharge nudges.</strong> SQ emits quality state. Recharge OS independently decides what posture to take. SQ never tells consumers what to do.</div>
+      <div class="um-never">❌ <strong>Does not decide whether to suppress recharge nudges.</strong> SQ emits quality state. Continuity OS independently decides what posture to take. SQ never tells consumers what to do.</div>
       <div class="um-never">❌ <strong>Does not predict future states.</strong> "Likely to degrade" is structurally forbidden (INV-SQ-02). Every emitted state must be currently observable — no forecasting.</div>
       <div class="um-never">❌ <strong>Does not issue a composite score.</strong> No "quality: 67/100" — SQ emits decomposed dimensions (state + fault domain + scope + confidence) and lets each consumer compose their own response. This prevents SQ from accidentally encoding downstream decisions.</div>
 
@@ -962,7 +965,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-conn-box">
           <div class="um-conn-head">➡ Sends signals to</div>
           <div class="um-conn-item"><strong>Recovery OS</strong> — QUALITY_STATE_CHANGED triggers proactive case opening. CLUSTER_DEGRADATION_DETECTED triggers area-wide response.</div>
-          <div class="um-conn-item"><strong>Recharge OS</strong> — quality state context informs recharge posture (don't send aggressive nudges if internet is broken)</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — quality state context informs recharge posture (don't send aggressive nudges if internet is broken)</div>
           <div class="um-conn-item"><strong>Relationship-State OS</strong> — quality emissions feed customer classification (repeated degradation pushes toward Fragile)</div>
           <div class="um-conn-item"><strong>IE team</strong> — QUALITY_INVESTIGATION_TRIGGERED sends structured intake for repair routing</div>
         </div>
@@ -999,7 +1002,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-role">
           <div class="um-role-lbl">Comms / Design</div>
           <ul>
-            <li>SQ Driver never triggers customer communication directly — everything goes through Recovery OS or Recharge OS.</li>
+            <li>SQ Driver never triggers customer communication directly — everything goes through Recovery OS or Continuity OS.</li>
             <li>The customer never sees "SQ state" directly. They see what Recovery OS translates it into. Aligning what the customer sees to SQ's actual state is a design responsibility.</li>
             <li>Unknown state is never surfaced to customers — but it's a real condition that represents a gap in the system's ability to help. Design should not treat it as simply "no data."</li>
             <li><strong>Exact terms:</strong> "quality state" (not "quality score"), "degraded" (not "slow" in system docs), "fault domain" (internal only — never customer-facing).</li>
@@ -1104,7 +1107,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 
     <div class="divider"></div>
     <div class="emoji-title">4 Events Emitted</div>
-    <div class="ev-card"><div class="ev-name">RECOVERY_CASE_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: Recharge OS, RS OS, Support tools, Analytics</div><div class="ev-guarantee">Canonical recovery workflow state changed. Workflow advancement does NOT imply technical restoration. Technical state is authored by telemetry (SQ), not by workflow progression.</div></div>
+    <div class="ev-card"><div class="ev-name">RECOVERY_CASE_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: Continuity OS, RS OS, Support tools, Analytics</div><div class="ev-guarantee">Canonical recovery workflow state changed. Workflow advancement does NOT imply technical restoration. Technical state is authored by telemetry (SQ), not by workflow progression.</div></div>
     <div class="ev-card"><div class="ev-name">RECOVERY_COMPENSATION_DETERMINED <span class="badge b-command">COMMAND</span></div><div class="ev-meta">MVP: rule-recommended, human-approved. Standard cases: must follow technical restoration. Prolonged cases (exceeding CP-REC-14): interim acknowledgment permitted while ongoing.</div><div class="ev-guarantee">Payload includes: compensation_stage (interim/final) + proportionality_basis (what drove the amount). Enables C3 audit by Constitution Steward.</div></div>
     <div class="ev-card"><div class="ev-name">FAILED_RECOVERY_REENTRY_DETECTED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Same root cause + same service_instance_id within CP-REC-06 (default 30 days)</div><div class="ev-guarantee">NOT a fresh incident. Damage-compounding failure. Recovery Debt incremented. Consumers should treat this as structurally more severe. Idempotency: service_instance_id + root_cause + detected_at.</div></div>
     <div class="ev-card"><div class="ev-name">RECOVERY_COMMUNICATION_OBLIGATION <span class="badge b-command">COMMAND</span></div><div class="ev-meta">Recovery owns what must be sent and when. Communications layer owns how and through which channel.</div><div class="ev-guarantee">Communication types: acknowledgment / eta / update / restoration_confirmed / closure_confirmed. All are architectural requirements (INV-REC-09), not optional best-practice.</div></div>
@@ -1285,7 +1288,7 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="um-never">❌ <strong>Does not classify customers as AT_RISK or Fragile.</strong> It emits trust-impact evidence. Relationship-State OS is the one that integrates all signals and produces the customer relationship classification.</div>
       <div class="um-never">❌ <strong>Does not treat ticket closure as recovery completion.</strong> A ticket can be closed while the internet is still broken. Recovery OS requires multi-layer evidence (3-of-4 rule) before any case can close.</div>
       <div class="um-never">❌ <strong>Does not issue compensation at agent discretion.</strong> All compensation is rule-based — amounts are formula-driven, not decided by whoever is on shift. This is what makes C3 auditable.</div>
-      <div class="um-never">❌ <strong>Does not suppress or modify recharge nudges directly.</strong> Recovery OS signals to Recharge OS that a live case exists. Recharge OS independently decides to take a Recovery-first posture. Recovery never reaches into another OS's decisions.</div>
+      <div class="um-never">❌ <strong>Does not suppress or modify recharge nudges directly.</strong> Recovery OS signals to Continuity OS that a live case exists. Continuity OS independently decides to take a Recovery-first posture. Recovery never reaches into another OS's decisions.</div>
 
       <div class="um-h">📋 3 Real Scenarios</div>
 
@@ -1301,8 +1304,8 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-sc-no">Scenario 2 — "Pay us while broken" — the cross-OS moment</div>
         <div class="um-sc-title">Vijay's internet is degraded AND his plan is about to expire</div>
         <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Vijay's internet has been degraded for 4 days. His plan expires in 2 days. He's looking at the recharge screen wondering whether to pay for internet that isn't working.</span></div>
-        <div class="um-sc-row"><span class="um-sc-lbl">What Recovery does</span><span class="um-sc-val">Recovery OS has an open case for Vijay's degraded internet. It emits a signal indicating a live recovery case is active. Recharge OS (not Recovery OS) decides: switch to "Recovery-first" posture — soften the nudge, show context about the ongoing issue in the renewal UI. Recovery OS also tracks that Vijay has been degraded for 4 days — if this crosses the prolonged-incident threshold (CP-REC-14), interim compensation triggers before full restoration.</span></div>
-        <div class="um-sc-result">✅ Vijay isn't pressured to pay for broken internet. Recharge OS made the posture decision based on Recovery OS's signal — Recovery didn't override or suppress anything itself. Cross-OS coordination through events, not hand-holding.</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Recovery does</span><span class="um-sc-val">Recovery OS has an open case for Vijay's degraded internet. It emits a signal indicating a live recovery case is active. Continuity OS (not Recovery OS) decides: switch to "Recovery-first" posture — soften the nudge, show context about the ongoing issue in the renewal UI. Recovery OS also tracks that Vijay has been degraded for 4 days — if this crosses the prolonged-incident threshold (CP-REC-14), interim compensation triggers before full restoration.</span></div>
+        <div class="um-sc-result">✅ Vijay isn't pressured to pay for broken internet. Continuity OS made the posture decision based on Recovery OS's signal — Recovery didn't override or suppress anything itself. Cross-OS coordination through events, not hand-holding.</div>
       </div>
 
       <div class="um-sc">
@@ -1323,7 +1326,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         </div>
         <div class="um-conn-box">
           <div class="um-conn-head">➡ Sends signals to</div>
-          <div class="um-conn-item"><strong>Recharge OS</strong> — live recovery case state signals influence recharge posture (Recovery-first during open cases)</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — live recovery case state signals influence recharge posture (Recovery-first during open cases)</div>
           <div class="um-conn-item"><strong>Relationship-State OS</strong> — Tier 1 trust-impact evidence (case opened, recovery completed, Failed Recovery Re-entry) feeds customer classification</div>
           <div class="um-conn-item"><strong>Credit Ledger</strong> — RECOVERY_COMPENSATION_DETERMINED triggers compensation execution (extensions first, coupons as fallback)</div>
           <div class="um-conn-item"><strong>Communications layer</strong> — RECOVERY_COMMUNICATION_OBLIGATION says what to send and when. Recovery decides what; Comms decides how.</div>
@@ -1372,6 +1375,963 @@ input:checked + .slider:before { transform: translateX(20px); }
     </div>
   </div>
 
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 4b — CONTINUITY OS
+═══════════════════════════════════════════════════════════ -->
+<div id="tab-continuity" class="tab-content">
+  <div class="toggle-bar">
+    <span class="tl">View mode</span>
+    <label class="switch"><input type="checkbox" onchange="toggleView('continuity', this)"><span class="slider"></span></label>
+    <span class="toggle-mode" id="mode-continuity">Simple (ELI10)</span>
+    <span class="toggle-hint">Toggle for technical detail</span>
+  </div>
+
+  <!-- ELI10 VIEW -->
+  <div class="eli10-view">
+    <div class="one-liner">📖 "Continuity OS handles customers correctly. It does not manufacture recharges."</div>
+
+    <div class="card">
+      <div class="card-title">💳 What Continuity OS is, in plain English</div>
+      <div class="card-body">
+        <p>Think of Wiom like a <strong>prepaid phone plan</strong>. You pay for 30 days of calls. At the end of 30 days, your plan expires. The phone company doesn't owe you extra days, and you don't owe them a renewal. You independently decide whether to top up.</p>
+        <p>Continuity OS governs how Wiom behaves during that expiry window. It never pressures you to recharge. It never treats non-recharge as failure. It adjusts its communication posture based on what it knows — if your internet was broken, it won't ask you to pay. If you explicitly paused, it stays quiet.</p>
+        <p><strong>C2 Resolution (LOCKED):</strong> During the 15-day reservation window after expiry, internet is off — but your relationship with Wiom stays alive. Recharge at any point and internet restarts instantly. This is the most honest PayG approach: you paid for days, you got days.</p>
+      </div>
+    </div>
+
+    <div class="emoji-title">🎯 The 8 Postures — Simply</div>
+    <div class="callout callout-info">These are not customer states — they're what Continuity OS decides to <em>do</em>. One posture at a time, based on evidence.</div>
+
+    <div class="state-grid">
+      <div class="sbox"><div class="sbox-code">Normal</div><div class="sbox-name">Lightest touch</div><div class="sbox-desc">State is visible. Recharge link available. No nudges, no pressure.</div></div>
+      <div class="sbox"><div class="sbox-code">Softened</div><div class="sbox-name">Acknowledge issue</div><div class="sbox-desc">Internet degraded or customer is Fragile — ease off, don't push</div></div>
+      <div class="sbox"><div class="sbox-code">Deferred</div><div class="sbox-name">Pause nudges</div><div class="sbox-desc">Quality unknown or ambiguous — do nothing until clarity arrives</div></div>
+      <div class="sbox" style="border-color:#dc2626"><div class="sbox-code" style="color:#dc2626">Recovery-first</div><div class="sbox-name">Fix internet first</div><div class="sbox-desc">Open recovery case or unusable SQ — do not ask to pay for broken internet</div></div>
+      <div class="sbox"><div class="sbox-code">Education-first</div><div class="sbox-name">Customer environment</div><div class="sbox-desc">Issue is customer-side — route to support/education, not recharge</div></div>
+      <div class="sbox"><div class="sbox-code">Clarify-state-first</div><div class="sbox-name">Verify before acting</div><div class="sbox-desc">Continuity Verification Window (T+10–T+15) — clarify state before asset handoff</div></div>
+      <div class="sbox"><div class="sbox-code">Passive-only</div><div class="sbox-name">Customer paused</div><div class="sbox-desc">RS OS classified CUSTOMER_PAUSED — system stays quiet, recharge still available</div></div>
+      <div class="sbox" style="border-color:#16a34a"><div class="sbox-code" style="color:#16a34a">Grace-extension</div><div class="sbox-name">Recovery compensation</div><div class="sbox-desc">Only when Recovery OS authorizes — extends window. Not an action posture, a response.</div></div>
+    </div>
+
+    <div class="emoji-title">🔑 5 Rules That Make Continuity OS Different</div>
+    <div class="callout"><strong>Rule 1 — Non-recharge is neutral.</strong> The default posture under non-recharge with no adverse signals is Normal. The system does not treat a customer who didn't recharge as someone who "churned." Pause is legitimate. The 15-day window exists because Wiom holds physical infrastructure (the router), not because of policy preference.</div>
+    <div class="callout"><strong>Rule 2 — No recharge pressure during broken internet.</strong> If SQ Driver says the internet is Unusable or Intermittent (Wiom-caused), the posture automatically switches to Recovery-first. The system cannot ask a customer to pay for internet that doesn't work.</div>
+    <div class="callout"><strong>Rule 3 — Each recharge is independent.</strong> Not a subscription renewal. Not an obligation. The customer chooses. The system observes. Even a 1-day recharge resets the 15-day window — there is no minimum.</div>
+    <div class="callout"><strong>Rule 4 — No persuasion on exit.</strong> If a customer decides to leave, the system provides clarity (what happens next, refund timeline, device pickup date) and stops there. "Are you sure? You'll lose your connection" is constitutionally prohibited.</div>
+    <div class="callout"><strong>Rule 5 — Degradation must be honest.</strong> The 3-test rule for the reservation window: honest-economics (reduction proportional to non-payment, not punitive), essential-functions (recharge surface + support + state visibility always on), non-coercive-use (customer can use the product without pressure). All three must pass.</div>
+  </div>
+
+  <!-- TECH VIEW -->
+  <div class="tech-view">
+    <div class="one-liner">📖 "Continuity OS handles customers correctly. It does not manufacture recharges."</div>
+    <div class="callout callout-info"><strong>Category anchors:</strong> A6 (PayG paradigm — recharge = voluntary continuity reaffirmation, not subscription obligation), A2 (Continuity reservation — non-recharge ≠ churn, 15-day boundary = physical asset custody economics). Every posture decision must pass both anchors.</div>
+
+    <div class="emoji-title">8 Postures — Categorical, Atomic, Mutually Exclusive</div>
+    <table class="dt">
+      <thead><tr><th>Posture</th><th>Trigger condition</th><th>Key constraint</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Normal</strong></td><td>No adverse signals; funded or early reservation window</td><td>Not "standard reminder cadence" — lightest C4-compliant touch only</td></tr>
+        <tr><td><strong>Softened</strong></td><td>SQ = Degraded; RESTORATION_WINDOW_ACTIVE; or Fragile overlay</td><td>Lower pressure — acknowledge issue operationally</td></tr>
+        <tr><td><strong>Deferred</strong></td><td>SQ = Unusable with low confidence; or unknown</td><td>Temporarily hold proactive prompts; passive availability preserved</td></tr>
+        <tr><td><strong>Recovery-first</strong></td><td>SQ = Unusable/Intermittent (Wiom-side); open Recovery case; Failed Recovery Re-entry</td><td>Route to Recovery OS before recharge resumes</td></tr>
+        <tr><td><strong>Education-first</strong></td><td>FAULT_DOMAIN = customer_environment</td><td>Route to CM / education layer — not recharge</td></tr>
+        <tr><td><strong>Clarify-state-first</strong></td><td>FAULT_DOMAIN = customer_behavior; Continuity Verification Window (T+10–T+15)</td><td>Default in verification window — not urgency escalation</td></tr>
+        <tr><td><strong>Passive-only</strong></td><td>CUSTOMER_PAUSED classification by RS OS</td><td>Customer can recharge; system does not proactively push</td></tr>
+        <tr><td><strong>Grace-extension</strong></td><td>Active Recovery compensation event (compensation_stage = interim or final)</td><td>RESPONSE posture only — cannot be independently created by Continuity OS</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Reservation Window Phases</div>
+    <table class="dt">
+      <thead><tr><th>Phase</th><th>Time</th><th>Default Posture</th><th>State</th></tr></thead>
+      <tbody>
+        <tr><td>Active funded</td><td>Positive balance</td><td>Normal (or overlay per SQ/Recovery/RS OS)</td><td>ACTIVE_ENTITLED</td></tr>
+        <tr><td>Acceptance</td><td>T+0 to T+7</td><td>Normal (continuity-aware, low-pressure)</td><td>ACTIVE_ENTITLED</td></tr>
+        <tr><td>Pre-verification</td><td>T+7 to T+10</td><td>Normal with cadence increase</td><td>ACTIVE_ENTITLED</td></tr>
+        <tr><td><strong>Continuity Verification Window</strong></td><td>T+10 to T+15</td><td>Clarify-state-first (default); Grace-extension only if Recovery/Credit Ledger authorized</td><td>ACTIVE_ENTITLED</td></tr>
+        <tr><td>Boundary</td><td>T+15 (no reaffirmation, no AT_RISK)</td><td>Posture dissolves; handoff fires</td><td>→ RESERVATION_EXPIRED</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Handoff Transitions</div>
+    <table class="dt">
+      <thead><tr><th>Direction</th><th>Trigger</th><th>Destination</th></tr></thead>
+      <tbody>
+        <tr><td>OUT</td><td>AT_RISK classification by RS OS</td><td>At-Risk Resolution OS</td></tr>
+        <tr><td>OUT</td><td>T+15, no reaffirmation, no AT_RISK</td><td>Exit OS via RESERVATION_EXPIRED</td></tr>
+        <tr><td>OUT</td><td>Customer-initiated cancellation</td><td>Exit OS (direct) — no save attempts</td></tr>
+        <tr><td>IN</td><td>B2I INSTALL_COMPLETED</td><td>Continuity clock started</td></tr>
+        <tr><td>IN</td><td>Reclassification from AT_RISK/RESOLVING</td><td>Returns to ACTIVE_ENTITLED</td></tr>
+        <tr><td>IN</td><td>Late response during recall window</td><td>RESERVATION_EXPIRED → ACTIVE_ENTITLED</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Key Invariants</div>
+    <div class="inv-item"><div class="inv-code">INV-CON-01</div><div class="inv-name">No Subscription Pressure</div><div class="inv-rule">Continuity OS shall never produce posture decisions that function as subscription-maintenance pressure. Any posture that increases recharge-under-pressure rate (Guardrail KRA #2) is a violation.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CON-02</div><div class="inv-name">Non-Recharge Neutrality</div><div class="inv-rule">Non-recharge is neutral until positive evidence suggests otherwise. Default = Normal posture. No inference from absence.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CON-03</div><div class="inv-name">Recovery-First Before Recharge</div><div class="inv-rule">When SQ = Unusable (Wiom-side attribution) or Recovery case is open, Recovery-first posture MUST activate. Recharge prompts while internet is broken = constitutional violation.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CON-04</div><div class="inv-name">No Independent Grace Extension</div><div class="inv-rule">Grace-extension posture activates ONLY in response to authorized compensation events from Recovery OS or Credit Ledger. Continuity OS cannot independently create or authorize grace.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-CON-05</div><div class="inv-name">No Save Attempts on Customer Exit</div><div class="inv-rule">Customer-initiated exit goes directly to Exit OS. C4 clarity (state, refund, pickup date) is required. Persuasion to change the decision is prohibited.</div></div>
+
+    <div class="emoji-title">Events Emitted</div>
+    <div class="ev-card"><div class="ev-name">CONTINUITY_POSTURE_DECIDED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id + posture + rule_version + decided_at · Consumers: Constitution Steward (audit), Analytics (KRA), Support tools</div><div class="ev-guarantee">Deterministic posture decision with full input trace. Same inputs always produce same posture under same rule version. Enables Correct Continuity Handling Rate computation.</div></div>
+    <div class="ev-card"><div class="ev-name">CONTINUITY_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id + continuity_state + changed_at · Consumers: RS OS, Exit OS, Analytics</div><div class="ev-guarantee">Canonical continuity-state changed (funded → unfunded, active → reservation_expired_handoff). Continuity-state truth, not payment-event truth.</div></div>
+    <div class="ev-card"><div class="ev-name">PAYER_ANOMALY_DETECTED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: RS OS, Support tools</div><div class="ev-guarantee">Recurring payment failure pattern detected. Not a classification — raw signal for RS OS to interpret.</div></div>
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="diag-section">
+    <button class="diag-btn" id="diag-btn-continuity" onclick="toggleDiagram('continuity')">
+      <span>📊 View Posture Decision Flow — reservation window, posture triggers, handoffs</span>
+      <span class="diag-icon">▼</span>
+    </button>
+    <div class="diag-body" id="diag-continuity">
+      <p class="diag-note-sm">Posture is decided at each evaluation cycle. Every decision is deterministic — same inputs, same posture. The reservation window phases govern the default posture over time; overlay inputs can override at any phase.</p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 680 400" font-family="system-ui,sans-serif" style="width:100%;max-width:680px">
+          <defs>
+            <marker id="ca1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#6b7280"/></marker>
+            <marker id="ca2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#d92b90"/></marker>
+            <marker id="ca3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#16a34a"/></marker>
+            <marker id="ca4" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#dc2626"/></marker>
+          </defs>
+          <!-- TITLE -->
+          <text x="340" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">Continuity OS — Posture Decision Framework</text>
+
+          <!-- INPUTS BOX -->
+          <rect x="10" y="40" width="130" height="200" rx="6" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+          <text x="75" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#374151">INPUT SIGNALS</text>
+          <rect x="18" y="64" width="114" height="20" rx="3" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+          <text x="75" y="78" text-anchor="middle" font-size="9" fill="#1d4ed8">SQ Driver quality state</text>
+          <rect x="18" y="90" width="114" height="20" rx="3" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+          <text x="75" y="104" text-anchor="middle" font-size="9" fill="#15803d">Recovery case state</text>
+          <rect x="18" y="116" width="114" height="20" rx="3" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1"/>
+          <text x="75" y="130" text-anchor="middle" font-size="9" fill="#9d174d">RS OS classification</text>
+          <rect x="18" y="142" width="114" height="20" rx="3" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+          <text x="75" y="156" text-anchor="middle" font-size="9" fill="#92400e">Payment events</text>
+          <rect x="18" y="168" width="114" height="20" rx="3" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+          <text x="75" y="182" text-anchor="middle" font-size="9" fill="#374151">Reservation window phase</text>
+          <rect x="18" y="194" width="114" height="36" rx="3" fill="#fff7ed" stroke="#fed7aa" stroke-width="1"/>
+          <text x="75" y="208" text-anchor="middle" font-size="9" fill="#92400e">Funded / Unfunded /</text>
+          <text x="75" y="220" text-anchor="middle" font-size="9" fill="#92400e">Reservation continuity</text>
+
+          <!-- POSTURE ENGINE -->
+          <rect x="185" y="80" width="120" height="50" rx="8" fill="#fce8f4" stroke="#d92b90" stroke-width="2"/>
+          <text x="245" y="100" text-anchor="middle" font-size="10" font-weight="700" fill="#b02270">POSTURE</text>
+          <text x="245" y="116" text-anchor="middle" font-size="10" font-weight="700" fill="#b02270">ENGINE</text>
+          <text x="245" y="130" text-anchor="middle" font-size="8" fill="#b02270">(deterministic)</text>
+          <line x1="140" y1="140" x2="183" y2="115" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+
+          <!-- 8 POSTURES -->
+          <rect x="350" y="35" width="120" height="24" rx="4" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+          <text x="410" y="51" text-anchor="middle" font-size="9.5" fill="#374151">Normal</text>
+
+          <rect x="350" y="66" width="120" height="24" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+          <text x="410" y="82" text-anchor="middle" font-size="9.5" fill="#1d4ed8">Softened</text>
+
+          <rect x="350" y="97" width="120" height="24" rx="4" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1"/>
+          <text x="410" y="113" text-anchor="middle" font-size="9.5" fill="#6b7280">Deferred</text>
+
+          <rect x="350" y="128" width="120" height="24" rx="4" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+          <text x="410" y="144" text-anchor="middle" font-size="9.5" font-weight="600" fill="#dc2626">Recovery-first</text>
+
+          <rect x="350" y="159" width="120" height="24" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+          <text x="410" y="175" text-anchor="middle" font-size="9.5" fill="#92400e">Education-first</text>
+
+          <rect x="350" y="190" width="120" height="24" rx="4" fill="#fce8f4" stroke="#f9a8d4" stroke-width="1"/>
+          <text x="410" y="206" text-anchor="middle" font-size="9.5" fill="#9d174d">Clarify-state-first</text>
+
+          <rect x="350" y="221" width="120" height="24" rx="4" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1"/>
+          <text x="410" y="237" text-anchor="middle" font-size="9.5" fill="#374151">Passive-only</text>
+
+          <rect x="350" y="252" width="120" height="24" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="1"/>
+          <text x="410" y="268" text-anchor="middle" font-size="9.5" fill="#15803d">Grace-extension</text>
+
+          <!-- arrows from engine to postures -->
+          <line x1="305" y1="105" x2="348" y2="47" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+          <line x1="305" y1="105" x2="348" y2="78" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+          <line x1="305" y1="105" x2="348" y2="109" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+          <line x1="305" y1="105" x2="348" y2="140" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ca4)"/>
+          <line x1="305" y1="105" x2="348" y2="171" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+          <line x1="305" y1="105" x2="348" y2="202" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+          <line x1="305" y1="105" x2="348" y2="233" stroke="#6b7280" stroke-width="1" marker-end="url(#ca1)"/>
+          <line x1="305" y1="105" x2="348" y2="264" stroke="#16a34a" stroke-width="1" marker-end="url(#ca3)"/>
+
+          <!-- HANDOFFS -->
+          <rect x="540" y="80" width="128" height="26" rx="4" fill="#fce8f4" stroke="#d92b90" stroke-width="1"/>
+          <text x="604" y="97" text-anchor="middle" font-size="9" fill="#b02270">→ At-Risk Resolution OS (AT_RISK)</text>
+          <rect x="540" y="115" width="128" height="26" rx="4" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
+          <text x="604" y="132" text-anchor="middle" font-size="9" fill="#dc2626">→ Exit OS (RESERVATION_EXPIRED)</text>
+          <rect x="540" y="150" width="128" height="26" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+          <text x="604" y="167" text-anchor="middle" font-size="9" fill="#92400e">→ Exit OS (customer-initiated)</text>
+
+          <line x1="470" y1="47" x2="538" y2="93" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#ca1)"/>
+          <line x1="470" y1="140" x2="538" y2="128" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#ca1)"/>
+
+          <!-- TIMELINE BAR -->
+          <rect x="10" y="310" width="650" height="72" rx="6" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1"/>
+          <text x="335" y="327" text-anchor="middle" font-size="9.5" font-weight="700" fill="#374151">RESERVATION WINDOW (T+0 to T+15) — internet off, relationship alive</text>
+          <rect x="20" y="333" width="110" height="20" rx="3" fill="#dcfce7" stroke="#86efac"/>
+          <text x="75" y="347" text-anchor="middle" font-size="8.5" fill="#15803d">T+0 to T+7: Acceptance</text>
+          <text x="75" y="358" text-anchor="middle" font-size="8" fill="#15803d">Normal posture</text>
+          <rect x="140" y="333" width="110" height="20" rx="3" fill="#fef3c7" stroke="#fcd34d"/>
+          <text x="195" y="347" text-anchor="middle" font-size="8.5" fill="#92400e">T+7 to T+10: Pre-verify</text>
+          <text x="195" y="358" text-anchor="middle" font-size="8" fill="#92400e">Normal + cadence ↑</text>
+          <rect x="260" y="333" width="150" height="20" rx="3" fill="#fce8f4" stroke="#d92b90" stroke-width="1.5"/>
+          <text x="335" y="347" text-anchor="middle" font-size="8.5" font-weight="700" fill="#b02270">T+10 to T+15: Verification Window</text>
+          <text x="335" y="358" text-anchor="middle" font-size="8" fill="#b02270">Clarify-state-first (default)</text>
+          <rect x="420" y="333" width="110" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+          <text x="475" y="347" text-anchor="middle" font-size="8.5" fill="#dc2626">T+15: RESERVATION_EXPIRED</text>
+          <text x="475" y="358" text-anchor="middle" font-size="8" fill="#dc2626">Handoff to Exit OS</text>
+          <rect x="540" y="333" width="112" height="20" rx="3" fill="#dbeafe" stroke="#93c5fd"/>
+          <text x="596" y="347" text-anchor="middle" font-size="8.5" fill="#1d4ed8">T+15–T+25: Recall window</text>
+          <text x="596" y="358" text-anchor="middle" font-size="8" fill="#1d4ed8">Exit OS governs</text>
+          <text x="335" y="378" text-anchor="middle" font-size="8" fill="#9ca3af">Any valid recharge at any point resets the window and restarts internet instantly.</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="um-section">
+    <button class="um-btn" id="um-btn-continuity" onclick="toggleUnderstand('continuity')">
+      <span>📖 Understand more — what Continuity OS never does, 3 real scenarios, cross-OS connections, role guide</span>
+      <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-continuity">
+
+      <div class="um-h">⛔ What Continuity OS never does</div>
+      <div class="um-never">❌ <strong>Does not optimize recharge rate, ARPU, or any subscription metric.</strong> It reports continuation rate as a validation metric only — never as an optimization target. Six Guardrail KRAs explicitly prohibit recharge optimization.</div>
+      <div class="um-never">❌ <strong>Does not classify relationship-state.</strong> AT_RISK, CUSTOMER_PAUSED, Fragile, Stable — all of those belong to RS OS. Continuity OS contributes payment-side signals only.</div>
+      <div class="um-never">❌ <strong>Does not build per-customer propensity models.</strong> Cohort-level timing/channel calibration is allowed. Individual churn prediction, recharge propensity scores, behavioral targeting — constitutionally prohibited.</div>
+      <div class="um-never">❌ <strong>Does not try to save a customer who chose to leave.</strong> Customer exit goes straight to Exit OS with zero persuasion. Clarity is required. Save attempts are prohibited.</div>
+      <div class="um-never">❌ <strong>Does not create Grace-extension on its own authority.</strong> It can only activate Grace-extension posture when Recovery OS or Credit Ledger issues an authorized compensation event. It cannot extend the window independently.</div>
+
+      <div class="um-h">📋 3 Real Scenarios</div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1 — Internet off, but payment failure (normal PayG expiry)</div>
+        <div class="um-sc-title">Rahul's plan expires. He's in the 15-day reservation window. SQ shows no issue.</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Rahul's recharge expires Tuesday night. No payment event received. SQ Driver shows Healthy (no quality issue). RS OS: ACTIVE_ENTITLED, no Fragile flag.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Continuity OS does</span><span class="um-sc-val">Internet stops (Scenario A). Continuity OS applies Normal posture: shows truthful state in app ("Aapka recharge khatam ho gaya hai. Recharge karein toh turant chalu ho jayega."), keeps recharge link accessible. No guilt framing. No urgency language. No "don't lose your connection" fear-tap. Reservation clock starts: T+0.</span></div>
+        <div class="um-sc-result">✅ Rahul gets clarity, not pressure. He can recharge when he chooses. If he doesn't recharge by T+15, RESERVATION_EXPIRED fires and Exit OS takes over — but until then, the relationship is alive.</div>
+      </div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2 — Internet broken AND expiry approaching</div>
+        <div class="um-sc-title">Sunita's internet has been down for 2 days and her plan expires in 3 days</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Sunita's SQ state = Unusable (Wiom-side attribution, high confidence). Recovery OS has an open case. Sunita's plan expires in 3 days (T+12 in reservation window).</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Continuity OS does</span><span class="um-sc-val">Recovery-first posture activates. All recharge prompts suppressed. Recovery OS gets to resolve the case first. If Recovery OS issues compensation extending the window, Grace-extension posture activates for the authorized duration. Sunita is not asked to pay for internet that doesn't work.</span></div>
+        <div class="um-sc-result">✅ C2 enforced. Sunita's recharge window effectively pauses while Wiom fixes its failure. The posture switch was automatic — driven by Recovery OS signals, not a human decision.</div>
+      </div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3 — Customer explicitly pauses</div>
+        <div class="um-sc-title">Ajay tells support he's going to his village for a month — calls it a "break"</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Ajay contacts support and explicitly says he's pausing for a month. Support documents it. RS OS classifies: CUSTOMER_PAUSED.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Continuity OS does</span><span class="um-sc-val">Passive-only posture activates. System goes completely quiet — no notifications, no reminders, no posture escalation. Recharge link remains accessible in the app. When Ajay comes back and recharges, continuity resumes and RS OS reclassifies back to ACTIVE_ENTITLED.</span></div>
+        <div class="um-sc-result">✅ Ajay's pause is honored. No abnormalization. Non-recharge never becomes an adverse signal when the customer explicitly paused.</div>
+      </div>
+
+      <div class="um-h">🔗 How Continuity OS connects to other systems</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">⬅ Receives signals from</div>
+          <div class="um-conn-item"><strong>B2I OS</strong> — INSTALL_COMPLETED is the entry trigger; continuity clock starts here</div>
+          <div class="um-conn-item"><strong>Payment infrastructure</strong> — recharge.completed, payment.attempted_failed, auto_debit events</div>
+          <div class="um-conn-item"><strong>SQ Driver</strong> — quality state (Unusable → Recovery-first, Degraded → Softened)</div>
+          <div class="um-conn-item"><strong>Recovery OS</strong> — open case state (Recovery-first), compensation events (Grace-extension)</div>
+          <div class="um-conn-item"><strong>RS OS</strong> — AT_RISK classification (handoff), CUSTOMER_PAUSED (Passive-only), Fragile overlay (Softened)</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">➡ Sends signals to</div>
+          <div class="um-conn-item"><strong>RS OS</strong> — payment-side signals for reason classification (payment failures, abandonment patterns)</div>
+          <div class="um-conn-item"><strong>At-Risk Resolution OS</strong> — AT_RISK handoff (authored by RS OS, triggered via Continuity OS observation)</div>
+          <div class="um-conn-item"><strong>Exit OS</strong> — RESERVATION_EXPIRED at T+15 or customer-initiated exit signal</div>
+          <div class="um-conn-item"><strong>Support tools</strong> — posture-decision log for CX team visibility into why a posture was chosen</div>
+        </div>
+      </div>
+      <div class="um-key-note">⚠️ Key dependency: If SQ Driver is unavailable, Continuity OS cannot trigger Recovery-first posture from quality state — it may ask customers to recharge during broken internet. SQ Driver operational = top dependency for Continuity OS.</div>
+
+      <div class="um-h">🎯 What this means for your role</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>When a customer says "why is my internet off even though I'm trying to pay?" — check posture. If Recovery-first is active, that's correct behavior: Recovery OS has an open case and Continuity OS is holding off on recharge prompts.</li>
+            <li>If a customer says "the app won't let me recharge" — that's a bug; Continuity OS must always preserve the recharge path regardless of posture.</li>
+            <li>CUSTOMER_PAUSED is explicit-declaration only. You can't mark a customer paused based on vibes — only documented support interaction with explicit pause request.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>Every posture decision must be logged with full input trace (INV-CON-06). If you can't replay the decision from the log, it's not a valid posture decision.</li>
+            <li>Grace-extension must be a structural read from Recovery OS / Credit Ledger — not a settable flag. Building it as a configurable switch violates INV-CON-04.</li>
+            <li>The recharge path (app accessibility + state visibility) must remain functional under ALL postures, including Passive-only. A posture cannot suppress the recharge surface.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li><strong>Locked — do not reopen:</strong> Scenario A (internet off during reservation), no per-customer propensity models, no save attempts on customer exit, Grace-extension authority constraint.</li>
+            <li><strong>Open — needs decisions before build:</strong> Reminder timing parameters (CP-CON-05), grace-extension duration range, channel-effectiveness calibration rules.</li>
+            <li>Any "personalization" proposal must pass the anti-propensity-model test: improves clarity OR operational fit — never extracts recharges or predicts behavior.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Comms / Design</div>
+          <ul>
+            <li>The golden test for every Continuity OS message: would a reasonable person reading this feel pressured to recharge? If yes, rewrite it.</li>
+            <li>"Aapka recharge khatam ho gaya hai. Internet band hai. Recharge karein toh turant chalu ho jayega." — this is the archetype. Factual, clear, frictionless, no guilt, no urgency.</li>
+            <li>Prohibited language: "Don't miss out," "You'll lose your connection," "Recharge now," "We noticed you haven't recharged," "Your neighbors are still connected." Any urgency framing = violation of messaging discipline.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 4c — RELATIONSHIP-STATE OS
+═══════════════════════════════════════════════════════════ -->
+<div id="tab-rs" class="tab-content">
+  <div class="toggle-bar">
+    <span class="tl">View mode</span>
+    <label class="switch"><input type="checkbox" onchange="toggleView('rs', this)"><span class="slider"></span></label>
+    <span class="toggle-mode" id="mode-rs">Simple (ELI10)</span>
+    <span class="toggle-hint">Toggle for technical detail</span>
+  </div>
+
+  <!-- ELI10 VIEW -->
+  <div class="eli10-view">
+    <div class="one-liner">📖 "RS OS classifies. It does not act. It does not predict. It does not optimize outcomes."</div>
+
+    <div class="card">
+      <div class="card-title">🩺 What RS OS is, in plain English</div>
+      <div class="card-body">
+        <p>Think of RS OS like a <strong>doctor who reviews all test results</strong>. SQ Driver runs the tests (quality telemetry). Recovery OS tracks wounds (open cases). Continuity OS tracks payments. RS OS reviews all of it together and says: "Based on everything we're seeing, this relationship is Fragile."</p>
+        <p>But the doctor doesn't prescribe medicine — that's At-Risk Resolution OS. The doctor doesn't run the tests — that's SQ Driver. The doctor doesn't track whether you paid — that's Continuity OS. The doctor just gives you the most honest diagnosis they can, with a confidence level attached.</p>
+        <p><strong>The most important thing to understand:</strong> 60–70% of service instances will be classified as "Unknown" at launch, and that is <em>correct and expected</em>. Unknown means "not enough evidence to classify non-default." It is honest. Forcing a classification without evidence is what RS OS is designed to prevent.</p>
+      </div>
+    </div>
+
+    <div class="emoji-title">📍 The 5 States — Simply</div>
+    <div class="callout callout-info">Exactly one state per service instance at a time. Default is ACTIVE_ENTITLED — this does NOT mean "healthy." It means "no evidence of anything worse."</div>
+
+    <div class="state-grid">
+      <div class="sbox" style="border-color:#16a34a"><div class="sbox-code" style="color:#16a34a">ACTIVE_ENTITLED</div><div class="sbox-name">Default state</div><div class="sbox-desc">No evidence of deterioration. NOT a health assertion — just absence of contrary evidence.</div></div>
+      <div class="sbox"><div class="sbox-code">CUSTOMER_PAUSED</div><div class="sbox-name">Explicit pause</div><div class="sbox-desc">Customer explicitly declared a pause. Highest confidence — explicit signal only.</div></div>
+      <div class="sbox" style="border-color:#f59e0b"><div class="sbox-code" style="color:#b45309">AT_RISK</div><div class="sbox-name">Intervention needed</div><div class="sbox-desc">Fragile-tier deterioration + exit-direction signal both present. Multi-source mandatory.</div></div>
+      <div class="sbox"><div class="sbox-code">RESOLVING</div><div class="sbox-name">Intervention active</div><div class="sbox-desc">At-Risk Resolution OS is working on it. RS OS reflects this — it doesn't author it.</div></div>
+      <div class="sbox terminal"><div class="sbox-code">EXITED</div><div class="sbox-name">Terminal</div><div class="sbox-desc">Exit OS authored this. RS OS just reflects it for classification completeness.</div></div>
+    </div>
+
+    <div class="emoji-title">🎨 The 3 Overlays — Alongside Any State</div>
+    <div class="callout callout-info">Overlays are concurrent with states — a customer can be ACTIVE_ENTITLED + Fragile at the same time. They are mutually exclusive with each other (can't be both Fragile and Stable).</div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">🧨 Fragile</div>
+        <div class="card-body">
+          <p>Accumulated integrity damage. Triggered by: (1) single catastrophic event (multi-day outage OR Failed Recovery Re-entry), (2) 2+ medium incidents in 60-day window, OR (3) high Recovery Debt + compounding signal. Once Fragile + exit-direction signal appear together → AT_RISK.</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">💚 Stable</div>
+        <div class="card-body">
+          <p>Sustained healthy pattern over 60–90 days. Recharge regularity + zero Recovery Debt + no unresolved incidents. <strong>Silent-but-paying IS Stable</strong> — consistent episodic patterns count. Not every customer needs to be chatty to have a healthy relationship.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:14px">
+      <div class="card-title">🌟 Deep Active</div>
+      <div class="card-body"><p>High engagement signal over a long tenure window. Structurally sparse until ~12 months of operation — expect few Deep Active classifications at launch. Key constraint: Deep Active does NOT authorize aggressive contact or premium treatment. Do not gate critical behavior on Deep Active status.</p></div>
+    </div>
+
+    <div class="emoji-title">🔑 3 Things You Must Remember About RS OS</div>
+    <div class="callout callout-warn"><strong>Memory #1 — ACTIVE_ENTITLED ≠ healthy.</strong> It means "no evidence." Most customers will be ACTIVE_ENTITLED. That's correct — it doesn't mean we're failing to detect problems, it means we're being honest about what we know.</div>
+    <div class="callout callout-warn"><strong>Memory #2 — AT_RISK requires TWO things.</strong> Fragile evidence alone is not enough. You also need an exit-direction signal (stopped responding to contact, non-reaffirmation pattern + Fragile, explicitly expressed intent to leave). One without the other → stays at Fragile overlay, not AT_RISK.</div>
+    <div class="callout callout-warn"><strong>Memory #3 — Post-incident trajectory decay is RS OS's superpower.</strong> A customer has a 3-day outage. Recovery closes clean. Customer recharges. Then slowly, over the next 60–90 days, recharge cadence drifts. SQ sees nothing (no new issue). Continuity sees normal. Recovery sees nothing. Only RS OS correlates all three and catches the drift. This is the unique value it provides.</div>
+  </div>
+
+  <!-- TECH VIEW -->
+  <div class="tech-view">
+    <div class="one-liner">📖 "RS OS classifies. It does not act. It does not predict. It does not optimize outcomes."</div>
+    <div class="callout callout-info"><strong>OS type:</strong> Base-State / Interpretive OS. Produces confidence-bearing interpretations. Classifications carry canonical authority within their evidentiary domain — but consumers must display confidence tier with equal visual salience to classification. De-emphasizing confidence is PROHIBITED.</div>
+
+    <div class="emoji-title">5 States + Evidence Requirements</div>
+    <table class="dt">
+      <thead><tr><th>State</th><th>Epistemic Status</th><th>Evidence Required</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ACTIVE_ENTITLED</strong> (default)</td><td>Default — requires NO evidence. Absence of contrary evidence. NOT health assertion.</td><td>None</td></tr>
+        <tr><td><strong>CUSTOMER_PAUSED</strong></td><td>Explicit-signal-backed (highest confidence)</td><td>Documented support interaction with explicit pause request + reason. V2: structured pause-as-product.</td></tr>
+        <tr><td><strong>AT_RISK</strong></td><td>Evidence-weighted inference (medium confidence). Multi-source mandatory.</td><td>Fragile-tier deterioration evidence PLUS exit-direction signal (see §5.5). Both required.</td></tr>
+        <tr><td><strong>RESOLVING</strong></td><td>Operational state — At-Risk Resolution OS authors. RS reflects.</td><td>At-Risk Resolution OS initiates intervention. RS does not independently infer.</td></tr>
+        <tr><td><strong>EXITED</strong></td><td>Terminal — Customer Exit OS authors. RS reflects.</td><td>Exit OS authors via custody finalization. RS never authors EXITED.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Fragile Overlay — Severity-Tiered Trigger Model</div>
+    <table class="dt">
+      <thead><tr><th>Event Type</th><th>Fragile Trigger</th><th>Behavioral Evidence Required?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Catastrophic</strong> (multi-day outage OR Failed Recovery Re-entry OR communication contradiction)</td><td>Single event sufficient</td><td>NO — behavior often lags damage</td></tr>
+        <tr><td><strong>Medium-severity</strong> (degradation hours-to-day, partial functionality loss)</td><td>Recurrence required — 2+ within 60-day rolling window</td><td>NO — recurrence is the evidence</td></tr>
+        <tr><td><strong>Active Recovery Debt above threshold</strong></td><td>Recovery Debt + at least one of: post-event behavioral shift OR additional medium event</td><td>YES — Recovery Debt alone is insufficient</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">AT_RISK — Exit-Direction Signals (both required with Fragile)</div>
+    <div class="callout">Exit-direction signals include: non-reaffirmation pattern COMBINED with Fragile overlay; stopped responding to contact across all channels for CP-RS-06 window; explicitly expressed intent to leave to any touchpoint. Recharge alone clearing AT_RISK is prohibited — requires 30-day sustained trajectory reversal (Recovery Debt cleared + no new incidents + sustained recharge matching cadence).</div>
+
+    <div class="emoji-title">3 Load-Bearing Doctrines</div>
+    <table class="dt">
+      <thead><tr><th>#</th><th>Doctrine</th><th>Protects</th></tr></thead>
+      <tbody>
+        <tr><td><strong>#22</strong></td><td>Interpretation-Not-Truth-But-Canonical</td><td>The epistemic frame — RS OS produces interpretations, not operational truth. But classifications are still canonical within their domain.</td></tr>
+        <tr><td><strong>#29</strong></td><td>Optimization-Target-Fidelity-Not-Outcomes</td><td>RS OS optimizes for correct classification, never for downstream outcomes (retention rate, LTV, recharge rate).</td></tr>
+        <tr><td><strong>#1</strong></td><td>Traceability</td><td>Every classification reconstructable from constituent evidence. Non-traceable = illegitimate.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Events Emitted</div>
+    <div class="ev-card"><div class="ev-name">RELATIONSHIP_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: Continuity OS, At-Risk Resolution OS, Exit OS, Support tools, Analytics</div><div class="ev-guarantee">Canonical relationship-state changed. Classification carries explicit confidence tier (High/Medium/Low) + evidence summary + last_evaluated_at. Confidence tier mandatory in all consumer display.</div></div>
+    <div class="ev-card"><div class="ev-name">REASON_CLASSIFICATION_EMITTED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: At-Risk Resolution OS, CM OS, Analytics</div><div class="ev-guarantee">Multi-hypothesis reason classification per 7-category taxonomy. Can emit multiple hypotheses with probabilities. Unknown is a valid and mandatory-if-warranted emission.</div></div>
+    <div class="ev-card"><div class="ev-name">RELATIONSHIP_STATE_CORRECTED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: All RS OS consumers</div><div class="ev-guarantee">Prior classification overturned by audit or upstream evidence revision. Correction carries full evidence trace of why prior classification was wrong.</div></div>
+
+    <div class="emoji-title">V1 Implementation Gate</div>
+    <div class="callout callout-warn"><strong>60–70% Unknown at V1 is expected and correct.</strong> Evidence pipelines take time to accumulate. Unknown sub-type is mandatory when Unknown is emitted (INSUFFICIENT-DATA / AMBIGUOUS / CONFLICTED-HYPOTHESES). Suppressing Unknown to show better classification rates = Doctrine #34 violation = kill-test trigger.</div>
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="diag-section">
+    <button class="diag-btn" id="diag-btn-rs" onclick="toggleDiagram('rs')">
+      <span>📊 View State Machine — 5 states, 3 overlays, transition evidence requirements</span>
+      <span class="diag-icon">▼</span>
+    </button>
+    <div class="diag-body" id="diag-rs">
+      <p class="diag-note-sm">States are classifications, not lifecycle positions. Overlays are concurrent. Confidence tier always accompanies classification. EXITED and RESOLVING are reflected, not authored by RS OS.</p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 700 380" font-family="system-ui,sans-serif" style="width:100%;max-width:700px">
+          <defs>
+            <marker id="rs1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#6b7280"/></marker>
+            <marker id="rs2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#f59e0b"/></marker>
+            <marker id="rs3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#16a34a"/></marker>
+            <marker id="rs4" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#dc2626"/></marker>
+          </defs>
+          <text x="350" y="22" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">Relationship-State OS — 5 States + 3 Overlays</text>
+
+          <!-- DEFAULT STATE -->
+          <rect x="270" y="40" width="160" height="50" rx="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <text x="350" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#15803d">ACTIVE_ENTITLED</text>
+          <text x="350" y="79" text-anchor="middle" font-size="8.5" fill="#15803d">Default — no contrary evidence</text>
+
+          <!-- CUSTOMER_PAUSED -->
+          <rect x="60" y="40" width="140" height="50" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+          <text x="130" y="62" text-anchor="middle" font-size="10.5" font-weight="700" fill="#0369a1">CUSTOMER_PAUSED</text>
+          <text x="130" y="79" text-anchor="middle" font-size="8.5" fill="#0369a1">Explicit declaration only</text>
+
+          <!-- AT_RISK -->
+          <rect x="270" y="155" width="160" height="50" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+          <text x="350" y="176" text-anchor="middle" font-size="11" font-weight="700" fill="#b45309">AT_RISK</text>
+          <text x="350" y="193" text-anchor="middle" font-size="8.5" fill="#b45309">Fragile + exit-direction signal</text>
+
+          <!-- RESOLVING -->
+          <rect x="480" y="155" width="140" height="50" rx="8" fill="#f3f4f6" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="550" y="176" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6b7280">RESOLVING</text>
+          <text x="550" y="193" text-anchor="middle" font-size="8.5" fill="#9ca3af">(reflected from At-Risk Res. OS)</text>
+
+          <!-- EXITED -->
+          <rect x="480" y="40" width="140" height="50" rx="8" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="550" y="62" text-anchor="middle" font-size="10.5" font-weight="700" fill="#dc2626">EXITED</text>
+          <text x="550" y="79" text-anchor="middle" font-size="8.5" fill="#9ca3af">(reflected from Exit OS)</text>
+
+          <!-- OVERLAYS -->
+          <rect x="20" y="160" width="110" height="35" rx="6" fill="#fce8f4" stroke="#d92b90" stroke-width="1.5"/>
+          <text x="75" y="179" text-anchor="middle" font-size="10" font-weight="700" fill="#b02270">Fragile</text>
+          <text x="75" y="191" text-anchor="middle" font-size="8" fill="#b02270">overlay</text>
+
+          <rect x="20" y="210" width="110" height="35" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="75" y="229" text-anchor="middle" font-size="10" font-weight="700" fill="#15803d">Stable</text>
+          <text x="75" y="241" text-anchor="middle" font-size="8" fill="#15803d">overlay</text>
+
+          <rect x="20" y="260" width="110" height="35" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="75" y="279" text-anchor="middle" font-size="10" font-weight="700" fill="#b45309">Deep Active</text>
+          <text x="75" y="291" text-anchor="middle" font-size="8" fill="#b45309">overlay</text>
+
+          <text x="75" y="318" text-anchor="middle" font-size="9" font-weight="700" fill="#374151">Overlays:</text>
+          <text x="75" y="330" text-anchor="middle" font-size="8.5" fill="#6b7280">Mutually exclusive.</text>
+          <text x="75" y="342" text-anchor="middle" font-size="8.5" fill="#6b7280">Concurrent with any state.</text>
+
+          <!-- Transition arrows -->
+          <!-- ACTIVE_ENTITLED → CUSTOMER_PAUSED -->
+          <line x1="270" y1="60" x2="202" y2="60" stroke="#0284c7" stroke-width="1.5" marker-end="url(#rs1)"/>
+          <text x="236" y="55" text-anchor="middle" font-size="7.5" fill="#0284c7">explicit pause declaration</text>
+
+          <!-- CUSTOMER_PAUSED → ACTIVE_ENTITLED -->
+          <line x1="202" y1="78" x2="270" y2="78" stroke="#6b7280" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#rs1)"/>
+          <text x="236" y="90" text-anchor="middle" font-size="7.5" fill="#6b7280">recharge resumes</text>
+
+          <!-- ACTIVE_ENTITLED → AT_RISK -->
+          <line x1="350" y1="90" x2="350" y2="153" stroke="#f59e0b" stroke-width="2" marker-end="url(#rs2)"/>
+          <text x="360" y="127" text-anchor="start" font-size="7.5" fill="#b45309">Fragile + exit-direction signal</text>
+
+          <!-- AT_RISK → RESOLVING -->
+          <line x1="430" y1="180" x2="478" y2="180" stroke="#6b7280" stroke-width="1.5" marker-end="url(#rs1)"/>
+          <text x="454" y="173" text-anchor="middle" font-size="7.5" fill="#6b7280">At-Risk Res. OS</text>
+
+          <!-- AT_RISK → ACTIVE_ENTITLED (recovery) -->
+          <path d="M 310 155 Q 200 120 310 90" stroke="#16a34a" stroke-width="1.5" fill="none" marker-end="url(#rs3)"/>
+          <text x="215" y="118" text-anchor="middle" font-size="7.5" fill="#15803d">30-day trajectory reversal</text>
+
+          <!-- ACTIVE_ENTITLED → EXITED -->
+          <line x1="430" y1="55" x2="478" y2="55" stroke="#9ca3af" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#rs1)"/>
+          <text x="454" y="48" text-anchor="middle" font-size="7.5" fill="#9ca3af">Exit OS authors</text>
+
+          <!-- Fragile overlay note -->
+          <line x1="130" y1="175" x2="268" y2="175" stroke="#d92b90" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="200" y="169" text-anchor="middle" font-size="7.5" fill="#b02270">Catastrophic event or</text>
+          <text x="200" y="179" text-anchor="middle" font-size="7.5" fill="#b02270">2+ medium incidents</text>
+
+          <!-- Unknown note -->
+          <rect x="270" y="265" width="240" height="80" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+          <text x="390" y="283" text-anchor="middle" font-size="9.5" font-weight="700" fill="#374151">⚠️ Unknown Classification</text>
+          <text x="390" y="298" text-anchor="middle" font-size="8.5" fill="#6b7280">60–70% of service instances at V1</text>
+          <text x="390" y="311" text-anchor="middle" font-size="8.5" fill="#6b7280">Sub-type required: INSUFFICIENT-DATA /</text>
+          <text x="390" y="324" text-anchor="middle" font-size="8.5" fill="#6b7280">AMBIGUOUS / CONFLICTED-HYPOTHESES</text>
+          <text x="390" y="337" text-anchor="middle" font-size="8.5" font-weight="600" fill="#15803d">This is correct. Honest. Expected.</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="um-section">
+    <button class="um-btn" id="um-btn-rs" onclick="toggleUnderstand('rs')">
+      <span>📖 Understand more — what RS OS never does, 3 real scenarios, cross-OS connections, role guide</span>
+      <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-rs">
+
+      <div class="um-h">⛔ What RS OS never does</div>
+      <div class="um-never">❌ <strong>Does not predict churn, LTV, or recharge probability.</strong> Propensity scores, churn-likelihood models, behavioral-targeting — all constitutionally prohibited. Doctrine #19.</div>
+      <div class="um-never">❌ <strong>Does not orchestrate retention actions, campaigns, or interventions.</strong> That is At-Risk Resolution OS. RS OS classifies. The consumer decides what to do with the classification.</div>
+      <div class="um-never">❌ <strong>Does not use recharge behavior as the primary classification trigger.</strong> Non-recharge alone never drives state deterioration. Recharge is one signal among many, interpreted only in combination with deterioration evidence.</div>
+      <div class="um-never">❌ <strong>Does not contact customers or make classifications visible to customers or CSPs.</strong> Classifications are internal system truth — consumed by downstream OSes, not surfaced directly.</div>
+      <div class="um-never">❌ <strong>Does not suppress Unknown.</strong> Unknown with required sub-type is a legitimate and expected classification. Suppressing Unknown to improve apparent classification rates is a Doctrine #34 violation and a kill-test trigger.</div>
+
+      <div class="um-h">📋 3 Real Scenarios</div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1 — Post-incident trajectory decay</div>
+        <div class="um-sc-title">Parveen's internet was fixed — but she's slowly drifting toward exit</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Parveen had a 3-day outage in March. Recovery closed clean. She recharged in April. But her recharge cadence slowed in May, and in June she didn't recharge in week 1. SQ sees no new issues. Recovery sees nothing. Continuity sees normal pattern-within-tolerance.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What RS OS does</span><span class="um-sc-val">Correlates March outage (Recovery event) with subsequent April recharge (positive signal) and May–June cadence drift (continuity signals). Classifies: Fragile overlay (Recovery Debt still non-zero + behavioral drift). Emits RELATIONSHIP_STATE_CHANGED with confidence = Medium, evidence trace included.</span></div>
+        <div class="um-sc-result">✅ No other OS would have caught this. Continuity OS saw "normal." Recovery saw "resolved." SQ saw "nothing." RS OS saw the cross-OS pattern — the trajectory decay that only becomes visible when you integrate all three.</div>
+      </div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2 — AT_RISK classification</div>
+        <div class="um-sc-title">Deepak is Fragile, stopped responding, and hasn't recharged in 18 days</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Deepak had a Failed Recovery Re-entry last month (catastrophic → Fragile). Now he's in the reservation window, day 18 (past T+15). He stopped responding to all contact channels (IVR, WhatsApp, push) for 10 days. Continuity OS has already fired RESERVATION_EXPIRED.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What RS OS does</span><span class="um-sc-val">Fragile overlay was set from the Failed Recovery Re-entry. Exit-direction signal now present: non-reaffirmation + stopped responding to contact. Both required conditions met. RS OS emits RELATIONSHIP_STATE_CHANGED: AT_RISK. At-Risk Resolution OS receives the handoff and takes over.</span></div>
+        <div class="um-sc-result">✅ AT_RISK required evidence from two sources — deterioration (Fragile from Recovery) AND exit-direction (non-contact). A single missed recharge would not have triggered this. The multi-source requirement prevents false positives.</div>
+      </div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3 — Silent-but-paying is Stable</div>
+        <div class="um-sc-title">Kiran never contacts support and never engages — but recharges like clockwork every 30 days</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Kiran has been on Wiom for 8 months. No support contacts. No complaints. No engagement. Just regular recharges every 30±2 days. Recovery Debt = zero. SQ is Healthy or occasionally Degraded (brief). No incidents.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What RS OS does</span><span class="um-sc-val">After 60–90 days of consistent pattern: classifies Stable overlay. Kiran's silence is not a problem signal. Her consistent episodic pattern IS the relationship signal. Confidence = High (60-90 day evidence window + zero Recovery Debt).</span></div>
+        <div class="um-sc-result">✅ Doctrine #10 enforced: Silent-but-paying IS Stable. Absence of engagement is not absence of relationship. The alternative — treating non-engagement as risk — would produce false positives at massive scale.</div>
+      </div>
+
+      <div class="um-h">🔗 How RS OS connects to other systems</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">⬅ Receives signals from</div>
+          <div class="um-conn-item"><strong>SQ Driver</strong> — quality state history, FAULT_DOMAIN, confidence, restoration windows</div>
+          <div class="um-conn-item"><strong>Recovery OS</strong> — case state, Recovery Debt level, Failed Recovery Re-entry, compensation events</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — payment-side signals (failures, abandonment, recharge cadence shifts)</div>
+          <div class="um-conn-item"><strong>B2I OS</strong> — install experience seeds initial state; response patterns become behavioral evidence</div>
+          <div class="um-conn-item"><strong>Exit OS</strong> — EXITED_FINAL → RS reflects as EXITED terminal state</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">➡ Sends signals to</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — AT_RISK triggers handoff; CUSTOMER_PAUSED triggers Passive-only; Fragile triggers Softened posture</div>
+          <div class="um-conn-item"><strong>At-Risk Resolution OS</strong> — AT_RISK classification initiates the intervention handoff</div>
+          <div class="um-conn-item"><strong>CM OS (future)</strong> — relationship trajectory for person-level memory</div>
+          <div class="um-conn-item"><strong>Analytics</strong> — classification fidelity metrics, Unknown share tracking, SQ–RS visibility gap forum</div>
+        </div>
+      </div>
+      <div class="um-key-note">⚠️ Key architectural constraint: RS OS is the only OS with cross-OS longitudinal vision. It sees SQ + Recovery + Continuity together over time. This is not duplication — it's the integration layer that produces insights no single OS can produce alone.</div>
+
+      <div class="um-h">🎯 What this means for your role</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>RS OS classifications are NOT visible to customers. Never tell a customer "you're classified as AT_RISK." Classifications are internal system truth for posture decisions.</li>
+            <li>CUSTOMER_PAUSED requires explicit documentation of a pause request with reason. You cannot mark a customer paused without a documented explicit declaration.</li>
+            <li>The confidence tier matters. A Low-confidence AT_RISK should be treated differently than a High-confidence AT_RISK. At-Risk Resolution OS owns the action threshold.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>Every classification must carry confidence tier, evidence summary, and last_evaluated_at in the payload. A classification without these is structurally incomplete (Doctrine #1).</li>
+            <li>Confidence must be displayed with equal visual salience to classification in all dashboards and tooling. A grayed-out confidence number next to a bold AT_RISK is a Doctrine #17 violation.</li>
+            <li>Build the RELATIONSHIP_STATE_CORRECTED flow from day one — audit will surface wrong classifications, and the correction pathway must exist before go-live.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li><strong>Locked — do not reopen:</strong> No propensity models, no recharge-as-primary-trigger, Unknown = valid, AT_RISK requires two sources, ACTIVE_ENTITLED ≠ healthy.</li>
+            <li><strong>Open — needs decisions before build:</strong> Evidence freshness bounds (CP-RS-03, CP-RS-04), confidence decay rate (CP-RS-07), tenure-aware confidence modifier thresholds (CP-RS-13).</li>
+            <li>Any "let's add NPS as an input" proposal = Doctrine #14 violation. NPS is audit-only. Never a classification input.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Comms / Design</div>
+          <ul>
+            <li>Classifications are internal — they never appear in customer-facing surfaces. Design does NOT need to create "AT_RISK customer experience flows." That's At-Risk Resolution OS's job.</li>
+            <li>For support tooling: confidence tier must be equally prominent to classification. Design that buries confidence = compliance violation.</li>
+            <li>Deep Active does NOT mean "send more marketing." It means "this customer has a strong pattern." Do not create special Deep Active treatment tiers — Doctrine #11 explicitly prohibits this.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 4d — EXIT OS
+═══════════════════════════════════════════════════════════ -->
+<div id="tab-exit" class="tab-content">
+  <div class="toggle-bar">
+    <span class="tl">View mode</span>
+    <label class="switch"><input type="checkbox" onchange="toggleView('exit', this)"><span class="slider"></span></label>
+    <span class="toggle-mode" id="mode-exit">Simple (ELI10)</span>
+    <span class="toggle-hint">Toggle for technical detail</span>
+  </div>
+
+  <!-- ELI10 VIEW -->
+  <div class="eli10-view">
+    <div class="one-liner">📖 "Exit OS finalizes custody. It does not judge departure. Silence is the primary harm-prevention target."</div>
+
+    <div class="card">
+      <div class="card-title">🏠 What Exit OS is, in plain English</div>
+      <div class="card-body">
+        <p>Think of Exit OS like the <strong>facility manager when you move out of a rented flat</strong>. They make sure: the keys are returned, the deposit is refunded, there's no damage dispute left open, and you get a proper closure letter — regardless of why you moved out.</p>
+        <p>They don't care whether you left because of a bad landlord, a job change, or you just found a better place. Their job is procedural correctness: everything wrapped up, no loose ends, no silence.</p>
+        <p><strong>The primary harm Exit OS prevents is silence.</strong> When a customer leaves and hears nothing from Wiom — no confirmation, no refund update, no pickup schedule — that is the harm. Not the exit itself.</p>
+        <p><strong>Critical:</strong> Exit OS tracks two separate things that must NEVER be collapsed — the <em>relationship</em> (did the connection end?) and <em>custody</em> (did we get the router back?). These are independent state machines.</p>
+      </div>
+    </div>
+
+    <div class="emoji-title">📍 Relationship-Side States — Simply</div>
+    <div class="flow" style="margin-bottom:18px">
+      <div class="flow-row">
+        <div class="flow-box highlight">ACTIVE_ENTITLED</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">RESERVATION_EXPIRED</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box terminal-drop">EXIT_INITIATED</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box terminal-drop">EXITED_FINAL</div>
+      </div>
+    </div>
+    <div class="callout callout-info">EXITED_FINAL requires <strong>all 5 closure conditions</strong> to be met. It cannot be rushed. Refund held + device unresolved + no closure communication = EXITED_FINAL is blocked, and that's correct.</div>
+
+    <div class="emoji-title">📦 Custody-Side States — Simply</div>
+    <div class="state-grid">
+      <div class="sbox"><div class="sbox-code">DEVICE_WITH_CUSTOMER</div><div class="sbox-name">Default</div><div class="sbox-desc">Router is at customer's home. Recovery hasn't started.</div></div>
+      <div class="sbox"><div class="sbox-code">RECOVERY_IN_PROGRESS</div><div class="sbox-name">Pickup dispatched</div><div class="sbox-desc">Exit OS dispatched CSP Asset Custody OS to retrieve the router.</div></div>
+      <div class="sbox" style="border-color:#16a34a"><div class="sbox-code" style="color:#16a34a">DEVICE_RECOVERED</div><div class="sbox-name">Router back</div><div class="sbox-desc">Physical return confirmed with proof (scan/photo/OTP + matching netbox_id).</div></div>
+      <div class="sbox" style="border-color:#f59e0b"><div class="sbox-code" style="color:#b45309">CUSTODY_DISPUTED</div><div class="sbox-name">Conflicting claims</div><div class="sbox-desc">Blocks EXITED_FINAL. Resolved per fixed evidence hierarchy within SLA.</div></div>
+      <div class="sbox terminal"><div class="sbox-code">DEVICE_NOT_RECOVERED</div><div class="sbox-name">All paths exhausted</div><div class="sbox-desc">Carries mandatory non_recovery_reason + trust signal.</div></div>
+    </div>
+
+    <div class="emoji-title">🔑 5 Rules That Make Exit OS Different</div>
+    <div class="callout"><strong>Rule 1 — Two state machines, never collapsed.</strong> You can have EXITED_FINAL (relationship side) with DEVICE_NOT_RECOVERED (custody side). Both are true at the same time. The relationship ended AND the router wasn't returned. Never treat "relationship closed" as "custody resolved."</div>
+    <div class="callout"><strong>Rule 2 — No silent exits.</strong> Two mandatory bookend communications: exit-initiation message (when EXIT_INITIATED fires) and exit-closure message (when EXITED_FINAL is reached). Multi-channel required — not just in-app. If either communication is missing, the closure is incomplete. Doctrine #25.</div>
+    <div class="callout"><strong>Rule 3 — SD-first principle.</strong> The customer gets to try returning the router themselves first (self-delivery). Forced CSP dispatch without offering self-delivery is prohibited. Self-return receives better refund treatment: ₹300 vs ₹250 for assisted return.</div>
+    <div class="callout"><strong>Rule 4 — Bounded reversibility.</strong> During the recall window (T+15 to T+25), a customer can reverse the exit by paying. Exit OS facilitates this frictionlessly — RECALL_CANCELLED fires, device recall stops, service resumes. No friction, no penalty.</div>
+    <div class="callout"><strong>Rule 5 — Dignity for extreme situations.</strong> Code 9: external-life-event (customer death, incapacitation). Immediate cessation of all customer-facing communication. Full refund. Zero "come back" messaging. Dignified silence is the only appropriate response.</div>
+  </div>
+
+  <!-- TECH VIEW -->
+  <div class="tech-view">
+    <div class="one-liner">📖 "Exit OS finalizes custody. It does not judge departure."</div>
+    <div class="callout callout-info"><strong>Identity:</strong> Integrity Steward — governs irreversible continuity dissolution under maximum power asymmetry. Wiom holds the asset, the money, the operational machinery, and the communication channels. Exit OS governs the use of that power.</div>
+
+    <div class="emoji-title">exit_initiation_reason — 9 Codes (mandatory on every EXIT_INITIATED)</div>
+    <table class="dt">
+      <thead><tr><th>#</th><th>Code</th><th>Trust Signal</th><th>Refund</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>explicit-choice</code> — Customer declares exit</td><td>None</td><td>Per policy</td></tr>
+        <tr><td>2</td><td><code>non-reaffirmation</code> — T+25, no response</td><td>None unless non-return</td><td>Per policy</td></tr>
+        <tr><td>3</td><td><code>deterioration-unresolved</code> — At-risk resolution failed</td><td>None unless non-return</td><td>Per policy</td></tr>
+        <tr><td>4</td><td><code>b2i-failure</code> — B2I EXIT_HANDOFF</td><td>Per B2I attribution</td><td>Per attribution</td></tr>
+        <tr><td>5</td><td><code>fraud-security</code> — Trust &amp; Safety triggered</td><td>HIGH</td><td>Forfeited</td></tr>
+        <tr><td>6</td><td><code>system-termination</code> — Platform/regulatory</td><td>None</td><td>Per policy</td></tr>
+        <tr><td>7</td><td><code>wiom-asset-reallocation</code> — Wiom needs asset</td><td>None unless non-return</td><td><strong>Full refund</strong> (Wiom-caused)</td></tr>
+        <tr><td>8</td><td><code>service-unavailability</code> — Wiom can't serve location</td><td>None</td><td><strong>Full refund (C2)</strong></td></tr>
+        <tr><td>9</td><td><code>external-life-event</code> — Customer death / incapacitation</td><td>None</td><td><strong>Full refund</strong> + dignified silence</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">non_recovery_reason — 7 Codes + Refund Treatment</div>
+    <table class="dt">
+      <thead><tr><th>Code</th><th>Trust Signal Confidence</th><th>Refund Treatment</th></tr></thead>
+      <tbody>
+        <tr><td><code>CUSTOMER_REFUSED</code></td><td>HIGH</td><td>₹0 — forfeited</td></tr>
+        <tr><td><code>CUSTOMER_UNREACHABLE</code></td><td>AMBIGUOUS</td><td>Bond HELD → resolves at CP-EXIT-07</td></tr>
+        <tr><td><code>CSP_OPERATION_FAILURE</code></td><td>NONE (Wiom-side)</td><td>Full refund (₹300)</td></tr>
+        <tr><td><code>THIRD_PARTY_UNAVAILABLE</code></td><td>NONE</td><td>Full refund (₹300)</td></tr>
+        <tr><td><code>DISPUTE_UNRESOLVED</code></td><td>AMBIGUOUS</td><td>Provisional hold → resolves per evidence</td></tr>
+        <tr><td><code>COST_WRITE_OFF</code></td><td>NONE</td><td>Full refund (₹300) — Wiom economic decision, no customer fault</td></tr>
+        <tr><td><code>UNKNOWN</code></td><td>AMBIGUOUS</td><td>Bond held; default toward refund</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">Bond Refund Matrix (self-return vs assisted)</div>
+    <table class="dt">
+      <thead><tr><th>Return type</th><th>In time (within recall window)</th><th>Late (after recall, within limits)</th></tr></thead>
+      <tbody>
+        <tr><td>Self-return (customer delivers to depot)</td><td>₹300 (full bond)</td><td>₹200</td></tr>
+        <tr><td>Assisted return (CSP/3PL pickup)</td><td>₹250</td><td>₹150</td></tr>
+        <tr><td>Non-return: Wiom-caused (CSP_OPERATION_FAILURE / THIRD_PARTY_UNAVAILABLE / COST_WRITE_OFF)</td><td>₹300 (full)</td><td>₹300 (full)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="emoji-title">5 Closure Conditions for EXITED_FINAL</div>
+    <div class="inv-item"><div class="inv-code">Closure 1</div><div class="inv-name">Custody resolved</div><div class="inv-rule">DEVICE_RECOVERED or DEVICE_NOT_RECOVERED with recovery_resolution_status = WRITTEN_OFF</div></div>
+    <div class="inv-item"><div class="inv-code">Closure 2</div><div class="inv-name">Refund/bond treatment resolved</div><div class="inv-rule">Decided AND (executed OR recorded as held bond under CP-EXIT-07)</div></div>
+    <div class="inv-item"><div class="inv-code">Closure 3</div><div class="inv-name">Closure communication delivered</div><div class="inv-rule">Both bookend communications, multi-channel (Doctrines #14, #25). Missing either = blocked.</div></div>
+    <div class="inv-item"><div class="inv-code">Closure 4</div><div class="inv-name">Trust signal emitted (if non-return)</div><div class="inv-rule">DEVICE_NOT_RECOVERED → trust signal to CM OS (Doctrine #7). Required before EXITED_FINAL.</div></div>
+    <div class="inv-item"><div class="inv-code">Closure 5</div><div class="inv-name">Restorative obligations resolved</div><div class="inv-rule">Settled OR formally acknowledged + frozen with audit trail. Failed payment rails or unreachable customer do NOT block EXITED_FINAL indefinitely — acknowledged + frozen is sufficient.</div></div>
+
+    <div class="emoji-title">Key Invariants</div>
+    <div class="inv-item"><div class="inv-code">INV-EXIT-01</div><div class="inv-name">Orthogonal State Machines</div><div class="inv-rule">Relationship-side and custody-side state machines are independent. Collapsing them or inferring one from the other is prohibited.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-EXIT-02</div><div class="inv-name">No Silent Exit</div><div class="inv-rule">Both bookend communications mandatory. Exit without communication = compliance failure, not just a gap.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-EXIT-03</div><div class="inv-name">SD-First</div><div class="inv-rule">Self-delivery option must be offered and surfaced before CSP dispatch is initiated.</div></div>
+    <div class="inv-item"><div class="inv-code">INV-EXIT-04</div><div class="inv-name">Reason Classification Mandatory</div><div class="inv-rule">Every EXIT_INITIATED must carry an exit_initiation_reason code. NULL is not permitted.</div></div>
+
+    <div class="emoji-title">Events Emitted</div>
+    <div class="ev-card"><div class="ev-name">EXIT_INITIATED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id + exit_initiation_reason + initiated_at · Consumers: RS OS, Continuity OS, At-Risk Resolution OS, Support tools</div><div class="ev-guarantee">Customer service relationship exiting. Relationship-side state machine enters EXIT_INITIATED. Mandatory: exit_initiation_reason code. Triggers custody recovery dispatch and first bookend communication.</div></div>
+    <div class="ev-card"><div class="ev-name">EXITED_FINAL <span class="badge b-terminal">TERMINAL</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: RS OS, CM OS, Analytics, Finance</div><div class="ev-guarantee">All five closure conditions met. Service instance permanently exits governed stock. Irreversible. Cannot fire without all five conditions satisfied.</div></div>
+    <div class="ev-card"><div class="ev-name">CUSTODY_STATE_CHANGED <span class="badge b-fact">FACT</span></div><div class="ev-meta">Partition: service_instance_id · Consumers: Asset Management OS, Finance, Support tools</div><div class="ev-guarantee">Custody-side state machine transitioned. Carries non_recovery_reason when transitioning to DEVICE_NOT_RECOVERED.</div></div>
+  </div>
+
+  <!-- DIAGRAM -->
+  <div class="diag-section">
+    <button class="diag-btn" id="diag-btn-exit" onclick="toggleDiagram('exit')">
+      <span>📊 View State Machines — relationship-side + custody-side (two orthogonal machines)</span>
+      <span class="diag-icon">▼</span>
+    </button>
+    <div class="diag-body" id="diag-exit">
+      <p class="diag-note-sm">Two independent state machines. Never collapse them. A customer can be EXITED_FINAL (relationship) with DEVICE_NOT_RECOVERED (custody). Both truths coexist.</p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 700 400" font-family="system-ui,sans-serif" style="width:100%;max-width:700px">
+          <defs>
+            <marker id="ex1" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#6b7280"/></marker>
+            <marker id="ex2" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#dc2626"/></marker>
+            <marker id="ex3" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><polygon points="0 0, 7 3.5, 0 7" fill="#16a34a"/></marker>
+          </defs>
+
+          <!-- TITLE -->
+          <text x="350" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a2e">Exit OS — Two Orthogonal State Machines</text>
+
+          <!-- RELATIONSHIP SIDE HEADER -->
+          <rect x="10" y="28" width="330" height="18" rx="4" fill="#fce8f4" stroke="#d92b90"/>
+          <text x="175" y="41" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b02270">RELATIONSHIP-SIDE (continuity + relationship)</text>
+
+          <!-- RELATIONSHIP STATES -->
+          <rect x="10" y="52" width="120" height="36" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="70" y="68" text-anchor="middle" font-size="9.5" font-weight="700" fill="#15803d">ACTIVE_ENTITLED</text>
+          <text x="70" y="81" text-anchor="middle" font-size="8" fill="#15803d">(Continuity OS authors)</text>
+
+          <rect x="155" y="52" width="120" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="215" y="68" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b45309">RESERVATION_EXPIRED</text>
+          <text x="215" y="81" text-anchor="middle" font-size="8" fill="#b45309">(Continuity OS authors)</text>
+
+          <rect x="10" y="120" width="120" height="36" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+          <text x="70" y="136" text-anchor="middle" font-size="9.5" font-weight="700" fill="#dc2626">EXIT_INITIATED</text>
+          <text x="70" y="149" text-anchor="middle" font-size="8" fill="#dc2626">(Exit OS authors)</text>
+
+          <rect x="155" y="120" width="120" height="36" rx="6" fill="#dc2626" stroke="#b91c1c" stroke-width="2"/>
+          <text x="215" y="136" text-anchor="middle" font-size="9.5" font-weight="700" fill="white">EXITED_FINAL</text>
+          <text x="215" y="149" text-anchor="middle" font-size="8" fill="#fee2e2">5 conditions required</text>
+
+          <!-- Relationship arrows -->
+          <line x1="130" y1="70" x2="153" y2="70" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ex1)"/>
+          <text x="141" y="65" text-anchor="middle" font-size="7" fill="#6b7280">T+15</text>
+          <line x1="215" y1="88" x2="215" y2="118" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ex2)"/>
+          <text x="228" y="108" text-anchor="start" font-size="7" fill="#dc2626">EXIT_INITIATED</text>
+          <line x1="70" y1="88" x2="70" y2="118" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ex2)"/>
+          <text x="74" y="108" text-anchor="start" font-size="7" fill="#dc2626">8 paths</text>
+          <line x1="130" y1="138" x2="153" y2="138" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ex2)"/>
+          <text x="141" y="133" text-anchor="middle" font-size="7" fill="#dc2626">5 conditions</text>
+
+          <!-- RECALL CANCELLED -->
+          <path d="M 155 70 Q 100 40 105 120" stroke="#16a34a" stroke-width="1" fill="none" stroke-dasharray="3,2" marker-end="url(#ex3)"/>
+          <text x="80" y="98" text-anchor="middle" font-size="7" fill="#15803d">RECALL_CANCELLED</text>
+          <text x="80" y="108" text-anchor="middle" font-size="7" fill="#15803d">(bounded reversibility)</text>
+
+          <!-- CUSTODY SIDE HEADER -->
+          <rect x="360" y="28" width="330" height="18" rx="4" fill="#dbeafe" stroke="#3b82f6"/>
+          <text x="525" y="41" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1d4ed8">CUSTODY-SIDE (physical device)</text>
+
+          <!-- CUSTODY STATES -->
+          <rect x="370" y="52" width="140" height="36" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.5"/>
+          <text x="440" y="68" text-anchor="middle" font-size="9.5" font-weight="700" fill="#15803d">DEVICE_WITH_CUSTOMER</text>
+          <text x="440" y="81" text-anchor="middle" font-size="8" fill="#15803d">Default state</text>
+
+          <rect x="540" y="52" width="140" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="610" y="68" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b45309">RECOVERY_IN_PROGRESS</text>
+          <text x="610" y="81" text-anchor="middle" font-size="8" fill="#b45309">CSP Asset Custody OS active</text>
+
+          <rect x="370" y="130" width="140" height="36" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+          <text x="440" y="149" text-anchor="middle" font-size="9.5" font-weight="700" fill="#15803d">DEVICE_RECOVERED</text>
+
+          <rect x="370" y="190" width="140" height="36" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+          <text x="440" y="206" text-anchor="middle" font-size="9.5" font-weight="700" fill="#b45309">CUSTODY_DISPUTED</text>
+          <text x="440" y="219" text-anchor="middle" font-size="8" fill="#b45309">Blocks EXITED_FINAL</text>
+
+          <rect x="540" y="130" width="140" height="36" rx="6" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+          <text x="610" y="149" text-anchor="middle" font-size="9.5" font-weight="700" fill="#dc2626">DEVICE_NOT_RECOVERED</text>
+
+          <!-- Custody arrows -->
+          <line x1="510" y1="70" x2="538" y2="70" stroke="#6b7280" stroke-width="1.5" marker-end="url(#ex1)"/>
+          <text x="524" y="65" text-anchor="middle" font-size="7" fill="#6b7280">dispatch</text>
+          <line x1="440" y1="88" x2="440" y2="128" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ex3)"/>
+          <text x="450" y="113" text-anchor="start" font-size="7" fill="#15803d">returned</text>
+          <line x1="610" y1="88" x2="610" y2="128" stroke="#dc2626" stroke-width="1.5" marker-end="url(#ex2)"/>
+          <text x="615" y="113" text-anchor="start" font-size="7" fill="#dc2626">unrecovered</text>
+          <line x1="610" y1="128" x2="512" y2="195" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#ex1)"/>
+          <text x="570" y="170" text-anchor="middle" font-size="7" fill="#b45309">disputed</text>
+
+          <!-- FIVE CONDITIONS BOX -->
+          <rect x="10" y="185" width="330" height="100" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+          <text x="175" y="202" text-anchor="middle" font-size="9.5" font-weight="700" fill="#374151">EXITED_FINAL — 5 Closure Conditions (all required)</text>
+          <text x="20" y="218" font-size="8.5" fill="#374151">① Custody resolved (RECOVERED or NOT_RECOVERED + WRITTEN_OFF)</text>
+          <text x="20" y="232" font-size="8.5" fill="#374151">② Refund/bond treatment decided AND executed/recorded</text>
+          <text x="20" y="246" font-size="8.5" fill="#374151">③ Both bookend communications delivered, multi-channel</text>
+          <text x="20" y="260" font-size="8.5" fill="#374151">④ Trust signal emitted to CM OS (if device non-return)</text>
+          <text x="20" y="274" font-size="8.5" fill="#374151">⑤ Restorative obligations settled OR acknowledged + frozen with audit trail</text>
+
+          <!-- SD FIRST NOTE -->
+          <rect x="10" y="295" width="680" height="40" rx="6" fill="#fffbeb" stroke="#fde68a"/>
+          <text x="350" y="313" text-anchor="middle" font-size="9" font-weight="700" fill="#78350f">SD-FIRST PRINCIPLE: Self-return option must be offered before CSP dispatch. Self-return ₹300 (full), assisted ₹250. Customer death (code 9) = dignified silence, full refund, zero win-back messaging.</text>
+          <text x="350" y="328" text-anchor="middle" font-size="8.5" fill="#78350f">27% of 3PL contacts confirm device already returned but never updated in system — this is the core custody-truth failure Exit OS is built to solve.</text>
+
+          <!-- GROUND TRUTH -->
+          <rect x="10" y="345" width="680" height="42" rx="6" fill="#f0fdf4" stroke="#86efac"/>
+          <text x="350" y="362" text-anchor="middle" font-size="9" font-weight="700" fill="#15803d">Ground Truth (May 2026 operating data)</text>
+          <text x="350" y="376" text-anchor="middle" font-size="8.5" fill="#15803d">45.7% successful refund rate · 524 orders stuck at NO_UPI · 19.5% recall salvage rate · 95.3% returners before T+15 · 15,812 silent unrecovered devices</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="um-section">
+    <button class="um-btn" id="um-btn-exit" onclick="toggleUnderstand('exit')">
+      <span>📖 Understand more — what Exit OS never does, 3 real scenarios, cross-OS connections, role guide</span>
+      <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-exit">
+
+      <div class="um-h">⛔ What Exit OS never does</div>
+      <div class="um-never">❌ <strong>Does not orchestrate retention or save attempts.</strong> That is At-Risk Resolution OS. The moment a customer is in Exit OS's hands, the decision to leave is respected. Clarity, not persuasion.</div>
+      <div class="um-never">❌ <strong>Does not optimize exit rate, write-off rate, or recovery speed.</strong> These are explicitly excluded from Exit OS KRAs. Doctrine #2. Optimizing exit rate means manufacturing exits. That is a corruption signal.</div>
+      <div class="um-never">❌ <strong>Does not collapse the two state machines.</strong> "We recovered the device" (custody) does not mean "the relationship is closed" (relationship). EXITED_FINAL requires 5 conditions — device recovery is only one of them.</div>
+      <div class="um-never">❌ <strong>Does not contact customers after exit except to discharge obligations.</strong> Post-exit win-back, surveys, "we miss you" messages — all prohibited. Post-exit contact is limited to obligation discharge only. Doctrine #24.</div>
+      <div class="um-never">❌ <strong>Does not use "lost customer" framing internally or externally.</strong> Doctrine #2 Dignity Sub-Clause. A customer who left is a customer who left. Framing them as "lost" creates incentives to prevent legitimate exits.</div>
+
+      <div class="um-h">📋 3 Real Scenarios</div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1 — Self-return (SD-first principle)</div>
+        <div class="um-sc-title">Neha decides to cancel. She wants to drop off the router herself.</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Neha calls support and says she wants to cancel — she found a better offer elsewhere. Support logs explicit-choice (code 1). Neha asks if she can drop off the router herself at a collection point.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Exit OS does</span><span class="um-sc-val">EXIT_INITIATED fires (code: explicit-choice). First bookend communication sent: "We've received your cancellation. Your router can be dropped off at [location] or we can arrange pickup. Self-return earns ₹300 refund; pickup earns ₹250." Exit OS waits for custody resolution. Neha returns the router next day — DEVICE_RECOVERED with pickup proof. All 5 conditions met. EXITED_FINAL fires. Second bookend: "Your account is closed. ₹300 refund processed in 3–5 days."</span></div>
+        <div class="um-sc-result">✅ Neha gets full bond back for choosing self-return. Exit OS informed, not persuaded. The whole process has two mandatory communications and a clear refund. No silence.</div>
+      </div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2 — CSP claims device was collected; customer says it wasn't</div>
+        <div class="um-sc-title">Custody dispute: competing claims from CSP and customer</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">CSP Asset Custody OS logs DEVICE_RECOVERED. But Rajan calls support saying his router is still at home and nobody came. The CSP has no scan/photo/OTP proof — just a written claim.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Exit OS does</span><span class="um-sc-val">No scan/photo/OTP = incomplete pickup proof. Custody state moves to CUSTODY_DISPUTED (not DEVICE_RECOVERED). Exit OS applies the governed evidence hierarchy: physical proof required. Without it, CSP claim is insufficient. EXITED_FINAL is blocked. CP-EXIT-03 SLA starts. If unresolved within SLA → DEVICE_NOT_RECOVERED with reason DISPUTE_UNRESOLVED. Rajan keeps his bond (provisional hold, defaults toward refund).</span></div>
+        <div class="um-sc-result">✅ The 27% problem (CSP claims device back without proof) is structurally blocked. CUSTODY_DISPUTED is the safety state that prevents false DEVICE_RECOVERED claims from closing cases prematurely.</div>
+      </div>
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3 — External life event (customer death)</div>
+        <div class="um-sc-title">Wiom learns a customer has passed away</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">A family member contacts support to report that a customer, Mr. Sharma, has passed away. They ask about the router and any balance refund.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Exit OS does</span><span class="um-sc-val">EXIT_INITIATED fires with code 9: external-life-event. ALL customer-facing automated communications cease immediately — no recharge reminders, no notifications, no "come back" messages. Full refund of unused balance triggered to next-of-kin if identifiable. Router retrieval arranged with zero friction to the family. No surveys. No win-back. Dignified silence is the protocol.</span></div>
+        <div class="um-sc-result">✅ Code 9 exists precisely because "customer choice" is categorically wrong for death. The family's dignity is the primary concern. The system handles everything in the background without burdening them.</div>
+      </div>
+
+      <div class="um-h">🔗 How Exit OS connects to other systems</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">⬅ Receives signals from</div>
+          <div class="um-conn-item"><strong>Continuity OS</strong> — RESERVATION_EXPIRED at T+15 (non-reaffirmation path)</div>
+          <div class="um-conn-item"><strong>B2I OS</strong> — EXIT_HANDOFF when booking drops without install (refund required)</div>
+          <div class="um-conn-item"><strong>At-Risk Resolution OS</strong> — when retention fails (deterioration-unresolved path)</div>
+          <div class="um-conn-item"><strong>Customer signal</strong> — explicit-choice, wiom-asset-reallocation, external-life-event</div>
+          <div class="um-conn-item"><strong>CSP Asset Custody OS</strong> — custody state updates (pickup progress, proof)</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">➡ Sends signals to</div>
+          <div class="um-conn-item"><strong>RS OS</strong> — EXITED terminal state reflected; EXIT_INITIATED updates relationship classification</div>
+          <div class="um-conn-item"><strong>CM OS</strong> — trust signal on device non-return (person-level flag for future interactions)</div>
+          <div class="um-conn-item"><strong>Payment OS</strong> — refund trigger (Exit OS triggers, Payment OS executes)</div>
+          <div class="um-conn-item"><strong>Asset Management OS</strong> — NETBOX_RETURNED_TO_POOL or NETBOX_LOST (exactly once per exit)</div>
+          <div class="um-conn-item"><strong>Analytics + Finance</strong> — EXITED_FINAL with full reason classification and attribution</div>
+        </div>
+      </div>
+      <div class="um-key-note">⚠️ Key operational reality: 27% custody truth gap (CSP claims pickup without system update) + 524 NO_UPI stuck cases = Exit OS is solving two distinct dignity failures simultaneously. Both require day-1 operational infrastructure, not post-launch cleanup.</div>
+
+      <div class="um-h">🎯 What this means for your role</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>When a customer calls to report a cancelled account — check both state machines. Relationship = EXITED doesn't mean custody = resolved. If device pickup is pending, give them the status.</li>
+            <li>If a customer wants to return the router themselves (SD-first) — facilitate it without friction. This earns them ₹300 vs ₹250 for pickup.</li>
+            <li>Code 9 (external-life-event) is a critical support protocol. Immediately escalate to supervisor. Cease all automated communications. Family should receive a single, compassionate human response only.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>The 5 closure conditions are structural gates — EXITED_FINAL must be a database-enforced state, not just an application check. If any of the 5 conditions is unmet, the transition must be structurally blocked.</li>
+            <li>CUSTODY_DISPUTED must block EXITED_FINAL. Build this as a foreign-key constraint, not a soft warning.</li>
+            <li>Both bookend communications must be logged as preconditions to EXITED_FINAL. The communication log is part of closure condition 3, not a side effect.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li><strong>Locked — do not reopen:</strong> 5 closure conditions, no retention inside Exit OS, no post-exit win-back, orthogonal state machines, SD-first, code 9 dignified silence.</li>
+            <li><strong>Open — needs decisions before build:</strong> CP-EXIT-01 (recall window duration), CP-EXIT-02 (EXITED_FINAL SLA), CP-EXIT-03 (CUSTODY_DISPUTED resolution SLA), CP-EXIT-07 (bond hold period).</li>
+            <li>The wiom-asset-reallocation code (code 7) has hard guardrails. Validate with legal/compliance before implementing the trigger conditions — the Constitution Steward audits quarterly for threshold lowering.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Comms / Design</div>
+          <ul>
+            <li>Two mandatory bookend communications = two required templates. Both must be multi-channel (not app-only). Design these as first-class templates, not afterthoughts.</li>
+            <li>Exit communication test: does it provide state clarity without pressure? "Your router pickup is scheduled for Thursday. Self-return earns ₹300." PASS. "Are you sure you want to leave?" FAIL.</li>
+            <li>Code 9 requires a separate compassionate template — this cannot be the standard cancellation flow. Route to a human where possible; automated message must be warm, brief, and obligation-focused only.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 
@@ -1447,7 +2407,7 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="ans-step"><div class="ans-num">2</div><div class="ans-text"><strong>C4 obligation:</strong> Anita MUST be notified of the reroute (INV from §5.5 visibility rules). She gets: "We're finding you a new installation partner — this won't affect your booking." She is not in the dark.</div></div>
       <div class="ans-step"><div class="ans-num">3</div><div class="ans-text">System assigns a new CSP. Booking moves <strong>S11 → S4</strong> (Slot Proposal Pending again, new CSP). New CSP has CP-05 hours to propose slots.</div></div>
       <div class="ans-step"><div class="ans-num">4</div><div class="ans-text">New CSP proposes 3 slots. Anita confirms one explicitly via app action. <strong>SLOT_CONFIRMED</strong> emitted. Booking moves <strong>S4 → S5 → S8</strong>. The confirmation_mode field = "customer-confirmed" always.</div></div>
-      <div class="ans-step"><div class="ans-num">5</div><div class="ans-text">Technician assigned (S9), install happens (S10), succeeds. <strong>INSTALL_COMPLETED</strong> emitted. Booking moves to <strong>S14</strong>. SQ Driver and Recharge OS begin governing Anita's service instance.</div></div>
+      <div class="ans-step"><div class="ans-num">5</div><div class="ans-text">Technician assigned (S9), install happens (S10), succeeds. <strong>INSTALL_COMPLETED</strong> emitted. Booking moves to <strong>S14</strong>. SQ Driver and Continuity OS begin governing Anita's service instance.</div></div>
       <div class="ans-verdict">Key: Rerouting is Wiom's problem — Anita bears zero consequences. Her reroute_count doesn't count against her. The first CSP's silence is a compliance failure captured by Quality OS. Anita sees the app update in real time (C4). This scenario also shows that reroutes feed back to S4 — not to S1 or the start.</div>
     </div>
   </div>
@@ -1468,11 +2428,11 @@ input:checked + .slider:before { transform: translateX(20px); }
       <button class="reveal-btn" id="btn-4" onclick="revealAnswer(4)">Reveal What Happens</button>
     </div>
     <div class="sc-answer" id="answer-4">
-      <div class="ans-step"><div class="ans-num">1</div><div class="ans-text">SQ Driver detects: payment event received from Recharge OS (Vijay recharged) + no service resumption signal from netbox telemetry. Connection remains down.</div></div>
+      <div class="ans-step"><div class="ans-num">1</div><div class="ans-text">SQ Driver detects: payment event received from Continuity OS (Vijay recharged) + no service resumption signal from netbox telemetry. Connection remains down.</div></div>
       <div class="ans-step"><div class="ans-num">2</div><div class="ans-text"><strong>QUALITY_STATE_CHANGED</strong> emitted: STATE=Unusable, FAULT_DOMAIN=platform_system, ATTRIBUTION_DETAIL=service_not_resumed_after_payment, ATTRIBUTION_CONFIDENCE=high, SCOPE=localized.</div></div>
       <div class="ans-step"><div class="ans-num">3</div><div class="ans-text">This is <strong>RDNI — the highest trust-damage preventable failure</strong>. It's a platform_system fault (provisioning/auth failed to resume service after payment). Customer demonstrated payment intent; system gave zero service. C2 violation by construction.</div></div>
       <div class="ans-step"><div class="ans-num">4</div><div class="ans-text">Recovery OS receives the QUALITY_STATE_CHANGED emission. It opens a proactive recovery case — highest urgency. Vijay gets an acknowledgment. The platform team is escalated immediately.</div></div>
-      <div class="ans-step"><div class="ans-num">5</div><div class="ans-text">SQ Driver does NOT contact Vijay. Does NOT suppress the Recharge OS from acting. Does NOT issue a credit. It emits truth with high confidence attribution and lets the consumers act.</div></div>
+      <div class="ans-step"><div class="ans-num">5</div><div class="ans-text">SQ Driver does NOT contact Vijay. Does NOT suppress the Continuity OS from acting. Does NOT issue a credit. It emits truth with high confidence attribution and lets the consumers act.</div></div>
       <div class="ans-verdict">Key: The RDNI attribution split is critical. SQ owns detection + emission. Platform team owns prevention (H8 integration). Recovery OS owns the customer-facing response. No single OS owns all three. This is by design — one-directional flow.</div>
     </div>
   </div>
