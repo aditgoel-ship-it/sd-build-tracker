@@ -786,7 +786,7 @@
           </div>
           <div class="problem-after">
             <div class="problem-after-label">After</div>
-            <p>Continuity OS tracks recharge posture. RS OS reclassifies the customer. If AT_RISK, Retention OS activates. If that fails, Exit OS takes over with full context. Every step is a named event. No customer disappears silently.</p>
+            <p>Continuity OS tracks recharge posture. RS OS reclassifies the customer. If AT_RISK, At-Risk Resolution OS activates. If that fails, Exit OS takes over with full context. Every step is a named event. No customer disappears silently.</p>
           </div>
         </div>
       </div>
@@ -843,19 +843,19 @@
             <td>Is this customer's issue being handled properly? Has it compounded?</td>
           </tr>
           <tr>
-            <td><span class="os-name">Continuity OS</span></td>
-            <td>Payment posture and recharge handling. 8 postures.</td>
+            <td><span class="os-name">Continuity OS</span> <small style="color:#16a34a;font-weight:700">🔒 v1.0.1</small></td>
+            <td>Payment posture and recharge handling. 8 postures. PayG doctrine: non-recharge = neutral. C2 resolved: internet off during 15-day reservation window (Scenario A).</td>
             <td>Should we ask this customer to recharge right now, or back off?</td>
           </tr>
           <tr>
-            <td><span class="os-name">RS OS <span class="os-abbr">Relationship-State</span></span></td>
-            <td>Overall relationship health. 5 states: Deep Active → Active → Stable → Fragile → AT_RISK.</td>
+            <td><span class="os-name">RS OS <span class="os-abbr">Relationship-State</span></span> <small style="color:#16a34a;font-weight:700">🔒 v1.1</small></td>
+            <td>Overall relationship health. 5 states: ACTIVE_ENTITLED, CUSTOMER_PAUSED, AT_RISK, RESOLVING, EXITED. 3 overlays: Fragile, Stable, Deep Active. 38 constitutional doctrines.</td>
             <td>How is this customer's relationship with Wiom going?</td>
           </tr>
           <tr>
-            <td><span class="os-name">Exit OS</span></td>
-            <td>The customer is leaving. 2 state machines.</td>
-            <td>Is this exit being handled with dignity? Has the device been collected?</td>
+            <td><span class="os-name">Exit OS</span> <small style="color:#16a34a;font-weight:700">🔒 v1.0.1</small></td>
+            <td>The customer is leaving. 2 orthogonal state machines (relationship + custody). 9 exit reason codes. 5 closure conditions for EXITED_FINAL.</td>
+            <td>Is this exit being handled with dignity? Has the device been collected? Are all 5 closure conditions met?</td>
           </tr>
           <tr>
             <td><span class="os-name">CM OS <span class="os-abbr">Customer Memory</span></span></td>
@@ -863,7 +863,7 @@
             <td>What does Wiom know about this customer across all their connections, past and present?</td>
           </tr>
           <tr>
-            <td><span class="os-name">Retention OS</span></td>
+            <td><span class="os-name">At-Risk Resolution OS</span></td>
             <td>Activated when a customer reaches AT_RISK.</td>
             <td>Is there anything we can do to keep this customer, and are we doing it?</td>
           </tr>
@@ -912,7 +912,7 @@
         <div class="chain-step">
           <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
           <div class="chain-content">
-            <div class="chain-os">Retention OS activates</div>
+            <div class="chain-os">At-Risk Resolution OS activates</div>
             <div class="chain-trigger">Governed intervention before the customer exits</div>
           </div>
         </div>
