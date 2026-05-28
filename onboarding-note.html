@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer OS — Team Onboarding Note</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --magenta: #D9008D;
+      --navy: #1B2A4A;
+      --navy-light: #243658;
+      --text: #1e2d45;
+      --text-soft: #4a5568;
+      --bg: #f4f6f9;
+      --white: #ffffff;
+      --rule-tiffin-bg: #fff8ee;
+      --rule-tiffin-border: #f0c070;
+      --rule-tiffin-text: #7a4e10;
+      --rule-prevents-bg: #fff2f2;
+      --rule-prevents-text: #8b3030;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 15px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--navy);
+      padding: 56px 24px 48px;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: var(--magenta);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      color: white;
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .hero-tagline {
+      color: rgba(255,255,255,0.70);
+      font-size: 16px;
+      font-style: italic;
+      max-width: 620px;
+      margin: 0 auto 20px;
+      line-height: 1.6;
+    }
+    .hero-meta {
+      color: rgba(255,255,255,0.40);
+      font-size: 12px;
+    }
+    .hero-meta span {
+      margin: 0 8px;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      background: white;
+      border-bottom: 2px solid var(--magenta);
+      display: flex;
+      overflow-x: auto;
+      padding: 0 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a {
+      display: block;
+      padding: 13px 16px;
+      color: var(--text-soft);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .nav a:hover {
+      color: var(--magenta);
+      border-bottom-color: var(--magenta);
+    }
+
+    /* ─── PAGE WRAPPER ─── */
+    .page { max-width: 840px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ─── SECTION ─── */
+    .section { margin-bottom: 64px; }
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--magenta);
+      margin-bottom: 6px;
+    }
+    .section > h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e8edf3;
+      margin-bottom: 24px;
+    }
+    p { color: var(--text-soft); margin-bottom: 14px; }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--text); }
+
+    /* ─── 60 SECONDS BOX ─── */
+    .sixty {
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-bottom: 0;
+    }
+    .sixty h3 {
+      color: var(--magenta);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .sixty ul { list-style: none; }
+    .sixty li {
+      padding: 9px 0 9px 22px;
+      position: relative;
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sixty li:last-child { border-bottom: none; }
+    .sixty li::before { content: '→'; position: absolute; left: 0; color: var(--magenta); font-weight: 700; }
+
+    /* ─── TIFFIN CALLOUT ─── */
+    .tiffin-callout {
+      background: var(--rule-tiffin-bg);
+      border: 1px solid var(--rule-tiffin-border);
+      border-left: 4px solid #e8960a;
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin-top: 18px;
+    }
+    .tiffin-callout-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #b37000;
+      margin-bottom: 8px;
+    }
+    .tiffin-callout p {
+      font-size: 14px;
+      color: var(--rule-tiffin-text);
+      font-style: italic;
+      margin: 0;
+    }
+
+    /* ─── CONSTITUTIONAL RULES ─── */
+    .rules { display: flex; flex-direction: column; gap: 20px; }
+
+    .rule-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(27,42,74,0.08);
+    }
+    .rule-header {
+      background: var(--navy);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .rule-badge {
+      background: var(--magenta);
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .rule-title { color: white; font-size: 17px; font-weight: 700; }
+
+    .rule-tiffin {
+      background: var(--rule-tiffin-bg);
+      border-bottom: 1px solid #f5e8cc;
+      padding: 18px 24px;
+    }
+    .rule-tiffin-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #b37000;
+      margin-bottom: 6px;
+    }
+    .rule-tiffin p {
+      font-size: 14px;
+      color: var(--rule-tiffin-text);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .rule-wiom {
+      padding: 18px 24px;
+      border-bottom: 1px solid #edf0f4;
+    }
+    .rule-wiom-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .rule-wiom p {
+      font-size: 14px;
+      color: var(--text-soft);
+      margin: 0;
+    }
+
+    .rule-prevents {
+      background: var(--rule-prevents-bg);
+      padding: 14px 24px;
+    }
+    .rule-prevents-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #c03030;
+      margin-bottom: 6px;
+    }
+    .rule-prevents p {
+      font-size: 13px;
+      color: var(--rule-prevents-text);
+      margin: 0;
+    }
+
+    /* ─── WHY OS ─── */
+    .warning-box {
+      background: #fffbec;
+      border: 1px solid #f5d060;
+      border-left: 4px solid #e8a800;
+      border-radius: 0 8px 8px 0;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .warning-box-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #9a6800;
+      margin-bottom: 8px;
+    }
+    .warning-box p { font-size: 14px; color: #6b4c00; margin: 0; }
+
+    .principles { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .principle {
+      background: white;
+      border-left: 4px solid var(--magenta);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: var(--text-soft);
+      box-shadow: 0 1px 4px rgba(27,42,74,0.06);
+    }
+    .principle strong { color: var(--navy); }
+
+    /* ─── 5 PROBLEMS ─── */
+    .problems { display: flex; flex-direction: column; gap: 18px; }
+
+    .problem-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(27,42,74,0.07);
+    }
+    .problem-header {
+      background: var(--navy);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .problem-num {
+      background: var(--magenta);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .problem-title { color: white; font-size: 15px; font-weight: 600; }
+
+    .problem-body { display: grid; grid-template-columns: 1fr 1fr; }
+
+    .problem-before {
+      padding: 16px 18px;
+      background: #fff5f5;
+      border-right: 1px solid #eee;
+    }
+    .problem-after {
+      padding: 16px 18px;
+      background: #f2fff6;
+    }
+    .problem-before-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #c03030; margin-bottom: 6px;
+    }
+    .problem-after-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #1a6b3a; margin-bottom: 6px;
+    }
+    .problem-before p, .problem-after p {
+      font-size: 13px; color: var(--text-soft); margin: 0; line-height: 1.55;
+    }
+
+    /* ─── OS TABLE ─── */
+    .os-table-wrap {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(27,42,74,0.08);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead tr { background: var(--navy); }
+    th {
+      padding: 13px 20px;
+      text-align: left;
+      color: rgba(255,255,255,0.70);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    td {
+      padding: 15px 20px;
+      border-bottom: 1px solid #edf0f4;
+      font-size: 14px;
+      color: var(--text-soft);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:nth-child(even) td { background: #fafbfd; }
+    .os-name { font-weight: 700; color: var(--navy); display: block; }
+    .os-abbr { font-size: 12px; color: #888; font-weight: 400; }
+
+    /* ─── CHAIN ─── */
+    .chain-box {
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin-top: 28px;
+    }
+    .chain-box h4 {
+      color: var(--magenta);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .chain-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 0;
+    }
+    .chain-spine {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      width: 14px;
+    }
+    .chain-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--magenta);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+    .chain-connector {
+      width: 2px;
+      flex: 1;
+      background: rgba(217,0,141,0.25);
+      min-height: 22px;
+    }
+    .chain-content { padding-bottom: 18px; flex: 1; }
+    .chain-os { color: white; font-size: 14px; font-weight: 600; }
+    .chain-trigger { color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 2px; }
+
+    /* ─── INFRASTRUCTURE ─── */
+    .infra-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .infra-card {
+      background: white;
+      border-radius: 10px;
+      border-top: 3px solid var(--magenta);
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(27,42,74,0.07);
+    }
+    .infra-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+    .infra-card p { font-size: 13px; color: var(--text-soft); margin: 0; }
+
+    /* ─── ALIGNMENT WEEK ─── */
+    .align-banner {
+      background: white;
+      border-radius: 12px;
+      padding: 24px 28px;
+      border-left: 5px solid var(--magenta);
+      box-shadow: 0 2px 10px rgba(27,42,74,0.08);
+      margin-bottom: 20px;
+    }
+    .align-key { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+    .align-rows { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .align-row {
+      background: #f8f9fb;
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+    .align-row-label {
+      font-size: 11px; font-weight: 700; color: var(--magenta);
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
+    }
+    .align-row p { font-size: 14px; color: var(--text-soft); margin: 0; }
+
+    /* ─── NOTEBOOKLM ─── */
+    .nb-box {
+      background: #f0f5ff;
+      border: 1px solid #ccd9f5;
+      border-radius: 12px;
+      padding: 28px 32px;
+    }
+    .nb-box p { color: #3a4a6a; }
+    .nb-link {
+      display: inline-block;
+      margin-top: 18px;
+      background: var(--magenta);
+      color: white;
+      padding: 11px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .nb-note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #7a8aaa;
+    }
+
+    /* ─── CX SECTION ─── */
+    .cx-section {
+      background: var(--navy);
+      border-radius: 12px;
+      padding: 32px;
+    }
+    .cx-section .section-label { color: rgba(217,0,141,0.9); }
+    .cx-section > h2 {
+      color: white;
+      border-bottom-color: rgba(255,255,255,0.15);
+    }
+    .cx-section p { color: rgba(255,255,255,0.75); }
+    .cx-roles { display: flex; flex-direction: column; gap: 14px; margin: 22px 0; }
+    .cx-role {
+      background: rgba(255,255,255,0.07);
+      border-radius: 8px;
+      padding: 16px 20px;
+    }
+    .cx-role-name {
+      color: var(--magenta);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 6px;
+    }
+    .cx-role p { font-size: 14px; color: rgba(255,255,255,0.80); margin: 0; }
+    .cx-session-note {
+      background: rgba(255,255,255,0.10);
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+    .cx-session-note p { font-size: 14px; color: rgba(255,255,255,0.80); margin: 0; }
+    .cx-session-note strong { color: white; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      text-align: center;
+      padding: 40px 24px 24px;
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 24px; }
+      .problem-body { grid-template-columns: 1fr; }
+      .infra-cards { grid-template-columns: 1fr; }
+      .page { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<header class="hero">
+  <div class="hero-eyebrow">Alignment Week · 29 May – 5 June 2026</div>
+  <h1>Customer OS — Team Onboarding Note</h1>
+  <p class="hero-tagline">Every decision in the customer system traces back to four rules written on one page. Everything else is just making sure those rules can't be broken.</p>
+  <div class="hero-meta">
+    <span>Wiom Customer System Architecture</span>
+    <span>·</span>
+    <span>~15 min read</span>
+    <span>·</span>
+    <span>May 2026</span>
+  </div>
+</header>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav">
+  <a href="#sixty">In 60 Seconds</a>
+  <a href="#tiffin">The Tiffin Analogy</a>
+  <a href="#rules">The 4 Rules</a>
+  <a href="#why-os">Why Operating Systems?</a>
+  <a href="#problems">5 Real Problems</a>
+  <a href="#oses">The 8 OSes</a>
+  <a href="#infra">Infrastructure</a>
+  <a href="#alignment">This Week</a>
+  <a href="#notebooklm">NotebookLM</a>
+  <a href="#cx">For CX / Business</a>
+</nav>
+
+<div class="page">
+
+  <!-- ═══════════════════ WHY READ THIS ═══════════════════ -->
+  <section class="section" style="margin-bottom: 40px;">
+    <p>Customer OS is the system that will govern every interaction Wiom has with every customer — from the moment they book, through installation, service quality, payments, and eventually exit. <strong>Build starts June 11.</strong></p>
+    <p>This note tells you what the system is, why it's designed the way it is, and what we need from you this week. After reading it, the sessions on Friday will make sense — and you'll know exactly what your role is in making sure we build the right thing.</p>
+  </section>
+
+  <!-- ═══════════════════ 60 SECONDS ═══════════════════ -->
+  <section class="section" id="sixty">
+    <div class="section-label">Before We Start</div>
+    <h2>In 60 Seconds</h2>
+    <div class="sixty">
+      <h3>The essentials</h3>
+      <ul>
+        <li>Wiom's customer system is built as <strong>8 Operating Systems</strong> — each owns one slice of the customer journey and nothing else</li>
+        <li>Every OS follows <strong>4 Constitutional rules (C1–C4)</strong> that no OS can override — these are the non-negotiable promises to the customer</li>
+        <li>Each OS is a <strong>state machine driven by events</strong> — a customer is always in exactly one state per OS, and that state only changes when a real-world event triggers a transition</li>
+        <li>The OSes <strong>talk to each other through defined contracts</strong> — no manual coordination, no human in the loop for routine decisions</li>
+        <li><strong>Build starts June 11.</strong> This week exists to catch surprises before they become expensive</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TIFFIN ═══════════════════ -->
+  <section class="section" id="tiffin">
+    <div class="section-label">Part 1</div>
+    <h2>The Tiffin Service Analogy</h2>
+    <p>Imagine a neighbourhood tiffin service. A family signs up for daily tiffin delivery. They pay weekly — no contract, stop anytime. The tiffin service makes the food, delivers it, and handles complaints.</p>
+    <p>At 10 families, the owner can manage everything in his head. He knows who likes less spice, whose dabba was late yesterday, and who hasn't paid this week. At 1,000 families, it's chaos. Orders get mixed up. Complaints get lost. One person's fix breaks another person's delivery.</p>
+    <p>So the tiffin service splits into departments. An order management department. A kitchen department. A delivery department. A complaints department. A billing department. <strong>Each department owns one thing and does it well.</strong> They don't reach into each other's domain. They communicate through defined handoffs. And all departments follow four company-wide rules that no department can override.</p>
+    <div class="tiffin-callout">
+      <div class="tiffin-callout-label">🍱 The analogy</div>
+      <p>That's what Customer OS is. Each OS is a department. Each department owns one truth — and only that truth. And all departments follow four rules that cannot be bypassed by any individual team.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ 4 RULES ═══════════════════ -->
+  <section class="section" id="rules">
+    <div class="section-label">Part 2</div>
+    <h2>The 4 Rules Nobody Can Break</h2>
+    <p>These are the Constitutional rules. Every OS, every feature, every agent action, and every automated message must comply with them. They cannot be overridden by any team or any system — only by the Founder.</p>
+
+    <div class="rules">
+
+      <!-- C1 -->
+      <div class="rule-card">
+        <div class="rule-header">
+          <span class="rule-badge">C1</span>
+          <span class="rule-title">Canonical Truth</span>
+        </div>
+        <div class="rule-tiffin">
+          <div class="rule-tiffin-label">🍱 The tiffin version</div>
+          <p>If the tiffin service's order book says "Ravi's delivery is confirmed for Thursday," then the kitchen whiteboard, the delivery boy's list, and the family's receipt must all say the same thing. If one says Thursday and another says Friday, someone is lying. It doesn't matter who made the error — it's a system failure, not a display bug.</p>
+        </div>
+        <div class="rule-wiom">
+          <div class="rule-wiom-label">At Wiom</div>
+          <p>If the customer app says "your installation is confirmed for Thursday," the CSP app, support dashboard, and ops tools must all say the same thing. When a customer calls support and the agent looks at a different system, both must show the same state. Divergence is a system failure — not an acceptable inconsistency to be sorted out manually.</p>
+        </div>
+        <div class="rule-prevents">
+          <div class="rule-prevents-label">What this prevents</div>
+          <p>An agent telling a customer "your issue is resolved" when the system still shows it open. Two support agents giving different answers about the same booking because they're looking at different tools.</p>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div class="rule-card">
+        <div class="rule-header">
+          <span class="rule-badge">C2</span>
+          <span class="rule-title">System-Owned Failure</span>
+        </div>
+        <div class="rule-tiffin">
+          <div class="rule-tiffin-label">🍱 The tiffin version</div>
+          <p>If the delivery boy dropped the tiffin and the food spilled, the tiffin service cannot say "the family should have met the boy at the door" or "please submit a complaint form and we'll review in 3 days." The service caused it. The service fixes it. The service compensates. The family doesn't need to prove anything.</p>
+        </div>
+        <div class="rule-wiom">
+          <div class="rule-wiom-label">At Wiom</div>
+          <p>If the internet went down because of Wiom's infrastructure, Recovery OS must treat it as Wiom's obligation — automatically, without the customer needing to call or complain. The customer never pays — in time, money, or effort — for our mistakes. Attribution is honest. When the fault is ours, we own it.</p>
+        </div>
+        <div class="rule-prevents">
+          <div class="rule-prevents-label">What this prevents</div>
+          <p>Sending a recharge reminder to a customer whose internet is currently down because of a Wiom-side fault. Asking a customer to "raise a ticket" for a problem the system already knows about and caused.</p>
+        </div>
+      </div>
+
+      <!-- C3 -->
+      <div class="rule-card">
+        <div class="rule-header">
+          <span class="rule-badge">C3</span>
+          <span class="rule-title">Restorative Recovery</span>
+        </div>
+        <div class="rule-tiffin">
+          <div class="rule-tiffin-label">🍱 The tiffin version</div>
+          <p>If the tiffin service owes a family a refund for spoiled food, the amount shouldn't depend on which person answers the phone, how loudly the family complains, or whether the manager is around. The rules say: 1 spoiled meal = 1 free meal. Same for every family. No "let me check with my manager." No "we can offer you 50 paise."</p>
+        </div>
+        <div class="rule-wiom">
+          <div class="rule-wiom-label">At Wiom</div>
+          <p>Recovery OS compensation follows locked formulas. 2-hour outage = 2 hours added to your plan. Same calculation for every customer. No agent discretion. No "save budget this month." The compensation must be experienceable as real restoration — not a token.</p>
+        </div>
+        <div class="rule-prevents">
+          <div class="rule-prevents-label">What this prevents</div>
+          <p>One agent giving a ₹50 coupon and another giving nothing for the identical outage on the same day. Compensation amounts that vary based on how politely the customer asked.</p>
+        </div>
+      </div>
+
+      <!-- C4 -->
+      <div class="rule-card">
+        <div class="rule-header">
+          <span class="rule-badge">C4</span>
+          <span class="rule-title">Clarity of State</span>
+        </div>
+        <div class="rule-tiffin">
+          <div class="rule-tiffin-label">🍱 The tiffin version</div>
+          <p>If a family asks "is our tiffin coming today or not?" and the tiffin service says "we'll get back to you" — that's a C4 violation. The family should always know their current state and what comes next: the tiffin is on its way, it's delayed by 30 minutes, or it's cancelled today. No ambiguity.</p>
+        </div>
+        <div class="rule-wiom">
+          <div class="rule-wiom-label">At Wiom</div>
+          <p>Around 70% of early support chats were "kab lagega?" — customers didn't know their installation status after booking. C4 says the customer must always be able to answer three questions: <strong>what is happening right now, what happens next, and what should I do?</strong> "We are looking into it" fails C4. "Internet issue in your area — next update by 8 PM, no action needed from you" passes.</p>
+        </div>
+        <div class="rule-prevents">
+          <div class="rule-prevents-label">What this prevents</div>
+          <p>A customer calling support asking "kab lagega?" because nothing was communicated after the booking. A recovery message that says "we're working on it" without saying what that means or when to expect an update.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════ WHY OS ═══════════════════ -->
+  <section class="section" id="why-os">
+    <div class="section-label">Part 3</div>
+    <h2>Why Operating Systems, Not Just Features?</h2>
+
+    <div class="warning-box">
+      <div class="warning-box-label">⚠️ The problem with features-first</div>
+      <p>Imagine the tiffin service adds a "reschedule delivery" feature. Works fine. Then a "track food quality" feature. Also fine. Then a "handle complaints" feature. Still fine — individually. But then: a family reschedules their delivery. During the gap, the quality system sees no delivery happened — so it opens a complaint automatically, which triggers compensation, which gives a free meal for a problem that didn't exist. Three features, each correct individually, producing wrong behaviour together. This happened in the CSP system. Features were added to handle situations as they arose. Together, they produced contradictions that were invisible until a customer hit them.</p>
+    </div>
+
+    <p>An OS is a governed boundary that makes four guarantees:</p>
+
+    <div class="principles">
+      <div class="principle"><strong>1. I own THIS truth — and only this truth.</strong> SQ Driver owns "is the internet working." Continuity OS owns "has the customer paid." Nobody else can overwrite my truth, and I don't reach into theirs.</div>
+      <div class="principle"><strong>2. I read from THESE sources — and only these sources.</strong> I consume events from specific sibling OSes through defined contracts. I don't guess. I don't read another OS's internal state directly.</div>
+      <div class="principle"><strong>3. I produce THESE outputs — and only these outputs.</strong> Other OSes can read what I emit, but I don't reach into their domain and make their decisions for them.</div>
+      <div class="principle"><strong>4. I follow THESE invariants — rules I can never break, no matter what.</strong> If Recovery OS's invariant says "ticket closure is never the same as recovery completion," then no agent action and no shortcut can violate that.</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ 5 PROBLEMS ═══════════════════ -->
+  <section class="section" id="problems">
+    <div class="section-label">Part 4</div>
+    <h2>5 Real Problems This Solves</h2>
+    <p>These are problems that exist in the current system today. Every person in this room has seen at least two of them.</p>
+
+    <div class="problems">
+
+      <div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-num">1</div>
+          <div class="problem-title">"Kab lagega?" — Nobody knows the status</div>
+        </div>
+        <div class="problem-body">
+          <div class="problem-before">
+            <div class="problem-before-label">Before</div>
+            <p>Customer books. System sends one notification. CSP may or may not respond. Customer has no idea what's happening. Calls support. Agent checks 3 tools — each shows a different status.</p>
+          </div>
+          <div class="problem-after">
+            <div class="problem-after-label">After</div>
+            <p>B2I OS has 16 defined states. The customer is in exactly one state at all times. Every transition requires a specific event. Customer app, CSP app, and support tools all read the same state. One question, one answer, always.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-num">2</div>
+          <div class="problem-title">"Different agents, different answers"</div>
+        </div>
+        <div class="problem-body">
+          <div class="problem-before">
+            <div class="problem-before-label">Before</div>
+            <p>Internet goes down. Customer calls. One agent gives ₹50 credit. Another gives nothing. For the same outage. Depends on mood, tone, and whether the manager is around.</p>
+          </div>
+          <div class="problem-after">
+            <div class="problem-after-label">After</div>
+            <p>SQ Driver detects the outage and emits the state change. Recovery OS applies the compensation formula — same calculation for every customer. The event carries the truth; the rule produces the outcome. No agent makes the call.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-num">3</div>
+          <div class="problem-title">"Pay us while we're broken"</div>
+        </div>
+        <div class="problem-body">
+          <div class="problem-before">
+            <div class="problem-before-label">Before</div>
+            <p>Customer has a service issue AND their recharge is expiring. Two separate teams handle them. The recharge team sends "please recharge" while the quality team hasn't fixed the internet.</p>
+          </div>
+          <div class="problem-after">
+            <div class="problem-after-label">After</div>
+            <p>SQ Driver emits degradation → Recovery opens a case → RS OS classifies the customer as Fragile → Continuity OS switches to "Recovery-first" posture automatically. No human coordination needed between teams.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-num">4</div>
+          <div class="problem-title">"Silent churn nobody notices"</div>
+        </div>
+        <div class="problem-body">
+          <div class="problem-before">
+            <div class="problem-before-label">Before</div>
+            <p>Customer's recharge expires. Nobody notices for two weeks. By then they've gone back to the local cable operator. No record of what happened or why. They just disappeared.</p>
+          </div>
+          <div class="problem-after">
+            <div class="problem-after-label">After</div>
+            <p>Continuity OS tracks recharge posture. RS OS reclassifies the customer. If AT_RISK, Retention OS activates. If that fails, Exit OS takes over with full context. Every step is a named event. No customer disappears silently.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-header">
+          <div class="problem-num">5</div>
+          <div class="problem-title">"Reconstruct what happened"</div>
+        </div>
+        <div class="problem-body">
+          <div class="problem-before">
+            <div class="problem-before-label">Before</div>
+            <p>Customer complains on social media. Team scrambles to understand what happened — checking 5 systems, Slack messages, call logs. Takes hours. Still incomplete.</p>
+          </div>
+          <div class="problem-after">
+            <div class="problem-after-label">After</div>
+            <p>Every state transition is a logged event with a timestamp and source OS. The full journey is traceable: BOOKING_CREATED → SLOT_CONFIRMED → INSTALL_COMPLETED → QUALITY_STATE_CHANGED → and so on. Complete audit trail in minutes.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════ 8 OSes ═══════════════════ -->
+  <section class="section" id="oses">
+    <div class="section-label">Part 5</div>
+    <h2>The 8 Operating Systems</h2>
+    <p>Each OS owns exactly one slice of the customer journey. A customer moves through multiple OSes simultaneously as their life with Wiom progresses.</p>
+
+    <div class="os-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%;">OS</th>
+            <th style="width: 38%;">What it owns</th>
+            <th>What it answers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="os-name">B2I <span class="os-abbr">Booking-to-Install</span></span></td>
+            <td>From paid booking to working internet. 16 states.</td>
+            <td>Is the installation on track?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">SQ Driver <span class="os-abbr">Service Quality</span></span></td>
+            <td>Internet quality, measured continuously from router telemetry. 5 states.</td>
+            <td>Is the internet actually working right now, and why?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">Recovery OS</span></td>
+            <td>Service failure handling from trigger to closure. Tracks Recovery Debt (accumulated damage).</td>
+            <td>Is this customer's issue being handled properly? Has it compounded?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">Continuity OS</span></td>
+            <td>Payment posture and recharge handling. 8 postures.</td>
+            <td>Should we ask this customer to recharge right now, or back off?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">RS OS <span class="os-abbr">Relationship-State</span></span></td>
+            <td>Overall relationship health. 5 states: Deep Active → Active → Stable → Fragile → AT_RISK.</td>
+            <td>How is this customer's relationship with Wiom going?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">Exit OS</span></td>
+            <td>The customer is leaving. 2 state machines.</td>
+            <td>Is this exit being handled with dignity? Has the device been collected?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">CM OS <span class="os-abbr">Customer Memory</span></span></td>
+            <td>Who this person is across their entire history with Wiom. The only OS at the person level — every other OS sees the connection.</td>
+            <td>What does Wiom know about this customer across all their connections, past and present?</td>
+          </tr>
+          <tr>
+            <td><span class="os-name">Retention OS</span></td>
+            <td>Activated when a customer reaches AT_RISK.</td>
+            <td>Is there anything we can do to keep this customer, and are we doing it?</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chain-box">
+      <h4>How the chain runs automatically</h4>
+      <div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">SQ Driver detects quality failure</div>
+            <div class="chain-trigger">Router telemetry shows degraded or unusable service</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">Recovery OS opens a case</div>
+            <div class="chain-trigger">Proactive — customer doesn't need to call</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">RS OS reclassifies: Fragile</div>
+            <div class="chain-trigger">Open recovery case signals relationship impact</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">Continuity OS switches: Recovery-first posture</div>
+            <div class="chain-trigger">Recharge nudge is softened or deferred automatically</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">RS OS reclassifies: AT_RISK</div>
+            <div class="chain-trigger">Relationship health reaches critical threshold</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">Retention OS activates</div>
+            <div class="chain-trigger">Governed intervention before the customer exits</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div><div class="chain-connector"></div></div>
+          <div class="chain-content">
+            <div class="chain-os">Exit OS takes over if retention fails</div>
+            <div class="chain-trigger">Exit handled with full context and dignity</div>
+          </div>
+        </div>
+        <div class="chain-step">
+          <div class="chain-spine"><div class="chain-dot"></div></div>
+          <div class="chain-content" style="padding-bottom: 0;">
+            <div class="chain-os">CM OS retains the memory</div>
+            <div class="chain-trigger">Long-term history of who this person is — across all connections, past and present</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ INFRASTRUCTURE ═══════════════════ -->
+  <section class="section" id="infra">
+    <div class="section-label">Part 6</div>
+    <h2>The Infrastructure Layer</h2>
+    <p>Three registries sit beneath all 8 OSes and keep them connected. You don't need to know these in detail — but knowing they exist explains why things are done the way they are.</p>
+
+    <div class="infra-cards">
+      <div class="infra-card">
+        <h4>Event Semantic Registry (ESR)</h4>
+        <p>The dictionary of every event any OS can emit. Each event has a defined name, a defined payload, and a guaranteed meaning. Nothing outside the ESR can be emitted.</p>
+      </div>
+      <div class="infra-card">
+        <h4>System Parameter Registry (SPR)</h4>
+        <p>Every tunable number in the system in one place — thresholds, window durations, compensation formula weights. Business adjustments happen here, not in the code.</p>
+      </div>
+      <div class="infra-card">
+        <h4>Routing Registry</h4>
+        <p>The map of who sends what to whom. For every event, it says: which OSes must consume it, which should, and which may. No signals get emitted into silence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ALIGNMENT WEEK ═══════════════════ -->
+  <section class="section" id="alignment">
+    <div class="section-label">Part 7</div>
+    <h2>What the Alignment Week Is For</h2>
+
+    <div class="align-banner">
+      <div class="align-key">This week isn't training. You are not being tested.</div>
+      <p>Build starts June 11. Once build starts, changes to the architecture become expensive. This week exists so that every team understands the system well enough that surprises don't surface mid-build.</p>
+    </div>
+
+    <div class="align-rows">
+      <div class="align-row">
+        <div class="align-row-label">Tech / Product / Design</div>
+        <p>You'll walk through the OSes in enough depth to build and design against them correctly — and to surface open questions before they become build blockers. Monday and Tuesday are yours to explore at your own pace using NotebookLM. The Friday session surfaces what you found.</p>
+      </div>
+      <div class="align-row">
+        <div class="align-row-label">CX / Execution / Comms / Business</div>
+        <p>You'll walk through real customer scenarios and tell us whether those scenarios match what you see in the field. If something is wrong or missing, this week is when we want to hear it — not after June 11.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ NOTEBOOKLM ═══════════════════ -->
+  <section class="section" id="notebooklm">
+    <div class="section-label">Your Q&amp;A Tool</div>
+    <h2>NotebookLM</h2>
+
+    <div class="nb-box">
+      <p>NotebookLM is a Google AI tool that has all 8 OS specs and the plain-language one-pagers loaded into it. You can ask it questions in plain English and get answers grounded in the actual documents — not generic AI answers.</p>
+      <p><strong>Why use it:</strong> The OS specs are thorough but dense. NotebookLM lets you ask the question you actually have — "what happens if a customer doesn't respond to a slot proposal?" — and get the answer from the spec, without reading 50 pages.</p>
+      <p><strong>Role-specific starter questions</strong> are in the NotebookLM guide shared alongside this note. Start with the questions for your role and go wherever the answers take you. Note anything NotebookLM can't answer confidently — those questions come to the discussion sessions.</p>
+      <a href="#" class="nb-link">Open NotebookLM →</a>
+      <p class="nb-note">Link will be live before Friday's sessions</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CX SECTION ═══════════════════ -->
+  <section class="section" id="cx">
+    <div class="cx-section">
+      <div class="section-label">For CX / Execution / Comms / Business</div>
+      <h2>What This Means for Your Daily Work</h2>
+
+      <p style="margin-bottom: 20px;">Today, when a customer calls about a problem, you have to figure out what's happening from scratch — check tickets, ask questions, sometimes guess. Customer OS changes this: every customer's state is always known. When a customer calls, you look up their state and the answer is already there. The system has been tracking what happened, when, and why.</p>
+
+      <div class="cx-roles">
+        <div class="cx-role">
+          <div class="cx-role-name">CX / Support</div>
+          <p>You'll be checking OS state before asking the customer to re-explain. The state tells you what happened. Your job shifts from figuring out what happened to acting on what the system tells you. A repeat complaint is no longer routine — the system will flag it and treat it with higher urgency automatically.</p>
+        </div>
+        <div class="cx-role">
+          <div class="cx-role-name">Execution</div>
+          <p>Every handoff between teams has a defined state. A customer isn't "waiting" — they're in a specific state with a defined next step and a clock ticking. When a pickup SLA for a net box is about to breach, the system flags it — not because someone noticed, but because the state machine tracked it.</p>
+        </div>
+        <div class="cx-role">
+          <div class="cx-role-name">Comms</div>
+          <p>What you tell a customer must match what the system knows. "We are looking into it" is no longer acceptable — the system knows exactly what's happening, so the message must too. C4 means every message we send should let the customer answer: what is happening, what happens next, what should I do?</p>
+        </div>
+        <div class="cx-role">
+          <div class="cx-role-name">Business</div>
+          <p>The scenarios we'll walk through are situations your customers have been in. Your job is simple: tell us if what the system does in each scenario is right, different from what you see in the field, or missing something entirely.</p>
+        </div>
+      </div>
+
+      <div class="cx-session-note">
+        <p>We'll walk through real customer situations — payment failures, outages, installations that didn't go right, customers trying to leave. For each one: <strong>does this match what you see in the field? Is anything different? What's missing?</strong> You are pressure-testing the system before it gets built. That's the job.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- end .page -->
+
+<footer class="footer">
+  Customer OS Workstream &nbsp;·&nbsp; Adit Goel &nbsp;·&nbsp; May 2026
+</footer>
+
+</body>
+</html>
