@@ -197,6 +197,41 @@ input:checked + .slider:before { transform: translateX(20px); }
 .nps-table td { padding: 7px 11px; border-bottom: 1px solid var(--border); }
 .nps-table tr:last-child td { border-bottom: none; }
 
+/* UNDERSTAND MORE COLLAPSIBLE */
+.um-section { margin-top: 10px; border: 1px solid #c7d2fe; border-radius: var(--radius); overflow: hidden; }
+.um-btn { width: 100%; background: #eef2ff; border: none; padding: 12px 18px; text-align: left; font-size: 13px; font-weight: 600; color: #3730a3; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; }
+.um-btn:hover { background: #e0e7ff; color: #312e81; }
+.um-icon { font-size: 13px; color: #6b7280; transition: transform 0.2s; }
+.um-btn.open .um-icon { transform: rotate(180deg); }
+.um-body { display: none; padding: 22px 20px; background: white; }
+.um-body.open { display: block; }
+.um-h { font-size: 14px; font-weight: 700; color: var(--text); margin: 22px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #e0e7ff; display: flex; align-items: center; gap: 8px; }
+.um-h:first-child { margin-top: 0; }
+.um-never { background: #fdf2f8; border-left: 4px solid var(--brand); padding: 9px 13px; border-radius: 0 5px 5px 0; margin-bottom: 7px; font-size: 13px; color: var(--text); }
+.um-never strong { color: #b02270; }
+.um-sc { background: #f9fafb; border: 1px solid var(--border); border-radius: 6px; padding: 14px 15px; margin-bottom: 10px; }
+.um-sc-no { font-size: 10.5px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+.um-sc-title { font-size: 13.5px; font-weight: 700; color: var(--text); margin-bottom: 9px; }
+.um-sc-row { display: flex; gap: 6px; margin-bottom: 6px; font-size: 12.5px; }
+.um-sc-lbl { font-size: 11px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.4px; min-width: 80px; flex-shrink: 0; padding-top: 1px; }
+.um-sc-val { color: var(--text-light); }
+.um-sc-result { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 7px 10px; font-size: 12.5px; color: #15803d; margin-top: 7px; }
+.um-conn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 600px) { .um-conn-grid { grid-template-columns: 1fr; } }
+.um-conn-box { background: #f9fafb; border: 1px solid var(--border); border-radius: 6px; padding: 13px; }
+.um-conn-head { font-size: 11.5px; font-weight: 700; color: var(--text); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.um-conn-item { font-size: 12.5px; color: var(--text-light); padding: 4px 0; border-bottom: 1px solid #f3f4f6; }
+.um-conn-item:last-child { border-bottom: none; }
+.um-conn-item strong { color: var(--text); }
+.um-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 600px) { .um-roles { grid-template-columns: 1fr; } }
+.um-role { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 13px 14px; }
+.um-role-lbl { font-size: 10.5px; font-weight: 700; color: var(--brand); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.um-role ul { padding-left: 14px; }
+.um-role li { font-size: 12.5px; color: var(--text-light); margin-bottom: 5px; }
+.um-role li:last-child { margin-bottom: 0; }
+.um-key-note { background: #fffbeb; border: 1px solid #fde68a; border-radius: 5px; padding: 9px 12px; font-size: 12.5px; color: #78350f; margin-top: 7px; }
+
 /* 3-of-4 */
 .evidence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
 .ev-layer { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 12px; }
@@ -571,6 +606,106 @@ input:checked + .slider:before { transform: translateX(20px); }
     </div>
   </div>
 
+  <div class="um-section">
+    <button class="um-btn" id="um-btn-b2i" onclick="toggleUnderstand('b2i')">
+      <span>📖 Understand more — what B2I never does, 3 real scenarios, cross-OS connections, role guide</span>
+      <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-b2i">
+
+      <div class="um-h">⛔ What B2I OS never does</div>
+      <div class="um-never">❌ <strong>Does not monitor quality after installation.</strong> The moment Install Completed fires, B2I's job ends. SQ Driver takes over from there.</div>
+      <div class="um-never">❌ <strong>Does not auto-confirm a slot if the customer doesn't respond.</strong> Customer silence triggers escalation, then Closure Proposed, then a refund — but never a silent "yes." Auto-confirmation is constitutionally prohibited.</div>
+      <div class="um-never">❌ <strong>Does not govern recharge, retention, or ongoing service.</strong> Its scope is strictly booking-to-install. What happens after the router lights up belongs to other OSes.</div>
+      <div class="um-never">❌ <strong>Does not allow "unknown" as a lazy attribution bucket.</strong> Every failed install has a structured reason: customer-truth, CSP-execution, or system. "Unknown" is only permitted after genuine investigation, never as a default.</div>
+      <div class="um-never">❌ <strong>Does not let a booking drift.</strong> Every state has a timeout and escalation rule. The system always acts. Limbo is not a state.</div>
+
+      <div class="um-h">📋 3 Real Scenarios</div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1 — Normal install</div>
+        <div class="um-sc-title">Everything works: Priya books, CSP proposes, Priya confirms, technician comes</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Priya books and pays on Monday. A CSP proposes Thursday 2–4 PM. Priya confirms in the app. The technician arrives, installs the router, records the outcome.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What B2I does</span><span class="um-sc-val">Creates service instance at payment. Moves through: Booking Created → Awaiting CSP → Slot Proposed → Slot Confirmed (explicit) → Technician Assigned → Install Attempt → Install Completed. Every state change logged with a timestamp. At Install Completed, B2I emits INSTALL_COMPLETED — SQ Driver begins quality monitoring.</span></div>
+        <div class="um-sc-result">✅ Priya gets "your internet is working" confirmation. SQ Driver activates. B2I's job is done.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2 — Customer goes silent after slot proposal</div>
+        <div class="um-sc-title">Rahul doesn't respond for 2 days — but the system never auto-confirms</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">CSP proposes Thursday 10 AM–12 PM. Rahul doesn't open the app or reply on WhatsApp for 48 hours.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What B2I does</span><span class="um-sc-val">After 48h silence: moves S5 → S6 (Escalation In Progress). Tries WhatsApp → IVR → push, in sequence, personalized by response history. Still no response: moves S6 → S7 (Closure Proposed) with a final message: "Confirm, reschedule, or we'll close with a full refund." Rahul finally replies "Confirm." System moves to S8 Slot Confirmed — only after that explicit action.</span></div>
+        <div class="um-sc-result">✅ Rahul gets his installation. At no point was he auto-confirmed. S7 is the load-bearing state — without it, the system either auto-cancels (violates C2) or drifts indefinitely (violates C4).</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3 — Technician no-show on a confirmed slot (failure case)</div>
+        <div class="um-sc-title">Sanjay has a confirmed slot — but the technician never comes, and the CSP logs nothing</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Sanjay confirms Saturday 11 AM–1 PM. Saturday passes. No technician. No outcome logged by the CSP.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What B2I does</span><span class="um-sc-val">Install window expires with no S10 transition: CSP_SILENCE_TIMEOUT fires. Booking moves to Booking Rerouted (S11) — a new CSP is assigned. Sanjay gets "We've reassigned your installation to a new partner." CSP-execution failure is recorded. Quality OS is notified.</span></div>
+        <div class="um-sc-result">✅ Sanjay gets rescheduled. Zero cost to Sanjay — C2 enforced. The first CSP's failure is permanently on the record.</div>
+      </div>
+
+      <div class="um-h">🔗 How B2I OS connects to other systems</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">⬅ Receives signals from</div>
+          <div class="um-conn-item"><strong>Payment OS</strong> — booking_fee_paid event creates the service instance. No payment = no B2I entry.</div>
+          <div class="um-conn-item"><strong>TAS (Task Assignment System)</strong> — CSP assignment and technician dispatch events</div>
+          <div class="um-conn-item"><strong>Quality OS</strong> — area quality context for diagnosing install failures (read only)</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">➡ Sends signals to</div>
+          <div class="um-conn-item"><strong>SQ Driver</strong> — INSTALL_COMPLETED is SQ's start signal. Without this, SQ never activates.</div>
+          <div class="um-conn-item"><strong>Exit OS</strong> — BOOKING_DROPPED + EXIT_HANDOFF when a booking ends without install (refund, closure, history preservation)</div>
+          <div class="um-conn-item"><strong>Relationship-State OS</strong> — install completion seeds the customer's profile (response speed, channel preferences)</div>
+          <div class="um-conn-item"><strong>Quality OS</strong> — CSP_SILENCE_TIMEOUT and INSTALL_OUTCOME_RECORDED feed CSP compliance metrics</div>
+        </div>
+      </div>
+      <div class="um-key-note">⚠️ Key dependency: SQ Driver cannot start monitoring until B2I emits INSTALL_COMPLETED. If B2I is missing or broken, the entire quality and recovery chain is dark from day one.</div>
+
+      <div class="um-h">🎯 What this means for your role</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>When a customer asks "when is my installation?" — look up the B2I state before doing anything else. Do not guess.</li>
+            <li>You CAN write structured truth into the booking record (reschedule reason, outcome note, install-contact correction). This creates a flagged divergence if it conflicts with CSP truth — that's correct, not an error.</li>
+            <li>If a customer says "technician didn't come": check whether S10 was entered. If still in Slot Confirmed, the silence timer is running and reroute will trigger automatically.</li>
+            <li>Do NOT manually update booking status without logging a structured event — it breaks C1.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>The most critical invariant: <strong>no slot confirmation without explicit customer action</strong> (INV-B2I-01). This must be structurally impossible — not just disabled by a flag.</li>
+            <li>Terminal states (S13, S14, S15) are irreversible by design. No backward transitions, ever. Errors go through forward correction events.</li>
+            <li>Before build starts: verify the canonical truth store is available (ASM-B2I-06). Without it, C1 cannot be enforced and state divergence goes undetected. This is a gating dependency.</li>
+            <li>S5→S6 escalation is the most complex transition: personalized timeout + personalized channel sequence. Read the spec section on CP-06 carefully.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li><strong>Locked — do not reopen:</strong> Explicit confirmation only, attribution tri-bucket (no "unknown" as a default), universal reschedule and cancellation rights from any state.</li>
+            <li><strong>Open — needs decisions before build:</strong> Exact values for CP-01 through CP-14 (timeouts, escalation windows, tolerance limits). These go in the Customer SPR.</li>
+            <li>S7 (Closure Proposed) is where product input matters most. The wording of the final-options message and the length of the final window determine whether customers actually respond or let bookings close.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Comms / Design</div>
+          <ul>
+            <li>Customer IS notified at: booking confirmed, install-contact requested, slot proposed, escalation triggered, closure proposed, slot confirmed, technician assigned, install outcome.</li>
+            <li>Customer is NOT notified during system-only states (Awaiting CSP Assignment, internal escalation processing).</li>
+            <li>S7 wording must be clear and urgent without being threatening — this is the highest-stakes comms moment in B2I.</li>
+            <li><strong>Exact terms:</strong> "slot confirmed" (not "appointment booked"), "install attempt" (not "visit"), "booking dropped" (not "cancelled" — only use "cancelled" when customer explicitly initiated).</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 
@@ -773,6 +908,105 @@ input:checked + .slider:before { transform: translateX(20px); }
         <!-- Footer -->
         <text x="330" y="308" text-anchor="middle" font-size="9" fill="#9ca3af">"Restored" and "Degrading" are NOT states — they violate Base-State doctrine. RESTORATION_WINDOW_ACTIVE is a boolean field on the emission, not a state.</text>
       </svg>
+    </div>
+  </div>
+
+  <div class="um-section">
+    <button class="um-btn" id="um-btn-sq" onclick="toggleUnderstand('sq')">
+      <span>📖 Understand more — what SQ Driver never does, 3 real scenarios, cross-OS connections, role guide</span>
+      <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-sq">
+
+      <div class="um-h">⛔ What SQ Driver never does</div>
+      <div class="um-never">❌ <strong>Does not fix the internet.</strong> That's the IE team's job. SQ Driver only diagnoses and reports — it never prescribes medicine.</div>
+      <div class="um-never">❌ <strong>Does not talk to customers about outages.</strong> Recovery OS handles all customer communication. SQ emits truth and stops there.</div>
+      <div class="um-never">❌ <strong>Does not decide whether to suppress recharge nudges.</strong> SQ emits quality state. Recharge OS independently decides what posture to take. SQ never tells consumers what to do.</div>
+      <div class="um-never">❌ <strong>Does not predict future states.</strong> "Likely to degrade" is structurally forbidden (INV-SQ-02). Every emitted state must be currently observable — no forecasting.</div>
+      <div class="um-never">❌ <strong>Does not issue a composite score.</strong> No "quality: 67/100" — SQ emits decomposed dimensions (state + fault domain + scope + confidence) and lets each consumer compose their own response. This prevents SQ from accidentally encoding downstream decisions.</div>
+
+      <div class="um-h">📋 3 Real Scenarios</div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1 — Area-wide outage</div>
+        <div class="um-sc-title">Multiple routers fail simultaneously — SQ detects it before anyone calls</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">At 2 AM, 18 netboxes in the same zone start showing Unusable. The same fault pattern appears across all of them. Zero customer complaints — everyone is asleep.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What SQ does</span><span class="um-sc-val">Runs cluster-correlation at the CP-SQ-11 threshold. Emits CLUSTER_DEGRADATION_DETECTED for the zone and individual QUALITY_STATE_CHANGED (STATE=Unusable, SCOPE=area-wide) for each affected service instance. IE team gets a structured repair intake. Recovery OS receives the signal and opens proactive cases for all 18 customers — without a single complaint.</span></div>
+        <div class="um-sc-result">✅ When customers wake up at 7 AM, there's already a recovery case, an owner, and an acknowledgment queued. No one needed to call. (Per team data: 79% of incidents currently get no communication at all — this is what proactive SQ detection is designed to fix.)</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2 — RDNI: Customer pays, internet doesn't come back</div>
+        <div class="um-sc-title">The highest trust-damage failure: payment confirmed, service not restored</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Mohan recharges his plan at midnight. Payment confirmed. Router still shows Unusable 10 minutes later. And at 6 AM the next morning.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What SQ does</span><span class="um-sc-val">Detects: payment event confirmed + no service resumption from netbox telemetry. Emits QUALITY_STATE_CHANGED: STATE=Unusable, FAULT_DOMAIN=platform_system, ATTRIBUTION_DETAIL=service_not_resumed_after_payment, confidence=high. Does NOT contact Mohan. Does NOT issue a credit. Emits truth and stops.</span></div>
+        <div class="um-sc-result">✅ Recovery OS receives the emission and opens a proactive highest-urgency case. Platform team gets an escalation. SQ did its job. RDNI is a C2 violation by construction — demonstrated payment intent + zero service delivery.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3 — Telemetry says Healthy, customer says broken (conflict case)</div>
+        <div class="um-sc-title">Kavita files 3 complaints in 3 days — but the router reports all green</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Kavita calls support saying her internet has been down since morning. SQ Driver shows her netbox as Healthy — full telemetry, all green.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What SQ does</span><span class="um-sc-val">Does NOT override telemetry with the customer report. But 3 complaints in 3 days is a significant confidence signal — SQ lowers confidence and triggers QUALITY_INVESTIGATION_TRIGGERED. Investigates three possible realities: (a) real issue telemetry isn't catching — device inside the home, (b) Kavita is misperceiving — phone OS issue, not internet, (c) the telemetry pipe itself is broken and SQ is getting false-positive healthy readings.</span></div>
+        <div class="um-sc-result">✅ SQ doesn't choose between "telemetry is right" and "customer is right" — it investigates the discrepancy. Recovery OS can open a reactive case on the complaint alone regardless. SQ's confidence lowering is the honest response to uncertainty.</div>
+      </div>
+
+      <div class="um-h">🔗 How SQ Driver connects to other systems</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">⬅ Receives signals from</div>
+          <div class="um-conn-item"><strong>B2I OS</strong> — INSTALL_COMPLETED is SQ's start trigger. SQ only begins monitoring once B2I confirms installation. No B2I = no SQ.</div>
+          <div class="um-conn-item"><strong>IE team telemetry</strong> — uptime, ping, latency, packet loss, reconnection counts from the router. SQ's primary raw material.</div>
+          <div class="um-conn-item"><strong>Call centre / chat</strong> — customer complaints classified as quality-related modify SQ's confidence level and can trigger investigations. They never override telemetry.</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">➡ Sends signals to</div>
+          <div class="um-conn-item"><strong>Recovery OS</strong> — QUALITY_STATE_CHANGED triggers proactive case opening. CLUSTER_DEGRADATION_DETECTED triggers area-wide response.</div>
+          <div class="um-conn-item"><strong>Recharge OS</strong> — quality state context informs recharge posture (don't send aggressive nudges if internet is broken)</div>
+          <div class="um-conn-item"><strong>Relationship-State OS</strong> — quality emissions feed customer classification (repeated degradation pushes toward Fragile)</div>
+          <div class="um-conn-item"><strong>IE team</strong> — QUALITY_INVESTIGATION_TRIGGERED sends structured intake for repair routing</div>
+        </div>
+      </div>
+      <div class="um-key-note">⚠️ Key dependency: Without B2I OS emitting INSTALL_COMPLETED, SQ Driver never starts. Without SQ Driver emitting quality states, Recovery OS can only react to customer complaints — it cannot open proactive cases. Both dependencies must be live for the system to work proactively.</div>
+
+      <div class="um-h">🎯 What this means for your role</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>When a customer reports bad internet, check the SQ state before asking them to re-explain anything. If SQ shows Unusable, the system already knows — check whether Recovery OS has an open case.</li>
+            <li>If SQ shows Healthy but the customer insists the internet is broken: don't dismiss the customer. SQ has already flagged a confidence gap and triggered an investigation. Tell them the investigation is underway.</li>
+            <li>You cannot change SQ state by closing a ticket. SQ state is authored by telemetry — not by workflow actions. "Ticket closed" does not mean internet is fixed.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>The most critical invariant: <strong>telemetry is canonical</strong> (INV-SQ-03). Customer reports modify confidence, never override. Build this as a structural rule.</li>
+            <li>Hardest engineering problem: distinguishing "router is dead" from "telemetry pipe is broken" — both produce identical signals (no data). Build telemetry-pipe health verification before go-live.</li>
+            <li>Per-netbox baseline learning is required for Degraded detection — you need each device's individual normal before you can say it's below normal.</li>
+            <li>Schema stability (INV-SQ-06) is non-negotiable. Once consumers are built against the emission schema, field semantics cannot change.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li><strong>Locked — do not reopen:</strong> The 5 quality states, decomposed emission schema (no composite scores), no consumer-directive signals from SQ, one-directional flow (consumers never write back).</li>
+            <li><strong>Open — needs decisions before build:</strong> Absolute throughput floor for Unusable, baseline deviation % for Degraded, observation window durations. These go in the Customer SPR during deployment readiness.</li>
+            <li>The Issue Classification Layer that routes complaints to SQ is unresolved. SQ doesn't own it — someone does. If nobody owns it, reactive cases can't open correctly.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Comms / Design</div>
+          <ul>
+            <li>SQ Driver never triggers customer communication directly — everything goes through Recovery OS or Recharge OS.</li>
+            <li>The customer never sees "SQ state" directly. They see what Recovery OS translates it into. Aligning what the customer sees to SQ's actual state is a design responsibility.</li>
+            <li>Unknown state is never surfaced to customers — but it's a real condition that represents a gap in the system's ability to help. Design should not treat it as simply "no data."</li>
+            <li><strong>Exact terms:</strong> "quality state" (not "quality score"), "degraded" (not "slow" in system docs), "fault domain" (internal only — never customer-facing).</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1036,6 +1270,105 @@ input:checked + .slider:before { transform: translateX(20px); }
         <text x="601" y="394" text-anchor="middle" font-size="9.5" fill="#6b7280">Degraded: 1× · 30-day window</text>
         <text x="601" y="408" text-anchor="middle" font-size="9" fill="#dc2626" font-weight="600">Cases can close while debt remains active</text>
       </svg>
+    </div>
+  </div>
+
+  <div class="um-section">
+    <button class="um-btn" id="um-btn-recovery" onclick="toggleUnderstand('recovery')">
+      <span>📖 Understand more — what Recovery OS never does, 3 real scenarios, cross-OS connections, role guide</span>
+      <span class="um-icon">▼</span>
+    </button>
+    <div class="um-body" id="um-recovery">
+
+      <div class="um-h">⛔ What Recovery OS never does</div>
+      <div class="um-never">❌ <strong>Does not reinterpret quality truth.</strong> SQ Driver's emissions flow one way — SQ → Recovery, never reversed. Recovery OS uses SQ's quality state; it cannot contradict or override it.</div>
+      <div class="um-never">❌ <strong>Does not classify customers as AT_RISK or Fragile.</strong> It emits trust-impact evidence. Relationship-State OS is the one that integrates all signals and produces the customer relationship classification.</div>
+      <div class="um-never">❌ <strong>Does not treat ticket closure as recovery completion.</strong> A ticket can be closed while the internet is still broken. Recovery OS requires multi-layer evidence (3-of-4 rule) before any case can close.</div>
+      <div class="um-never">❌ <strong>Does not issue compensation at agent discretion.</strong> All compensation is rule-based — amounts are formula-driven, not decided by whoever is on shift. This is what makes C3 auditable.</div>
+      <div class="um-never">❌ <strong>Does not suppress or modify recharge nudges directly.</strong> Recovery OS signals to Recharge OS that a live case exists. Recharge OS independently decides to take a Recovery-first posture. Recovery never reaches into another OS's decisions.</div>
+
+      <div class="um-h">📋 3 Real Scenarios</div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 1 — Area outage, proactive recovery</div>
+        <div class="um-sc-title">47 customers lose internet — not one needs to call</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Power fluctuation takes down multiple towers on a Wednesday evening. 47 customers in the zone are affected. SQ Driver detects cluster degradation and emits QUALITY_STATE_CHANGED (STATE=Unusable, SCOPE=area-wide) for all 47.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Recovery does</span><span class="um-sc-val">Opens 47 proactive recovery cases — before a single customer calls. Sends automatic acknowledgments: "We've detected an internet issue in your area. We're working on it. Next update by 9 PM." IE team gets routed for infrastructure repair. When telemetry confirms restoration, sends: "Service restored. If internet still isn't working in 15 minutes, tap here." Calculates proportional compensation for each customer (3 hours down = 3 hours added to plan).</span></div>
+        <div class="um-sc-result">✅ 47 customers experience recovery without calling support. Cases close with all 4 evidence layers positive. This is what flipping from reactive to proactive looks like at scale.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 2 — "Pay us while broken" — the cross-OS moment</div>
+        <div class="um-sc-title">Vijay's internet is degraded AND his plan is about to expire</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Vijay's internet has been degraded for 4 days. His plan expires in 2 days. He's looking at the recharge screen wondering whether to pay for internet that isn't working.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Recovery does</span><span class="um-sc-val">Recovery OS has an open case for Vijay's degraded internet. It emits a signal indicating a live recovery case is active. Recharge OS (not Recovery OS) decides: switch to "Recovery-first" posture — soften the nudge, show context about the ongoing issue in the renewal UI. Recovery OS also tracks that Vijay has been degraded for 4 days — if this crosses the prolonged-incident threshold (CP-REC-14), interim compensation triggers before full restoration.</span></div>
+        <div class="um-sc-result">✅ Vijay isn't pressured to pay for broken internet. Recharge OS made the posture decision based on Recovery OS's signal — Recovery didn't override or suppress anything itself. Cross-OS coordination through events, not hand-holding.</div>
+      </div>
+
+      <div class="um-sc">
+        <div class="um-sc-no">Scenario 3 — Third outage in a month (failure/edge case)</div>
+        <div class="um-sc-title">Suresh's problem keeps getting "fixed" — but it keeps coming back</div>
+        <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Suresh has had three outages in 30 days, all linked to the same root cause (a local distribution cable problem that keeps getting patched without being fixed). Each time, a support agent marked the ticket closed after a brief restoration.</span></div>
+        <div class="um-sc-row"><span class="um-sc-lbl">What Recovery does</span><span class="um-sc-val">On the third occurrence, cross-case correlation detects: same root cause + same service_instance_id + within 30-day window = FAILED_RECOVERY_REENTRY_DETECTED. Recovery Debt is significantly elevated. Escalation posture becomes manager-level automatically. Compensation applies a recurrence multiplier. Root cause is flagged for structural investigation — not just another one-off fix.</span></div>
+        <div class="um-sc-result">✅ Suresh gets senior handling, appropriate compensation, and the underlying infrastructure issue gets escalated as a structural problem. Team data: reopen cases show 10.5pp lower R30 and 2× exit rate — this isn't cosmetic, it's a churn predictor.</div>
+      </div>
+
+      <div class="um-h">🔗 How Recovery OS connects to other systems</div>
+      <div class="um-conn-grid">
+        <div class="um-conn-box">
+          <div class="um-conn-head">⬅ Receives signals from</div>
+          <div class="um-conn-item"><strong>SQ Driver</strong> — QUALITY_STATE_CHANGED is the primary trigger for proactive cases. The quality truth flows SQ → Recovery, never reversed.</div>
+          <div class="um-conn-item"><strong>B2I OS</strong> — BOOKING_DROPPED with CSP-execution attribution triggers install-failure recovery handling</div>
+          <div class="um-conn-item"><strong>Issue Classification Layer</strong> — customer complaints classified as recovery-related become reactive triggers</div>
+        </div>
+        <div class="um-conn-box">
+          <div class="um-conn-head">➡ Sends signals to</div>
+          <div class="um-conn-item"><strong>Recharge OS</strong> — live recovery case state signals influence recharge posture (Recovery-first during open cases)</div>
+          <div class="um-conn-item"><strong>Relationship-State OS</strong> — Tier 1 trust-impact evidence (case opened, recovery completed, Failed Recovery Re-entry) feeds customer classification</div>
+          <div class="um-conn-item"><strong>Credit Ledger</strong> — RECOVERY_COMPENSATION_DETERMINED triggers compensation execution (extensions first, coupons as fallback)</div>
+          <div class="um-conn-item"><strong>Communications layer</strong> — RECOVERY_COMMUNICATION_OBLIGATION says what to send and when. Recovery decides what; Comms decides how.</div>
+        </div>
+      </div>
+      <div class="um-key-note">⚠️ Key dependency: Without SQ Driver emitting quality states, Recovery OS can only react to customer complaints. This means 79% of incidents — those where customers don't call — go unhandled. SQ Driver must be live for Recovery OS to fulfil its proactive role.</div>
+
+      <div class="um-h">🎯 What this means for your role</div>
+      <div class="um-roles">
+        <div class="um-role">
+          <div class="um-role-lbl">CX / Support</div>
+          <ul>
+            <li>When a customer reports a service issue, check Recovery OS first — there may already be an open proactive case. Don't create a duplicate manually.</li>
+            <li>You cannot close a case by closing a ticket. The 3-of-4 evidence rule is structurally enforced — the system will reject premature closures.</li>
+            <li>When a customer calls back about an issue that was "resolved" last week: this is potentially a Failed Recovery Re-entry. Treat it with higher urgency, not as a routine repeat.</li>
+            <li>Compensation amounts are rule-based — you don't have discretion to decide them. You can flag for escalation review, but overrides are audited.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Engineering</div>
+          <ul>
+            <li>The most critical invariant: <strong>ticket closure ≠ recovery completion</strong> (INV-REC-01). Build this as a structural rejection, not a soft warning.</li>
+            <li>Failed Recovery Re-entry detection requires cross-case correlation running on every new case creation: same service_instance_id + same root cause + within 30-day window.</li>
+            <li>Recovery Debt must coexist with case closure — they're different data structures. Case closing must never zero out Debt.</li>
+            <li>Owner assignment (INV-REC-04) must be a database constraint, not just an application rule. A null owner_id must be structurally impossible on an open case.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Product</div>
+          <ul>
+            <li><strong>Locked — do not reopen:</strong> 3-of-4 closure rule, ticket-closure invariant, compensation rule-based, 24/7 operation, extensions before coupons.</li>
+            <li><strong>Open — needs decisions before build:</strong> Compensation formula weights (CP-REC-09), Recovery Debt calibration, update cadence intervals, DEPENDENT customer weighting.</li>
+            <li>The extension mechanism (INV-REC-14) was dormant in the existing system. It must be restored before Recovery OS goes live — coupon-only is not an acceptable workaround.</li>
+          </ul>
+        </div>
+        <div class="um-role">
+          <div class="um-role-lbl">Comms / Design</div>
+          <ul>
+            <li>5 required communication types per case: acknowledgment, ETA/update, restoration confirmed, closure confirmed, interim compensation (if prolonged). All are architectural requirements, not optional.</li>
+            <li>The C4 test for every message: can the customer answer "what's happening, what's next, what do I do?" after reading it? "We are looking into it" fails. "Internet issue in your area. Next update by 8 PM." passes.</li>
+            <li><strong>Exact terms:</strong> "we've added X hours to your plan" (specific), not "compensation applied." "This is a recurring issue and we're treating it as a priority" (customer-facing version of Failed Recovery Re-entry).</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -1359,6 +1692,15 @@ function revealAnswer(id) {
     el.classList.add('open');
     btn.textContent = 'Hide Answer';
   }
+}
+
+function toggleUnderstand(id) {
+  var body = document.getElementById('um-' + id);
+  var btn = document.getElementById('um-btn-' + id);
+  var icon = btn.querySelector('.um-icon');
+  body.classList.toggle('open');
+  btn.classList.toggle('open');
+  icon.textContent = body.classList.contains('open') ? '▲' : '▼';
 }
 </script>
 </body>
