@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSP OS Learnings — What We're Doing Differently in Customer OS</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f8fa;
+    color: #1a1a2e;
+    padding: 48px 32px;
+    max-width: 860px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .doc-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #D9008D;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 30px;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 8px;
+    line-height: 1.15;
+  }
+  .doc-meta {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid #eee;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 52px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .section-num {
+    background: #D9008D;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-num.green { background: #16a34a; }
+  .section-num.navy  { background: #1e3a5f; }
+
+  h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #111;
+  }
+
+  /* THEME BLOCK */
+  .theme {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e8eaf0;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .theme-header {
+    padding: 16px 22px;
+    border-bottom: 1px solid #f0f2f6;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .theme-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .action-pill {
+    background: #fdf0f8;
+    border: 1px solid #f0c0e0;
+    color: #D9008D;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .theme-body {
+    padding: 16px 22px;
+  }
+
+  /* QUOTES */
+  .quotes { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+  .quote {
+    background: #f7f8fa;
+    border-left: 3px solid #dde1ea;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .quote-text {
+    font-size: 13.5px;
+    color: #333;
+    font-style: italic;
+    line-height: 1.5;
+    margin-bottom: 5px;
+  }
+
+  .quote-author {
+    font-size: 11px;
+    font-weight: 700;
+    color: #888;
+    letter-spacing: 0.5px;
+  }
+
+  /* ACTION BOX */
+  .action-box {
+    background: #fdf0f8;
+    border: 1px solid #f0c0e0;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 13.5px;
+    color: #111;
+    line-height: 1.5;
+  }
+  .action-box strong {
+    color: #D9008D;
+    font-weight: 700;
+  }
+
+  /* WHAT WORKED BLOCK */
+  .worked-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .worked-item {
+    background: #fff;
+    border: 1px solid #e8eaf0;
+    border-left: 3px solid #16a34a;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .worked-item .wi-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 4px;
+  }
+  .worked-item .wi-quote {
+    font-size: 12.5px;
+    color: #555;
+    font-style: italic;
+    margin-bottom: 5px;
+    line-height: 1.45;
+  }
+  .worked-item .wi-author {
+    font-size: 11px;
+    color: #888;
+    font-weight: 700;
+  }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 2px solid #eee; margin: 48px 0; }
+
+  /* SUMMARY TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e8eaf0;
+  }
+  th {
+    background: #1e3a5f;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f6;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f9fafb; }
+
+  .owner-tag {
+    display: inline-block;
+    background: #e8f0fe;
+    color: #1e3a5f;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  footer {
+    margin-top: 48px;
+    font-size: 12px;
+    color: #aaa;
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-label">Customer OS — Build Readiness</div>
+<h1>What We Learned from CSP OS.<br>What We're Doing Differently.</h1>
+<div class="doc-meta">29 May 2026 &nbsp;·&nbsp; Inputs from: Marut, Mukul, Devender, Nishit, Dhruv, Ashish &nbsp;·&nbsp; For validation: Marut, Dhruv, Ashish</div>
+
+
+<!-- SECTION 1: WHAT WORKED -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num green">1</div>
+    <h2>What worked — we're keeping this</h2>
+  </div>
+  <div class="worked-grid">
+
+    <div class="worked-item">
+      <div class="wi-title">Comprehensive, complete OS specs</div>
+      <div class="wi-quote">"OS were elaborate and most of the questions are answered."</div>
+      <div class="wi-author">Marut &nbsp;·&nbsp; Nishit: "Comprehensiveness and completeness of the OS."</div>
+    </div>
+
+    <div class="worked-item">
+      <div class="wi-title">Clear principles for decision-making</div>
+      <div class="wi-quote">"Clear principles & objectives for decision making leading to consistency in application of the same downstream."</div>
+      <div class="wi-author">Dhruv</div>
+    </div>
+
+    <div class="worked-item">
+      <div class="wi-title">Event-oriented architecture</div>
+      <div class="wi-quote">"Architecture worked beautifully. Event oriented language works."</div>
+      <div class="wi-author">Marut</div>
+    </div>
+
+    <div class="worked-item">
+      <div class="wi-title">OS Q&A search tool</div>
+      <div class="wi-quote">"OS Search Tool to ask any questions."</div>
+      <div class="wi-author">Nishit &nbsp;·&nbsp; extended by Marut, Ashish</div>
+    </div>
+
+    <div class="worked-item">
+      <div class="wi-title">Debug panel</div>
+      <div class="wi-quote">"Debug panel approach is excellent. Without doubt don't think anyone in mobile team would have done that."</div>
+      <div class="wi-author">Marut &nbsp;·&nbsp; Ashish: "We are using it for each and every development."</div>
+    </div>
+
+  </div>
+</div>
+
+<hr>
+
+<!-- SECTION 2: WHAT WENT WRONG (THEMES) -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>What went wrong — and what we're doing about it</h2>
+  </div>
+
+  <!-- THEME 1 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Specs were readable by machines, not people</div>
+      <div class="action-pill">→ One-pager per OS + NotebookLM</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"Specs are difficult to read. Good for LLM but not for humans. Human readable PRD must be derived with diagrams from these Specs."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"While OS docs absolutely need to remain LLM-readable for agentic builds and scalable codegen workflows, there also needs to be a strong layer of human readability and experience articulation — visuals, workflows, flowcharts, journey representations."</div>
+          <div class="quote-author">Mukul</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Complete the OS asap and make it machine as well as Human readable before any development starts."</div>
+          <div class="quote-author">Ashish</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Assuming that we dont need to understand OS and their workflows [was the mistake]."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> One plain-language one-pager per OS (all 8 done). NotebookLM loaded with all specs, one-pagers, and registries — anyone can ask any question at any time. This alignment week (29 May–5 June) is entirely built around the team reading the OS in human-readable form before a line is written.</div>
+    </div>
+  </div>
+
+  <!-- THEME 2 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Experience layer not locked before build started</div>
+      <div class="action-pill">→ Phase 2: Experience Lock (June 6–10)</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"There should ideally be an explicit stage where the experience layer gets locked alongside the specs before downstream implementation begins. This can significantly improve alignment, reduce iteration loops, and improve overall build efficiency."</div>
+          <div class="quote-author">Mukul</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Too many to and fro with design team. How they name the controls will impact binding with backend at later stage."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Design Handoff will take time and digress if scope not defined clearly."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"What are the workflows and how they are going to get impacted with the Customer OS in place? Rank them in order of impact and pick them accordingly."</div>
+          <div class="quote-author">Ashish</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Codebase and how BE and FE interacts with each other in technical terms [is what I wish I had known earlier]."</div>
+          <div class="quote-author">Ashish</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> June 6–10 is a dedicated Experience Lock phase — Ashish produces and locks flows, UI, and journey maps for all 8 OSes before any code is written. Terminology alignment session (Wed 3 June) locks spec vocabulary to design vocabulary. Design/BE-FE walkthrough with Marut before Ashish produces any screens. Workflow impact ranking done before Phase 3 — build sequence respects that order.</div>
+    </div>
+  </div>
+
+  <!-- THEME 3 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Build sequence never locked — no atomic deliverables</div>
+      <div class="action-pill">→ Atomic units defined, sequence locked by June 10</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"Sequence of OS implementation was not clear so prompts had to run multiple times."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Project Management — Deliverable as atomic unit must be defined."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Avoid creating end to end at one time. Should pick development of it in small chunks. We may take everything live at once [but build incrementally]."</div>
+          <div class="quote-author">Ashish</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Build first draft as soon as possible to know drawbacks of Process and Specs."</div>
+          <div class="quote-author">Devender</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> Atomic deliverables defined per OS with Marut sign-off before June 10. Build sequence locked by June 10 — B2I → SQ → Recovery → Continuity → RS → Exit → CM → ARR. Small-chunk build enforced by atomic units: ship incrementally even if go-live is combined. Debug panel built from Phase 3 day one so every chunk is verifiable.</div>
+    </div>
+  </div>
+
+  <!-- THEME 4 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Migration and data treatment never planned</div>
+      <div class="action-pill">→ Migration decided before build starts</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"We should have known entire universe of specs and their role. Migration should be decided before hand."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Old → new data treatment approach principles [is what I wish I had known earlier]."</div>
+          <div class="quote-author">Dhruv</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Should have asked more questions on Migration. In my view this should be simpler because ideally there should be no app or offering change. Migration of the customers to new OS should be clean."</div>
+          <div class="quote-author">Nishit</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> Migration is a Phase 2 deliverable — three decisions locked before a single line is written: (1) migration approach (backend-only or surface change), (2) old→new data treatment principles, (3) integration blast radius. Dedicated working session Thu 4 June: Dhruv + Marut + Nishit.</div>
+    </div>
+  </div>
+
+  <!-- THEME 5 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Integration blast radius and in-flight projects not assessed</div>
+      <div class="action-pill">→ Mapped by June 10</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"Need to figure out integration interfaces between CSP ↔ Customer/Ops (CX portal, ticketing) / Other (captive portal) systems — larger blast radius to BAU. Also current in-flight projects priorities in advance of starting build."</div>
+          <div class="quote-author">Dhruv</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Incorporating inputs from user facing workflows / existing data structure to inform governing decisions / tech architecture decisions in advance — front load decisions pre execution."</div>
+          <div class="quote-author">Dhruv</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> Integration interface map (CSP ↔ Customer OS ↔ Kapture ↔ captive portal) produced by June 10 — Dhruv + Marut. In-flight project inventory done by June 10 — Dhruv. Neither is optional: both are G3 gate criteria.</div>
+    </div>
+  </div>
+
+  <!-- THEME 6 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">OS dependencies and internals not understood early enough</div>
+      <div class="action-pill">→ OS dependency matrix + wiring guide before Phase 3</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"Not Understanding the OS internal working [was the main pain]."</div>
+          <div class="quote-author">Devender</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"We need ES or Workflow as well to use OS in App [— wish had this before build]."</div>
+          <div class="quote-author">Devender</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Dependency of OS must workout as soon as we come to know. Should not defer."</div>
+          <div class="quote-author">Devender</div>
+        </div>
+        <div class="quote">
+          <div class="quote-text">"Clearly articulate in spec dependency matrix and external parameters."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> OS dependency matrix produced before Phase 3 (Item 14). Wiring guide per OS — how states and events map to app behaviour — produced in Phase 2 by Adit + Marut. Cross-OS walkthrough exercise (Satyam's framework) verifies every seam before build starts. Sessions 3–7 this week are specifically to ensure Marut, Devender, Ashish understand OS internals before any code is written.</div>
+    </div>
+  </div>
+
+  <!-- THEME 7 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Amendment process too confusing</div>
+      <div class="action-pill">→ Varun-led session, Wed 3 June</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"Spec Amendment process is very confusing. It will impact the build if it can't be stitched together."</div>
+          <div class="quote-author">Marut</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> Dedicated amendment process session Wednesday 3 June, led by Varun. Every person leaves knowing exactly: what an amendment is, when to raise one, how it's reviewed, what's blocked without it. One session before build, not discovered mid-sprint.</div>
+    </div>
+  </div>
+
+  <!-- THEME 8 -->
+  <div class="theme">
+    <div class="theme-header">
+      <div class="theme-title">Business impact never tied to the OS</div>
+      <div class="action-pill">→ Metrics validated with Nishit by June 5</div>
+    </div>
+    <div class="theme-body">
+      <div class="quotes">
+        <div class="quote">
+          <div class="quote-text">"Impact to overall metrics is not called out. Too much time creating and making it live [without knowing what it was moving]."</div>
+          <div class="quote-author">Nishit</div>
+        </div>
+      </div>
+      <div class="action-box"><strong>What we're doing:</strong> Business impact metrics drafted for each OS (RDNI rate, support contact rate, compensation consistency, pickup SLA, AT_RISK detection window, repeat complaint rate). Validated by Nishit + Dhruv before June 5. Every OS in the build is tied to a metric it's supposed to move.</div>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+
+<!-- SECTION 3: SUMMARY TABLE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num navy">3</div>
+    <h2>Quick reference — learning to action</h2>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>What people said</th>
+        <th>What we're doing</th>
+        <th>Owner &amp; date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Specs unreadable by humans</td>
+        <td>One-pager per OS + NotebookLM Q&A tool</td>
+        <td><span class="owner-tag">Adit — done</span></td>
+      </tr>
+      <tr>
+        <td>Experience layer missing before build</td>
+        <td>Phase 2 = Experience Lock. Ashish locks flows/UI by June 10</td>
+        <td><span class="owner-tag">Ashish — June 10</span></td>
+      </tr>
+      <tr>
+        <td>Build sequence unclear, no atomic units</td>
+        <td>Sequence locked + atomic deliverables per OS defined</td>
+        <td><span class="owner-tag">Adit + Marut — June 10</span></td>
+      </tr>
+      <tr>
+        <td>Design invented its own terminology</td>
+        <td>Terminology alignment session — spec name = design name</td>
+        <td><span class="owner-tag">Ashish + Adit — Wed 3 June</span></td>
+      </tr>
+      <tr>
+        <td>Migration never planned</td>
+        <td>3 migration decisions locked before build starts</td>
+        <td><span class="owner-tag">Dhruv + Marut + Nishit — Thu 4 June</span></td>
+      </tr>
+      <tr>
+        <td>Integration blast radius not mapped</td>
+        <td>Interface map: CSP ↔ Customer OS ↔ Kapture ↔ captive portal</td>
+        <td><span class="owner-tag">Dhruv + Marut — June 10</span></td>
+      </tr>
+      <tr>
+        <td>OS dependencies deferred, internals not understood</td>
+        <td>Dependency matrix + wiring guide + cross-OS walkthrough</td>
+        <td><span class="owner-tag">Adit + Marut — June 10</span></td>
+      </tr>
+      <tr>
+        <td>Amendment process confusing</td>
+        <td>Varun-led session — everyone aligned before build</td>
+        <td><span class="owner-tag">Varun — Wed 3 June</span></td>
+      </tr>
+      <tr>
+        <td>Business impact not called out</td>
+        <td>Metrics per OS — validated by Nishit + Dhruv</td>
+        <td><span class="owner-tag">Nishit + Dhruv — June 5</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<hr>
+
+<!-- SECTION 4: FULL PLAN -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num" style="background:#1e3a5f;">4</div>
+    <h2>The full plan — how we're putting this into practice</h2>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:16px;">
+
+    <!-- PHASE 0 -->
+    <div style="background:#fff; border:1px solid #e8eaf0; border-radius:10px; overflow:hidden;">
+      <div style="background:#f0faf4; padding:16px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e8eaf0;">
+        <div>
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#16a34a; margin-bottom:4px;">Phase 0 — Foundation</div>
+          <div style="font-size:15px; font-weight:800; color:#111;">26–29 May 2026</div>
+        </div>
+        <div style="background:#16a34a; color:#fff; font-size:11px; font-weight:800; padding:4px 14px; border-radius:20px;">✓ Complete</div>
+      </div>
+      <div style="padding:16px 22px; display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:13.5px; color:#333;">
+        <div>✅ All 8 OS specs locked (B2I, SQ, Recovery, Continuity, RS, Exit, CM, ARR)</div>
+        <div>✅ 3 infrastructure registries locked — ESR v2.0 (39 events), SPR v2.0 (95 params), RR v2.0 (~170 rules)</div>
+        <div>✅ Plain-language one-pager for every OS (8/8)</div>
+        <div>✅ NotebookLM loaded with all 21 sources — anyone can ask any question</div>
+        <div>✅ Learning hub + onboarding note live on GitHub Pages</div>
+        <div>✅ CSP learnings collected from all 6 stakeholders</div>
+      </div>
+    </div>
+
+    <!-- PHASE 1 -->
+    <div style="background:#fff; border:1px solid #e8eaf0; border-radius:10px; overflow:hidden;">
+      <div style="background:#fdf4ff; padding:16px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e8eaf0;">
+        <div>
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#9333ea; margin-bottom:4px;">Phase 1 — Alignment Week</div>
+          <div style="font-size:15px; font-weight:800; color:#111;">29 May – 5 June 2026</div>
+        </div>
+        <div style="background:#9333ea; color:#fff; font-size:11px; font-weight:800; padding:4px 14px; border-radius:20px;">In Progress</div>
+      </div>
+      <div style="padding:16px 22px; font-size:13.5px; color:#333;">
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+          <div>👥 Tech, Product, Design — deep dive on all 8 OSes in human-readable form. Every person understands the OS relevant to their role before build starts.</div>
+          <div>🔍 CX + Execution + Comms + Business — validate 27 real-world customer scenarios. They tell us what matches the field and what's missing.</div>
+          <div>📝 Amendment process locked — Varun leads. Everyone knows exactly what to do if something in the spec needs to change.</div>
+          <div>🔤 Terminology aligned — Ashish + Adit. Spec name = design name = code name. No new names invented after this week.</div>
+          <div>💾 Migration decided — Dhruv + Marut + Nishit. Three decisions locked: approach, data treatment, integration blast radius.</div>
+        </div>
+        <div style="background:#fdf4ff; border:1px solid #e9d5ff; border-radius:6px; padding:12px 16px; font-size:13px;">
+          <strong style="color:#9333ea;">Gate G2 (Fri 5 June):</strong> Amendment list finalised or confirmed empty. No open architectural questions. Product decisions resolved or escalated with dates.
+        </div>
+      </div>
+    </div>
+
+    <!-- PARALLEL TRACK -->
+    <div style="background:#fff; border:1px solid #e8eaf0; border-left:4px solid #f59e0b; border-radius:10px; overflow:hidden;">
+      <div style="background:#fffbeb; padding:14px 22px; border-bottom:1px solid #e8eaf0; display:flex; align-items:center; justify-content:space-between;">
+        <div>
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#d97706; margin-bottom:4px;">Parallel Track — Walkthrough + Workflow</div>
+          <div style="font-size:15px; font-weight:800; color:#111;">This week → 10 June</div>
+        </div>
+        <div style="background:#f59e0b; color:#fff; font-size:11px; font-weight:800; padding:4px 14px; border-radius:20px;">Running in parallel</div>
+      </div>
+      <div style="padding:16px 22px; font-size:13.5px; color:#333; display:flex; gap:24px;">
+        <div style="flex:1; border-right:1px solid #f0f2f6; padding-right:20px;">
+          <div style="font-weight:700; margin-bottom:8px;">Cross-OS Walkthrough (Satyam → Adit)</div>
+          <div style="margin-bottom:6px;">Every state transition verified: single governing OS, triggering event, consumer obligation, customer-visible outcome, failure path.</div>
+          <div>→ Satyam builds framework + runs first journeys (this week)</div>
+          <div>→ Adit completes remaining walkthroughs (June 6–10)</div>
+          <div>→ Single amendment log — clean before June 11</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-weight:700; margin-bottom:8px;">Cross-OS Workflow Documents (Adit + Varun + Saurabh)</div>
+          <div style="margin-bottom:6px;">For gaps no single OS owns — e.g. Service Transfer (customer moving address). Define the process for identifying gaps, drafting workflows, and executing amendments.</div>
+          <div>→ Varun builds process plan (by Jun 4–5)</div>
+          <div>→ Service Transfer Workflow v1.0: 11 amendments across 9 specs/registries</div>
+          <div>→ All amendments executed before June 11</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div style="background:#fff; border:1px solid #e8eaf0; border-radius:10px; overflow:hidden;">
+      <div style="background:#f0f6ff; padding:16px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e8eaf0;">
+        <div>
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#1d4ed8; margin-bottom:4px;">Phase 2 — Experience Lock</div>
+          <div style="font-size:15px; font-weight:800; color:#111;">6–10 June 2026</div>
+        </div>
+        <div style="background:#1d4ed8; color:#fff; font-size:11px; font-weight:800; padding:4px 14px; border-radius:20px;">No sessions — production work</div>
+      </div>
+      <div style="padding:16px 22px; font-size:13.5px; color:#333;">
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#7c3aed; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">Design</span>
+            <span>Flows, UI, and journey maps for all 8 OSes — locked and signed off before any code is written</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#1d4ed8; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">Tech + Design</span>
+            <span>Terminology locked — spec name = design name = code name. No drift between what the spec says and what design builds</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#0369a1; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">PM + Tech</span>
+            <span>Atomic deliverables defined per OS — clear "done" criteria for each. Build sequence locked. Wiring guide per OS: how states and events map to app behaviour</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#0369a1; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">PM</span>
+            <span>Four-way verification: every OS spec cross-checked against ESR, SPR, and Routing Registry — no mismatches before build starts</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#0f766e; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">Product + Tech</span>
+            <span>Integration map: how Customer OS connects to the CSP system, CX portal, and captive portal — blast radius identified before a line is written</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#0f766e; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">Product</span>
+            <span>In-flight project inventory — all current projects that touch Customer OS identified, conflicts flagged before build starts</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#b45309; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">Business</span>
+            <span>Business impact metrics validated — baseline numbers confirmed. Every OS tied to a metric it's supposed to move</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#1d4ed8; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">Tech</span>
+            <span>Debug panel spec ready — Marut can build it from Phase 3 day one. Every OS state inspectable without opening the codebase</span>
+          </div>
+
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="background:#D9008D; color:#fff; font-size:10px; font-weight:800; padding:3px 10px; border-radius:4px; white-space:nowrap; margin-top:1px;">PM + Product</span>
+            <span>Cross-OS walkthroughs complete and amendment log clean — every OS seam tested before build starts</span>
+          </div>
+
+        </div>
+        <div style="background:#f0f6ff; border:1px solid #bfdbfe; border-radius:6px; padding:12px 16px; font-size:13px;">
+          <strong style="color:#1d4ed8;">Gate G3 (June 10 EOD):</strong> All of the above done. Experience layer locked · four-way verification clean · atomic deliverables agreed · migration decided · integration map done · no open architectural questions · build sequence confirmed. All or nothing — build starts June 11.
+        </div>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div style="background:#fff; border:1px solid #e8eaf0; border-radius:10px; overflow:hidden;">
+      <div style="background:#fff7f0; padding:16px 22px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #e8eaf0;">
+        <div>
+          <div style="font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:#ea580c; margin-bottom:4px;">Phase 3 — Build & Go-Live</div>
+          <div style="font-size:15px; font-weight:800; color:#111;">11–30 June 2026</div>
+        </div>
+        <div style="background:#ea580c; color:#fff; font-size:11px; font-weight:800; padding:4px 14px; border-radius:20px;">Starts June 11</div>
+      </div>
+      <div style="padding:16px 22px; font-size:13.5px; color:#333;">
+        <div style="margin-bottom:14px;">
+          <strong>Build sequence:</strong> B2I → SQ Driver → Recovery OS → Continuity OS → RS OS → Exit OS → CM OS → At-Risk Resolution OS<br>
+          <span style="color:#888; font-size:13px;">Built in small chunks, shipped incrementally — even if go-live is combined. Each OS has atomic deliverables and a clear "done" definition.</span>
+        </div>
+        <div style="display:flex; gap:12px; margin-bottom:16px;">
+          <div style="background:#fff7f0; border:1px solid #fed7aa; border-radius:6px; padding:10px 14px; flex:1;">
+            <div style="font-size:11px; font-weight:800; color:#ea580c; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Gate G4 — Mid-sprint</div>
+            <div style="font-size:13px;">June 20 — Build tracking active. No rogue states/events added outside spec. Debug panel working with stage/prod data.</div>
+          </div>
+          <div style="background:#fff7f0; border:1px solid #fed7aa; border-radius:6px; padding:10px 14px; flex:1;">
+            <div style="font-size:11px; font-weight:800; color:#ea580c; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Gate G5 — Go-Live</div>
+            <div style="font-size:13px;">June 30 — Live. No open architectural decisions made during build. Everything tested through debug panel before release.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Customer OS — Build Readiness &nbsp;·&nbsp; 29 May 2026 &nbsp;·&nbsp; Inputs: Marut, Mukul, Devender, Nishit, Dhruv, Ashish
+</footer>
+
+</body>
+</html>
