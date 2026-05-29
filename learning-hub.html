@@ -294,26 +294,26 @@ input:checked + .slider:before { transform: translateX(20px); }
 ═══════════════════════════════════════════════════════════ -->
 <div id="tab-overview" class="tab-content active">
   <div class="sec-title">What is Customer OS?</div>
-  <div class="sec-sub">Customer OS is the system of 10 Operating Systems that govern everything Wiom does on the customer side — from the moment someone books internet until they leave. It is not an app or a database. It is the logic layer that decides what happens, when, and why.</div>
+  <div class="sec-sub">Customer OS is the set of 10 systems that govern everything Wiom does on the customer side — from the moment someone books internet until they leave. It is not an app or a database. It is the logic layer that decides what happens, when, and why.</div>
 
   <div class="card">
     <div class="card-title">🎯 The Core Problem This Solves</div>
     <div class="card-body">
-      <p>Without Customer OS: every team makes ad-hoc decisions, truth lives in spreadsheets and chat, failure attribution is guesswork, and no one knows what "recovery" actually means.</p>
-      <p>With Customer OS: every state, every event, every attribution is governed. The system produces structured truth. Downstream teams consume that truth and act on it.</p>
-      <p><strong>The canonical unit is always service_instance_id</strong> — not customer_id. One installation = one service instance. This is intentional.</p>
+      <p>Without Customer OS: every team makes ad-hoc decisions, truth lives in spreadsheets and chat, who's responsible for failures is guesswork, and no one knows what "recovery" actually means.</p>
+      <p>With Customer OS: every state, every event, every action is tracked and governed. The system produces structured truth. Every team reads that truth and acts on it.</p>
+      <p><strong>The base unit is a single internet connection</strong> (called a <code>service_instance_id</code> internally) — not the customer themselves. One installation = one service instance. This is intentional.</p>
     </div>
   </div>
 
   <div class="divider"></div>
   <div class="sec-title">The 4 Constitutional Rules</div>
-  <div class="sec-sub">Every OS must satisfy all four. These can never be violated, even for business convenience.</div>
+  <div class="sec-sub">Every OS must follow all four. These rules can never be broken, even for business convenience.</div>
 
   <div class="const-grid">
     <div class="const-card">
       <div class="const-label">C1</div>
-      <div class="const-title">Canonical Customer Truth</div>
-      <div class="const-desc">One authoritative version of truth across every surface — app, CSP app, support tool, ops dashboard. Divergence is flagged, not tolerated. No surface gets its own version of the truth.</div>
+      <div class="const-title">One Version of Truth</div>
+      <div class="const-desc">One consistent version of truth across every surface — app, CSP app, support tool, ops dashboard. Contradictions are flagged immediately. No team or surface gets to maintain its own version of the truth.</div>
     </div>
     <div class="const-card">
       <div class="const-label">C2</div>
@@ -334,39 +334,39 @@ input:checked + .slider:before { transform: translateX(20px); }
 
   <div class="divider"></div>
   <div class="sec-title">The 10 Operating Systems</div>
-  <div class="sec-sub">Three types: Stock-Flow (manage lifecycle transitions), Base-State/Epistemic (produce truth overlays), Semantic Integration (manage cross-OS relationships). All 8 customer OS specs locked as of 28 May 2026.</div>
+  <div class="sec-sub">Each OS has one job and stays in its lane. All 8 customer OS specs locked as of 28 May 2026.</div>
 
   <div class="os-grid">
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Booking-to-Install OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-locked">🔒 v3.1 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">Booking-to-Install OS</div><div class="os-card-type">Lifecycle</div></div><span class="badge b-locked">🔒 v3.1 LOCKED</span></div>
       <div class="os-card-oneliner">"B2I captures truth. It does not manufacture conversions."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">SQ Driver OS</div><div class="os-card-type">Base-State / Epistemic</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">SQ Driver OS</div><div class="os-card-type">Classification engine</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
       <div class="os-card-oneiller">"SQ Driver emits truth. It does not fix internet."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Recovery OS</div><div class="os-card-type">Stock-Flow (obligation stock)</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">Recovery OS</div><div class="os-card-type">Obligation tracker</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
       <div class="os-card-oneiller">"Recovery OS prevents and exposes Recovery Debt."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Continuity OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-locked">🔒 v1.0.1 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">Continuity OS</div><div class="os-card-type">Lifecycle</div></div><span class="badge b-locked">🔒 v1.0.1 LOCKED</span></div>
       <div class="os-card-oneliner">"Continuity OS handles customers correctly. It does not manufacture recharges."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Relationship-State OS</div><div class="os-card-type">Base-State / Epistemic</div></div><span class="badge b-locked">🔒 v1.1 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">Relationship-State OS</div><div class="os-card-type">Classification engine</div></div><span class="badge b-locked">🔒 v1.1 LOCKED</span></div>
       <div class="os-card-oneliner">"RS OS classifies. It does not act. It does not predict. It does not optimize outcomes."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Exit OS</div><div class="os-card-type">Integrity Steward</div></div><span class="badge b-locked">🔒 v1.0.1 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">Exit OS</div><div class="os-card-type">Exit &amp; closure</div></div><span class="badge b-locked">🔒 v1.0.1 LOCKED</span></div>
       <div class="os-card-oneliner">"Exit OS finalizes custody. It does not judge departure."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">Customer Management OS</div><div class="os-card-type">Semantic Integration</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">Customer Management OS</div><div class="os-card-type">Customer memory</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
       <div class="os-card-oneliner">"CM OS remembers and resolves. It does not score, rank, predict, or act."</div>
     </div>
     <div class="os-card">
-      <div class="os-card-top"><div><div class="os-card-name">At-Risk Resolution OS</div><div class="os-card-type">Stock-Flow</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
+      <div class="os-card-top"><div><div class="os-card-name">At-Risk Resolution OS</div><div class="os-card-type">Lifecycle</div></div><span class="badge b-locked">🔒 v1.0 LOCKED</span></div>
       <div class="os-card-oneliner">"Act on the problem, never on the decision."</div>
     </div>
     <div class="os-card">
@@ -394,9 +394,9 @@ input:checked + .slider:before { transform: translateX(20px); }
   <table class="dt">
     <thead><tr><th>Registry</th><th>What it governs</th><th>Current status</th></tr></thead>
     <tbody>
-      <tr><td><strong>ESR</strong> — Event Schema Registry v1.0</td><td>28 events. Every event that exists in Customer OS. 23 full contracts + 5 Exit sketches.</td><td><span class="badge b-draft">📝 Draft</span> Exit events still sketches</td></tr>
-      <tr><td><strong>SPR</strong> — System Parameter Registry v1.0</td><td>70 parameters across 6 OSes. Every configurable value. 39 committed, 27 TBD → V1.</td><td><span class="badge b-draft">📝 Draft</span> 27 params TBD</td></tr>
-      <tr><td><strong>Routing Registry v1.0</strong></td><td>108 routing rules. Who receives what event. 47 MANDATORY, 34 EXPECTED, 27 INFORMATIONAL.</td><td><span class="badge b-draft">📝 Draft</span> Exit routing not added</td></tr>
+      <tr><td><strong>ESR</strong> — Event Schema Registry v2.0</td><td>39 events across all 8 OSes. Every event that exists in Customer OS, with full contracts.</td><td><span class="badge b-locked">🔒 Locked</span></td></tr>
+      <tr><td><strong>SPR</strong> — System Parameter Registry v2.0</td><td>95 parameters across 8 OSes. Every configurable value.</td><td><span class="badge b-locked">🔒 Locked</span></td></tr>
+      <tr><td><strong>Routing Registry v2.0</strong></td><td>~170 routing rules across 41 events. Who receives what event.</td><td><span class="badge b-locked">🔒 Locked</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -452,7 +452,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="callout"><strong>Rule 1 — No auto-confirmation.</strong> A customer's silence is NEVER treated as a "yes" to an install date. The system escalates (S6), then proposes closure (S7), then drops with refund (S13) if still no response. This replaced a system that auto-confirmed silently.</div>
     <div class="callout"><strong>Rule 2 — Who will be home?</strong> You can't send a technician if no one is home. The system must capture this before dispatch (install-contact field). If not resolved → escalation → eventual drop.</div>
     <div class="callout"><strong>Rule 3 — S10 is new and critical.</strong> Previously, the system had no state for "technician is actively doing the install." This caused massive attribution failures. Now we know if a CSP claims the customer was absent — was a tech actually dispatched and tracked?</div>
-    <div class="callout"><strong>Rule 4 — Every failed install has a reason.</strong> Three attribution buckets: customer-truth / CSP-execution / system. "Unknown" as a lazy bucket is <em>constitutionally prohibited</em>. If both parties give conflicting stories → customer truth is default pending investigation.</div>
+    <div class="callout"><strong>Rule 4 — Every failed install has a reason.</strong> Three attribution buckets: customer-truth / CSP-execution / system. "Unknown" as a lazy default is <em>not allowed</em>. If both parties give conflicting stories → customer truth is default pending investigation.</div>
     <div class="callout"><strong>Rule 5 — S13 and S15 are separate.</strong> S13 records the fact (booking ended + why). S15 is the command to Exit OS (handle refund). Not every S13 needs an S15 — but the fact must precede the command.</div>
   </div>
 
@@ -624,7 +624,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 
       <div class="um-h">⛔ What B2I OS never does</div>
       <div class="um-never">❌ <strong>Does not monitor quality after installation.</strong> The moment Install Completed fires, B2I's job ends. SQ Driver takes over from there.</div>
-      <div class="um-never">❌ <strong>Does not auto-confirm a slot if the customer doesn't respond.</strong> Customer silence triggers escalation, then Closure Proposed, then a refund — but never a silent "yes." Auto-confirmation is constitutionally prohibited.</div>
+      <div class="um-never">❌ <strong>Does not auto-confirm a slot if the customer doesn't respond.</strong> Customer silence triggers escalation, then Closure Proposed, then a refund — but never a silent "yes." Auto-confirmation is never allowed.</div>
       <div class="um-never">❌ <strong>Does not govern recharge, retention, or ongoing service.</strong> Its scope is strictly booking-to-install. What happens after the router lights up belongs to other OSes.</div>
       <div class="um-never">❌ <strong>Does not allow "unknown" as a lazy attribution bucket.</strong> Every failed install has a structured reason: customer-truth, CSP-execution, or system. "Unknown" is only permitted after genuine investigation, never as a default.</div>
       <div class="um-never">❌ <strong>Does not let a booking drift.</strong> Every state has a timeout and escalation rule. The system always acts. Limbo is not a state.</div>
@@ -743,7 +743,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     </div>
 
     <div class="emoji-title">📊 5 Quality States — with real data</div>
-    <div class="callout callout-info">These are <strong>concurrent overlay states</strong> — not a lifecycle. A customer in ACTIVE_ENTITLED state (from Continuity OS) can simultaneously be in any quality state. Both exist at the same time. Quality state can change any direction, any time, based on telemetry.</div>
+    <div class="callout callout-info">These are <strong>a separate layer from the main service state</strong> — not steps in a sequence. A customer can be in ACTIVE_ENTITLED state (from Continuity OS) and have any quality state at the same time. Quality state can change in any direction, any time, based on telemetry.</div>
 
     <div class="q-states">
       <div class="qstate qs-healthy"><div>✅ Healthy</div><div style="font-size:11px;font-weight:400;margin-top:4px">R30: 91.6%</div><div style="font-size:11px;font-weight:400">"All good"</div></div>
@@ -753,8 +753,8 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="qstate qs-unknown"><div>❓ Unknown</div><div style="font-size:11px;font-weight:400;margin-top:4px">R30: 74.1% 🚨</div><div style="font-size:11px;font-weight:400">Not surfaced to customer</div></div>
     </div>
 
-    <div class="callout callout-warn"><strong>Why Unknown is the worst:</strong> Unknown (74.1% R30) is worse than Unusable (82.8% R30). If we know your internet is broken, we can act. If we can't see you at all — no telemetry, no signal — you drift away silently. Epistemic invisibility is more dangerous than known-bad service.</div>
-    <div class="callout callout-warn"><strong>Why Intermittent &gt; Degraded in severity:</strong> Stable slow internet (5 Mbps consistently) is more predictable than internet that cuts in and out. Instability destroys trust faster, makes recovery harder. Severity is downstream-consequence-weighted.</div>
+    <div class="callout callout-warn"><strong>Why Unknown is the worst:</strong> Unknown (74.1% R30) is worse than Unusable (82.8% R30). If we know your internet is broken, we can act. If we can't see you at all — no telemetry, no signal — you drift away silently. Being invisible to the system is more dangerous than known-bad service.</div>
+    <div class="callout callout-warn"><strong>Why Intermittent &gt; Degraded in severity:</strong> Stable slow internet (5 Mbps consistently) is more predictable than internet that cuts in and out. Instability destroys trust faster, makes recovery harder. Severity is ranked by the harm it causes — not just how bad it sounds.</div>
 
     <div class="emoji-title">🔴 RDNI — The Highest Trust-Damage Failure</div>
     <div class="card">
@@ -1069,7 +1069,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="emoji-title">📈 Recovery Debt</div>
     <div class="card">
       <div class="card-body">
-        <p><strong>Recovery Debt</strong> is longitudinal damage memory — it doesn't go away when a case closes. It tracks the cumulative harm caused by quality failures over a 30-day rolling window.</p>
+        <p><strong>Recovery Debt</strong> is a running tally of accumulated damage — it doesn't go away when a case closes. It tracks the cumulative harm caused by quality failures over a 30-day rolling window.</p>
         <p><strong>Weights:</strong> Unusable event = 3× · Intermittent = 2× · Degraded = 1×</p>
         <p>This prevents 3 minor degraded events from "outweighing" one catastrophic 3-day outage in the debt score.</p>
         <p><strong>Key rule:</strong> Cases can close while Recovery Debt remains active. These are different layers. Debt doesn't block closure — it's a separate long-term risk signal.</p>
@@ -1426,7 +1426,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="callout"><strong>Rule 1 — Non-recharge is neutral.</strong> The default posture under non-recharge with no adverse signals is Normal. The system does not treat a customer who didn't recharge as someone who "churned." Pause is legitimate. The 15-day window exists because Wiom holds physical infrastructure (the router), not because of policy preference.</div>
     <div class="callout"><strong>Rule 2 — No recharge pressure during broken internet.</strong> If SQ Driver says the internet is Unusable or Intermittent (Wiom-caused), the posture automatically switches to Recovery-first. The system cannot ask a customer to pay for internet that doesn't work.</div>
     <div class="callout"><strong>Rule 3 — Each recharge is independent.</strong> Not a subscription renewal. Not an obligation. The customer chooses. The system observes. Even a 1-day recharge resets the 15-day window — there is no minimum.</div>
-    <div class="callout"><strong>Rule 4 — No persuasion on exit.</strong> If a customer decides to leave, the system provides clarity (what happens next, refund timeline, device pickup date) and stops there. "Are you sure? You'll lose your connection" is constitutionally prohibited.</div>
+    <div class="callout"><strong>Rule 4 — No persuasion on exit.</strong> If a customer decides to leave, the system provides clarity (what happens next, refund timeline, device pickup date) and stops there. "Are you sure? You'll lose your connection" is never allowed.</div>
     <div class="callout"><strong>Rule 5 — Degradation must be honest.</strong> The 3-test rule for the reservation window: honest-economics (reduction proportional to non-payment, not punitive), essential-functions (recharge surface + support + state visibility always on), non-coercive-use (customer can use the product without pressure). All three must pass.</div>
   </div>
 
@@ -1611,7 +1611,7 @@ input:checked + .slider:before { transform: translateX(20px); }
       <div class="um-h">⛔ What Continuity OS never does</div>
       <div class="um-never">❌ <strong>Does not optimize recharge rate, ARPU, or any subscription metric.</strong> It reports continuation rate as a validation metric only — never as an optimization target. Six Guardrail KRAs explicitly prohibit recharge optimization.</div>
       <div class="um-never">❌ <strong>Does not classify relationship-state.</strong> AT_RISK, CUSTOMER_PAUSED, Fragile, Stable — all of those belong to RS OS. Continuity OS contributes payment-side signals only.</div>
-      <div class="um-never">❌ <strong>Does not build per-customer propensity models.</strong> Cohort-level timing/channel calibration is allowed. Individual churn prediction, recharge propensity scores, behavioral targeting — constitutionally prohibited.</div>
+      <div class="um-never">❌ <strong>Does not build per-customer propensity models.</strong> Cohort-level timing/channel calibration is allowed. Individual churn prediction, recharge propensity scores, behavioral targeting — not allowed.</div>
       <div class="um-never">❌ <strong>Does not try to save a customer who chose to leave.</strong> Customer exit goes straight to Exit OS with zero persuasion. Clarity is required. Save attempts are prohibited.</div>
       <div class="um-never">❌ <strong>Does not create Grace-extension on its own authority.</strong> It can only activate Grace-extension posture when Recovery OS or Credit Ledger issues an authorized compensation event. It cannot extend the window independently.</div>
 
@@ -1921,7 +1921,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="um-body" id="um-rs">
 
       <div class="um-h">⛔ What RS OS never does</div>
-      <div class="um-never">❌ <strong>Does not predict churn, LTV, or recharge probability.</strong> Propensity scores, churn-likelihood models, behavioral-targeting — all constitutionally prohibited. Doctrine #19.</div>
+      <div class="um-never">❌ <strong>Does not predict churn, LTV, or recharge probability.</strong> Propensity scores, churn-likelihood models, behavioral-targeting — none of these are allowed.</div>
       <div class="um-never">❌ <strong>Does not orchestrate retention actions, campaigns, or interventions.</strong> That is At-Risk Resolution OS. RS OS classifies. The consumer decides what to do with the classification.</div>
       <div class="um-never">❌ <strong>Does not use recharge behavior as the primary classification trigger.</strong> Non-recharge alone never drives state deterioration. Recharge is one signal among many, interpreted only in combination with deterioration evidence.</div>
       <div class="um-never">❌ <strong>Does not contact customers or make classifications visible to customers or CSPs.</strong> Classifications are internal system truth — consumed by downstream OSes, not surfaced directly.</div>
@@ -1964,7 +1964,7 @@ input:checked + .slider:before { transform: translateX(20px); }
           <div class="um-conn-head">➡ Sends signals to</div>
           <div class="um-conn-item"><strong>Continuity OS</strong> — AT_RISK triggers handoff; CUSTOMER_PAUSED triggers Passive-only; Fragile triggers Softened posture</div>
           <div class="um-conn-item"><strong>At-Risk Resolution OS</strong> — AT_RISK classification initiates the intervention handoff</div>
-          <div class="um-conn-item"><strong>CM OS (future)</strong> — relationship trajectory for person-level memory</div>
+          <div class="um-conn-item"><strong>CM OS</strong> — relationship trajectory for person-level memory</div>
           <div class="um-conn-item"><strong>Analytics</strong> — classification fidelity metrics, Unknown share tracking, SQ–RS visibility gap forum</div>
         </div>
       </div>
@@ -2362,7 +2362,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <p>Think of CM OS like a person's <strong>passport and history file</strong> — it records who they are, what actually happened, and any obligations they're owed. It does not predict what they might do or score how valuable they are.</p>
         <p>It is the <strong>only OS that operates at person level</strong> (<code>customer_id</code>). Every other OS sees one service connection. CM OS sees the human being — across all connections, exits, and returns.</p>
         <p><strong>What it holds:</strong> Identity (phone, name, address), preferences, behavioral history (as observed events — not predictions), confidence metadata, and trust/obligation signals from other OSes.</p>
-        <p><strong>The obligation ledger:</strong> If Wiom owes a customer compensation that was never paid — even after they leave — CM OS holds that obligation. No long-stop. Dormancy never makes it disappear.</p>
+        <p><strong>The obligation ledger:</strong> If Wiom owes a customer compensation that was never paid — even after they leave — CM OS holds that obligation. It never expires. Dormancy never makes it disappear.</p>
       </div>
     </div>
 
@@ -2378,7 +2378,7 @@ input:checked + .slider:before { transform: translateX(20px); }
     <div class="emoji-title">🔑 5 Rules That Make CM OS Different</div>
     <div class="callout"><strong>Rule 1 — False split over false merge.</strong> When two signals could be the same person, CM OS creates a new customer_id (false split) rather than collapsing them (false merge). False merge contaminates an innocent person's record and is catastrophic. False split creates a duplicate, which is fixable.</div>
     <div class="callout"><strong>Rule 2 — Only what was observed.</strong> CM OS stores observables only. No inference, no predicted sentiment, no propensity scores, no health ratings. If it wasn't a real event, it cannot be stored.</div>
-    <div class="callout"><strong>Rule 3 — Person-level obligation ledger, no long-stop.</strong> Obligations Wiom owes a customer survive their exit. The ledger never expires. A customer who returns 2 years later — CM OS still shows what Wiom owes them.</div>
+    <div class="callout"><strong>Rule 3 — Person-level obligation ledger, no expiry.</strong> Obligations Wiom owes a customer survive their exit. The ledger never expires. A customer who returns 2 years later — CM OS still shows what Wiom owes them.</div>
     <div class="callout"><strong>Rule 4 — Explicit always overwrites inferred.</strong> If a customer sets a preference directly (language, channel, timing), that beats anything the system inferred. No exception.</div>
     <div class="callout"><strong>Rule 5 — Sensitive categories: absolute exclusion.</strong> Political, religious, caste, health, sexual orientation — never stored, even if stated verbatim by the customer. CM-11 is non-negotiable.</div>
 
@@ -2465,7 +2465,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-sc-title">Obligation survives exit (Rahul's Recovery Debt)</div>
         <div class="um-sc-row"><span class="um-sc-lbl">Situation</span><span class="um-sc-val">Rahul exited with an open Recovery Debt — 3-day outage, never compensated. CM OS recorded it in the obligation ledger under CM-9. 6 months later, Rahul calls support about reconnecting.</span></div>
         <div class="um-sc-row"><span class="um-sc-lbl">What happens</span><span class="um-sc-val">Support tool shows the open obligation: "Recovery Debt — ₹X, source: Recovery OS, status: open." Not a punitive flag — an obligation Wiom owes Rahul. It survived his exit. Dormancy did not reduce it.</span></div>
-        <div class="um-sc-result">✅ Wiom hasn't forgotten. When Rahul re-books, the obligation is settled per the settlement pathway. CM-9: no long-stop.</div>
+        <div class="um-sc-result">✅ Wiom hasn't forgotten. When Rahul re-books, the obligation is settled per the settlement pathway. It never expires.</div>
       </div>
 
       <div class="um-h">Connections</div>
@@ -2510,7 +2510,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-role">
           <div class="um-role-lbl">Product</div>
           <ul>
-            <li>Locked: false-split-preferred default, no scoring or health metrics, obligation ledger with no long-stop, default-exclusion dark data.</li>
+            <li>Locked: false-split-preferred default, no scoring or health metrics, obligation ledger with no expiry, default-exclusion dark data.</li>
             <li>Open: never-booked retention duration (CP-CM-04), DPDP minimums, Aadhaar storage legality, CM OS ↔ Payment interface.</li>
             <li>Service Transfer Flow (relocation) is a named seam escalated to Architecture — ~20%+ of big-city customers/yr. Must resolve before Architecture v2.0.</li>
           </ul>
@@ -2686,7 +2686,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-role">
           <div class="um-role-lbl">CX / Support (embedded specialists)</div>
           <ul>
-            <li>T1–T8 are exhaustive. If a situation seems to need something outside the toolkit — escalate to OS Owner. Never improvise. Improvisation = doctrine violation.</li>
+            <li>T1–T8 are exhaustive. If a situation seems to need something outside the toolkit — escalate to OS Owner. Never improvise. Improvising outside T1–T8 is against the rules.</li>
             <li>T1 must pass 4 tests: (i) event-referenced, (ii) delivered, (iii) states what Wiom is addressing, (iv) gives next step. "We hear you" alone fails.</li>
             <li>Hard 90-day clock. Plan case timeline with the cap in mind from Day 1.</li>
             <li>Never use AT_RISK vocabulary with the customer. Event-referenced language only: "We noticed your connection had [specific issue]."</li>
@@ -2714,7 +2714,7 @@ input:checked + .slider:before { transform: translateX(20px); }
         <div class="um-role">
           <div class="um-role-lbl">Design / Comms</div>
           <ul>
-            <li>D28 structural test: would this message read the same if the customer had already decided to leave? If not — it's persuasion, not resolution. Only resolution language is permitted.</li>
+            <li>The test for every message: would it read the same if the customer had already decided to leave? If not — it's persuasion, not resolution. Only resolution language is allowed.</li>
             <li>Every outbound communication must be event-referenced — names the specific deterioration event. Generic "we want to make things right" fails D6.</li>
             <li>Per-language prohibited vocabulary lists are a launch blocker. Hindi, Hinglish, regional — each needs an explicit list. Steward approval required before V1.</li>
             <li>Channel cadence: min 7-day between contacts (CP-ARR-04), max 7 total contact attempts per case (CP-ARR-05). Build templates with these constraints built in.</li>
