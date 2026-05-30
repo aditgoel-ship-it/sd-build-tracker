@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WIOM Customer System Architecture — v2.0 LOCKED</title>
+  <style>
+    :root {
+      --brand:       #d92b90;
+      --brand-dark:  #a81f6e;
+      --brand-light: #fce9f4;
+      --brand-mid:   #f9d0ec;
+      --bg:          #f6f6f8;
+      --surface:     #ffffff;
+      --text:        #1a1a2e;
+      --muted:       #5a5a72;
+      --border:      #e4e4ee;
+      --code-bg:     #f0f0f5;
+      --green:       #16a34a;
+      --amber:       #b45309;
+      --gray:        #9ca3af;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 15px;
+    }
+
+    /* ── Top bar ── */
+    .topbar {
+      background: var(--brand);
+      color: #fff;
+      padding: 14px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(217,43,144,.35);
+    }
+    .topbar-title { font-size: 13px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; }
+    .topbar-badge {
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.45);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: .4px;
+    }
+
+    /* ── Layout ── */
+    .wrap { max-width: 920px; margin: 0 auto; padding: 40px 20px 80px; }
+
+    /* ── Hero ── */
+    .hero {
+      background: var(--surface);
+      border-left: 5px solid var(--brand);
+      border-radius: 10px;
+      padding: 32px 36px 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    }
+    .hero-eyebrow { font-size: 12px; font-weight: 700; color: var(--brand); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .hero h1 { font-size: 28px; font-weight: 800; color: var(--text); letter-spacing: -.3px; margin-bottom: 2px; }
+    .hero-sub { font-size: 16px; color: var(--muted); font-weight: 400; margin-bottom: 24px; }
+    .meta { display: grid; grid-template-columns: max-content 1fr; gap: 7px 20px; font-size: 13.5px; }
+    .meta-k { font-weight: 700; color: var(--brand); }
+    .meta-v { color: var(--text); }
+
+    /* ── Table of Contents ── */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--brand);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 28px;
+    }
+    .toc-title { font-size: 11px; font-weight: 700; color: var(--brand); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+    .toc ol { padding-left: 18px; }
+    .toc li { margin-bottom: 4px; font-size: 13.5px; }
+    .toc a { color: var(--muted); text-decoration: none; }
+    .toc a:hover { color: var(--brand); text-decoration: underline; }
+
+    /* ── Section card ── */
+    .sec {
+      background: var(--surface);
+      border-radius: 10px;
+      padding: 30px 36px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 5px rgba(0,0,0,.06);
+    }
+    .sec-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--brand-light);
+    }
+    .sec-tag {
+      background: var(--brand);
+      color: #fff;
+      border-radius: 4px;
+      padding: 2px 9px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      white-space: nowrap;
+    }
+    .sec-title { font-size: 19px; font-weight: 700; color: var(--text); }
+    .sec h3 { font-size: 15px; font-weight: 700; color: var(--brand-dark); margin: 22px 0 8px; }
+    .sec h3:first-child { margin-top: 0; }
+
+    p { margin-bottom: 13px; }
+    p:last-child { margin-bottom: 0; }
+    strong { font-weight: 700; }
+    em { font-style: italic; }
+    code {
+      background: var(--code-bg);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-family: 'Consolas', 'Fira Mono', monospace;
+      font-size: 13px;
+      color: var(--brand-dark);
+    }
+
+    ul, ol { padding-left: 22px; margin-bottom: 13px; }
+    li { margin-bottom: 5px; }
+    li:last-child { margin-bottom: 0; }
+
+    /* ── Callout boxes ── */
+    .callout {
+      background: var(--brand-light);
+      border-left: 3px solid var(--brand);
+      border-radius: 0 6px 6px 0;
+      padding: 13px 18px;
+      margin: 14px 0;
+      font-size: 14.5px;
+    }
+    .callout strong { color: var(--brand); }
+    .warn {
+      background: #fffbeb;
+      border-left: 3px solid #f59e0b;
+      border-radius: 0 6px 6px 0;
+      padding: 13px 18px;
+      margin: 14px 0;
+      font-size: 14.5px;
+    }
+    .warn strong { color: #92400e; }
+    .info {
+      background: #eff6ff;
+      border-left: 3px solid #3b82f6;
+      border-radius: 0 6px 6px 0;
+      padding: 13px 18px;
+      margin: 14px 0;
+      font-size: 14.5px;
+    }
+
+    /* ── Tables ── */
+    .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    thead tr { background: var(--brand); color: #fff; }
+    thead th { padding: 10px 14px; text-align: left; font-weight: 700; }
+    tbody tr:nth-child(even) { background: var(--brand-light); }
+    tbody tr:hover { background: var(--brand-mid); }
+    td { padding: 9px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    td:first-child { font-weight: 500; }
+
+    /* ── Key-numbers grid ── */
+    .nums { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 12px; margin-top: 16px; }
+    .num-card { background: var(--brand-light); border: 1px solid #f0b8df; border-radius: 8px; padding: 14px; text-align: center; }
+    .num-card .n { font-size: 30px; font-weight: 800; color: var(--brand); line-height: 1.1; }
+    .num-card .l { font-size: 12px; color: var(--muted); margin-top: 5px; line-height: 1.3; }
+
+    /* ── Status badges ── */
+    .locked { color: var(--green); font-weight: 700; }
+    .future { color: var(--gray); }
+    .pending { color: var(--amber); font-weight: 600; }
+
+    /* ── Divider ── */
+    hr { border: none; border-top: 1px solid var(--border); margin: 22px 0; }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 2px solid var(--brand-light);
+      padding-top: 24px;
+      margin-top: 32px;
+    }
+    .footer strong { color: var(--brand); }
+
+    /* ── Synthesis card ── */
+    .synthesis { background: linear-gradient(150deg,var(--brand-light) 0%,var(--surface) 60%); }
+
+    @media (max-width: 600px) {
+      .topbar { padding: 12px 16px; }
+      .sec, .hero { padding: 22px 18px; }
+      .topbar-title { font-size: 11px; }
+      .nums { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ TOP BAR ══════════ -->
+<div class="topbar">
+  <div class="topbar-title">WIOM Customer System — Architecture Context Note</div>
+  <div class="topbar-badge">v2.0 LOCKED</div>
+</div>
+
+<div class="wrap">
+
+  <!-- ══════════ HERO ══════════ -->
+  <div class="hero">
+    <div class="hero-eyebrow">System Architecture</div>
+    <h1>WIOM Customer System</h1>
+    <div class="hero-sub">Context Note — Version 2.0 — LOCKED</div>
+    <div class="meta">
+      <span class="meta-k">Date</span>
+      <span class="meta-v">May 28, 2026</span>
+      <span class="meta-k">Author</span>
+      <span class="meta-v">Satyam (architecture authority)</span>
+      <span class="meta-k">Status</span>
+      <span class="meta-v">Consolidated from v1.0 + v1.1 + v1.1.1. Reflects 8 locked OS specs, 3 locked infrastructure registries, and all architectural decisions made through May 2026.</span>
+      <span class="meta-k">Identity</span>
+      <span class="meta-v">A distributed truth network governed by bounded OSes, constitutional doctrines, and canonical truth domains — not a CRM, not a subscription engine, not a telco stack.</span>
+      <span class="meta-k">Supersedes</span>
+      <span class="meta-v">v1.0 (original), v1.1 (OS category + continuity amendment), v1.1.1 (rename cascade + multi-service amendment). This document is the single architecture reference.</span>
+    </div>
+  </div>
+
+  <!-- ══════════ TABLE OF CONTENTS ══════════ -->
+  <div class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#why-read">Why Read This</a></li>
+      <li><a href="#s1">§1 — Why a Customer-Side Architecture Exists</a></li>
+      <li><a href="#s2">§2 — Purpose</a></li>
+      <li><a href="#s3">§3 — System Objective</a></li>
+      <li><a href="#s4">§4 — The PayG Paradigm &amp; Value Hierarchy</a></li>
+      <li><a href="#s5">§5 — Entity Model</a></li>
+      <li><a href="#s6">§6 — Stock Model</a></li>
+      <li><a href="#s7">§7 — Constitutional Layer</a></li>
+      <li><a href="#s8">§8 — Signal &amp; Event Layer</a></li>
+      <li><a href="#s9">§9 — Canonical Truth Domains</a></li>
+      <li><a href="#s10">§10 — OS Categories</a></li>
+      <li><a href="#s11">§11 — The 8 Locked OSes + 2 Future Candidates</a></li>
+      <li><a href="#s12">§12 — Infrastructure Layer</a></li>
+      <li><a href="#s13">§13 — Anti-Corruption Architecture</a></li>
+      <li><a href="#s14">§14 — Multi-Service Readiness</a></li>
+      <li><a href="#s15">§15 — Open Seams &amp; Pending Items</a></li>
+      <li><a href="#s16">§16 — Metrics Philosophy</a></li>
+      <li><a href="#s17">§17 — Falsification &amp; Kill Tests</a></li>
+      <li><a href="#s18">§18 — Leverage-Point Check (Meadows)</a></li>
+      <li><a href="#s19">§19 — Key Numbers</a></li>
+      <li><a href="#s20">§20 — What This Note Is and Is Not</a></li>
+      <li><a href="#s21">§21 — Version History</a></li>
+      <li><a href="#synthesis">Final Synthesis</a></li>
+    </ol>
+  </div>
+
+  <!-- ══════════ WHY READ THIS ══════════ -->
+  <div class="sec" id="why-read">
+    <div class="sec-head">
+      <div class="sec-title">Why Read This</div>
+    </div>
+    <div class="callout">
+      <strong>In 60 seconds:</strong> Wiom's customer system is governed by 8 locked Operating Systems, each owning one slice of truth about the customer's journey. These OSes communicate through events, follow 4 constitutional rules (C1–C4), and are constrained by 108 doctrines and 110+ invariants. The architecture replaces ad-hoc feature logic with bounded, auditable, constitutionally governed subsystems. It is designed for PayG — not subscription, not telco, not CRM.
+    </div>
+    <p><strong>After reading this:</strong> You should be able to look at any OS spec and know where it sits in the system, what truth it owns, what it reads, what it emits, and what it's constitutionally prohibited from doing.</p>
+    <p><strong>What to do:</strong> Read this note fully (~25 min). Then read the spec of the OS closest to your work area — start with §1 (Objective) and §3 (Constitution/Doctrine). Everything else follows from those.</p>
+  </div>
+
+  <!-- ══════════ §1 ══════════ -->
+  <div class="sec" id="s1">
+    <div class="sec-head">
+      <div class="sec-tag">§1</div>
+      <div class="sec-title">Why a Customer-Side Architecture Exists</div>
+    </div>
+
+    <h3>1.1 The Problem</h3>
+    <p>Before this architecture, the customer system was a collection of features — booking flow, recharge logic, support tools, quality monitoring — each built independently. They worked individually. Together they produced contradictions: the customer app showed one status, the CSP app showed another, and support saw a third. Quality issues triggered false recovery cases. Recharge reminders went out while the service was broken. Nobody owned "what is true about this customer right now."</p>
+    <p>The root cause was not bad code. It was the absence of governed boundaries — no system defined who owns which truth, who can write to what, and what promises the system makes to the customer.</p>
+
+    <h3>1.2 How This Differs from CSP-Side Architecture</h3>
+    <p>Wiom's CSP-side architecture (9 locked OSes) governs <strong>execution</strong> — the CSP is a managed partner who operates within Wiom's rules. CSP-side OSes define what the CSP must do, how they're measured, and what happens when they don't comply.</p>
+    <p>The customer-side architecture governs <strong>truth</strong> — the customer is a sovereign person who owes Wiom nothing. Customer-side OSes define what the system knows about the customer, what it observes, what it infers (very little), and what it's constitutionally prohibited from doing with that knowledge.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Dimension</th><th>CSP-side</th><th>Customer-side</th></tr></thead>
+        <tbody>
+          <tr><td>Governed actor</td><td>Managed partner (CSP)</td><td>Sovereign person (customer)</td></tr>
+          <tr><td>Core discipline</td><td>Execution governance</td><td>Truth governance</td></tr>
+          <tr><td>Primary risk</td><td>CSP non-compliance</td><td>System coercion of customer</td></tr>
+          <tr><td>Anti-corruption focus</td><td>Preventing gaming</td><td>Preventing CRM/save/scoring drift</td></tr>
+          <tr><td>Right to leave</td><td>Contractually bounded</td><td>Constitutionally protected</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>1.3 The Correct Starting Point</h3>
+    <p>The architecture starts from the <strong>entity model</strong> (who is a customer, what is a service instance), not from features (booking flow, recharge screen). This is deliberate. Features change quarterly. The entity model is the foundation that all features, all OSes, and all future services build on. If the entity model is wrong, every feature built on it inherits the error. If the entity model is right, features can be rebuilt, replaced, or added without architectural regression.</p>
+  </div>
+
+  <!-- ══════════ §2 ══════════ -->
+  <div class="sec" id="s2">
+    <div class="sec-head">
+      <div class="sec-tag">§2</div>
+      <div class="sec-title">Purpose</div>
+    </div>
+    <p>This document defines the architecture of Wiom's customer-side system: how the system sees customers, what truth it maintains about them, how different subsystems coordinate, and what constitutional constraints govern every decision.</p>
+    <p>It is a context note — not a spec. The 8 OS specs are the source of truth for their respective domains. This document governs the structure that holds them together.</p>
+    <div class="callout">
+      <strong>One-line architecture:</strong> Every OS owns one truth domain, communicates through events, and is constitutionally bound. No OS can overwrite another's truth. The customer's right to leave without friction is architecturally protected.
+    </div>
+  </div>
+
+  <!-- ══════════ §3 ══════════ -->
+  <div class="sec" id="s3">
+    <div class="sec-head">
+      <div class="sec-tag">§3</div>
+      <div class="sec-title">System Objective</div>
+    </div>
+    <p>Govern healthy active stock, enable reversible dormancy and re-entry, and ensure true exits are cleanly resolved — without coercive continuation or fake certainty. "Healthy" means:</p>
+    <ul>
+      <li>Operational service quality is reliable (SQ Driver)</li>
+      <li>Recovery integrity is strong (Recovery OS)</li>
+      <li>Continuity posture is non-coercive (Continuity OS)</li>
+      <li>Relationship-state is honestly classified (Relationship-State OS)</li>
+      <li>Customer-side truth remains canonical across all surfaces (C1)</li>
+    </ul>
+    <div class="warn">
+      <strong>Note:</strong> More stock alone is not success. Coerced continuation, fake certainty, emotional appeasement, and throughput masquerading as integrity are constitutionally prohibited.
+    </div>
+  </div>
+
+  <!-- ══════════ §4 ══════════ -->
+  <div class="sec" id="s4">
+    <div class="sec-head">
+      <div class="sec-tag">§4</div>
+      <div class="sec-title">The PayG Paradigm &amp; Value Hierarchy</div>
+    </div>
+
+    <h3>4.1 PayG Inverts Legacy Telecom</h3>
+    <p>Traditional ISPs assume: the customer commits to a contract, and the service continues unless the customer actively cancels. The system's job is to prevent cancellation.</p>
+    <p>Wiom inverts this: the customer pays for days, gets days. No contract. No lock-in. No penalty for not recharging. Each recharge is a voluntary continuity reaffirmation — not a renewal of a standing obligation. Absence of recharge is neutral — no deterioration or churn inference occurs from non-recharge alone.</p>
+    <p>This inversion is the deepest leverage point in the architecture (Meadows LP2 — paradigm). Every OS must respect it. Continuity OS's anti-subscription doctrine, At-Risk Resolution OS's resolution-not-saving principle, and Exit OS's right-to-leave protection all trace back to this paradigm.</p>
+    <div class="warn">
+      <strong>Critical:</strong> If the architecture ever silently recreates subscription logic — loyalty programs, retention offers, obligation framing, churn-prevention mechanics — it has failed at the paradigm level, regardless of how well individual OSes perform.
+    </div>
+
+    <h3>4.2 Value Hierarchy and Risk Transfer</h3>
+    <p>At Wiom's customer segment, the power asymmetry is stark:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Wiom holds</th><th>Customer holds</th></tr></thead>
+        <tbody>
+          <tr><td>The physical device (netbox)</td><td>Their choice to recharge or not</td></tr>
+          <tr><td>The payment (recharge money)</td><td>Their phone number</td></tr>
+          <tr><td>The communication channels</td><td>Their time and attention</td></tr>
+          <tr><td>The service activation switch</td><td>Nothing else</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The customer's only power is the right to leave. The architecture must protect this right — not because it's good business strategy (though it is), but because governing the use of asymmetric power is the Constitution's purpose. C2 (system-owned failure) and C4 (clarity of state) exist precisely because Wiom holds the power and the customer holds only their choice.</p>
+
+    <h3>4.3 Core Service vs Access Model</h3>
+    <p>Service quality (the internet works) is primary. The access model (recharge-based, app-based) is enabling. The access model cannot rescue a broken core service. A customer with reliable internet and a clunky recharge experience is better served than a customer with a beautiful app and an unstable connection. This hierarchy governs investment priority and OS design: SQ Driver and Recovery OS are more fundamental than Continuity OS and At-Risk Resolution OS.</p>
+  </div>
+
+  <!-- ══════════ §5 ══════════ -->
+  <div class="sec" id="s5">
+    <div class="sec-head">
+      <div class="sec-tag">§5</div>
+      <div class="sec-title">Entity Model</div>
+    </div>
+
+    <h3>3.1 Two-Level Architecture</h3>
+    <p>The system operates at two entity levels. Every OS except one operates at the lower level.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Level</th><th>Entity</th><th>Scope</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Person</strong></td><td><code>customer_id</code></td><td>One human being, durable across all service instances, exits, re-entries, and services</td><td>Customer Management OS (the ONLY OS at this level)</td></tr>
+          <tr><td><strong>Connection</strong></td><td><code>service_instance_id</code></td><td>One internet connection at one address for one customer</td><td>All other OSes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>This separation is load-bearing. <code>customer_id</code> persists when <code>service_instance_id</code> is archived. A person who exits and returns gets a new <code>service_instance_id</code> but the same <code>customer_id</code>. CM OS bridges the two levels.</p>
+
+    <h3>3.2 Entity Lifecycle</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Entity</th><th>Created</th><th>Archived</th><th>Persists</th></tr></thead>
+        <tbody>
+          <tr><td><code>customer_id</code></td><td>OTP-authenticated sign-up (pre-booking)</td><td>Never (prunable only if never-booked, per CM-8)</td><td>Across exits, re-entries, and multi-service expansion</td></tr>
+          <tr><td><code>service_instance_id</code></td><td>INSTALL_COMPLETED (B2I OS)</td><td>EXITED_FINAL (Exit OS)</td><td>Only while service is active or in reservation/exit window</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>3.3 Household</h3>
+    <p>Household is contextual, not an entity. CM OS records <strong>known household</strong> only — persons with <code>customer_id</code>s linked via explicit invitation-acceptance. Actual household (everyone using the WiFi) is deliberately Unknown, not a data-quality defect. The system does not infer, estimate, or model household composition beyond known members. (CM-5, CM-6)</p>
+
+    <h3>3.4 Identity Resolution</h3>
+    <p>Identity resolution is probabilistic with explicit confidence. Two distinct confidence types (resolution and attribution), harm-weighted thresholds, false-split preferred over false-merge. Phone + OTP is strong signal; device fingerprint is medium; advertising ID is weak and never a primary resolution key. (CM-2)</p>
+  </div>
+
+  <!-- ══════════ §6 ══════════ -->
+  <div class="sec" id="s6">
+    <div class="sec-head">
+      <div class="sec-tag">§6</div>
+      <div class="sec-title">Stock Model</div>
+    </div>
+    <p>The governed stock is: <strong>service instances across lifecycle states.</strong></p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Stock state</th><th>Meaning</th><th>Governing OS</th></tr></thead>
+        <tbody>
+          <tr><td>Pre-booking</td><td>Customer signed up, no service instance yet</td><td>CM OS (<code>customer_id</code> exists)</td></tr>
+          <tr><td>Booking-to-Install</td><td>Demand → Active pipeline</td><td>B2I OS</td></tr>
+          <tr><td>Active / Funded</td><td>Customer is paying, internet is on</td><td>Continuity OS</td></tr>
+          <tr><td>Reservation window</td><td>Recharge expired, internet off, connection held for 15 days</td><td>Continuity OS</td></tr>
+          <tr><td>RESOLVING</td><td>AT_RISK classification active, governed resolution underway</td><td>At-Risk Resolution OS</td></tr>
+          <tr><td>Exit in progress</td><td>Custody and closure being handled</td><td>Exit OS</td></tr>
+          <tr><td>Exited</td><td>All closure conditions met, <code>service_instance_id</code> archived</td><td>Exit OS (final) / CM OS (memory)</td></tr>
+          <tr><td>Returned</td><td>Former customer, new <code>service_instance_id</code>, same <code>customer_id</code></td><td>B2I OS (new instance) / CM OS (memory bridge)</td></tr>
+          <tr><td>Service Transfer (relocation)</td><td>Continuing person across address change — same <code>customer_id</code>, new connection, not exit</td><td><strong>Open seam — owner TBD. Must-resolve before v3.0.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info">
+      <strong>The stock membrane is permeable by design.</strong> Customers can leave by simply not recharging. Re-entry creates a new service instance, not a re-activation of the old one. The architecture treats this permeability as a feature (PayG identity), not a bug to be patched with retention mechanics.
+    </div>
+  </div>
+
+  <!-- ══════════ §7 ══════════ -->
+  <div class="sec" id="s7">
+    <div class="sec-head">
+      <div class="sec-tag">§7</div>
+      <div class="sec-title">Constitutional Layer</div>
+    </div>
+
+    <h3>5.1 The Four Constitutional Rules (C1–C4)</h3>
+    <p>Every decision in every OS traces back to these four rules. They cannot be overridden by any individual OS — only by the Constitution Steward.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Rule</th><th>Name</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>C1</strong></td><td>Canonical Truth</td><td>What the system knows must be the same everywhere. One truth, visible across all surfaces, no contradictions.</td></tr>
+          <tr><td><strong>C2</strong></td><td>System-Owned Failure</td><td>When Wiom breaks something, Wiom owns it. The customer never pays for Wiom's mistakes. Attribution honesty is constitutionally required.</td></tr>
+          <tr><td><strong>C3</strong></td><td>Restorative Recovery</td><td>Compensation must be proportional, rule-based, and automatic — not discretionary. Same rule for every customer. No "save budget."</td></tr>
+          <tr><td><strong>C4</strong></td><td>Clarity of State</td><td>The customer must always know what is happening with their service. No opacity, no "we'll get back to you."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>5.2 Constitution Steward</h3>
+    <p>The Constitution Steward enforces constitutional compliance across all OSes. Currently: Founder (Satyam). Designated successor: Dhruv. The Steward does not treat customers — the Steward audits departments.</p>
+    <p><strong>Steward authorities:</strong> Doctrine amendment, new-tool approval (D16), extraction-rule gating (CM-12), rate-card review (D8), kill-test invocation (D20), quarterly audit, exception authorization (limited — no D27 cap exceptions per founder ruling).</p>
+
+    <h3>5.3 Governance Hierarchy</h3>
+    <p>The constitutional layer operates through a three-level hierarchy. This is the most important structural innovation in the architecture — it replaced v1.0's flat "constraint" concept.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Level</th><th>What it is</th><th>How it changes</th><th>Count</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Constitution (C1–C4)</strong></td><td>Non-negotiable promises to the customer</td><td>Steward-only, with founder approval</td><td>4</td></tr>
+          <tr><td><strong>Doctrines</strong></td><td>OS-level constitutional principles that shape OS identity</td><td>Steward amendment process</td><td>79 (RS 38 + Exit 26 + CM 15) + 29 (ARR) = 108</td></tr>
+          <tr><td><strong>Invariants</strong></td><td>Enforceable rules with codes and traceable doctrine references</td><td>OS Owner + Steward review</td><td>110+</td></tr>
+          <tr><td><strong>Parameters</strong></td><td>Tunable thresholds within invariant bounds</td><td>OS Owner, no spec amendment needed</td><td>95 (in SPR v2.0)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      You can change a parameter without touching an invariant. Change an invariant without touching a doctrine. Never change a doctrine without the Steward. Never change the Constitution without the Founder.
+    </div>
+  </div>
+
+  <!-- ══════════ §8 ══════════ -->
+  <div class="sec" id="s8">
+    <div class="sec-head">
+      <div class="sec-tag">§8</div>
+      <div class="sec-title">Signal &amp; Event Layer</div>
+    </div>
+
+    <h3>6.1 Events as Universal Transport</h3>
+    <p>The customer-side system communicates through <strong>events</strong> — structured, typed, semantically guaranteed messages emitted by one OS and consumed by others. Events are the architecture's circulatory system.</p>
+    <p>Every event has: a name, an event class, a payload schema, a partition key, an idempotency key, a semantic guarantee, and a list of consumers with obligation levels.</p>
+
+    <h3>6.2 Event Classes</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Class</th><th>Meaning</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><strong>FACT</strong></td><td>Something happened or is true</td><td>QUALITY_STATE_CHANGED, EXITED_FINAL, CUSTOMER_CREATED</td></tr>
+          <tr><td><strong>COMMAND</strong></td><td>A consumer must execute an action</td><td>REFUND_TRIGGERED, RECOVERY_COMMUNICATION_OBLIGATION</td></tr>
+          <tr><td><strong>REQUEST</strong></td><td>One OS requests action from another; recipient owns response</td><td>CROSS_OS_FLAG_EMITTED, RESERVATION_EXTENSION_REQUESTED</td></tr>
+          <tr><td><strong>SYSTEM_ALERT</strong></td><td>SLA breach or system-level alert requiring escalation</td><td>CROSS_OS_FLAG_SLA_BREACH</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>6.3 Consumer Obligation Levels</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Level</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>MANDATORY</strong></td><td>Consumer MUST process. Non-processing is an architectural violation.</td></tr>
+          <tr><td><strong>EXPECTED</strong></td><td>Consumer SHOULD process. Non-processing degrades quality.</td></tr>
+          <tr><td><strong>INFORMATIONAL</strong></td><td>Consumer MAY consume. Non-processing has no operational impact.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════ §9 ══════════ -->
+  <div class="sec" id="s9">
+    <div class="sec-head">
+      <div class="sec-tag">§9</div>
+      <div class="sec-title">Canonical Truth Domains</div>
+    </div>
+
+    <h3>7.1 What Replaced Belief / Constraint / Intent</h3>
+    <p>v1.0 proposed three universal primitives — Belief, Constraint, Intent — as the interpretive layer between facts and OS decisions. The OS work falsified universality.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>v1.0 Primitive</th><th>What emerged</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Belief</strong></td><td>Confidence-bearing classifications (RS OS) + observables with mandatory metadata (CM OS)</td><td><strong>Retired as universal primitive.</strong> Replaced by domain-specific truth mechanisms.</td></tr>
+          <tr><td><strong>Constraint</strong></td><td>Four-level governance hierarchy: Constitution → Doctrines → Invariants → Parameters</td><td><strong>Evolved</strong> from flat concept to structured hierarchy.</td></tr>
+          <tr><td><strong>Intent</strong></td><td>Observable-behavior-grounded directional signals in specific OSes</td><td><strong>Demoted</strong> from universal to local. Used by Continuity (continuation signals), RS (exit-direction signals), Exit (customer-declared exit). Always grounded in observables, never inferred from psychology.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.2 The Actual Architecture: Truth Domains → OS-Specific Decision Inputs</h3>
+    <p>Each OS owns one canonical truth domain and consumes domain-specific decision inputs. No universal primitive model governs all OSes.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>OS</th><th>Truth domain</th><th>Decision inputs</th></tr></thead>
+        <tbody>
+          <tr><td>SQ Driver</td><td>Operational quality truth</td><td>Telemetry, fault evidence, performance measurements</td></tr>
+          <tr><td>Recovery OS</td><td>Restorative obligation truth</td><td>Incidents, investigation outcomes, compensation rules</td></tr>
+          <tr><td>Continuity OS</td><td>Continuity entitlement truth</td><td>Payment events, reservation state, posture overlays</td></tr>
+          <tr><td>Relationship-State OS</td><td>Relationship-state classification truth</td><td>Cross-OS evidence (quality, recovery, continuity, customer signals)</td></tr>
+          <tr><td>Customer Management OS</td><td>Person-level identity and memory truth</td><td>Identity signals, household linkage, memory, dark-data observables</td></tr>
+          <tr><td>Exit OS</td><td>Custody and closure integrity truth</td><td>Custody state, obligations, attribution, consent</td></tr>
+          <tr><td>At-Risk Resolution OS</td><td>Deterioration resolution case truth</td><td>AT_RISK classification + cause, Recovery Debt, quality state</td></tr>
+          <tr><td>B2I OS</td><td>Booking-to-install pipeline truth</td><td>Demand, CSP availability, slot management, install verification</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>7.3 Universal vs Local Primitives</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Universal (every OS uses)</th><th>Local (specific OSes use)</th></tr></thead>
+        <tbody>
+          <tr><td>Events (structured, typed, semantically guaranteed)</td><td>Relationship-state classifications (RS OS)</td></tr>
+          <tr><td>Canonical truth (each OS owns one domain)</td><td>Recovery Debt (Recovery OS)</td></tr>
+          <tr><td>Confidence / freshness metadata (where truth is interpretive or probabilistic — RS, CM, ARR)</td><td>Continuity posture (Continuity OS)</td></tr>
+          <tr><td>Four-level governance (Doctrines → Invariants → Parameters)</td><td>Exit-direction signals (RS OS)</td></tr>
+          <tr><td>Write-back prohibition (no OS overwrites another's truth)</td><td>Trust signals (Exit OS → CM OS)</td></tr>
+          <tr><td></td><td>Observable-grounded intent signals (Continuity, RS, Exit)</td></tr>
+          <tr><td></td><td>Household context (CM OS)</td></tr>
+          <tr><td></td><td>Accumulated-damage compensation (ARR OS)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════ §10 ══════════ -->
+  <div class="sec" id="s10">
+    <div class="sec-head">
+      <div class="sec-tag">§10</div>
+      <div class="sec-title">OS Categories</div>
+    </div>
+
+    <h3>8.1 Four Categories</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>What it governs</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Stock-Flow</strong></td><td>Bounded lifecycle or obligation flows. Owns transitions, progression, stock movement.</td><td>B2I, Recovery, Continuity, At-Risk Resolution</td></tr>
+          <tr><td><strong>Base-State / Epistemic</strong></td><td>Canonical operational or relationship truth. Emits truth. Protected by anti-corruption doctrines.</td><td>SQ Driver, Relationship-State OS</td></tr>
+          <tr><td><strong>Semantic Integration</strong></td><td>Identity continuity, person-level memory, household truth. Infrastructure that every OS reads from.</td><td>Customer Management OS</td></tr>
+          <tr><td><strong>Integrity / Boundary</strong></td><td>Custody closure, exit integrity, constitutional enforcement. No outcome stake.</td><td>Exit OS, Constitution Steward</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>8.2 Key Implication</h3>
+    <p>Technical truth (SQ), recovery truth (Recovery), relationship truth (RS), continuity truth (Continuity), and identity truth (CM) may diverge simultaneously. All can be valid within their domains. A customer can have: Stable quality (SQ), open Recovery Debt (Recovery), Fragile classification (RS), funded continuity (Continuity), and clean identity (CM) — all at the same time. This is not a contradiction. Each OS owns its domain.</p>
+  </div>
+
+  <!-- ══════════ §11 ══════════ -->
+  <div class="sec" id="s11">
+    <div class="sec-head">
+      <div class="sec-tag">§11</div>
+      <div class="sec-title">The 8 Locked OSes + 2 Future Candidates</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>OS</th><th>Version</th><th>Status</th><th>Type</th><th>Governed truth / stock</th><th>Lines</th><th>Doctrines</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Booking-to-Install</td><td>v3.1</td><td class="locked">✅ LOCKED</td><td>Stock-Flow</td><td>Demand → Active</td><td>886</td><td>—</td></tr>
+          <tr><td>2</td><td>Service Quality Driver</td><td>v1.0</td><td class="locked">✅ LOCKED</td><td>Base-State</td><td>Canonical operational quality</td><td>685</td><td>—</td></tr>
+          <tr><td>3</td><td>Recovery OS</td><td>v1.0</td><td class="locked">✅ LOCKED</td><td>Stock-Flow</td><td>Open restorative obligations</td><td>766</td><td>—</td></tr>
+          <tr><td>4</td><td>Customer Management OS</td><td>v1.0</td><td class="locked">✅ LOCKED</td><td>Semantic Integration</td><td>Person-level identity, memory</td><td>711</td><td>15</td></tr>
+          <tr><td>5</td><td>At-Risk Resolution OS</td><td>v1.0</td><td class="locked">✅ LOCKED</td><td>Stock-Flow</td><td>Evidence-backed deterioration resolution</td><td>722</td><td>29</td></tr>
+          <tr><td>6</td><td>Continuity OS</td><td>v1.0.1</td><td class="locked">✅ LOCKED</td><td>Stock-Flow / Posture</td><td>Funded continuity, reservation</td><td>667</td><td>—</td></tr>
+          <tr><td>7</td><td>Relationship-State OS</td><td>v1.1</td><td class="locked">✅ LOCKED</td><td>Base-State / Classification</td><td>Relationship-state classification</td><td>653</td><td>38</td></tr>
+          <tr><td>8</td><td>Exit OS</td><td>v1.0.1</td><td class="locked">✅ LOCKED</td><td>Integrity / Boundary</td><td>Custody closure, reversible exit</td><td>697</td><td>26</td></tr>
+          <tr><td>9</td><td>Re-entry OS</td><td>—</td><td class="future">⬜ FUTURE</td><td>Stock-Flow</td><td>Dormant/exited → active</td><td>—</td><td>—</td></tr>
+          <tr><td>10</td><td>Expansion OS</td><td>—</td><td class="future">⬜ FUTURE</td><td>Stock-Flow</td><td>Person → new service instance</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>8 of 8 specced OSes are LOCKED. 2 future OSes remain.</strong></p>
+
+    <h3>9.1 Foundational Dependency: Relationship-State OS</h3>
+    <p>Relationship-State OS is a foundational interpretive infrastructure dependency. Multiple OSes consume its classifications: Continuity OS (posture), At-Risk Resolution OS (trigger), Recovery OS (effort calibration), Exit OS (attribution context), CM OS (person-level history), and Support tools (agent context).</p>
+    <p>This dependency is explicitly governed: RS OS classifications are internal-only (Doctrine #8), never customer-facing. Confidence tier must be displayed with equal salience (Doctrine #17). No write-back from consumers (Doctrine #25).</p>
+  </div>
+
+  <!-- ══════════ §12 ══════════ -->
+  <div class="sec" id="s12">
+    <div class="sec-head">
+      <div class="sec-tag">§12</div>
+      <div class="sec-title">Infrastructure Layer</div>
+    </div>
+    <p>Three registries keep the distributed truth network connected.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Registry</th><th>Version</th><th>Status</th><th>Content</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Event Semantic Registry (ESR)</strong></td><td>v2.0</td><td class="pending">LOCKED pending cascade verification</td><td>41 events with semantic contracts, payload schemas, consumer lists</td></tr>
+          <tr><td><strong>System Parameter Registry (SPR)</strong></td><td>v2.0</td><td class="pending">LOCKED pending cascade verification</td><td>95 parameters across 8 OSes with defaults, ranges, rationale</td></tr>
+          <tr><td><strong>Routing Registry</strong></td><td>v2.0</td><td class="pending">LOCKED pending cascade verification</td><td>~170 routing rules mapping events to consumers with obligation levels</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn">
+      <strong>Cascade verification:</strong> Registry updates were applied mechanically from locked specs. Line-by-line cross-check against source OS specs required before final registry lock. Assigned to: Adit (PM).
+    </div>
+    <p>Every OS spec must support extraction into all three registries. The registries are the architecture's wiring diagram — they make the distributed truth network traceable, auditable, and enforceable.</p>
+  </div>
+
+  <!-- ══════════ §13 ══════════ -->
+  <div class="sec" id="s13">
+    <div class="sec-head">
+      <div class="sec-tag">§13</div>
+      <div class="sec-title">Anti-Corruption Architecture</div>
+    </div>
+    <p>The architecture explicitly protects against corruption vectors identified during OS work.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Corruption vector</th><th>Protection</th><th>Source</th></tr></thead>
+        <tbody>
+          <tr><td>Customer scoring / value ranking</td><td>CM-4 (no latent models), CM-14 (truth substrate not engine), RS #30 (no value metrics), ARR D5 (differentiate by problem, never value)</td><td>CM OS, RS OS, ARR OS</td></tr>
+          <tr><td>Save-rate optimization</td><td>ARR D2 (no outcome KRA), D21 (save rate engineering-only, never leadership-visible), D16 (bounded toolkit)</td><td>ARR OS</td></tr>
+          <tr><td>CRM drift</td><td>CM-4 (observable substrate not customer model), CM-14 (no action surface)</td><td>CM OS</td></tr>
+          <tr><td>Coercive continuity pressure</td><td>Anti-subscription doctrine, Continuity anti-coercion rules, C2 Scenario A (internet off = binary, not degraded)</td><td>Continuity OS</td></tr>
+          <tr><td>Ticket closure masquerading as recovery</td><td>Recovery closure-integrity rules, CP-REC-15 pro-customer bias</td><td>Recovery OS</td></tr>
+          <tr><td>NPS / emotional appeasement</td><td>Recovery anti-NPS doctrine (Appendix B), ARR D28 resolution-not-persuasion</td><td>Recovery OS, ARR OS</td></tr>
+          <tr><td>Telemetry overconfidence</td><td>SQ per-netbox graduation, decomposed truth (no single quality score)</td><td>SQ Driver</td></tr>
+          <tr><td>Forced attribution / Unknown suppression</td><td>RS Unknown governance (three sub-types), Exit honest-Unknown (Doctrine #3)</td><td>RS OS, Exit OS</td></tr>
+          <tr><td>Dark-data surveillance</td><td>CM-10 (observables only), CM-11 (sensitive exclusion), CM-12 (steward-gated extraction)</td><td>CM OS</td></tr>
+          <tr><td>Exit as customer-attributed when Wiom-caused</td><td>C2 constitutional rule, Exit Doctrine #19 (attribution composition)</td><td>Constitution, Exit OS</td></tr>
+          <tr><td>Retention becoming save desk</td><td>ARR D1 (resolution-not-saving), D3 (three prohibition principles), D16 (8 tools, nothing else)</td><td>ARR OS</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════ §14 ══════════ -->
+  <div class="sec" id="s14">
+    <div class="sec-head">
+      <div class="sec-tag">§14</div>
+      <div class="sec-title">Multi-Service Readiness</div>
+    </div>
+    <p>The architecture is <code>service_instance_id</code>-native. Any customer can enter through any service instance. When Wiom launches a second service (OTT, Wiom Net):</p>
+    <ul>
+      <li>New <code>service_instance_id</code>s flow through the same OS stack</li>
+      <li><code>service_type</code> field on <code>service_instance_id</code> differentiates</li>
+      <li>CM OS provides cross-service person-level context (same <code>customer_id</code>, multiple <code>service_instance_id</code>s)</li>
+      <li>RS OS classifies per <code>service_instance</code>, not per person (no blended cross-service health score — CM-4, INV-CM-20)</li>
+      <li>Each service instance is governed independently by the full OS stack</li>
+    </ul>
+    <div class="warn">
+      <strong>What must be designed at second-service launch:</strong> Expansion OS (cross-sell governance), cross-service obligation handling, and whether household-level wallet pooling is needed (would require CM-5 amendment).
+    </div>
+  </div>
+
+  <!-- ══════════ §15 ══════════ -->
+  <div class="sec" id="s15">
+    <div class="sec-head">
+      <div class="sec-tag">§15</div>
+      <div class="sec-title">Open Seams &amp; Pending Items</div>
+    </div>
+
+    <h3>13.1 Named Seams (must-resolve before v3.0)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Seam</th><th>Owner</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Service Transfer Flow (relocation)</strong></td><td>Architecture leadership (to be named)</td><td>ESCALATED — ~20%+ of big-city customers relocate annually. Relocation is not exit, not re-entry, not cold B2I. Must be resolved as "continuity through place change."</td></tr>
+          <tr><td><strong>CM OS ↔ Payment obligation-ledger interface</strong></td><td>CM OS + Payment domain</td><td>Principle locked (CM-9); interface contract TBD.</td></tr>
+          <tr><td><strong>Communications Layer</strong></td><td>Architecture leadership</td><td>Named infrastructure gap. Recovery, Continuity, Exit, and ARR all have communication obligations needing a shared delivery layer with governance (channel selection, language compliance, tone audit, delivery confirmation). Currently each OS defines its own communication doctrine; no shared infrastructure governs execution.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>13.2 Pending Work</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>At-Risk Resolution OS launch blockers (§17.2 in ARR spec)</td><td>T2–T8 thresholds, rate-card values, vocabulary lists, audit infrastructure</td></tr>
+          <tr><td>Operational walkthroughs (10–15 archetypal journeys)</td><td>Not yet started — should surface cross-spec gaps</td></tr>
+          <tr><td>Re-entry OS scoping</td><td>Future — depends on ARR + RS v2</td></tr>
+          <tr><td>Expansion OS scoping</td><td>Future — depends on second service launch</td></tr>
+          <tr><td>Exit OS <code>external-life-event</code> operational procedure</td><td>Added in v1.0.1; operational procedure TBD</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════ §16 ══════════ -->
+  <div class="sec" id="s16">
+    <div class="sec-head">
+      <div class="sec-tag">§16</div>
+      <div class="sec-title">Metrics Philosophy</div>
+    </div>
+    <p>No customer-side OS may optimize coercive continuation, emotional appeasement, fake certainty, or throughput masquerading as integrity.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Forbidden as governing metric</th><th>Why</th><th>Protected by</th></tr></thead>
+        <tbody>
+          <tr><td>NPS as Recovery metric</td><td>Rewards appeasement theater</td><td>Recovery anti-NPS doctrine</td></tr>
+          <tr><td>Recharge rate as sole success metric</td><td>Rewards coercion</td><td>Continuity anti-subscription doctrine</td></tr>
+          <tr><td>Ticket closure rate</td><td>Rewards fake closure</td><td>Recovery closure-integrity</td></tr>
+          <tr><td>Single quality score</td><td>Destroys decomposition</td><td>SQ decomposed-truth doctrine</td></tr>
+          <tr><td>Save rate as leadership metric</td><td>Optimizes retention over resolution</td><td>ARR D21</td></tr>
+          <tr><td>Customer value score</td><td>Creates segmented treatment</td><td>CM-4, RS #30, ARR D5</td></tr>
+          <tr><td>Exit rate as Exit OS KRA</td><td>Creates perverse incentive to prevent exits</td><td>Exit Doctrine #2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>Every OS measures integrity first.</strong> Resolution-completeness, doctrine-compliance, process-correctness, time-to-action — not outcome rates.
+    </div>
+  </div>
+
+  <!-- ══════════ §17 ══════════ -->
+  <div class="sec" id="s17">
+    <div class="sec-head">
+      <div class="sec-tag">§17</div>
+      <div class="sec-title">Falsification &amp; Kill Tests</div>
+    </div>
+    <p>Each OS has a kill test — specific signals that, if observed, mean the OS is failing its purpose and requires architectural review (not parameter tuning). Key kill tests:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>OS</th><th>Kill trigger (examples)</th></tr></thead>
+        <tbody>
+          <tr><td>SQ Driver</td><td>Single quality score detected; attribution gaming; telemetry overconfidence</td></tr>
+          <tr><td>Recovery OS</td><td>Ticket closure without resolution verification; NPS as governing metric</td></tr>
+          <tr><td>RS OS</td><td>Classification used in customer-facing communication; value scoring detected</td></tr>
+          <tr><td>CM OS</td><td>Non-traceable stored items; value-ranking scalar found; false-merge rate exceeds false-split</td></tr>
+          <tr><td>ARR OS</td><td>Save-rate as leadership metric (catastrophic alone); operator improvisation pattern; rate-card top-tier creep</td></tr>
+          <tr><td>Exit OS</td><td>Closure-condition compliance &lt;80%; silent exits (no bookend communication); custody limbo accumulating</td></tr>
+          <tr><td>Continuity OS</td><td>Reservation-window communication becomes coercive; anti-subscription doctrine violated</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr />
+
+    <h3>Architecture-Level Falsification (from v1.0, updated)</h3>
+    <p>The architecture is structurally wrong if, after one operating cycle following all 8 OS locks, any <strong>TWO</strong> of the following hold:</p>
+    <ol>
+      <li><strong>Per-OS governing integrity metrics do not improve materially.</strong> The proximate problems are unchanged.</li>
+      <li><strong>Customer-side state divergence across surfaces persists.</strong> C1 has not been operationalized.</li>
+      <li><strong>A near-term multi-service launch requires material rethinking of the entity model.</strong> §5 is wrong.</li>
+      <li><strong>The PayG paradigm has been silently recreated as subscription logic.</strong> Loyalty programs, save offers, or churn-prevention mechanics exist in any OS.</li>
+      <li><strong>Growing caseload in At-Risk Resolution without declining upstream root causes.</strong> The architecture is treating symptoms, not causes.</li>
+    </ol>
+    <div class="warn">
+      If two or more hold, the architecture needs redesign, not parameter tuning.
+    </div>
+  </div>
+
+  <!-- ══════════ §18 ══════════ -->
+  <div class="sec" id="s18">
+    <div class="sec-head">
+      <div class="sec-tag">§18</div>
+      <div class="sec-title">Leverage-Point Check (Meadows)</div>
+    </div>
+    <p>Reference: Donella Meadows, <em>Leverage Points: Places to Intervene in a System.</em></p>
+    <p>v1.0 predicted the architecture would intervene at paradigm (LP2), rules (LP5), and information flows (LP6). After 8 locked OS specs, this prediction is validated:</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Leverage level</th><th>Where it appears</th><th>Validated?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Paradigm (LP2)</strong></td><td>PayG inverts subscription assumptions. Anti-subscription doctrine. Resolution-not-saving. Right to leave.</td><td class="locked">✅ Deepest intervention. Every OS respects it.</td></tr>
+          <tr><td><strong>Rules of the system (LP5)</strong></td><td>Constitution (C1–C4). 108 doctrines. 110+ invariants. Four-level governance hierarchy.</td><td class="locked">✅ The constitutional layer is the architecture's strongest feature.</td></tr>
+          <tr><td><strong>Information flows (LP6)</strong></td><td>Canonical truth domains. ESR/SPR/RR infrastructure. Event-driven cross-OS communication. C1 (same truth everywhere).</td><td class="locked">✅ The distributed truth network is operational.</td></tr>
+          <tr><td><strong>Structure of stocks &amp; flows (LP10)</strong></td><td>Entity model (<code>customer_id</code> + <code>service_instance_id</code>). Stock model with permeable membrane.</td><td class="locked">✅ Multi-service-ready.</td></tr>
+          <tr><td><strong>Negative feedback loops (LP8)</strong></td><td>Recovery OS (C3 restorative), At-Risk Resolution OS (D9 caseload-as-diagnostic), RS OS (classification correction).</td><td class="locked">✅ Feedback loops are constitutionally governed.</td></tr>
+          <tr><td><strong>Delays (LP9)</strong></td><td>Signal-to-action latency tuned per OS (CP-ARR-06/07 fast-engagement SLAs, CP-REC-01 acknowledgment timeout).</td><td class="locked">✅ Parameterized and auditable.</td></tr>
+          <tr><td><strong>Goals (LP3)</strong></td><td>System objective: govern healthy active stock without coercive continuation.</td><td class="locked">✅ Updated from "maximize" to "govern."</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="info">
+      <strong>What the architecture has NOT yet touched:</strong> Positive feedback loops (LP7) — cross-service reinforcement. This awaits Expansion OS and second service launch.
+    </div>
+  </div>
+
+  <!-- ══════════ §19 ══════════ -->
+  <div class="sec" id="s19">
+    <div class="sec-head">
+      <div class="sec-tag">§19</div>
+      <div class="sec-title">Key Numbers</div>
+    </div>
+    <div class="nums">
+      <div class="num-card"><div class="n">8/10</div><div class="l">OS specs locked</div></div>
+      <div class="num-card"><div class="n">~5,787</div><div class="l">Total lines across specs</div></div>
+      <div class="num-card"><div class="n">108</div><div class="l">Constitutional doctrines (RS 38 + Exit 26 + CM 15 + ARR 29)</div></div>
+      <div class="num-card"><div class="n">110+</div><div class="l">Invariants</div></div>
+      <div class="num-card"><div class="n">95</div><div class="l">Parameters (SPR)</div></div>
+      <div class="num-card"><div class="n">41</div><div class="l">Events (ESR)</div></div>
+      <div class="num-card"><div class="n">~170</div><div class="l">Routing rules</div></div>
+      <div class="num-card"><div class="n">8</div><div class="l">Tools in ARR OS toolkit (T1–T8, closed enumeration)</div></div>
+      <div class="num-card"><div class="n">9</div><div class="l">Exit reason codes</div></div>
+      <div class="num-card"><div class="n">4</div><div class="l">Failure codes (ARR) (F1–F4 + UNKNOWN)</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════ §20 ══════════ -->
+  <div class="sec" id="s20">
+    <div class="sec-head">
+      <div class="sec-tag">§20</div>
+      <div class="sec-title">What This Note Is and Is Not</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div>
+        <h3>This note is</h3>
+        <ul>
+          <li>The single architecture reference for Wiom's customer-side system</li>
+          <li>The foundation all 8 locked OS specs are built on</li>
+          <li>A falsifiable architecture with explicit kill criteria</li>
+          <li>A context document that explains WHY before WHAT</li>
+        </ul>
+      </div>
+      <div>
+        <h3>This note is not</h3>
+        <ul>
+          <li>A spec (each OS has its own §1–§19 spec)</li>
+          <li>A feature design document</li>
+          <li>A UX framework</li>
+          <li>A CRM architecture (constitutionally prohibited)</li>
+          <li>A full multi-service platform design (it ensures future services are additive)</li>
+          <li>An operational manual (operational walkthroughs are pending)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ §21 ══════════ -->
+  <div class="sec" id="s21">
+    <div class="sec-head">
+      <div class="sec-tag">§21</div>
+      <div class="sec-title">Version History</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Version</th><th>Date</th><th>Key Changes</th></tr></thead>
+        <tbody>
+          <tr><td>v1.0</td><td>May 2026</td><td>Original context note. Entity model, stock model, signal/fact layers, Belief/Constraint/Intent primitives, C1–C4 Constitution, 5 candidate OSes, interface dependencies, falsification criteria.</td></tr>
+          <tr><td>v1.1</td><td>May 2026</td><td>OS categories (Stock-Flow, Base-State, Semantic Integration, Integrity). Continuity paradigm (Recharge → Continuity). B/C/I demoted from universal primitives. Distributed truth network. Anti-corruption principles. Canonical truth infrastructure (ESR/SPR/RR). Updated metrics philosophy.</td></tr>
+          <tr><td>v1.1.1</td><td>May 18, 2026</td><td>Rename cascade: Customer Health → Relationship-State OS. Multi-service readiness. OS status tracker.</td></tr>
+          <tr><td><strong>v2.0</strong></td><td><strong>May 28, 2026</strong></td><td><strong>Full consolidation.</strong> Replaces v1.0 + v1.1 + v1.1.1 as single reference. Reflects 8 locked OS specs + 3 locked registries. Belief retired as primitive. Constraint evolved into four-level governance hierarchy. Intent demoted to local. Canonical Truth Domains + OS-Specific Decision Inputs established as actual architecture. Rename cascade: Retention OS → At-Risk Resolution OS; RETENTION_ACTIVE/RECOVERING → RESOLVING; CP-CH → CP-RS. C2 reservation-window decision resolved (Scenario A). Entity model formalized (<code>customer_id</code> vs <code>service_instance_id</code> two-level). All anti-corruption vectors documented. Service Transfer Flow seam escalated. <strong>LOCKED.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════ FINAL SYNTHESIS ══════════ -->
+  <div class="sec synthesis" id="synthesis">
+    <div class="sec-head">
+      <div class="sec-tag" style="background:var(--brand-dark);">Final Synthesis</div>
+      <div class="sec-title">Architecture Assessment</div>
+    </div>
+    <p>The customer-side architecture started as a hypothesis: govern customer truth through bounded OSes operating on shared primitives (Belief, Constraint, Intent) under a four-rule Constitution.</p>
+    <p>Eight locked OS specs later, the hypothesis was partially validated and partially falsified. What survived: the entity model, the stock model, the Constitution, the bounded-OS discipline, and the event-driven communication. What evolved: Constraints became a four-level governance hierarchy (Constitution → Doctrines → Invariants → Parameters). What was replaced: Belief gave way to confidence-bearing classifications and observables with metadata. What was demoted: Intent became a local concept, not a universal primitive. What emerged that wasn't predicted: the distributed truth network, the anti-corruption architecture, the four OS categories, and the constitutional doctrine system.</p>
+    <p>The architecture now formally recognizes operational truth (SQ), restorative truth (Recovery), relationship truth (RS), continuity truth (Continuity), identity truth (CM), resolution truth (ARR), and closure truth (Exit) as distinct governed domains. That separation is the core architectural principle protecting the system from collapsing back into telecom-style subscription logic, support-ticket theater, or CRM-driven coercion.</p>
+    <div class="callout" style="margin-top:20px;">
+      <strong>The customer's only power is their choice. The architecture's job is to protect that choice — by governing Wiom's use of asymmetric power honestly, restoratively, and without coercion.</strong>
+    </div>
+  </div>
+
+  <!-- ══════════ FOOTER ══════════ -->
+  <div class="footer">
+    <p><em>End of Customer System Architecture v2.0 — LOCKED</em></p>
+    <p style="margin-top:6px;">A distributed truth network governed by bounded OSes, constitutional doctrines, and canonical truth domains.<br/>Each OS owns one truth. No OS can overwrite another's. The customer's right to leave is architecturally protected.</p>
+    <p style="margin-top:12px;"><strong>WIOM</strong> — May 28, 2026</p>
+  </div>
+
+</div><!-- /wrap -->
+</body>
+</html>
