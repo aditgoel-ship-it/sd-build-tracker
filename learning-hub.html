@@ -275,6 +275,7 @@ input:checked + .slider:before { transform: translateX(20px); }
 <!-- ═══════════════ TAB NAV ═══════════════ -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('overview',this)">Overview</button>
+  <button class="tab-btn" onclick="switchTab('primer',this)">Architecture Primer</button>
   <button class="tab-btn" onclick="switchTab('b2i',this)">B2I OS</button>
   <button class="tab-btn" onclick="switchTab('sq',this)">SQ Driver</button>
   <button class="tab-btn" onclick="switchTab('recovery',this)">Recovery OS</button>
@@ -292,6 +293,293 @@ input:checked + .slider:before { transform: translateX(20px); }
 <!-- ═══════════════════════════════════════════════════════════
      TAB 1 — OVERVIEW
 ═══════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB — ARCHITECTURE PRIMER
+     Source: wiom-system-architecture-primer-v1_1.docx (Satyam, Jun 2026)
+     Read this before any OS spec. Mental models for how we build.
+═══════════════════════════════════════════════════════════ -->
+<div id="tab-primer" class="tab-content">
+
+  <div class="one-liner">📖 Read this before any OS spec, any constitution principle, or any architecture document. It gives you the mental models to understand everything else.</div>
+
+  <!-- 60-second table -->
+  <div class="sec-title">⚡ In 60 Seconds</div>
+  <table class="dt">
+    <tr><th>Building Block</th><th>What It Is</th><th>Changes</th><th>Who Changes</th><th>Example</th></tr>
+    <tr><td><strong>State</strong></td><td>Named condition the system can remain in</td><td>Rarely</td><td>Founder / Arch review</td><td>ACTIVE, PAUSED, AT_RISK</td></tr>
+    <tr><td><strong>Event</strong></td><td>Atomic transition. Happens, then done.</td><td>As needed</td><td>Arch review</td><td>RECHARGE_CONFIRMED</td></tr>
+    <tr><td><strong>Invariant</strong></td><td>Rule that must ALWAYS be true. No exception.</td><td>Almost never</td><td>Founder only</td><td>Entitlement never before service verified</td></tr>
+    <tr><td><strong>Doctrine</strong></td><td>Governing principle. Shapes decisions.</td><td>Rarely</td><td>Founder / Steward</td><td>Cooperation &gt; Completion (D-016)</td></tr>
+    <tr><td><strong>Parameter</strong></td><td>Tunable number. Adjusts intensity.</td><td>Frequently</td><td>Ops / Product / Eng</td><td>CP-ACT-PAUSED-CSP-GRACE = 2h</td></tr>
+  </table>
+
+  <!-- §1 STATE -->
+  <div class="sec-title">§1 — State</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> A traffic light has three states: RED, YELLOW, GREEN. While the light IS red, everyone behaves differently — cars stop, pedestrians cross. A state in our system is like that. "ACTIVATING" means: the customer paid, internet isn't on yet, everyone is acting to fix that. A state exists because people need to see it and act on it. Not because it technically happens.
+  </div>
+  <div class="card">
+    <div class="card-title">What It Is</div>
+    <div class="card-body">
+      <p>A state is a named condition of an entity during which the system may need to reason about it over time. While in a state, other systems know about it, behavior may differ, and the customer's situation is defined by it.</p>
+      <p>States are <strong>truth artifacts</strong> — they exist because the system needs to express a condition different from all others. They are NOT implementation artifacts — you don't create them because your code needs them.</p>
+      <p><strong>The Test:</strong> If this transition fails halfway, does the system need to know where it is? If yes → state. If no → event.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">The State Creation Rule — ALL THREE must be true</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Condition</th><th>Test</th><th>If False</th></tr>
+        <tr><td>1. System can remain here</td><td>Can this condition persist — normally or on failure?</td><td>If always atomic → event, not state</td></tr>
+        <tr><td>2. Another actor reasons about it</td><td>Does any other OS, surface, or human need to act differently?</td><td>If only originating system cares → implementation detail</td></tr>
+        <tr><td>3. Behavior changes</td><td>Does behavior, communication, ownership, or measurement differ?</td><td>If identical to adjacent state → redundant, collapse</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">State Hierarchy</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Type</th><th>Definition</th><th>Example</th></tr>
+        <tr><td>Lifecycle State</td><td>Condition in the entity's life from creation to terminal</td><td>ACTIVE, PAUSED, EXITED_FINAL</td></tr>
+        <tr><td>Overlay State</td><td>Coexists WITH a lifecycle state. Adds context.</td><td>AT_RISK, RECOVERY_HOLD</td></tr>
+        <tr><td>Process State</td><td>Exists ONLY IF multi-step process can persist and require reasoning</td><td>ACTIVATING, TRANSFER_IN_PROGRESS</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Worked Example: Customer Reschedules Installation Slot</div>
+    <div class="card-body">
+      <p>This is the example that prompted this document. Should RESCHEDULE_PENDING be a state?</p>
+      <p><strong>Version A — Instant slot swap:</strong> Customer picks new slot from dropdown. System confirms instantly. One transaction. Result: <span class="badge b-terminal">NOT a state</span> — it's an event. CONFIRMED → RESCHEDULE_REQUESTED event → CONFIRMED(new).</p>
+      <p><strong>Version B — CSP-approval reschedule:</strong> Customer requests new date. CSP must check availability and approve. Takes minutes to hours. Result: <span class="badge b-active">YES, a state</span> — CONFIRMED → RESCHEDULE_PENDING → CONFIRMED(new). With watchdog, hold logic, and customer projection.</p>
+      <p style="color:#5a5a72;font-style:italic;margin-top:8px;">The same concept — two answers. The question is never "is rescheduling transitory?" The question is: in OUR system, does it involve a step where the system can remain, where another actor reasons, and where behavior changes?</p>
+    </div>
+  </div>
+  <div class="callout callout-warn">
+    <strong>Two Traps:</strong><br>
+    1. <em>"Transitory" trap</em> — "This state only lasts seconds, so skip it." Wrong. ACTIVATING normally lasts seconds (LIVE path) but hours on PAUSED path. Duration is irrelevant. Apply the failure-halfway test.<br>
+    2. <em>State explosion trap</em> — "Any condition that projects differently is a state." Wrong. Apply all three conditions of the State Creation Rule.
+  </div>
+
+  <!-- §2 EVENT -->
+  <div class="sec-title" style="margin-top:28px;">§2 — Event</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> A doorbell rings. It happened. Everyone in the house hears it. You can't "un-ring" the doorbell. RECHARGE_CONFIRMED rings. Continuity starts the watchdog. CAEO checks the connection. Projection tells the customer "Payment received ✓." An event is something that happened. You can't undo it. You can only react to it.
+  </div>
+  <div class="card">
+    <div class="card-title">Event vs State</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Aspect</th><th>State</th><th>Event</th></tr>
+        <tr><td>Time</td><td>Present: "the entity IS in this condition"</td><td>Past: "this HAPPENED"</td></tr>
+        <tr><td>Duration</td><td>Persists until changed</td><td>Instantaneous</td></tr>
+        <tr><td>Can you be "in" it?</td><td>Yes — entity remains</td><td>No — it fired and is done</td></tr>
+        <tr><td>Example</td><td>ACTIVE, DEGRADED, AT_RISK</td><td>RECHARGE_CONFIRMED, EXIT_INITIATED</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Types of Events</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Type</th><th>Definition</th><th>Example</th></tr>
+        <tr><td><span class="badge b-fact">FACT</span></td><td>Something that objectively happened</td><td>RECHARGE_CONFIRMED, HARDWARE_RETURNED</td></tr>
+        <tr><td><span class="badge b-command">REQUEST</span></td><td>System asking another to act</td><td>CONNECTION_RECHARGE_REQUIRED</td></tr>
+        <tr><td><span class="badge b-pending">SYSTEM_ALERT</span></td><td>System detected a condition needing attention</td><td>ACTIVATION_WATCHDOG_ALERT</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="callout callout-info">
+    <strong>The Event-State Chain:</strong> Entity in State A → Event fires (something happened) → Entity transitions to State B → Other systems observe: entity is now in State B
+  </div>
+
+  <!-- §3 INVARIANT -->
+  <div class="sec-title" style="margin-top:28px;">§3 — Invariant</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> You can debate which direction to walk. But you can't debate gravity. Drop a ball, it falls. Always. An invariant is like gravity. "Customer's internet time never starts before their internet actually works." Always true. If broken, something is fundamentally wrong.
+  </div>
+  <div class="card">
+    <div class="card-title">Two Types of Invariants</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Type</th><th>Definition</th><th>Example</th><th>What Changes It</th></tr>
+        <tr><td>Pure invariant</td><td>True regardless of implementation. Survives mechanism change.</td><td>"Entitlement never starts before usable service verified"</td><td>Almost nothing. Fundamental truth.</td></tr>
+        <tr><td>Doctrine-derived</td><td>Implements a pure invariant using today's mechanism.</td><td>"Starts at POST_ACTIVATION_VERIFIED from CAEO"</td><td>Mechanism change (e.g., Tarang)</td></tr>
+      </table>
+      <p style="margin-top:10px;font-style:italic;">When writing invariants: state the pure invariant first. Then note the current mechanism. This ensures the principle survives even when implementation evolves.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Invariant vs Doctrine</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Aspect</th><th>Invariant</th><th>Doctrine</th></tr>
+        <tr><td>Flexibility</td><td>Zero. Absolute.</td><td>Has judgment. Context-dependent.</td></tr>
+        <tr><td>Violation</td><td>Bug. Fix immediately.</td><td>Review. May lead to amendment.</td></tr>
+        <tr><td>Change process</td><td>Founder approval. Extremely rare.</td><td>Governance process. Rare but possible.</td></tr>
+        <tr><td>Example</td><td>"Entitlement never before usable service"</td><td>"Cooperation &gt; Completion" (D-016)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- §4 DOCTRINE -->
+  <div class="sec-title" style="margin-top:28px;">§4 — Doctrine</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> Every family has house rules. "We don't shout at dinner." "If you break something, you own up." These rules don't tell you exactly what to do in every situation. They tell you WHICH DIRECTION to lean. Doctrine tells you which way to lean. Parameters tell you how far.
+  </div>
+  <div class="card">
+    <div class="card-title">Key Doctrine Examples</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Doctrine</th><th>What It Says</th><th>The Insight Behind It</th></tr>
+        <tr><td>D-001</td><td>Deterioration concluded through objective thresholds without customer expression</td><td>Most Bharat customers never complain. Waiting for complaints ignores the majority.</td></tr>
+        <tr><td>D-016</td><td>Eligibility governed by cooperation, not custody completion</td><td>A rule honest people obey and dishonest people route around is bad doctrine.</td></tr>
+        <tr><td>P4</td><td>Customer value should not disappear because of Wiom</td><td>Customer paid. Wiom's delays are Wiom's problem.</td></tr>
+        <tr><td>P7</td><td>Facts carry. Classification re-evaluates.</td><td>History is context, not destiny.</td></tr>
+        <tr><td>P9</td><td>Value is never silently absorbed</td><td>Customer money doesn't disappear on a timer.</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="callout callout-warn">
+    <strong>Doctrine vs Parameter — The P2 Test:</strong> "Categories are doctrine. Thresholds are parameters." Can I change this number without changing what the system DOES, only how aggressively? If yes → parameter. If changing the number changes fundamental behavior → doctrine disguised as a number.
+  </div>
+
+  <!-- §5 PARAMETER -->
+  <div class="sec-title" style="margin-top:28px;">§5 — Parameter</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> The TV has a volume knob. Turn it up — louder. Turn it down — quieter. But the TV is still playing the same show. A parameter is the volume knob. "CSP grace window = 2 hours." Turn it to 3 hours — same system, just longer window. But "let's remove the grace window entirely" — that's not turning a knob. That's changing the channel. That's a doctrine change. Parameters adjust the intensity. Doctrine chooses the channel.
+  </div>
+  <div class="card">
+    <div class="card-title">Parameter Examples (from SPR)</div>
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Parameter</th><th>Value</th><th>What It Tunes</th><th>Owner</th></tr>
+        <tr><td>CP-ACT-PAUSED-CSP-GRACE</td><td>2 hours</td><td>How long CSP has to recharge</td><td>Operations</td></tr>
+        <tr><td>CP-RS-COMPOSITE-AT_RISK-THRESHOLD</td><td>0.70</td><td>Evidence before AT_RISK</td><td>Product</td></tr>
+        <tr><td>CP-SQ-PLAN-SPEED-FLOOR-RATIO</td><td>0.40</td><td>Fraction = below promise</td><td>Product</td></tr>
+        <tr><td>CP-PROJ-MAX-DAILY-PUSH</td><td>5</td><td>Max push notifications/day</td><td>Product</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="callout callout-warn">
+    <strong>Two Traps:</strong><br>
+    1. <em>Hardcoding a parameter as doctrine:</em> "The CSP has 2 hours" — 2h is a parameter. The DOCTRINE is "CSPs get a grace window." The number is a knob.<br>
+    2. <em>Treating doctrine as a parameter:</em> Satyam rejected 4-tier graduated T5 (0.25/0.50/0.75/1.00). The DOCTRINE is binary: can't use it → full pro-rata. Putting factors in SPR invites someone to "tune" it back to graduated. That's doctrine change through the back door.
+  </div>
+
+  <!-- §6 HOW THEY FIT -->
+  <div class="sec-title" style="margin-top:28px;">§6 — How They All Fit Together</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> Doctrine is the architect's vision: "This house faces east for morning sun." Invariant is the building code: "Load-bearing walls cannot be removed." State is the room you're in: "I'm in the kitchen." Event is the doorbell: "Someone arrived." Parameter is the thermostat: "Set to 24°C."
+  </div>
+  <div class="card">
+    <div class="card-title">The Hierarchy</div>
+    <div class="card-body">
+      <pre style="font-size:13px;line-height:1.9;color:#1a1a2e;background:#f9fafb;padding:14px;border-radius:6px;overflow-x:auto;">DOCTRINE (why the system behaves this way)
+    ↓ shapes
+INVARIANT (what must ALWAYS be true)
+    ↓ constrains
+STATE (what condition the entity is in)
+    ↓ transitions via
+EVENT (what happened)
+    ↓ governed by
+PARAMETER (how aggressively)</pre>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Concrete Example: Recharge Activation</div>
+    <div class="card-body">
+      <pre style="font-size:12.5px;line-height:1.9;color:#1a1a2e;background:#f9fafb;padding:14px;border-radius:6px;overflow-x:auto;">DOCTRINE:   D-011 — entitlement at activation, not payment
+            D-P08 — Continuity owns the watchdog
+    ↓
+INVARIANT:  (Pure) Entitlement never before usable service verified
+            (Mechanism) Via POST_ACTIVATION_VERIFIED from CAEO
+    ↓
+STATES:     FUNDED → ACTIVATING → UNFUNDED
+    ↓
+EVENTS:     RECHARGE_CONFIRMED, POST_ACTIVATION_VERIFIED
+    ↓
+PARAMETERS: SLA-LIVE=5min, SLA-PAUSED=150min
+
+Change the parameter (5→10 min): same behavior, more patience.
+Change the doctrine (entitlement at payment): fundamental change — customers lose time.</pre>
+    </div>
+  </div>
+
+  <!-- §7 DECISION TREE -->
+  <div class="sec-title" style="margin-top:28px;">§7 — Decision Tree</div>
+  <div class="card">
+    <div class="card-title">Which house does your concept belong in? First match wins.</div>
+    <div class="card-body">
+      <pre style="font-size:13px;line-height:1.9;color:#1a1a2e;background:#f9fafb;padding:14px;border-radius:6px;overflow-x:auto;">START: You have a concept to add.
+  │
+  ├─ Must ALWAYS be true, no exceptions?
+  │  YES → INVARIANT (write pure + mechanism)
+  │  NO ↓
+  ├─ Shapes HOW decisions are made, no specific number?
+  │  YES → DOCTRINE
+  │  NO ↓
+  ├─ Tunable number, adjusts intensity?
+  │  YES → PARAMETER (put in SPR)
+  │  NO ↓
+  ├─ Something that HAPPENED (past, atomic, done)?
+  │  YES → EVENT (put in ESR)
+  │  NO ↓
+  ├─ State Creation Rule — ALL THREE true:
+  │  1. System can remain?
+  │  2. Another actor reasons about it?
+  │  3. Behavior / comms / ownership changes?
+  │  ALL YES → STATE
+  │  ANY NO ↓
+  └─ Implementation detail. Don't put in OS spec.</pre>
+    </div>
+  </div>
+
+  <!-- §8 COMMON TRAPS -->
+  <div class="sec-title" style="margin-top:28px;">§8 — Common Traps</div>
+  <div class="card">
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Trap</th><th>What Happens</th><th>How to Avoid</th></tr>
+        <tr><td>"It's transitory"</td><td>Skip state for condition that persists on failure</td><td>Apply failure-halfway test</td></tr>
+        <tr><td>"Any condition = state"</td><td>State explosion. Nobody understands the state machine.</td><td>All THREE State Creation conditions must be true</td></tr>
+        <tr><td>"It's a number = parameter"</td><td>Fundamental design decision becomes tunable</td><td>P2 test: does changing it change WHAT the system does?</td></tr>
+        <tr><td>"Founder said it = doctrine"</td><td>Specific number locked as doctrine</td><td>P2 test: is this a category or a threshold?</td></tr>
+        <tr><td>"Important = invariant"</td><td>Contextual rule becomes absolute</td><td>Is violation ALWAYS a bug regardless of context?</td></tr>
+        <tr><td>"Events = messages"</td><td>Skip semantic guarantee and consumer obligations</td><td>Events are governed artifacts in the ESR</td></tr>
+        <tr><td>"States = DB fields"</td><td>UPDATE without events. No consumers notified.</td><td>Transitions produce events. Events notify. That's architecture.</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- §9 HIERARCHY OF CHANGE -->
+  <div class="sec-title" style="margin-top:28px;">§9 — Hierarchy of Change</div>
+  <div class="callout" style="background:#fffbeb;border-left-color:#f59e0b;">
+    <strong>🎓 ELI10:</strong> Moving a chair (parameter): easy. Do it yourself. Moving a wall (state): hard. Need an architect. Moving a load-bearing wall (invariant): almost impossible. The house might collapse. Know what you're moving before you move it.
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <table class="dt">
+        <tr><th>Building Block</th><th>Difficulty</th><th>Process</th><th>Why</th></tr>
+        <tr><td>Invariant</td><td>Hardest</td><td>Founder approval. Extremely rare.</td><td>Every dependent system may break</td></tr>
+        <tr><td>Doctrine</td><td>Very hard</td><td>Founder/Steward. Governance review.</td><td>Ripples through states, events, parameters</td></tr>
+        <tr><td>State</td><td>Hard</td><td>Architecture review. Amendment.</td><td>Every consumer must handle new state</td></tr>
+        <tr><td>Event</td><td>Medium</td><td>Architecture review. ESR amendment.</td><td>Payload design + consumer identification</td></tr>
+        <tr><td>Parameter</td><td>Easy</td><td>Owner tunes. SPR tracks.</td><td>DESIGNED to be changed. Tune freely.</td></tr>
+      </table>
+      <p style="margin-top:12px;font-style:italic;color:#5a5a72;">"States are what IS. Events are what HAPPENED. Invariants are what must ALWAYS be true. Doctrines are WHY the system behaves this way. Parameters are HOW MUCH. Know the difference. Build accordingly." — Satyam Agarwal</p>
+    </div>
+  </div>
+
+  <div class="callout callout-ok">
+    <strong>Source:</strong> wiom-system-architecture-primer-v1_1.docx — LOCKED by Satyam Agarwal, June 2026. Filed at <code>reference/wiom-system-architecture-primer-v1_1.docx</code> in wiom-cust-os-docs.
+  </div>
+
+</div><!-- end tab-primer -->
+
 <div id="tab-overview" class="tab-content active">
   <div class="sec-title">What is Customer OS?</div>
   <div class="sec-sub">Customer OS is the set of 10 systems that govern everything Wiom does on the customer side — from the moment someone books internet until they leave. It is not an app or a database. It is the logic layer that decides what happens, when, and why.</div>
